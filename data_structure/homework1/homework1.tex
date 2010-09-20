@@ -1,0 +1,422 @@
+\documentclass{article}
+% Change "article" to "report" to get rid of page number on title page
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{algorithmic,algorithm}
+\usepackage{setspace}
+\usepackage{Tabbing}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{graphicx,float,wrapfig}
+
+\usepackage{listings}
+\usepackage{color}
+\usepackage{textcomp}
+\definecolor{listinggray}{gray}{0.9}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\lstset{
+	%backgroundcolor=\color{lbcolor},
+	tabsize=4,
+	rulecolor=,
+	language=c++,
+        basicstyle=\ttfamily\large\setstretch{1},
+        upquote=true,
+        aboveskip={1.5\baselineskip},
+        columns=fixed,
+        showstringspaces=false,
+        extendedchars=true,
+        breaklines=true,
+        prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+        %frame=single,
+        showtabs=false,
+        showspaces=false,
+        showstringspaces=false,
+        identifierstyle=\ttfamily,
+        keywordstyle=\color[rgb]{0,0,1},
+        commentstyle=\color[rgb]{0.133,0.545,0.133},
+        stringstyle=\color[rgb]{0.627,0.126,0.941},
+}
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=0in     %
+\oddsidemargin=0in      %
+\textwidth=6.5in        %
+\textheight=9.0in       %
+\headsep=0.25in         %
+
+% Homework Specific Information
+\newcommand{\hmwkTitle}{Homework\ \#1}
+\newcommand{\hmwkDueDate}{Sep.\ 23,\ 2010}
+\newcommand{\hmwkClass}{Data Structure}
+\newcommand{\hmwkClassTime}{TR\ 4:10-5:25pm}
+\newcommand{\hmwkClassInstructor}{Meilin\ Liu}
+\newcommand{\hmwkAuthorName}{Shumin\ Guo}
+
+% Setup the header and footer
+\pagestyle{fancy}                                                       %
+\lhead{\hmwkAuthorName}                                                 %
+\chead{\hmwkClass\ - \hmwkTitle}  %
+\rhead{Page\ \thepage\ of\ \pageref{LastPage}}                          %
+\lfoot{\lastxmark}                                                      %
+\cfoot{}                                                                %
+\rfoot{}                          %
+\renewcommand\headrulewidth{0.4pt}                                      %
+%\renewcommand\footrulewidth{0.4pt}                                     %
+
+% This is used to trace down (pin point) problems
+% in latexing a document:
+%\tracingall
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Some tools
+\newcommand{\enterProblemHeader}[1]{\nobreak\extramarks{#1}{#1 continued on next page\ldots}\nobreak%
+                                    \nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak}%
+\newcommand{\exitProblemHeader}[1]{\nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak%
+                                   \nobreak\extramarks{#1}{}\nobreak}%
+
+\newlength{\labelLength}
+\newcommand{\labelAnswer}[2]
+  {\settowidth{\labelLength}{#1}%
+   \addtolength{\labelLength}{0.25in}%
+   \changetext{}{-\labelLength}{}{}{}%
+   \noindent\fbox{\begin{minipage}[c]{\columnwidth}#2\end{minipage}}%
+   \marginpar{\fbox{#1}}%
+
+   % We put the blank space above in order to make sure this
+   % \marginpar gets correctly placed.
+   \changetext{}{+\labelLength}{}{}{}}%
+
+\setcounter{secnumdepth}{0}
+\newcommand{\homeworkProblemName}{}%
+\newcounter{homeworkProblemCounter}%
+\newenvironment{homeworkProblem}[1][]%
+  {\stepcounter{homeworkProblemCounter}%
+   \renewcommand{\homeworkProblemName}{#1}%
+   \section{\homeworkProblemName}%
+   \enterProblemHeader{\homeworkProblemName}}%
+  {\exitProblemHeader{\homeworkProblemName}}%
+
+\newcommand{\problemAnswer}[1]
+  {\noindent\fbox{\begin{minipage}[c]{\columnwidth}#1\end{minipage}}}%
+
+\newcommand{\problemLAnswer}[1]
+  {\labelAnswer{\homeworkProblemName}{#1}}
+
+\newcommand{\homeworkSectionName}{}%
+\newlength{\homeworkSectionLabelLength}{}%
+\newenvironment{homeworkSection}[1]%
+  {% We put this space here to make sure we're not connected to the above.
+   % Otherwise the changetext can do funny things to the other margin
+
+   \renewcommand{\homeworkSectionName}{#1}%
+   \settowidth{\homeworkSectionLabelLength}{\homeworkSectionName}%
+   \addtolength{\homeworkSectionLabelLength}{0.25in}%
+   \changetext{}{-\homeworkSectionLabelLength}{}{}{}%
+   \subsection{\homeworkSectionName}%
+   \enterProblemHeader{\homeworkProblemName\ [\homeworkSectionName]}}%
+  {\enterProblemHeader{\homeworkProblemName}%
+
+   % We put the blank space above in order to make sure this margin
+   % change doesn't happen too soon (otherwise \sectionAnswer's can
+   % get ugly about their \marginpar placement.
+   \changetext{}{+\homeworkSectionLabelLength}{}{}{}}%
+
+\newcommand{\sectionAnswer}[1]
+  {% We put this space here to make sure we're disconnected from the previous
+   % passage
+
+   \noindent\fbox{\begin{minipage}[c]{\columnwidth}#1\end{minipage}}%
+   \enterProblemHeader{\homeworkProblemName}\exitProblemHeader{\homeworkProblemName}%
+   \marginpar{\fbox{\homeworkSectionName}}%
+
+   % We put the blank space above in order to make sure this
+   % \marginpar gets correctly placed.
+   }%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make title
+\title{\textmd{\textbf{\hmwkClass:\
+      \hmwkTitle}}\\\normalsize\small{Due\ Data:\
+    \hmwkDueDate}\\} 
+\date{\today}
+\author{\textbf{\hmwkAuthorName}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+% \begin{spacing}{1.1}
+\maketitle
+% \newpage
+% % Uncomment the \tableofcontents and \newpage lines to get a Contents page
+% % Uncomment the \setcounter line as well if you do NOT want subsections
+% %       listed in Contents
+% %\setcounter{tocdepth}{1}
+% \tableofcontents
+% \newpage
+
+% % When problems are long, it may be desirable to put a \newpage or a
+% % \clearpage before each homeworkProblem environment
+
+% \clearpage
+\begin{homeworkProblem}
+1. (10 points) Suppose that computer A executes 10 billion
+instructions per second, and com- puter B executes 10 million
+instructions per second, i.e, Computer A is 1000 times faster than
+computer B in raw computing power. Suppose an expert programmer
+implements insertion sort in machine language for computer A, and the
+resulting code requires $5*n^2$ instructions to sort n numbers. Suppose
+an average programmer implements merge sort, using a high-level
+language(for computer B??), with the resulting code taking
+$20*n*log_2n$ instruction. How long does computer A and computer B
+take to sort 10 million numbers respetively?\\
+
+\problemAnswer{
+For computer A: time = $5\times\frac{(10^7)^2}{10^{10}}$ = $5\times 10^4$(s) \\
+For computer B: time = $20\times 10^7\times \frac{log_210^7}{10^7}$ =
+$20\times log_210^7$ = 465.07(s)
+}
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+2. (20 Points) Be sure to show your work for each of the following
+problems. \\
+\begin{itemize}
+\item Suppose that a particular algorithm has time complexity $T(n) =
+5*2^n$, and that execution of the algorithm on a particular machine
+takes T seconds for n inputs. Now, suppose you are presented with a
+machine that is 64 times as fast as your current machine. How many
+inputs can you process on you new machine in T seconds? \\
+
+\problemLAnswer{
+According to the question description, we have:\\
+$T = 5*2^2 / P$ (P is the computing power with unit instructions /
+second) \\
+$\Rightarrow P = 5 \times \frac{2^n}{T}$ \\
+$\Rightarrow P' = 64 \times P = \frac{64 \times 5 \times 2^n}{T}$ \\
+$\Rightarrow T = \frac{5 \times 2^{n'}}{P'} = \frac{5 \times 2^{n'}}{\frac{64
+\times 5 \times 2^n}{T}}$ \\  
+$\Rightarrow T = T \times \frac{2^{n'-n}}{64}$ \\ 
+$\Rightarrow 2^{n'-n} = 64$\\
+$\Rightarrow n'-n = 6 \Rightarrow n'=n+6$ \\
+So, the new machine can process n+6 instructions within T seconds. 
+}
+\item Suppose that a particular algorithm has time complexity $T(n) =
+2*n^3$, and that execution of the algorithm on a particular machine
+takes T seconds for n inputs. Now, suppose you are presented with a
+machine that is 64 times as fast as your current machine. How many
+inputs can you process on you new machine in T seconds? \\
+
+\problemLAnswer{
+Similar to the question above, we have: \\
+$P = 2 \times \frac{n^3}{T}$ \\
+$\Rightarrow P' = 64 \times P = \frac{64 \times 2 \times n^3}{T}$ \\
+$\Rightarrow T = \frac{2 \times n'^{3}}{P'} = \frac{2 \times n'^{3}}{\frac{64
+\times 2 \times n^3}{T}}$ \\  
+$\Rightarrow n'^3 = 64\times n^3 = (4n)^3$ \\ 
+$\Rightarrow n' = 4n$ \\ 
+So, the new machine can process 4n instruction within T seconds. 
+}
+\item Suppose that a particular algorithm has time complexity $T(n) =
+16n$, and that execution of the algorithm on a particular machine
+takes T seconds for n inputs. Now, suppose you are presented with a
+machine that is 64 times as fast as your current machine. How many
+inputs can you process on you new machine in T seconds? \\
+
+\problemLAnswer{
+Similar to the question above, we have: \\
+$T = \frac{16n}{P}$
+$\Rightarrow P = 16 \times \frac{n}{T}$ \\
+$\Rightarrow P' = 64 \times P = \frac{64 \times 16 \times n}{T}$ \\
+$\Rightarrow T = \frac{16 \times n'}{P'} = \frac{16 \times n'}{\frac{64
+\times 16 \times n}{T}}$ \\  
+$\Rightarrow n' = 16n$ \\ 
+So, the new machine can process 16n instruction within T seconds.
+}
+\end{itemize}
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+3. (10 Points) Arrange the following expressions by growth, from
+slowest to fastest \\
+
+$4n^2,~ log_3n,~ n!,~ 3^n,~ 8n,~ 25,~ log_2n,~ n^{\frac{2}{3}}$ \\
+
+\problemLAnswer{
+$25 < log_3n < log_2n < n^{\frac{2}{3}} < 8n < 4n^2 < 3^n < n!$
+}
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+4. (20 points) Using the definition of Big-O, show that: 
+
+\begin{itemize}
+\item $2^{100} = O(1)$ \\
+
+\problemLAnswer{
+Let $f(n) = 2^{100}$, $g(n) = 1$ And\\
+If let constant $C = 2^{100} + 1$ and $n_0 = 0$, \\ 
+we have: for all $n > n_0$, $0\leq f(n) \leq C.g(n)$ \\
+
+Thus, according to definition of Big-O, $\exists~ C$ and for all $n >
+n_0$, $0\leq f(n) \leq C.g(n)$ \\
+So, $f(n) = O(g(n)) = O(1)$.
+}
+
+\item $8n^2 + 15n + 6 = O(n^2)$ \\
+
+\problemLAnswer{
+Let $f(n) = 8n^2 + 15n + 6$ and $g(n) = n^2$ \\
+$\because~ 15n + 6 \leq n^2$~ when $n \geq 16$ \\
+$\therefore~ 8n^2 + 15n + 6 \leq 8n^2 + n^2 = 9n^2$ \\
+Let constant $C = 9$ and $n_0 = 16$, when $n \geq n_0$ we have
+inequation $0 \leq f(n) \leq C.g(n)$. \\
+And thus: $f(n) = O(g(n)) = O(n^2)$.
+}
+
+\item $3\times (2^n + n^2) = O(2^n)$
+
+\problemLAnswer{
+Let $f(n) = 3\times (2^n + n^2)$ and $g(n) = 2^n$ \\
+$\because~  3\times n^2 \leq 2^n$~ when $n \geq 8$ \\
+$\therefore~ 3.n^2 + 3.2^n \leq 2^n + 3.2^n = 4.2^n$ when $n\geq 8$ \\
+Let constant $C = 4$ and $n_0 = 8$, when $n \geq n_0$ we have \\
+$0 \leq f(n) \leq C.g(n)$, So $f(n) = O(g(n)) = O(n^2)$.
+}
+\end{itemize}
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+5. (5 points) Express the function $\frac{n^3}{1000} + 10n^2 + 100n +
+3$ in terms of $\Theta$−notation. \\
+
+\problemLAnswer{
+Let $f(n) = \frac{n^3}{1000} + 10n^2 + 100n + 3$ and $g(n) = n^3$, \\
+$\because$~ when $C_1 = \frac{1001}{1000}$~ and $n_{01} = 17$~ we have
+$10.n^2 + 100n + 3 \leq n^3$, \\
+$\therefore~ \frac{n^3}{1000} + 10.n^2 + 100n + 3 \leq
+\frac{n^3}{1000} + n^3 = \frac{1001.n^3}{1000}$ \\ 
+$\Rightarrow \exists~ C$~ when $\forall n \geq n_{01}$~ inequality $f(n)
+\leq C.g(n)$~ applies. \\
+Similarly, when $C_2 = \frac{1}{1000}$ and $\forall n\geq n_{02}=0$ we
+have $C_2g(n) \leq f(n)$. So using the big-$\Theta$~notation we get: \\
+$\forall~ n \geq n_{01} = 17,~ 0\leq C_2.g(n)\leq f(n) \leq C_1.g(n)$. 
+}
+\end{homeworkProblem}
+
+%% 6
+\begin{homeworkProblem}
+6. (10 points) For each of the following functions, either $f(n)$ is in
+$O(g(n))$, $f(n)$ is in $\Omega(g(n))$, or $f(n)$ is in
+$\Theta(g(n))$. For each pair shown in the following table, determine
+which relationship is correct: \\
+\begin{table}[h]
+  \begin{center}   
+    \begin{tabular}{| l | c | r |} 
+      \hline $f(n)$ & $g(n)$ & $f(n)=(X)g(n)$ \\
+      \hline $logn^2$ & $logn + 5$ & $f(n) = \Omega(g(n))$ \\ 
+      \hline $nlogn + n$ & $logn$ & $f(n) = \Omega(g(n))$ \\
+      \hline $log^2n$ & $logn$ & $f(n) = \Omega(g(n))$ \\
+      \hline 10 & $log10$ & $f(n) = \Theta(g(n))$ \\
+      \hline $2^n$ & $10n^2$ & $f(n) = \Omega(g(n))$ \\
+      \hline $2^n$ & $3^n$ & $f(n) = O(g(n))$ \\
+      \hline 
+    \end{tabular} 
+    % \hfill{}
+    \caption{Relationship of pair of functions.}
+    \label{tb:tablename}
+  \end{center}
+\end{table}
+\end{homeworkProblem}
+
+
+\begin{homeworkProblem}
+7. (15 points) For each of the following sums, determine a closed-form
+solution
+
+\begin{itemize}
+\item $\sum_{i=1}^n(6i + 5)$
+
+\problemLAnswer{
+Let $a_i = 6i + 5$ \\
+$\Rightarrow a_1 = 6 + 5 = 11$ and $a_n = 6n + 5$, so \\
+$\sum_{i=1}^na_n = \frac{(a_1+a_n).n}{2} = 3n^2 + 8n$
+}
+
+\item $\sum_{i=1}^7(2^i + 4i + 7)$
+
+\problemLAnswer{
+$= \sum_{i=1}^72^i + \sum_{i=1}^74i + \sum_{i=1}^77$ \\
+$= \frac{1-2^7}{1-2} + \frac{(4+28)\times 7}{2} + 7\times 7$ \\
+$= 127 + 112 + 49 = 288$
+}
+
+\end{itemize}
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+8. (10 points) Express the running time for each of the following
+fragments of code, as a function of N:
+
+\begin{itemize}
+\item 
+  \begin{lstlisting}
+    for(i=1; i<=N; i++){
+      for(j=1; j<=N; j++){
+        cout << i << j << endl;
+      }
+    }
+  \end{lstlisting}
+  T(N) = $\Theta(N^2)$
+
+\item 
+  \begin{lstlisting}
+    for(i=1; i<=N; i++){
+      for(j=1; j<=i; j++){
+        cout << i << j << endl;
+      }
+    }
+  \end{lstlisting}
+  T(N) = $\Theta(N^2)$
+\end{itemize}
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+9. Give an algorithm in pseudo-code to reverse a singly linked list of
+n elements. The algorithm should rely on constant additional storage
+(only a few variables, no additional linked lists, arrays, etc.) 
+
+%\problemLAnswer{
+\begin{center}
+  \begin{algorithm}
+    \caption{Algorithm to Reverse a Linked List}
+    \label{alg:reverse_str}
+    \begin{algorithmic}
+
+      \STATE $i \leftarrow~ 0$
+      \STATE $pHead \leftarrow~ HeadofList$
+      \STATE pTail $\leftarrow$~ TailofList
+      \STATE pTmp $\leftarrow$~ NULL
+      \FOR{$i = 1$ to n-1}
+      \STATE $i \leftarrow~ i + 1$
+      \STATE pTmp $\leftarrow$~ pHead
+      \STATE pHead $\leftarrow$~ pHead.next
+      \STATE pTmp.next $\leftarrow$~ NULL
+      \STATE pTail.next $\leftarrow$~ pTmp
+      \STATE pTail $\leftarrow$~ pTail.next
+      \ENDFOR
+    \end{algorithmic}
+  \end{algorithm}
+\end{center}
+%}
+\end{homeworkProblem}
+
+%\end{spacing}
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
