@@ -1,0 +1,246 @@
+\documentclass{article}
+% Change "article" to "report" to get rid of page number on title page
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{algorithmic,algorithm}
+\usepackage{setspace}
+\usepackage{Tabbing}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{graphicx,float,wrapfig}
+
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=0in     %
+\oddsidemargin=0in      %
+\textwidth=6.5in        %
+\textheight=9.0in       %
+\headsep=0.25in         %
+
+% Homework Specific Information
+\newcommand{\hmwkTitle}{Homework\ \#1}
+\newcommand{\hmwkDueDate}{Sep.\ 22,\ 2010}
+\newcommand{\hmwkClass}{Data Mining}
+\newcommand{\hmwkClassTime}{MW\ 4:10-5:25pm}
+\newcommand{\hmwkClassInstructor}{Guozhu\ Dong}
+\newcommand{\hmwkAuthorName}{Shumin\ Guo}
+
+% Setup the header and footer
+\pagestyle{fancy}                                                       %
+\lhead{\hmwkAuthorName}                                                 %
+\chead{\hmwkClass\ - \hmwkTitle}  %
+\rhead{Page\ \thepage\ of\ \pageref{LastPage}}                          %
+\lfoot{\lastxmark}                                                      %
+\cfoot{}                                                                %
+\rfoot{}                          %
+\renewcommand\headrulewidth{0.4pt}                                      %
+%\renewcommand\footrulewidth{0.4pt}                                     %
+
+% This is used to trace down (pin point) problems
+% in latexing a document:
+%\tracingall
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Some tools
+\newcommand{\enterProblemHeader}[1]{\nobreak\extramarks{#1}{#1 continued on next page\ldots}\nobreak%
+                                    \nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak}%
+\newcommand{\exitProblemHeader}[1]{\nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak%
+                                   \nobreak\extramarks{#1}{}\nobreak}%
+
+\newlength{\labelLength}
+\newcommand{\labelAnswer}[2]
+  {\settowidth{\labelLength}{#1}%
+   \addtolength{\labelLength}{0.25in}%
+   \changetext{}{-\labelLength}{}{}{}%
+   \noindent\fbox{\begin{minipage}[c]{\columnwidth}#2\end{minipage}}%
+   \marginpar{\fbox{#1}}%
+
+   % We put the blank space above in order to make sure this
+   % \marginpar gets correctly placed.
+   \changetext{}{+\labelLength}{}{}{}}%
+
+\setcounter{secnumdepth}{0}
+\newcommand{\homeworkProblemName}{}%
+\newcounter{homeworkProblemCounter}%
+\newenvironment{homeworkProblem}[1][]%
+  {\stepcounter{homeworkProblemCounter}%
+   \renewcommand{\homeworkProblemName}{#1}%
+   \section{\homeworkProblemName}%
+   \enterProblemHeader{\homeworkProblemName}}%
+  {\exitProblemHeader{\homeworkProblemName}}%
+
+\newcommand{\problemAnswer}[1]
+  {\noindent\fbox{\begin{minipage}[c]{\columnwidth}#1\end{minipage}}}%
+
+\newcommand{\problemLAnswer}[1]
+  {\labelAnswer{\homeworkProblemName}{#1}}
+
+\newcommand{\homeworkSectionName}{}%
+\newlength{\homeworkSectionLabelLength}{}%
+\newenvironment{homeworkSection}[1]%
+  {% We put this space here to make sure we're not connected to the above.
+   % Otherwise the changetext can do funny things to the other margin
+
+   \renewcommand{\homeworkSectionName}{#1}%
+   \settowidth{\homeworkSectionLabelLength}{\homeworkSectionName}%
+   \addtolength{\homeworkSectionLabelLength}{0.25in}%
+   \changetext{}{-\homeworkSectionLabelLength}{}{}{}%
+   \subsection{\homeworkSectionName}%
+   \enterProblemHeader{\homeworkProblemName\ [\homeworkSectionName]}}%
+  {\enterProblemHeader{\homeworkProblemName}%
+
+   % We put the blank space above in order to make sure this margin
+   % change doesn't happen too soon (otherwise \sectionAnswer's can
+   % get ugly about their \marginpar placement.
+   \changetext{}{+\homeworkSectionLabelLength}{}{}{}}%
+
+\newcommand{\sectionAnswer}[1]
+  {% We put this space here to make sure we're disconnected from the previous
+   % passage
+
+   \noindent\fbox{\begin{minipage}[c]{\columnwidth}#1\end{minipage}}%
+   \enterProblemHeader{\homeworkProblemName}\exitProblemHeader{\homeworkProblemName}%
+   \marginpar{\fbox{\homeworkSectionName}}%
+
+   % We put the blank space above in order to make sure this
+   % \marginpar gets correctly placed.
+   }%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make title
+\title{\textmd{\textbf{\hmwkClass:\ 
+      \hmwkTitle}}\\\normalsize\small{Due\ Data:\
+    \hmwkDueDate}} 
+\date{\today}
+\author{\textbf{\hmwkAuthorName}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+% \begin{spacing}{1.1}
+\maketitle
+
+% \clearpage
+\section{Introduction - briefly answer the following questions}
+\begin{enumerate}
+\item What is Data Mining? What is the relation between data mining and
+  KDD? 
+
+\textbf{ANSWER:} Generally, Data Mining is the process of analysing data
+from different perspectives and summarizing it into useful
+information. And technically, data mining is the process of finding
+correlations and patterns among dozens of fields in large relational
+database. Still another definitions is : a non-trivial process of
+identifying valid, novel, useful and ultimately understandable patterns
+in data. KDD (Knowledge Discovery from Database/Datasets) is a more
+precise definition of data mining. 
+\item Describe any three challenges of data mining. 
+% \renewcommand{\labelenumi}{\Roman{enumi}.}
+% \renewcommand{\labelenumii}{\Roman{enumi}. \alph{enumii}}
+
+\textbf{ANSWER:} 
+\begin{itemize}
+\item Increasing data dimensionality and data size. 
+\item Various data forms. 
+\item New data types. 
+\end{itemize}
+
+\item What is the need for data mining? 
+
+\textbf{ANSWER:} 
+\begin{itemize}
+\item More and more data are generated. 
+\item Although lot of data are generated, there is still a gap between
+  stored data and knowledge, the transition won't occur automatically. 
+\item Due to the volume and a lot of other challenges, manual data
+  processing is almost impossible. 
+\item The development of computer science and engineering generated
+  high demands on the knowledge within the stored data. 
+\item Fields such as finance, business etc. have high demands on seeking
+  knowledge from the massive data. 
+\end{itemize}
+
+\end{enumerate}
+
+\section{Data Pre-processing}
+\begin{enumerate}
+\item In real-world data, tuples (instances) with missing values for
+  some attributes are a common occurrence. Brie°y describe various
+  methods for handling this problem. 
+% \renewcommand{\labelitemi}{$\heartsuit$}
+% \renewcommand{\labelitemii}{$\spadesuit$}
+\begin{itemize}
+\item Leave as is and treat missing value for each attribute A as a new
+  value of A. 
+\item Ignore/Remove the instances with missing value. 
+\item Manual fix - assign a value with implicit meaning. 
+\item Statistical methods to convert missing values - majority, most
+  likely, mean nearest neighbor.
+\end{itemize}
+
+\textbf{ANSWER:} 
+
+\item Suppose the data for analysis includes the attribute Age. The age
+values for the data tuples (instances) are (in increasing order): 13,
+15, 16, 16, 19, 20, 20, 21, 22, 22, 25, 25, 25, 25, 30, 33, 33, 35, 35,
+35, 35, 36, 40, 45, 46, 52, 70. Use binning (by bin means) to smooth the
+above data, using 5 bins and equi-density. (If the number of data tuples
+is not a multiple of 5, evenly spread the extra tuples in the last few
+bins.) Illustrate your steps, and comment on the e®ect of this technique
+for the given data. \\
+\textbf{ANSWER:} 
+
+\item Using the data for Age in Question 2, answer the following:  \\
+\begin{itemize}
+\item Use min-max normalization to transform the value 35 for age into the
+  range [0:0; 1:0].  
+\item Use z-score normalization to transform the value
+  35 for age. The standard deviation of the ages is 12:94.  
+\item Use normalization by decimal scaling to transform the value 35 for
+  age.  
+\item Comment on which method you would prefer to use for the given data,
+giving reasons as to why.
+\end{itemize}
+
+\textbf{ANSWER:} 
+
+\item We have the following (attribute-value,class) pairs [(0,P), (4,P),
+(12,P), (14,N), (16,N), (16,N), (18,P), (24,N), (28,N)]. Consider two
+possible splits v1 = 13 and v2 = 15 for discretizing the above data
+attribute. Use entropy-based binning by binarization to ¯nd the
+information gain for each split and decide which split is better. [In
+real life, we need to consider all potential splits.]
+
+\textbf{ANSWER:} 
+
+
+\item Consider the following data in the attribute-instance format. We
+need to perform feature selection using Sequential Forward Selection
+(SFS) with consistency (cRate) as the subset evaluation metric. What
+will be the selected feature subset at the end of the second iteration?
+\begin{table}[h]
+  \begin{center}
+    \begin{tabular}{| c || c | c | c |}
+      \hline F1 & F2 & F3 & C \\
+      \hline 1 & 1 & 1 & 1 \\
+      \hline 1 & 1 & 1 & 1 \\
+      \hline 1 & 0 & 1 & 1 \\
+      \hline 0 & 1 & 0 & 0 \\
+      \hline 1 & 0 & 1 & 0 \\
+      \hline 0 & 0 & 1 & 1 \\
+      \hline 0 & 0 & 0 & 1 \\
+      \hline 1 & 1 & 0 & 0 \\
+      \hline 
+    \end{tabular}
+    \caption{Data Table for SFS}
+  \end{center}
+\end{table}
+\textbf{ANSWER:} 
+\end{enumerate}
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
