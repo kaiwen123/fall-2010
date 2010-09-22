@@ -1,0 +1,214 @@
+\documentclass{article}
+% Change "article" to "report" to get rid of page number on title page
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{setspace}
+\usepackage{Tabbing}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{graphicx,float,wrapfig}
+
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=0in     %
+\oddsidemargin=0in      %
+\textwidth=6.5in        %
+\textheight=9.0in       %
+\headsep=0.25in         %
+
+% Homework Specific Information
+\newcommand{\hmwkTitle}{Project\ \#0}
+\newcommand{\hmwkDueDate}{Monday,\ Sep.\ 13,\ 2010}
+\newcommand{\hmwkClass}{CS-699-01/Cloud\ Computing}
+\newcommand{\hmwkClassTime}{TR/8:00pm-9:15pm}
+\newcommand{\hmwkClassInstructor}{Keke Chen}
+\newcommand{\hmwkAuthorName}{Shumin\ Guo}
+
+% Setup the header and footer
+\pagestyle{fancy}                                                       %
+\lhead{\hmwkAuthorName}                                                 %
+\chead{\hmwkClass\ (\hmwkClassInstructor\ \hmwkClassTime): \hmwkTitle}  %
+\rhead{\firstxmark}                                                     %
+\lfoot{\lastxmark}                                                      %
+\cfoot{}                                                                %
+\rfoot{Page\ \thepage\ of\ \pageref{LastPage}}                          %
+\renewcommand\headrulewidth{0.4pt}                                      %
+\renewcommand\footrulewidth{0.4pt}                                      %
+
+% This is used to trace down (pin point) problems
+% in latexing a document:
+%\tracingall
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Some tools
+\newcommand{\enterProblemHeader}[1]{\nobreak\extramarks{#1}{#1 continued on next page\ldots}\nobreak%
+                                    \nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak}%
+\newcommand{\exitProblemHeader}[1]{\nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak%
+                                   \nobreak\extramarks{#1}{}\nobreak}%
+
+\newlength{\labelLength}
+\newcommand{\labelAnswer}[2]
+  {\settowidth{\labelLength}{#1}%
+   \addtolength{\labelLength}{0.25in}%
+   \changetext{}{-\labelLength}{}{}{}%
+   \noindent\fbox{\begin{minipage}[c]{\columnwidth}#2\end{minipage}}%
+   \marginpar{\fbox{#1}}%
+
+   % We put the blank space above in order to make sure this
+   % \marginpar gets correctly placed.
+   \changetext{}{+\labelLength}{}{}{}}%
+
+\setcounter{secnumdepth}{0}
+\newcommand{\homeworkProblemName}{}%
+\newcounter{homeworkProblemCounter}%
+\newenvironment{homeworkProblem}[1]%[Project \arabic{homeworkProblemCounter}]%
+  {\stepcounter{homeworkProblemCounter}%
+   \renewcommand{\homeworkProblemName}{#1}%
+   \section{\homeworkProblemName}%
+   \enterProblemHeader{\homeworkProblemName}}%
+  {\exitProblemHeader{\homeworkProblemName}}%
+
+\newcommand{\problemAnswer}[1]
+  {\noindent\fbox{\begin{minipage}[c]{\columnwidth}#1\end{minipage}}}%
+
+\newcommand{\problemLAnswer}[1]
+  {\labelAnswer{\homeworkProblemName}{#1}}
+
+\newcommand{\homeworkSectionName}{}%
+\newlength{\homeworkSectionLabelLength}{}%
+\newenvironment{homeworkSection}[1]%
+  {% We put this space here to make sure we're not connected to the above.
+   % Otherwise the changetext can do funny things to the other margin
+
+   \renewcommand{\homeworkSectionName}{#1}%
+   \settowidth{\homeworkSectionLabelLength}{\homeworkSectionName}%
+   \addtolength{\homeworkSectionLabelLength}{0.25in}%
+   \changetext{}{-\homeworkSectionLabelLength}{}{}{}%
+   \subsection{\homeworkSectionName}%
+   \enterProblemHeader{\homeworkProblemName\ [\homeworkSectionName]}}%
+  {\enterProblemHeader{\homeworkProblemName}%
+
+   % We put the blank space above in order to make sure this margin
+   % change doesn't happen too soon (otherwise \sectionAnswer's can
+   % get ugly about their \marginpar placement.
+   \changetext{}{+\homeworkSectionLabelLength}{}{}{}}%
+
+\newcommand{\sectionAnswer}[1]
+  {% We put this space here to make sure we're disconnected from the previous
+   % passage
+
+   \noindent\fbox{\begin{minipage}[c]{\columnwidth}#1\end{minipage}}%
+   \enterProblemHeader{\homeworkProblemName}\exitProblemHeader{\homeworkProblemName}%
+   \marginpar{\fbox{\homeworkSectionName}}%
+
+   % We put the blank space above in order to make sure this
+   % \marginpar gets correctly placed.
+   }%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make title
+\title{\vspace{2in}\textmd{\textbf{\hmwkClass\\ \hmwkTitle}}\\\normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate}\\\vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}\vspace{3in}}
+\date{}
+\author{\textbf{\hmwkAuthorName}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\begin{spacing}{1.1}
+\maketitle
+\newpage
+% Uncomment the \tableofcontents and \newpage lines to get a Contents page
+% Uncomment the \setcounter line as well if you do NOT want subsections
+%       listed in Contents
+%\setcounter{tocdepth}{1}
+%\tableofcontents
+%\newpage
+
+% When problems are long, it may be desirable to put a \newpage or a
+% \clearpage before each homeworkProblem environment
+
+\clearpage
+\begin{homeworkProblem}{Some Understanding of Cloud Computing.}
+
+In recent years, the buzz word "Cloud Computing" is attracting
+people's attention. Companies like google, microsoft, amazon are
+making great efforts to build their cloud infrastructure, even the
+newly borned star company facebook is trying to join this group. Then,
+what Cloud Computing is all about? In this short note I would like to
+describe some of my own understanding about cloud computing. I will
+try to describe my points with the following questions in mind: what
+is cloud computing, why cloud computing can become the next
+revolutionary computing model and current obstacles for the cloud
+computing infrastructure. While Cloud Computing is not only computing
+for businesses but also for individual person, here I will only focus
+on the Cloud Computing for business customers rather than individuals
+to whom it means differently.
+
+Briefly speaking, Cloud Computing is utility computing, which means we
+can use all kinds of computing resources the similiar way we use
+electric and water. There is no contract between service providers and
+customers, this pay-as-you-go business model is about to bring
+customers great resilence and efficiency to their business as compared
+to the traditional IT-department model. As we all know, companies will
+have to build their own IT infrastructure for their business to
+operate upon. For example, IT infrastructure is one of the most
+critical part for a financial companies, so they need to have a
+department which is responsible for maintaining their business
+backbone. But, as a matter of fact, the resources including computing
+and personel are underutilized for most of the time. On the other hand,
+Cloud Computing makes an abstraction of the computing resources among
+all these companies and move them to a central location called "Data
+Center". All these companies can share these computing resources at
+the same time or in a multiplexing way. This will greatly reduce the
+cost as compared with the traditional model. Additionally, Cloud
+Computing model will bring resilence to the resources that customers
+use. One such case is facebook, the most famous social networking
+online community, the burst feature of their website visit requests a
+dynamic provisioning model that allocate different amount of
+resources which Cloud Computing can provide. And the traditional model
+can't respond fast enough to the growing of the visit volume. 
+
+The world around us is evolving, to the direction of efficiency, so
+does our computing model. Centralizing the computing resources to
+those companies who are excel in doing this and liberating those
+companies which does other business with IT as their
+infrastructure is a proper description of what cloud computing brings
+us. Everything seems natural. But except for the business
+needs and business competition for cloud computing, there are other
+enablers for this to happen at this proper time. They are the basis
+for cloud computing to become a reality. That is the development of computer
+hardware and software. With declining prices and improving computing
+power, the computer hardware industry provides commodity computers for
+use in the cloud. Virtualization techniques makes the dynamic
+provisioning of hardware resource a reality and the high speed local
+and wide area network makes it possible to delivery computing the
+similar way as deliverying electric. 
+
+Years ago, web2.0 and SOA is the preliminary model of the
+cloud. Today, cloud computing can have even more features from
+Infrastructre as a service(IaaS), Platform as a service(PaaS) to
+Software as a service(SaaS). All these kind of features make it
+possible to build their own business upon the cloud for today's
+business. 
+
+But, there is still a long way to go for all the world to be "Cloud
+Computing". There are still a lot of obstacles which include privacy,
+security, availability etc. Great efferts should be made both in the
+industry and in the research world. But the practice of cloud
+computing by such companies as Amazon, Microsoft and Google have
+provided a model and industrial practice for the comminity to follow and
+improve. Also, there are intermidiate models such as private cloud for
+companies to adapt if such issues as privacy is a big concern. So,
+thus far, we have the reason to believe that Cloud Computing will be
+the next revolutionary computing model that will provide computing
+resources in the CLOUD. 
+
+\problemAnswer{}
+\end{homeworkProblem}
+
+\end{spacing}
+\end{document}

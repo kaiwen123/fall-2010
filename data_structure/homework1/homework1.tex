@@ -23,7 +23,7 @@
 	language=c++,
         basicstyle=\ttfamily\large\setstretch{1},
         upquote=true,
-        aboveskip={1.5\baselineskip},
+        aboveskip={\baselineskip},
         columns=fixed,
         showstringspaces=false,
         extendedchars=true,
@@ -42,8 +42,8 @@
 \topmargin=-0.45in      %
 \evensidemargin=0in     %
 \oddsidemargin=0in      %
-\textwidth=6.5in        %
-\textheight=9.0in       %
+\textwidth=7.0in        %
+\textheight=9.2in       %
 \headsep=0.25in         %
 
 % Homework Specific Information
@@ -63,7 +63,7 @@
 \cfoot{}                                                                %
 \rfoot{}                          %
 \renewcommand\headrulewidth{0.4pt}                                      %
-%\renewcommand\footrulewidth{0.4pt}                                     %
+\renewcommand\footrulewidth{0.2pt}                                     %
 
 % This is used to trace down (pin point) problems
 % in latexing a document:
@@ -141,7 +141,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Make title
 \title{\textmd{\textbf{\hmwkClass:\
-      \hmwkTitle}}\\\normalsize\small{Due\ Data:\
+      \hmwkTitle}}\\\normalsize\small{Due\ Date:\
     \hmwkDueDate}\\} 
 \date{\today}
 \author{\textbf{\hmwkAuthorName}}
@@ -164,7 +164,7 @@
 % \clearpage
 \begin{homeworkProblem}
 1. (10 points) Suppose that computer A executes 10 billion
-instructions per second, and com- puter B executes 10 million
+instructions per second, and computer B executes 10 million
 instructions per second, i.e, Computer A is 1000 times faster than
 computer B in raw computing power. Suppose an expert programmer
 implements insertion sort in machine language for computer A, and the
@@ -175,9 +175,17 @@ $20*n*log_2n$ instruction. How long does computer A and computer B
 take to sort 10 million numbers respetively?\\
 
 \problemAnswer{
-For computer A: time = $5\times\frac{(10^7)^2}{10^{10}}$ = $5\times 10^4$(s) \\
-For computer B: time = $20\times 10^7\times \frac{log_210^7}{10^7}$ =
-$20\times log_210^7$ = 465.07(s)
+For computer A: time = $\frac{5\times(10^7)^2}{10^{10}}$ = $5\times 10^4$(s) = 50000(s) \\
+For computer B: time = $\frac{20\times 10^7\times log_210^7}{10^7}$ =
+$20\times log_210^7 \approx 465.07(s)$.\\
+
+According to the result above, we can see that although computer A is
+1000 times faster than computer B, it is using a less efficient
+algorithm. So, as the result tells, the real computing time for large
+input data for computer A is much longer than computer B. \\ 
+And we can have the conclusion that the efficiency of algorithm is
+more of concern as compared with computing power for a particular
+computing problem.
 }
 \end{homeworkProblem}
 
@@ -193,11 +201,12 @@ inputs can you process on you new machine in T seconds? \\
 
 \problemLAnswer{
 According to the question description, we have:\\
-$T = 5*2^2 / P$ (P is the computing power with unit instructions /
+$T = \frac{5\times 2^n}{P}$~ (P is the computing power with unit instructions /
 second) \\
 $\Rightarrow P = 5 \times \frac{2^n}{T}$ \\
 $\Rightarrow P' = 64 \times P = \frac{64 \times 5 \times 2^n}{T}$ \\
-$\Rightarrow T = \frac{5 \times 2^{n'}}{P'} = \frac{5 \times 2^{n'}}{\frac{64
+And for the new machine, we have: \\
+$T = \frac{5 \times 2^{n'}}{P'} = \frac{5 \times 2^{n'}}{\frac{64
 \times 5 \times 2^n}{T}}$ \\  
 $\Rightarrow T = T \times \frac{2^{n'-n}}{64}$ \\ 
 $\Rightarrow 2^{n'-n} = 64$\\
@@ -212,8 +221,9 @@ inputs can you process on you new machine in T seconds? \\
 
 \problemLAnswer{
 Similar to the question above, we have: \\
-$P = 2 \times \frac{n^3}{T}$ \\
-$\Rightarrow P' = 64 \times P = \frac{64 \times 2 \times n^3}{T}$ \\
+$T = 2 \times \frac{n^3}{P}\Rightarrow P = 2 \times \frac{n^3}{T}$ \\
+And for the new machine, we have: \\
+$P' = 64 \times P = \frac{64 \times 2 \times n^3}{T}$ \\
 $\Rightarrow T = \frac{2 \times n'^{3}}{P'} = \frac{2 \times n'^{3}}{\frac{64
 \times 2 \times n^3}{T}}$ \\  
 $\Rightarrow n'^3 = 64\times n^3 = (4n)^3$ \\ 
@@ -230,11 +240,12 @@ inputs can you process on you new machine in T seconds? \\
 Similar to the question above, we have: \\
 $T = \frac{16n}{P}$
 $\Rightarrow P = 16 \times \frac{n}{T}$ \\
-$\Rightarrow P' = 64 \times P = \frac{64 \times 16 \times n}{T}$ \\
+And for the new machine, we have: \\
+$P' = 64 \times P = \frac{64 \times 16 \times n}{T}$ \\
 $\Rightarrow T = \frac{16 \times n'}{P'} = \frac{16 \times n'}{\frac{64
 \times 16 \times n}{T}}$ \\  
-$\Rightarrow n' = 16n$ \\ 
-So, the new machine can process 16n instruction within T seconds.
+$\Rightarrow n' = 64n$ \\ 
+So, the new machine can process 64n instruction within T seconds.
 }
 \end{itemize}
 
@@ -260,11 +271,11 @@ $25 < log_3n < log_2n < n^{\frac{2}{3}} < 8n < 4n^2 < 3^n < n!$
 \problemLAnswer{
 Let $f(n) = 2^{100}$, $g(n) = 1$ And\\
 If let constant $C = 2^{100} + 1$ and $n_0 = 0$, \\ 
-we have: for all $n > n_0$, $0\leq f(n) \leq C.g(n)$ \\
+we have: $\forall~ n \geq n_0$, $0\leq f(n) \leq C.g(n)$ \\
 
-Thus, according to definition of Big-O, $\exists~ C$ and for all $n >
+Thus, according to definition of Big-O, $\exists~ C$ and for all $n \geq
 n_0$, $0\leq f(n) \leq C.g(n)$ \\
-So, $f(n) = O(g(n)) = O(1)$.
+So, $f(n) = O(g(n)) = O(1)$, which is $2^{100} = O(1)$.
 }
 
 \item $8n^2 + 15n + 6 = O(n^2)$ \\
@@ -275,7 +286,7 @@ $\because~ 15n + 6 \leq n^2$~ when $n \geq 16$ \\
 $\therefore~ 8n^2 + 15n + 6 \leq 8n^2 + n^2 = 9n^2$ \\
 Let constant $C = 9$ and $n_0 = 16$, when $n \geq n_0$ we have
 inequation $0 \leq f(n) \leq C.g(n)$. \\
-And thus: $f(n) = O(g(n)) = O(n^2)$.
+And thus: $f(n) = O(g(n)) = O(n^2)$, which is $8n^2 + 15n + 6 = O(n^2)$.
 }
 
 \item $3\times (2^n + n^2) = O(2^n)$
@@ -285,7 +296,8 @@ Let $f(n) = 3\times (2^n + n^2)$ and $g(n) = 2^n$ \\
 $\because~  3\times n^2 \leq 2^n$~ when $n \geq 8$ \\
 $\therefore~ 3.n^2 + 3.2^n \leq 2^n + 3.2^n = 4.2^n$ when $n\geq 8$ \\
 Let constant $C = 4$ and $n_0 = 8$, when $n \geq n_0$ we have \\
-$0 \leq f(n) \leq C.g(n)$, So $f(n) = O(g(n)) = O(n^2)$.
+$0 \leq f(n) \leq C.g(n)$, So $f(n) = O(g(n)) = O(n^2)$, which is
+$3\times (2^n + n^2) = O(2^n)$. 
 }
 \end{itemize}
 \end{homeworkProblem}
@@ -296,15 +308,16 @@ $0 \leq f(n) \leq C.g(n)$, So $f(n) = O(g(n)) = O(n^2)$.
 
 \problemLAnswer{
 Let $f(n) = \frac{n^3}{1000} + 10n^2 + 100n + 3$ and $g(n) = n^3$, \\
-$\because$~ when $C_1 = \frac{1001}{1000}$~ and $n_{01} = 17$~ we have
-$10.n^2 + 100n + 3 \leq n^3$, \\
+$\because$~ we have $10.n^2 + 100n + 3 \leq n^3$, when $n\geq 17$\\
 $\therefore~ \frac{n^3}{1000} + 10.n^2 + 100n + 3 \leq
 \frac{n^3}{1000} + n^3 = \frac{1001.n^3}{1000}$ \\ 
-$\Rightarrow \exists~ C$~ when $\forall n \geq n_{01}$~ inequality $f(n)
-\leq C.g(n)$~ applies. \\
-Similarly, when $C_2 = \frac{1}{1000}$ and $\forall n\geq n_{02}=0$ we
-have $C_2g(n) \leq f(n)$. So using the big-$\Theta$~notation we get: \\
-$\forall~ n \geq n_{01} = 17,~ 0\leq C_2.g(n)\leq f(n) \leq C_1.g(n)$. 
+$\Rightarrow \exists~ C_1 = \frac{1001}{1000}$~ and $n_{01} = 17$~ when $\forall n \geq
+n_{01}$~ inequality $0\leq f(n) \leq C_1.g(n)$~ applies. \\
+Similarly, when $C_2 = \frac{1}{1000}$ and $\forall~ n\geq n_{02}=0$ we
+have $0\leq C_2g(n) \leq f(n)$.  \\
+So using the big-$\Theta$~notation we can get: $\forall~ n \geq n_{01}
+> n_{02},~ 0\leq C_2.g(n)\leq f(n) \leq C_1.g(n)$, where $C_1 =
+\frac{1001}{1000}$ and $C_2 = \frac{1}{1000}$.  
 }
 \end{homeworkProblem}
 
@@ -332,8 +345,7 @@ which relationship is correct: \\
   \end{center}
 \end{table}
 \end{homeworkProblem}
-
-
+% number 7
 \begin{homeworkProblem}
 7. (15 points) For each of the following sums, determine a closed-form
 solution
@@ -344,15 +356,17 @@ solution
 \problemLAnswer{
 Let $a_i = 6i + 5$ \\
 $\Rightarrow a_1 = 6 + 5 = 11$ and $a_n = 6n + 5$, so \\
-$\sum_{i=1}^na_n = \frac{(a_1+a_n).n}{2} = 3n^2 + 8n$
+$\sum_{i=1}^na_i = \frac{(a_1+a_n).n}{2} = 3n^2 + 8n$
 }
 
 \item $\sum_{i=1}^7(2^i + 4i + 7)$
 
 \problemLAnswer{
 $= \sum_{i=1}^72^i + \sum_{i=1}^74i + \sum_{i=1}^77$ \\
-$= \frac{1-2^7}{1-2} + \frac{(4+28)\times 7}{2} + 7\times 7$ \\
-$= 127 + 112 + 49 = 288$
+$= \sum_{i=0}^72^i - 1 + \sum_{i=1}^74i + \sum_{i=1}^77$ \\
+$= \frac{2^{7+1}-1}{2-1} - 1 + \frac{(4+28)\times 7}{2} + 7\times 7$ \\
+$= 254 + 112 + 49$ \\
+$= 415$
 }
 
 \end{itemize}
@@ -372,7 +386,14 @@ fragments of code, as a function of N:
       }
     }
   \end{lstlisting}
-  T(N) = $\Theta(N^2)$
+  T(N) = $\sum_{i=1}^NN = N\times N = N^2$, \\
+  $\Rightarrow~ 0 \leq \frac{1}{2}N^2 \leq N^2 \leq 2N^2$, $\forall N
+  \geq 0$ \\
+  $\Rightarrow~ \forall N \geq N_0 = 0$ and $C_1 = 2$ and $C_2 =
+  \frac{1}{2}$, we have $0 \leq C_2N^2 \leq N^2 \leq C_1N^2$ \\
+
+  And according to the big-$\Theta$~ definition: \\
+  \textbf{$\Rightarrow~$T(N) = $\Theta(N^2)$}
 
 \item 
   \begin{lstlisting}
@@ -382,7 +403,12 @@ fragments of code, as a function of N:
       }
     }
   \end{lstlisting}
-  T(N) = $\Theta(N^2)$
+  T(N) = $\sum_{i=1}^Ni = 1 + 2 + 3 + \ldots + N = \frac{(1+N)N}{2} =
+  \frac{1}{2}(N^2 + N)$, \\ 
+  and using similar method to the above question, we will have : \\ 
+  $\forall N\geq N_0 = 0$, and $C_1 = 1, C_2 = \frac{1}{2}$, $0\leq
+  C_2N^2 \leq T(N) \leq C_1N^2$ \\    
+  \textbf{$\Rightarrow~$T(N) = $\Theta(N^2)$}
 \end{itemize}
 \end{homeworkProblem}
 
@@ -393,23 +419,24 @@ n elements. The algorithm should rely on constant additional storage
 
 %\problemLAnswer{
 \begin{center}
-  \begin{algorithm}
-    \caption{Algorithm to Reverse a Linked List}
+  \begin{algorithm}[H]
+    \caption{reverseList(pHead, n)}
     \label{alg:reverse_str}
     \begin{algorithmic}
-
-      \STATE $i \leftarrow~ 0$
-      \STATE $pHead \leftarrow~ HeadofList$
-      \STATE pTail $\leftarrow$~ TailofList
-      \STATE pTmp $\leftarrow$~ NULL
-      \FOR{$i = 1$ to n-1}
-      \STATE $i \leftarrow~ i + 1$
-      \STATE pTmp $\leftarrow$~ pHead
-      \STATE pHead $\leftarrow$~ pHead.next
-      \STATE pTmp.next $\leftarrow$~ NULL
-      \STATE pTail.next $\leftarrow$~ pTmp
-      \STATE pTail $\leftarrow$~ pTail.next
+      \STATE{\textbf{Input:}Head of A Linked List and number of elements n }
+      \STATE{\textbf{Output:}Reversed Linked List}
+      \STATE $pHead \Leftarrow~ HeadofList$
+      \STATE pTail $\Leftarrow$~ TailofList
+      \STATE pTmp $\Leftarrow$~ NULL
+      \FOR{$i \Leftarrow 1$ to n-1}
+      \STATE $i \Leftarrow~ i + 1$
+      \STATE pTmp $\Leftarrow$~ pHead
+      \STATE pHead $\Leftarrow$~ pHead.next
+      \STATE pTmp.next $\Leftarrow$~ NULL
+      \STATE pTail.next $\Leftarrow$~ pTmp
+      \STATE pTail $\Leftarrow$~ pTail.next
       \ENDFOR
+      \RETURN TRUE
     \end{algorithmic}
   \end{algorithm}
 \end{center}
