@@ -52,9 +52,11 @@ int main() {
       g_data.clear(); 
     } //if
   } //while(fdata)
-  for(int i = 0; i < pGeneSet->getNumFeatures(); i++) {
-    pGeneSet->print(i); 
-  }
+  // Test by printing out the result. 
+  // for(int i = 0; i < pGeneSet->getNumFeatures(); i++) {
+  //   pGeneSet->print(i); 
+  // }
+  pGeneSet->doEquiDensityBin(0, 4); 
 
   fdata.close(); 
   // Equidensity binning. 
