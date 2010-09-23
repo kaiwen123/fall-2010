@@ -52,15 +52,16 @@ int main() {
       g_data.clear(); 
     } //if
   } //while(fdata)
+  fdata.close();
   // Test by printing out the result. 
   // for(int i = 0; i < pGeneSet->getNumFeatures(); i++) {
   //   pGeneSet->print(i); 
   // }
-  pGeneSet->doEquiDensityBin(0, 4); 
 
-  fdata.close(); 
-  // Equidensity binning. 
-
+  // Equid-Width binning.
+  // First param is gene data set id, and second 
+  // is the number of intervals. 
+  pGeneSet->doEquiWidthBin(0, 4); 
   // Entropy Based binning. 
 
   return 0; 

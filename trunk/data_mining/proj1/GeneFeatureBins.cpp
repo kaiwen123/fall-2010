@@ -5,6 +5,8 @@ GeneFeatureBins::GeneFeatureBins(gene_feature_t low,
 				 gene_feature_t high) {
   b_low = low; 
   b_high = high; 
+  p_count = 0; 
+  n_count = 0;
 }
 
 // Insert a feature item into this bin. 
@@ -22,14 +24,15 @@ void GeneFeatureBins::insertItem(GeneFeatureItem feature) {
 
 // calculate the consistency rate of this bin.
 float GeneFeatureBins::cRate() {
-  float crate = 0.0;
-  return crate; 
+  cout << p_count << " " << n_count << endl;
+  return (p_count > n_count) ? ((float)p_count/getItemCount()) 
+    : ((float)n_count/getItemCount());
 }
 
 // Information split gain. 
 float GeneFeatureBins::entropy() {
-  float entropy = 0.0; 
-  return entropy;
+  return (-((double)p_count/getItemCount())*log2((double)p_count/getItemCount())
+	  -((double)n_count/getItemCount())*log2((double)n_count/getItemCount()));
 }
 // 
 

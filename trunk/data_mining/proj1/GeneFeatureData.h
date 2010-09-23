@@ -24,7 +24,7 @@ class GeneFeatureData {
   int p_count;			  /* positive class count in this gene data set. */
   int n_count;			  /* negative class count in this gene data set. */
   vector<GeneFeatureItem> f_data; /* feature list head */
-  vector<GeneFeatureBins> f_density_bins; /* equi-density bins. */
+  vector<GeneFeatureBins> f_width_bins; /* equi-width bins. */
   vector<GeneFeatureBins> f_entropy_bins; /* entropy based bins. */
 
  public:
@@ -41,15 +41,15 @@ class GeneFeatureData {
   bool isEmpty() const; 
 
   /* Binning Methods. */
-  bool equiDensityBinning(int num_bins);
+  bool equiWidthBinning(int num_bins);
   bool entropyDiscretize();
 
   /**
-   * @brief Print the content of the equidensity bins. 
+   * @brief Print the content of the equi-width bins. 
    * @param None.
    * @output void. 
    */
-  void printEDBins();
+  void printEWBins();
 
   /**
    * @brief Print the content of the entropy bins. 

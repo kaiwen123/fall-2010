@@ -11,6 +11,7 @@
 #define _GeneFeatureBinsClass_ 
 #include <iostream>
 #include <vector> 
+#include <cmath>
 #include "defs.h"
 #include "GeneFeatureItem.h"
 

@@ -50,12 +50,12 @@ class GeneDataSet {
   void print(int id); 
 
   /**
-   * @brief Do equi-density binning to a feature data set. 
+   * @brief Do equi-width binning to a feature data set. 
    * @param id feature id.
    * @param num_bins Total number of bins. 
    * @output True on success and false on failure. 
    */
-  bool doEquiDensityBin(int id, int num_bins); 
+  bool doEquiWidthBin(int id, int num_bins); 
 
   /**
    * @brief Print data of one feature for the gene data. 
