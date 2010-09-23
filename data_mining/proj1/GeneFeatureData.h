@@ -23,7 +23,7 @@ class GeneFeatureData {
 
  public:
   GeneFeatureData();
-  ~GeneFeatureData(){} 
+  ~GeneFeatureData(){f_data.clear();} 
 
   int getNumGenes() const {return f_data.size();}
   GeneFeatureItem * getGeneFeature(); /* return feature object */
