@@ -17,14 +17,14 @@ using namespace std;
 
 class GeneDataSet {
  private: 
-  int num_features; 		/* Total number of features. */
   vector<GeneFeatureData> f_sets; /* Feature sets. */
 
  public:
- GeneDataSet():num_features(0){}
+  //GeneDataSet():num_features(0){}
   GeneDataSet(int num_f);	/* Constructor with number of features. */
-  ~GeneDataSet(){}
+  ~GeneDataSet(){f_sets.clear();}
 
+  int getNumFeatures(){return f_sets.size();}
   // Operations with the data.
   /**
    * @brief Insert data into gene vector. 
@@ -34,6 +34,20 @@ class GeneDataSet {
    * @return true on success and false on failure. 
    */
   bool insertData(int f_id, gene_feature_t f_data, gene_class_t g_class); 
+
+  /**
+   * @brief Print data of the whole gene data set. 
+   * @param None.
+   * @output void. 
+   */
+  void print();
+
+  /**
+   * @brief Print data of one feature for the gene data. 
+   * @param feature id.
+   * @output void. 
+   */
+  void print(int id); 
 };
 
 #endif //ifdef

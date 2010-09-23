@@ -1,6 +1,7 @@
 #include "GeneFeatureData.h"
 
 GeneFeatureData::GeneFeatureData() {
+  //cout << "Generating feature data. .. ." << endl; 
 }
 
 // Inserting data into the gene feature data. 
