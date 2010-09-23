@@ -36,43 +36,46 @@ void GeneFeatureData::print() {
   }
 }
 
-// Do equi-density binning. 
-bool GeneFeatureData::equiDensityBinning(int num_bins) {
+// Do equi-width binning. 
+bool GeneFeatureData::equiWidthBinning(int num_bins) {
   float interval = (f_highest - f_lowest) / num_bins; 
   // Creating bins. 
   for(int i = 0; i < num_bins; i++) {
     GeneFeatureBins* pBin = new GeneFeatureBins(f_lowest+i*interval, 
 						f_lowest+(i+1)*interval);
     if(!pBin) {cerr << "Error creating bins..." << endl; return false;}
-    f_density_bins.push_back(*pBin); 
+    f_width_bins.push_back(*pBin); 
   } // for 
 
   // Inserting data into bins. 
   for(int i = 0; i < num_bins; i++){
     //GeneFeatureBins* pBin = ; 
-    gene_feature_t high = f_density_bins.at(i).getHighBoundary();
-    gene_feature_t low = f_density_bins.at(i).getLowBoundary();
+    gene_feature_t high = f_width_bins.at(i).getHighBoundary();
+    gene_feature_t low = f_width_bins.at(i).getLowBoundary();
     for(int j = 0; j < f_data.size(); j++) {
       GeneFeatureItem f_item = f_data.at(j); 
       // cout << "low: " << low << " high: " << high << " item: "
       // 	   << f_item.getFeature() << endl; 
       if((f_item.getFeature() >= low) && (f_item.getFeature() < high)){
 	//cout << "bingo...." << endl; 
-	f_density_bins.at(i).insertItem(f_item);
+	f_width_bins.at(i).insertItem(f_item);
       }
       //cout << f_item.getFeature() << endl; 
     } //for data
   } // for bin
-  // test printing equi-density bins. 
-  printEDBins(); 
+  // test printing equi-width bins. 
+  printEWBins(); 
 }
 
-// Print equi-density bins. 
-void GeneFeatureData::printEDBins() {
+// Print equi-width bins. 
+void GeneFeatureData::printEWBins() {
   cout << "Contents of bin: " << endl; 
-  vector<GeneFeatureBins>::iterator it = f_density_bins.begin(); 
-  while(it != f_density_bins.end()) {
-    it->print(); 
+  vector<GeneFeatureBins>::iterator it = f_width_bins.begin(); 
+  while(it != f_width_bins.end()) {
+    //it->print();
+    // print consistent rate and entropy. 
+    cout << "cRate:    " << it->cRate() << endl; 
+    cout << "entropy : " << it->entropy() << endl; 
     it++;
   }
 }
