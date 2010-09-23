@@ -3,7 +3,7 @@ CPPFLAGS = -O2 -fPIC -ggdb
 LD = /usr/bin/ld
 LDFLAGS = -L/usr/lib -L/lib
 RM = /bin/rm -rf
-EXECUTABLE = proj1
+EXECUTABLE = binningexe 
 DOX = /usr/bin/doxygen
 DOXCONF = Dox.txt
 
@@ -16,7 +16,7 @@ all: $(EXECUTABLE)
 .SUFFIX: .o .cpp
 
 $(EXECUTABLE): $(OBJ)
-	@$(CPP) $(LDFLAGS) $^ -o $@
+	$(CPP) $(LDFLAGS) $^ -o $@
 
 .o: .cpp
 	@$(CPP) -c $(CPPFLAGS) $< -o $@

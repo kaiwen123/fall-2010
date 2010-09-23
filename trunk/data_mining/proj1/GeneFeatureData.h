@@ -19,7 +19,13 @@ using namespace std;
 
 class GeneFeatureData {
  private: 
+  gene_feature_t f_highest;	  /* highest feature data. */
+  gene_feature_t f_lowest;	  /* lowest feature data. */
+  int p_count;			  /* positive class count in this gene data set. */
+  int n_count;			  /* negative class count in this gene data set. */
   vector<GeneFeatureItem> f_data; /* feature list head */
+  vector<GeneFeatureBins> f_density_bins; /* equi-density bins. */
+  vector<GeneFeatureBins> f_entropy_bins; /* entropy based bins. */
 
  public:
   GeneFeatureData();
@@ -37,6 +43,20 @@ class GeneFeatureData {
   /* Binning Methods. */
   bool equiDensityBinning(int num_bins);
   bool entropyDiscretize();
+
+  /**
+   * @brief Print the content of the equidensity bins. 
+   * @param None.
+   * @output void. 
+   */
+  void printEDBins();
+
+  /**
+   * @brief Print the content of the entropy bins. 
+   * @param None.
+   * @output void. 
+   */
+  void printEntropyBins();
 };
 
 #endif //ifdef

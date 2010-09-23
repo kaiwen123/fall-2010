@@ -29,3 +29,8 @@ void GeneDataSet::print() {
 void GeneDataSet::print(int id) {
   f_sets.at(id).print(); 
 }
+
+// Do equi-density binning on a particular feature. 
+bool GeneDataSet::doEquiDensityBin(int id, int num_bins) {
+  return f_sets.at(id).equiDensityBinning(num_bins); 
+}
