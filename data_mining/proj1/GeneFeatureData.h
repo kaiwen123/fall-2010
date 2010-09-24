@@ -3,7 +3,7 @@
  * @file GeneFeatureData.h
  * @brief Definition of a GeneFeatureData class. 
  * @author Shumin Guo (guo.18@wright.edu)
- * @version 1.0.0
+ * @version 1.0.99
  */
 // $Log$
 
