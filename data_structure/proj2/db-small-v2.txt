@@ -1,0 +1,422 @@
+<Records>
+Billings
+Deb
+287559
+114000
+Sales
+480-2547
+327 Administration bldg
+7/10/1998
+dbillings@google.com
+--
+Jeffries
+Gwen
+434055
+65000
+Sales
+201-4326
+676 Allyn Hall
+10/1/1990
+gjeffries@mailman.net
+--
+Lionel
+Terry
+194698
+45000
+Marketing
+567-5526
+68 Building A
+8/8/1997
+tlionel@yahoo.com
+--
+Hobson
+Abe
+513345
+78000
+Administration
+110-1204
+421 Building C
+2/17/1994
+ahobson@ieee.org
+--
+Lionel
+Jack
+214504
+85000
+Espionage
+805-0476
+1 Russ Engineering
+8/17/1977
+jlionel@wright.edu
+--
+Northrup
+Deb
+835547
+51000
+Espionage
+148-3630
+757 Case building
+2/24/1995
+dnorthrup@hotmail.com
+--
+Meyer
+Dave
+001024
+30000
+Accounting
+448-7017
+51 Administration bldg
+3/21/1979
+dmeyer@wow.rr.net
+--
+Smith
+Sarah
+884816
+115000
+Marketing
+751-5657
+304 Russ Engineering
+5/5/2000
+ssmith@msn.com
+--
+Smith
+Mandy
+491656
+74000
+Engineering
+854-8653
+263 Case building
+8/15/1991
+msmith@yahoo.com
+--
+Billings
+Jack
+504626
+82000
+International Warfare
+360-0247
+763 Nelson building
+4/15/1988
+jbillings@hotmail.com
+--
+Bryce
+Ethan
+851055
+82000
+Accounting
+245-6220
+489 Building A
+2/12/1996
+ebryce@mymail.com
+--
+Ellis
+Abe
+329805
+33000
+Administration
+460-6000
+709 Rockefellar Plaza
+7/5/1990
+aellis@email.com
+--
+Jackson
+Randy
+982342
+83000
+Interrogation
+235-0047
+436 Rockefellar Plaza
+4/8/2001
+rjackson@wow.rr.net
+--
+Kline
+Helen
+425951
+36000
+Administration
+322-7630
+813 Rockefellar Plaza
+4/20/1987
+hkline@msn.com
+--
+England
+Sarah
+619915
+54000
+Accounting
+786-7741
+510 Allyn Hall
+7/27/1996
+sengland@ieee.org
+--
+Kerry
+Mandy
+891061
+108000
+Engineering
+564-4453
+382 Rockefellar Plaza
+9/27/1975
+mkerry@ieee.org
+--
+Johnson
+Ben
+401896
+94000
+Marketing
+601-5127
+436 Allyn Hall
+9/17/1986
+bjohnson@email.com
+--
+Donaldson
+Linda
+255335
+56000
+Espionage
+171-2062
+548 Building A
+6/13/1998
+ldonaldson@ieee.org
+--
+Donaldson
+Mark
+065518
+80000
+Interrogation
+605-1064
+284 Building D
+2/27/1990
+mdonaldson@ieee.org
+--
+Daniels
+Allen
+248772
+61000
+Espionage
+250-5487
+839 Building A
+3/26/1979
+adaniels@msn.com
+--
+Ireland
+Wendy
+972848
+113000
+Accounting
+482-7705
+53 Building B
+9/25/2001
+wireland@ieee.org
+--
+Donaldson
+Beverly
+142993
+33000
+Research and Development
+284-5057
+252 Allyn Hall
+4/3/1978
+bdonaldson@wow.rr.net
+--
+Doom
+Ben
+192164
+100000
+Accounting
+770-0207
+878 Case building
+1/9/1995
+bdoom@wright.edu
+--
+Saxon
+Randy
+240611
+107000
+Espionage
+714-2262
+859 Rike
+1/8/1980
+rsaxon@email.com
+--
+Jones
+Mandy
+976006
+38000
+Accounting
+145-0121
+69 Building B
+2/2/1989
+mjones@wright.edu
+--
+Wendall
+Denise
+275793
+53000
+Accounting
+846-7767
+22 Russ Engineering
+2/7/1993
+dwendall@yahoo.com
+--
+Jeffries
+Ethan
+798618
+50000
+International Warfare
+488-6228
+801 Wilson building
+1/16/1983
+ejeffries@msn.com
+--
+England
+Jim
+149221
+99000
+Legal
+138-3014
+237 Russ Engineering
+8/5/1978
+jengland@snailmail.com
+--
+Billings
+Alice
+686681
+105000
+Marketing
+813-7171
+4 Rike
+11/20/1987
+abillings@email.com
+--
+Hobson
+Mike
+400525
+75000
+Accounting
+580-2520
+715 Rike
+2/9/2000
+mhobson@mymail.com
+--
+Reynolds
+Denise
+371215
+33000
+Engineering
+118-3254
+979 Building D
+6/5/1990
+dreynolds@google.com
+--
+Meyer
+Gwen
+505415
+102000
+Administration
+265-7348
+436 Building B
+7/20/2001
+gmeyer@ieee.org
+--
+Saxon
+Kylie
+651958
+52000
+Marketing
+526-8835
+33 Wilson building
+10/7/2003
+ksaxon@snailmail.com
+--
+Turner
+Dan
+508489
+81000
+Interrogation
+778-8201
+718 Nelson building
+6/4/1989
+dturner@mailman.net
+--
+Daniels
+Alice
+778135
+49000
+Legal
+713-3365
+984 Building C
+8/4/1981
+adaniels@wright.edu
+--
+Smith
+Frank
+889005
+98000
+Research and Development
+274-6570
+196 Case building
+6/17/1985
+fsmith@wow.rr.net
+--
+Bryce
+Kylie
+032605
+32000
+Espionage
+666-1111
+188 Wilson building
+10/9/1985
+kbryce@mailman.net
+--
+Jeffries
+Terry
+884056
+118000
+Sales
+140-3161
+927 Building C
+4/14/1994
+tjeffries@msn.com
+--
+Gage
+Dave
+273507
+110000
+Engineering
+650-6770
+961 Building B
+10/13/1987
+dgage@mailman.net
+--
+Ireland
+Ellen
+434019
+116000
+Interrogation
+672-2510
+728 Building B
+11/21/1986
+eireland@mymail.com
+--
+Enland
+Don
+039920
+47000
+Espionage
+301-8187
+863 Building A
+11/15/1990
+denland@hotmail.com
+--
+Sanders
+Alice
+640290
+81000
+Accounting
+864-8247
+41 Allyn Hall
+3/10/2000
+asanders@msn.com
+--
+<END>
