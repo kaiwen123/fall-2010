@@ -1,0 +1,21 @@
+CS499/699 Cloud Computing
+Mini Project 1: HDFS file system
+                                                           
+Goals: students will get familiar with the hadoop file system by using some HDFS commands to finish a simple task.
+ 
+Steps:
+read the online reference about HDFS commands http://hadoop.apache.org/common/docs/current/hdfs_shell.html
+get connected,
+ssh cloudc@nimbus.cs.wright.edu via campus network or VPN
+password: cc2010
+from nimbus, ssh wxxxaaa@nimbus17, with the initial password wxxxaaa
+           
+            Now you are ready to use HDFS. Hadoop package is installed at /usr/local/hadoop/. You can also take a look at conf/*-site.xml which setup some variables for hadoop.
+ 
+Your own directory on HDFS has been created: /user/wxxxaaa
+try all HDFS commands listed in the reference. Note the executables are at /usr/local/hadoop/bin/, and the paths have been setup.
+find out where the file prj1.txt is in the HDFS.
+Assume your WSU ID is in format of wxxxaaa, and xxx is a number. Please find out the content of prj1.tx at line xxx, and output the “wxxxaaa “+ line to the file /user/wxxxaaa/project1. You can use a combination of HDFS commands and local linux commands to do that.
+ 
+ 
+Due date: Sept 15
