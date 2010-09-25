@@ -1,0 +1,5 @@
+HOWTO
+I have implemented this project using python and java. 
+
+Just run ./doit.sh script in each directory, and then see the result by running: 
+hadoop fs -cat project2/ouput/part-00000
