@@ -10,29 +10,30 @@ GeneFeatureData::GeneFeatureData() {
 // Inserting data into the gene feature data. 
 bool GeneFeatureData::insert(gene_feature_t f_dat, 
 			     gene_class_t g_c) {
-  // Building gene feature data item; 
-  GeneFeatureItem* pFeatureItem = new GeneFeatureItem(f_dat, g_c); 
-  if(!pFeatureItem) {
-    cerr << "Can't create new GeneFeatureItem object. " << endl; 
-    return false; 
-  }
-  //cout << "Inserting ... ... " << pFeatureItem->getFeature() << endl;
-  f_data.push_back(*pFeatureItem); 
-
+  // Building gene feature data item and insert into vector. 
+  GeneFeatureItem* pF = new GeneFeatureItem(f_dat, g_c); 
+  if(!pF){cerr<<"Can't create new GeneFeatureItem object."<<endl;return false;}
+  f_data.push_back(*pF); 
+  //pF->print();
   // refresh the high and low boundary of the gene data sample set. 
-  if(f_dat > f_highest)
-    f_highest = f_dat; 
-  if(f_dat < f_lowest) 
-    f_lowest = f_dat; 
+  if(f_dat>f_highest) f_highest=f_dat; 
+  if(f_dat<f_lowest) f_lowest=f_dat;
+
+  // update the positive and negative data counters.
+  if(g_c == positive) p_count++; 
+  else n_count++;
+
   return true; 
 }
 
 // Print the content of this feature data. 
 void GeneFeatureData::print() {
   vector<GeneFeatureItem>::iterator it = f_data.begin(); 
+  int totalnum = 0;
   while(it != f_data.end()) {
     it->print(); 		// print the data for feature item. 
     it++;
+    totalnum++;
   }
 }
 
@@ -41,30 +42,49 @@ bool GeneFeatureData::equiWidthBinning(int num_bins) {
   float interval = (f_highest - f_lowest) / num_bins; 
   // Creating bins. 
   for(int i = 0; i < num_bins; i++) {
-    GeneFeatureBins* pBin = new GeneFeatureBins(f_lowest+i*interval, 
-						f_lowest+(i+1)*interval);
-    if(!pBin) {cerr << "Error creating bins..." << endl; return false;}
-    f_width_bins.push_back(*pBin); 
-  } // for 
-
-  // Inserting data into bins. 
-  for(int i = 0; i < num_bins; i++){
-    //GeneFeatureBins* pBin = ; 
-    gene_feature_t high = f_width_bins.at(i).getHighBoundary();
-    gene_feature_t low = f_width_bins.at(i).getLowBoundary();
-    for(int j = 0; j < f_data.size(); j++) {
-      GeneFeatureItem f_item = f_data.at(j); 
-      // cout << "low: " << low << " high: " << high << " item: "
-      // 	   << f_item.getFeature() << endl; 
-      if((f_item.getFeature() >= low) && (f_item.getFeature() < high)){
-	//cout << "bingo...." << endl; 
-	f_width_bins.at(i).insertItem(f_item);
+    gene_feature_t blow = f_lowest+i*interval; 
+    gene_feature_t bhigh = f_lowest+(i+1)*interval; 
+    GeneFeatureBins bin(blow, bhigh);
+    //cout << "Current Bin: " << bin << "----------" << endl;
+    bin.setGroup('a'+i);	// Group information a,b,c,d....;
+    vector<GeneFeatureItem>::iterator _iit = f_data.begin();
+    while(_iit != f_data.end()) {
+      //_iit->print();
+      gene_feature_t fvar = _iit->getFeature(); // data feature value. 
+      if(i==num_bins-1) bhigh += 10000;	// Last bin. 
+      if((fvar >= blow) && (fvar < bhigh)){
+	bin.insertItem(*_iit);
       }
-      //cout << f_item.getFeature() << endl; 
-    } //for data
-  } // for bin
-  // test printing equi-width bins. 
-  printEWBins(); 
+      _iit++;
+    }
+    f_width_bins.push_back(bin); // put bin into the vector.
+  } // for 
+  //printEWBins(); 
+}
+
+// Information split gain. 
+float GeneFeatureData::calcDataEntropy() {
+  return (-((double)p_count/getTotalCount())*log2((double)p_count/getTotalCount())
+	  -((double)n_count/getTotalCount())*log2((double)n_count/getTotalCount()));
+}
+
+// Calculate the information of the split. 
+float GeneFeatureData::calcInfoSplit() {
+  if(f_entropy_bins.size()>0) {
+    int s1_size = f_entropy_bins.at(0).getTotalCount(); 
+    int s2_size = f_entropy_bins.at(1).getTotalCount();
+    int s_size = s1_size + s2_size; 
+    float s1_entropy = f_entropy_bins.at(0).entropy(); 
+    float s2_entropy = f_entropy_bins.at(1).entropy(); 
+    return (s1_size/s_size)*s1_entropy + (s2_size/s_size)*s2_entropy;
+  } else {
+    return 0.0; 
+  }
+}
+
+// Calculate the information gain of the split. 
+float GeneFeatureData::calcInfoGain() {
+  return calcDataEntropy() - calcInfoSplit();
 }
 
 // Print equi-width bins. 
@@ -72,15 +92,25 @@ void GeneFeatureData::printEWBins() {
   cout << "Contents of bin: " << endl; 
   vector<GeneFeatureBins>::iterator it = f_width_bins.begin(); 
   while(it != f_width_bins.end()) {
-    //it->print();
+    it->print();
     // print consistent rate and entropy. 
-    cout << "cRate:    " << it->cRate() << endl; 
-    cout << "entropy : " << it->entropy() << endl; 
+    // cout << "cRate:    " << it->cRate() << endl; 
+    // cout << "entropy : " << it->entropy() << endl;   
     it++;
   }
 }
 
 // Do entropy based binning. 
-bool GeneFeatureData::entropyDiscretize() {
+bool GeneFeatureData::entropyDiscretize(int num_bins) {
+  return true;
+}
 
+// Overloading << operator. 
+ostream& operator<<(ostream& out, GeneFeatureData& d) {
+  vector<GeneFeatureItem>::iterator _dit = d.getFData().begin(); 
+  while(_dit != d.getFData().end()) {
+    out << *_dit; 
+    _dit++;
+  }
+  return out; 
 }

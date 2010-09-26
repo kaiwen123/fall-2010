@@ -26,13 +26,11 @@ int main() {
    
     if(!fdata.good()) {cerr<<"Error while reading file. "<<endl;}
     fdata >> x; 
-
     // For feature data, strip the ',' and transform to double. 
     if(x.find(',',0)!=string::npos) {
       d_tmp = strtod(x.substr(0, x.find(',',0)).c_str(), p);
       g_data.push_back(d_tmp);
     }
-
     // The end of line is reached. 
     // find data class, positive or negative. 
     if(x.find('p',0)!=string::npos || x.find('n',0)!=string::npos){
@@ -40,29 +38,33 @@ int main() {
 	d_class = positive; 
       else 
 	d_class = negative; 
-
       // Put data into gene feature data object.
       if(!pGeneSet) {
 	pGeneSet = new GeneDataSet(g_data.size()); 
       }
-      for(int i = 0; i < g_data.size(); i++) {
-	//cout << g_data.at(i) << " " << g_data.size() << endl; 
+      for(int i = 0; i < g_data.size()-1; i++)
 	pGeneSet->insertData(i, g_data.at(i), d_class); 
-      } // for     
       g_data.clear(); 
     } //if
   } //while(fdata)
   fdata.close();
-  // Test by printing out the result. 
-  // for(int i = 0; i < pGeneSet->getNumFeatures(); i++) {
-  //   pGeneSet->print(i); 
-  // }
-
   // Equid-Width binning.
-  // First param is gene data set id, and second 
-  // is the number of intervals. 
-  pGeneSet->doEquiWidthBin(0, 4); 
-  // Entropy Based binning. 
+  // First param is gene feature(column) data set id, 
+  // and second is the number of equi-width intervals. 
+  for(int i = 0; i < pGeneSet->getNumFeatures(); i++) {
+    pGeneSet->doEquiWidthBin(i, 4);
+    pGeneSet->doEntropyDiscretize(i, 2);
+    //pGeneSet->print(i);
+  }
+  pGeneSet->print(100);
+  pGeneSet->printRow(1);
+  // Output data into files. 
+  //pGeneSet->saveEquiWidthData(); 
+  // pGeneSet->saveEquiWidthBins(); 
+
+  // pGeneSet->saveEntropyData(); 
+  // pGeneSet->saveEntropyBins();
+  
 
   return 0; 
 }
