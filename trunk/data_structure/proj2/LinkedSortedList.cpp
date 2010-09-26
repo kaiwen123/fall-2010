@@ -39,9 +39,9 @@ void LinkedSortedList<T>::clear() {
 
 // Insert a value into the list; 
 template <class T> 
-bool LinkedSortedList<T>::insert(T newvalue) {
-  LinkedNode<T> * tmp = new LinkedNode<T>((T)newvalue); 
-  if(!tmp) return false;
+bool LinkedSortedList<T>::insert(T& newvalue) {
+  LinkedNode<T> * tmp = new LinkedNode<T>(newvalue); 
+  if(!tmp) {cerr << "Error Creating new node. " << endl; return false;}
   reset();
   // Inserting from head; 
   if((isEmpty()) || (_it->value >= newvalue)) {
@@ -59,7 +59,9 @@ bool LinkedSortedList<T>::insert(T newvalue) {
     _it = _it->next;
   }
   insertTail(tmp);
-  _size++; 
+  _size++;
+  cout << "Inserted new node : " << endl; 
+  cout << tmp << endl; 
   return true; 
 } //insert
 
@@ -90,17 +92,39 @@ void LinkedSortedList<T>::print() const {
   }
 }
 
+// save data to file.
+template <class T>
+void LinkedSortedList<T>::saveToFile(string fname) {
+  ofstream saveFile(fname.c_str());
+  LinkedNode<T>* _it = _list_head;
+  saveFile << "<Records>" << endl;
+  while(_it) {
+    saveFile >> _it->value; 
+    saveFile << "--" << endl;
+    _it = _it->next; 
+  }
+  saveFile << "<END>";
+  saveFile.close(); 
+}
+
 // Search a value in the list
 template <class T> 
 bool LinkedSortedList<T>::find(string searchvalue) const {
+  cout << "Searching ...." << endl; 
   LinkedNode<T>* _it = _list_head;
-  while(!isEmpty()) {
+  int s_count = 1, r_count = 0;	// search count and result count.
+  while((!isEmpty()) && (_it)) {
     if(searchvalue.compare(_it->value.getLastName())==0) {
       // print out the found item. 
-      cout << "Found: " << searchvalue << endl; 
+      r_count++; 
+      cout << _it->value << endl; 
     }
+    s_count++; 
     _it = _it->next; 
   } //while
+  cout << s_count << " Employees searched. " 
+       << "Found: " << r_count << " records." 
+       << endl << endl; 
   return true;
 }
 

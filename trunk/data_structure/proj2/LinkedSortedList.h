@@ -1,4 +1,4 @@
-// -*- C++ -*-
+// -*- C -*-
 /**
  * @file LinkedSortedList.h
  * @brief Definition of a LinkedSortedList class. 
@@ -9,6 +9,7 @@
 
 #ifndef _LinkedSortedListClass_
 #define _LinkedSortedListClass_
+#include <fstream>
 #include "LinkedNode.h"
 #include "SortedList.h"
 
@@ -38,7 +39,7 @@ class LinkedSortedList : public SortedList<T> {
    * @param newvalue The value to be inserted with type T; 
    * @return true on success and false on failure; 
    */
-  virtual bool insert(T newvalue); 
+  virtual bool insert(T& newvalue); 
 
   /**
    * @brief Get the first value and then delete this node; 
@@ -89,7 +90,14 @@ class LinkedSortedList : public SortedList<T> {
   /**
    * @brief test if the list is empty. 
    * @return true if empty and false if not; 
-  */
+   */
   bool isEmpty() const; 
+
+  /**
+   * @brief Save All the employee data into a named file. 
+   * @param The name of the file to save to. 
+   * @return void. 
+   */
+  void saveToFile(string fname);
 };
 #endif	/* ifdef */

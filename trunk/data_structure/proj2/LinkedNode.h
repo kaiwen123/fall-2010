@@ -24,16 +24,15 @@ public:
 
   T value;			// The data value
   LinkedNode *next;		// Pointer to the next node
-
+  
   // Simple inline constructor:  initialize values
-  LinkedNode(T newval = (T)0, LinkedNode* newptr = NULL){
-    value = newval; 
-    next = newptr;
-}
-
+  // In order to avoid calling the default constructor,
+  // move the assignment to the initilization list. 
+ LinkedNode(const T& newval):value(newval),next(NULL){}
+  
   // Inline print function:  print the node's value
   void print() {cout << value << ", ";}
-
+  
 };
 
 #endif

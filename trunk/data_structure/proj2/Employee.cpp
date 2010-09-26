@@ -12,39 +12,71 @@
 Employee::Employee() {
   cout << "Please enter last name: "; 
   cin >> last_name; 
-  cout << endl << "Please enter first name: "; 
+  cout << "Please enter first name: "; 
   cin >> first_name; 
-  cout << endl << "Please enter department: "; 
+  cout << "Please enter department: "; 
   cin >> department; 
-  cout << endl << "Please enter phone number: "; 
+  cout << "Please enter phone number: "; 
   cin >> phone_num; 
-  cout << endl << "Please enter office building address: "; 
+  cout << "Please enter office building address: "; 
   cin >> office_building; 
-  cout << endl << "Please enter office room number: "; 
+  cout << "Please enter office room number: "; 
   cin >> office_num; 
-  cout << endl << "Please enter hire date: "; 
+  cout << "Please enter hire date: "; 
   cin >> hire_date; 
-  cout << endl << "Please enter email: ";
+  cout << "Please enter email: ";
   cin >> email; 
-  cout << endl << "Please enter employee ID: ";
+  cout << "Please enter employee ID: ";
   cin >> eid; 
-  cout << endl << "Please enter salary: "; 
+  cout << "Please enter salary: "; 
   cin >> salary; 
-  cout << endl; 
+}
+
+// Constructor with vector. 
+Employee::Employee(const vector<string>& ed) {
+  last_name = ed.at(0);
+  first_name = ed.at(1);
+  eid = atoi(ed.at(2).c_str());
+  salary = atoi(ed.at(3).c_str());
+  department = ed.at(4);
+  phone_num = ed.at(5);
+  int pos_space = ed.at(6).find(" ", 0);
+  int len_str = ed.at(6).length();
+  office_num = ed.at(6).substr(0, pos_space);
+  office_building = ed.at(6).substr(pos_space+1, len_str - pos_space);
+  hire_date = ed.at(7);
+  email = ed.at(8);
 }
 
 // Copy Constructor. 
 Employee::Employee(const Employee& e) {
-  last_name = getLastName();
-  first_name = getFirstName();
-  department = getDepartment();
-  phone_num = getPhoneNum();
-  office_building = getOfficeBld();
-  office_num = getOfficeNum();
-  hire_date = getHireDate();
-  email = getEmail();
-  eid = getEid();
-  salary = getSalary();
+  last_name = e.getLastName();
+  first_name = e.getFirstName();
+  department = e.getDepartment();
+  phone_num = e.getPhoneNum();
+  office_building = e.getOfficeBld();
+  office_num = e.getOfficeNum();
+  hire_date = e.getHireDate();
+  email = e.getEmail();
+  eid = e.getEid();
+  salary = e.getSalary();
+}
+
+// Assignment constructor. 
+Employee& Employee::operator=(const Employee& e) {
+  if(this == &e)
+    return *this; 
+  last_name = e.getLastName();
+  first_name = e.getFirstName();
+  department = e.getDepartment();
+  phone_num = e.getPhoneNum();
+  office_building = e.getOfficeBld();
+  office_num = e.getOfficeNum();
+  hire_date = e.getHireDate();
+  email = e.getEmail();
+  eid = e.getEid();
+  salary = e.getSalary(); 
+  return *this; 
 }
 
 // Overloading the >= operator. 
@@ -72,6 +104,24 @@ ostream& operator<<(ostream& out, Employee& e) {
       << "First:  " << e.getFirstName() << endl
       << "EID:    " << e.getEid() << endl
       << "Salary: " << e.getSalary() << endl
-      << "Dept:   " << e.getDepartment() << endl; 
+      << "Dept:   " << e.getDepartment() << endl
+      << "Phone:  " << e.getPhoneNum() << endl 
+      << "Office: " << e.getOfficeNum() + " " + e.getOfficeBld() << endl
+      << "H-Date: " << e.getHireDate() << endl 
+      << "Email:  " << e.getEmail() << endl; 
   return out; 
+}
+
+// 
+ostream& operator>>(ostream& out, Employee& e) {
+  out << e.getLastName() << endl
+      << e.getFirstName() << endl
+      << e.getEid() << endl
+      << e.getSalary() << endl
+      << e.getDepartment() << endl
+      << e.getPhoneNum() << endl 
+      << e.getOfficeNum() + " " + e.getOfficeBld() << endl
+      << e.getHireDate() << endl 
+      << e.getEmail() << endl; 
+  return out;
 }

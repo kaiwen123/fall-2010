@@ -30,7 +30,7 @@ public:
                                      
   // Insert an integer into the list.  Return true if successful, false
   // if failure.
-  virtual bool insert(T newvalue) = 0;
+  virtual bool insert(T& newvalue) = 0;
                 
   // Get AND DELETE the first element of the list, placing it into the
   // return variable "value".  If the list is empty, return false, otherwise

@@ -10,6 +10,8 @@
 #ifndef _EmployeeClass_
 #define _EmployeeClass_
 #include <string>
+#include <vector>
+#include <stdlib.h>
 #include <iostream>
 
 using namespace std; 
@@ -29,6 +31,7 @@ class Employee {
 
  public:
   Employee();
+  Employee(const vector<string>& ed); 
   Employee(const Employee& e);
   ~Employee(){}
   /* getters. */
@@ -84,6 +87,14 @@ class Employee {
   friend ostream& operator<<(ostream& out, Employee& e); 
 
   /**
+   * @brief Put employee data into output stream.
+   * This function is used to output data to file. 
+   * @param out Output stream. 
+   * @param e Employee objected to be output. 
+   */
+  friend ostream& operator>>(ostream& out, Employee& e); 
+
+  /**
    * @brief Overloading the >= operator according to the last name.
    * rhs: right hand side AND lhs: left hand side.
    * @param rhs Right hand side operant  
@@ -100,5 +111,14 @@ class Employee {
    * @return false if lhs.[anyfield] == rhs.[anyfield]. 
    */
   bool operator==(Employee& e);
+  
+  /**
+   * @brief The copy constructor.
+   * rhs: right hand side AND lhs: left hand side.
+   * @param rhs Right hand side operant  
+   * @return The rhs object. 
+   */
+  Employee& operator=(const Employee& e);
+
 };
 #endif	/* ifdef */
