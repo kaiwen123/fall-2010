@@ -10,6 +10,7 @@
 #ifndef _GeneDataSetClass_
 #define _GeneDataSetClass_ 
 #include <iostream>
+#include <fstream>
 #include "defs.h"
 #include "GeneFeatureData.h"
 
@@ -50,6 +51,13 @@ class GeneDataSet {
   void print(int id); 
 
   /**
+   * @brief Print data by row. 
+   * @param row number. 
+   * @output void. 
+   */
+  void printRow(int row); 
+
+  /**
    * @brief Do equi-width binning to a feature data set. 
    * @param id feature id.
    * @param num_bins Total number of bins. 
@@ -63,6 +71,35 @@ class GeneDataSet {
    * @output True on success and false on failure. 
    */
   bool doEntropyDiscretize(int id, int num_bins);
+
+  // Saving data into files. 
+  /**
+   * @brief Save the equi-width discretized data into file. 
+   * Row Format: f1,f2,f3,...,fn,cx
+   * f1 f2 f3 ... fn are discretized features of a row. 
+   * cx is the class value for this row. 
+   *
+   * @param none.
+   * @output none.
+   */
+  void saveEquiWidthData(); 
+
+  /**
+   * @brief Save equi-width bins associated with this data set into file. 
+   * Format of bin data: (bin_1_lb,bin_1_ub] bin_1_count, ..., one
+   * line for each bin. 
+   * @param none. 
+   * @return none.
+   */
+  void saveEquiWidthBins(); 
+
+  /** 
+   * @brief Save Entropy discretized data and bins into files. 
+   * The format of the data should be the same as the equi-width
+   * methods.
+   */
+  void saveEntropyData(); 
+  void saveEntropyBins();
 };
 
 #endif //ifdef

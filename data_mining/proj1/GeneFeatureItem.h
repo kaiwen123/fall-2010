@@ -1,4 +1,4 @@
-// -*- C++ -*-
+// -*- C -*-
 /**
  * @file GeneFeatureItem.h
  * @brief Definition of a GeneFeatureItem class. 
@@ -18,17 +18,26 @@ class GeneFeatureItem {
  private: 
   gene_feature_t g_feature; 	/* Gene feature value */
   gene_class_t g_class; 	/* Anotated gene class value */
+  gene_group_t g_group; 	/* Group information 'a,b,c,d'*/
 
  public:
-  GeneFeatureItem(gene_feature_t g_feature, gene_class_t g_class); 
+  GeneFeatureItem(gene_feature_t g_feature, 
+		  gene_class_t g_class); 
   ~GeneFeatureItem(){}
   
-  gene_feature_t getFeature(){return g_feature;}
-  gene_class_t getClass(){return g_class;}
+  /* getter */
+  gene_feature_t getFeature()const{return g_feature;}
+  gene_class_t getClass()const{return g_class;}
+  gene_group_t getGroup()const{return g_group;}
+
+  /* setter */
+  void setFeature(gene_feature_t f){g_feature = f;}
+  void setClass(gene_class_t c){g_class = c;}
+  void setGroup(gene_group_t g){g_group = g;}
 
   /* printing functions */
   void print();
-  friend ostream& operator<<(ostream& out, const GeneFeatureItem& item); 
+  friend ostream& operator<<(ostream& out, GeneFeatureItem const& item); 
 };
 
 #endif //ifdef

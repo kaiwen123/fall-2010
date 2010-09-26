@@ -1,5 +1,5 @@
 CPP = /usr/bin/g++
-CPPFLAGS = -O2 -fPIC -ggdb
+CPPFLAGS = -fPIC -ggdb -O1 
 LD = /usr/bin/ld
 LDFLAGS = -L/usr/lib -L/lib
 RM = /bin/rm -rf
