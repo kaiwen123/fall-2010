@@ -122,8 +122,8 @@ bool LinkedSortedList<T>::find(string searchvalue) const {
     s_count++; 
     _it = _it->next; 
   } //while
-  cout << s_count << " Employees searched. " 
-       << "Found: " << r_count << " records." 
+  cout << s_count << " Employee(s) searched. " 
+       << "Found: " << r_count << " record(s)." 
        << endl << endl; 
   return true;
 }
