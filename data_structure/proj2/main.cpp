@@ -10,6 +10,8 @@
 // $Log$
 
 #include <iostream>
+#include <cstdlib>
+#include <fstream>
 #include "LinkedSortedList.h"
 #include "Employee.h"
 using namespace std;
@@ -56,8 +58,8 @@ bool execCmd(char choice) {
   switch(choice) {
   case 'I':
   case 'i': {
-    Employee* em = new Employee();  
-    eple.insert(*em);
+    Employee em;
+    eple.insert(em);
     return true;
   }
   case 'L':
@@ -92,12 +94,39 @@ bool execCmd(char choice) {
 
 // Save the employee information to file.
 void saveToFile() {
-  cout << "Saving database......";
-  cout << endl; 
+  string fname; 
+  cout << "Please Enter the File Name to Save TO: ";
+  cin >> fname; 
+  eple.saveToFile(fname);
 }
 
 // Load employee information to file. 
 void loadFromFile() {
-  cout << "Loading database from file......";
+  string fname; 
+  cout << "Please Enter database file name: ";
+  cin >> fname;
+  string line; 
+  fstream fd;
+  vector<string> edata;		// Employee data. 
+  fd.open(fname.c_str(), fstream::in);
+  if(!fd) {cerr << "Error opening data file..." << endl; return;}
+  while(fd) {
+    getline(fd, line, fd.widen('\n'));
+    // Start of file
+    if(line.compare("<Records>")==0) {/*Start*/}
+    // start of employee data. 
+    if(line.compare("--")==0) {
+      edata.clear();
+      for(int i = 0; i < 9; i++) {
+	getline(fd, line, fd.widen('\n'));
+	if(line.compare("<END>")==0) return; // end of file 
+	edata.push_back(line);
+      }
+      // Now creating Employee object and insert into list.
+      Employee em(edata);
+      cout << em << endl; 
+      eple.insert(em);
+    }    
+  }
   cout << endl;
 }
