@@ -86,12 +86,13 @@ bool GeneDataSet::doEntropyDiscretize(int id, int num_bins) {
 }
 
 // Save equi-with discretized data into file. 
+// This function is deprecated. 
 void GeneDataSet::saveEquiWidthData() {
   string fname("ewidth.data"); 
   ofstream saveFile(fname.c_str()); 
-  // This function is deprecated. 
   saveFile.close();
 }
+
 // Save Equi-width bins into file. 
 void GeneDataSet::saveEquiWidthBins() {
   vector<GeneFeatureData>::iterator _it = f_sets.begin(); 
@@ -128,5 +129,14 @@ void GeneDataSet::saveEntropyBins(){
     _it++;
   }
   saveFile.close();
+}
+
+// Find the top k genes. 
+void GeneDataSet::findTopkGene(int k) {
+  vector<GeneFeatureData>::iterator _it = f_sets.begin();
+  while(_it != f_sets.end()) {
+    cout << _it->getEntropySplit() << " " << _it->getInfoGain() << endl;
+    _it++;
+  }
 }
 

@@ -21,18 +21,22 @@ class GeneFeatureData {
  private: 
   gene_feature_t f_highest;	  /* highest feature data. */
   gene_feature_t f_lowest;	  /* lowest feature data. */
+  gene_feature_t entropy_split;	  /* entropy split. */
   int p_count;			  /* positive data count. */
   int n_count;			  /* negative data count. */
+  float info_gain;		  /* information gain for entropy. */
   vector<GeneFeatureItem> f_data; /* feature data vector. */
-  vector<GeneFeatureBins> f_width_bins; /* equi-width bins for this data set. */
-  vector<GeneFeatureBins> f_entropy_bins; /* entropy based bins for this data. */
+  vector<GeneFeatureBins> f_width_bins; /* equi-width bins. */
+  vector<GeneFeatureBins> f_entropy_bins; /* entropy based bins. */
 
  public:
   GeneFeatureData();
   ~GeneFeatureData(){f_data.clear();} 
 
-  int getTotalCount() const {return f_data.size();} // return feature data num.
-  vector<GeneFeatureItem>& getFData() const {return f_data;}
+  int getTotalCount() const {return p_count+n_count;} 
+  gene_feature_t getEntropySplit() const {return entropy_split;}
+  float getInfoGain() const {return info_gain;}
+  vector<GeneFeatureItem>& getFData() {return f_data;}
   vector<GeneFeatureBins>& getEquiWidthBins() {return f_width_bins;}
   vector<GeneFeatureBins>& getEntropyBins() {return f_entropy_bins;}
 
@@ -51,6 +55,13 @@ class GeneFeatureData {
    * @return true on success and false on failure. 
    */
   bool equiWidthBinning(int num_bins);
+
+/**
+   * @brief Entropy based binning function.
+   * @param none.  
+   * @return true on success and false on failure. 
+   */
+  bool entropyBestSplit(int num_bins);
 
   /**
    * @brief Entropy based binning function.

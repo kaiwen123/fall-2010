@@ -12,7 +12,7 @@ using namespace std;
 int main() {
   // Constructing data sets. 
   fstream fdata;
-  const char* fname = "p1data.txt";
+  const char* fname = "p1-10.txt";
   fdata.open(fname, fstream::in);
   string x; 
   vector<double> g_data; 	// data for a gene. 
@@ -55,6 +55,7 @@ int main() {
     pGeneSet->doEntropyDiscretize(i, 2);
     //pGeneSet->print(i);
   }
+  //pGeneSet->doEntropyDiscretize(5, 2);
   //pGeneSet->print(100);
   // for(int i = 0; i < pGeneSet->getNumRows(); i++) {
   //   pGeneSet->printRow(i);
@@ -68,11 +69,9 @@ int main() {
 
   // Output data into files. 
   // pGeneSet->saveEquiWidthData(); 
-  pGeneSet->saveEquiWidthBins(); 
-
+  pGeneSet->saveEquiWidthBins(); // finished
   // pGeneSet->saveEntropyData(); 
-  // pGeneSet->saveEntropyBins();
-  
-
+  pGeneSet->saveEntropyBins();
+  pGeneSet->findTopkGene(1);
   return 0; 
 }
