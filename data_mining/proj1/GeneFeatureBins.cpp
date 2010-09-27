@@ -44,6 +44,6 @@ void GeneFeatureBins::print() {
 
 // Overloading << operator. 
 ostream& operator<<(ostream& out, GeneFeatureBins& b) {
-  cout << "[" << b.b_low << ", " << b.b_high << ") " << b.getTotalCount() << ", "; 
+  out << "[" << b.b_low << ", " << b.b_high << ") " << b.getTotalCount() << ", "; 
   return out;
 }

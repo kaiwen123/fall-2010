@@ -32,7 +32,10 @@ class GeneFeatureData {
   ~GeneFeatureData(){f_data.clear();} 
 
   int getTotalCount() const {return f_data.size();} // return feature data num.
-  vector<GeneFeatureItem>& getFData() {return f_data;}
+  vector<GeneFeatureItem>& getFData() const {return f_data;}
+  vector<GeneFeatureBins>& getEquiWidthBins() {return f_width_bins;}
+  vector<GeneFeatureBins>& getEntropyBins() {return f_entropy_bins;}
+
   GeneFeatureItem* getGeneFeature(); /* return feature object */
   void clear();			      /* Clear the feature list */
   //bool insert(GeneFeatureItem& feature);

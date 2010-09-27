@@ -18,7 +18,6 @@ int main() {
   vector<double> g_data; 	// data for a gene. 
   gene_feature_t d_tmp; 	// temporary gene data. 
   gene_class_t d_class; 	// class of gene.
-  int num_f;			// total number of features. 
   GeneDataSet* pGeneSet = NULL; // pointer to gene data set. 
   char** p; 
 
@@ -56,11 +55,20 @@ int main() {
     pGeneSet->doEntropyDiscretize(i, 2);
     //pGeneSet->print(i);
   }
-  pGeneSet->print(100);
-  pGeneSet->printRow(1);
+  //pGeneSet->print(100);
+  // for(int i = 0; i < pGeneSet->getNumRows(); i++) {
+  //   pGeneSet->printRow(i);
+  // }
+
+  // Saving equi-width data. 
+  string fsname("ewidth.data"); 
+  ofstream saveFile(fsname.c_str());
+  saveFile << *pGeneSet; 
+  saveFile.close();
+
   // Output data into files. 
-  //pGeneSet->saveEquiWidthData(); 
-  // pGeneSet->saveEquiWidthBins(); 
+  // pGeneSet->saveEquiWidthData(); 
+  pGeneSet->saveEquiWidthBins(); 
 
   // pGeneSet->saveEntropyData(); 
   // pGeneSet->saveEntropyBins();

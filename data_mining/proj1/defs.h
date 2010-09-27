@@ -1,5 +1,6 @@
 #ifndef _typedef_header_
 #define _typedef_header_
+#include <iostream>
 /* data type for gene feature */
 typedef double gene_feature_t; 
 

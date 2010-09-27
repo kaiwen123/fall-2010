@@ -102,6 +102,8 @@ void GeneFeatureData::printEWBins() {
 
 // Do entropy based binning. 
 bool GeneFeatureData::entropyDiscretize(int num_bins) {
+  // TODO
+  // Test all possible split to get highest split. 
   return true;
 }
 
