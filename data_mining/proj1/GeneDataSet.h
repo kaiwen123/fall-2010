@@ -1,4 +1,4 @@
-// -*- C++ -*-
+// -*- C -*-
 /**
  * @file GeneDataSet.h
  * @brief Definition of a GeneDataSet class. 
@@ -109,6 +109,14 @@ class GeneDataSet {
    */
   void saveEntropyData(); 
   void saveEntropyBins();
+
+  /** 
+   * @brief Find k genes with highest information gain after the
+   * entropy based discretization.
+   * @param k the number of gene to be searched. 
+   * @return none.
+   */
+  void findTopkGene(int k); 
 };
 
 #endif //ifdef

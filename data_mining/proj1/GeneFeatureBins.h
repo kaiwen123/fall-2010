@@ -44,7 +44,14 @@ class GeneFeatureBins {
   /* feature items operation. */
   void insertItem(GeneFeatureItem& feature); /* Insert feature */
   void deleteItem(GeneFeatureItem& feature); /* delete feature */
-  //int getItemCount() const {return g_f_items.size();} /* Size of this bin. */
+  /**
+   * @brief Test if current bin contains a GeneFeatureItem. 
+   * @param GeneFeatureItem object to be tested. 
+   * @return true if bin contains item; 
+   * false if bin doesn't contain item. 
+   */
+  bool contains(GeneFeatureItem& f){return (f.getFeature() >= b_low) 
+      && (f.getFeature() < b_high);}
 
   /**
    * @brief Calculate the consistency rate for this bin. 

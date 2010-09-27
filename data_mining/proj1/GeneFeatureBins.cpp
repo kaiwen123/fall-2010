@@ -32,8 +32,12 @@ float GeneFeatureBins::cRate() {
 
 // Information split gain. 
 float GeneFeatureBins::entropy() {
-  return (-((double)p_count/getTotalCount())*log2((double)p_count/getTotalCount())
-	  -((double)n_count/getTotalCount())*log2((double)n_count/getTotalCount()));
+  int count = getTotalCount(); 
+  float entropyp = 0.0, entropyn = 0.0;
+  if(count == 0) return 0.0; 
+  entropyp = (p_count == 0) ? 0.0 : -((double)p_count/count)*log2((double)p_count/count);
+  entropyn = (n_count == 0) ? 0.0 : -((double)n_count/count)*log2((double)n_count/count);
+  return entropyp + entropyn;
 }
 // 
 
