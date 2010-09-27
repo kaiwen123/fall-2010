@@ -25,7 +25,8 @@ class GeneDataSet {
   GeneDataSet(int num_f);	/* Constructor with number of features. */
   ~GeneDataSet(){f_sets.clear();}
 
-  int getNumFeatures(){return f_sets.size();}
+  int getNumFeatures() const {return f_sets.size();}
+  int getNumRows() const {return f_sets.at(0).getTotalCount();}
   // Operations with the data.
   /**
    * @brief Insert data into gene vector. 
@@ -56,6 +57,14 @@ class GeneDataSet {
    * @output void. 
    */
   void printRow(int row); 
+  friend ostream& operator<<(ostream& out, GeneDataSet& g);
+
+  /**
+   * @brief Print data by row. 
+   * @param row number. 
+   * @output void. 
+   */
+  void printSize();
 
   /**
    * @brief Do equi-width binning to a feature data set. 

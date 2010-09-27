@@ -34,9 +34,44 @@ void GeneDataSet::print(int id) {
 void GeneDataSet::printRow(int row) {
   int max_row = f_sets.at(0).getFData().size();
   int col_count = f_sets.size();
+  gene_class_t c; 
   if((row<0) || (row>max_row)) {cerr<<"error"<<endl;return;}
-  for(int i=0; i<col_count; i++){
-    f_sets.at(i).getFData().at(row).print(); 
+  for(int i=0; i<col_count-1; i++){
+    c = f_sets.at(i).getFData().at(row).getClass();
+    cout << f_sets.at(i).getFData().at(row); //.print(); 
+  }
+  cout << c << endl; 
+}
+// Overload << operator for gene_class_t. 
+std::ostream& operator<<(std::ostream& out, const gene_class_t& c) {
+  switch(c) {
+  case positive: out << "positive"; break; 
+  case negative: out << "negative"; break; 
+  }
+  return out;
+}
+
+// Overloading operator <<. 
+ostream& operator<<(ostream& out, GeneDataSet& g) {
+  int col_count = g.f_sets.size();
+  for(int i = 0; i < g.getNumRows(); i++) {
+    gene_class_t c; 
+    for(int j=0; j<col_count-1; j++){
+      c = g.f_sets.at(j).getFData().at(i).getClass();
+      out << g.f_sets.at(j).getFData().at(i); //.print(); 
+    }
+    out << c << endl;
+  }
+  return out;
+}
+
+// Print size of each column. 
+void GeneDataSet::printSize() {
+  int i = 0;
+  vector<GeneFeatureData>::iterator _it = f_sets.begin();
+  while(_it != f_sets.end()) {
+    cout << i << " " << _it->getFData().size() << endl; 
+    i++; _it++;
   }
 }
 
@@ -54,36 +89,24 @@ bool GeneDataSet::doEntropyDiscretize(int id, int num_bins) {
 void GeneDataSet::saveEquiWidthData() {
   string fname("ewidth.data"); 
   ofstream saveFile(fname.c_str()); 
-
-  // print data line by line. 
-  for(int i = 0; i < f_sets.at(0).getTotalCount(); i++) {
-    //cout << f_sets.at(0).getTotalCount() << endl;
-    for(int j = 0; j < getNumFeatures(); j++) {
-      //saveFile << f_sets.at(j).getFData().at(i);
-      cout << f_sets.at(j).getFData().at(i);
-    }
-    // vector<GeneFeatureData>::iterator _dsit = f_sets.begin();//feature set.
-    // while(_dsit != f_sets.end()) {
-    //   //saveFile << _dsit->getFData().at(1);
-    //   cout << _dsit->getFData().at(1) << i << endl;
-    //   _dsit++;
-    // }
-  }
-  // vector<GeneFeatureData>::iterator _dsit = f_sets.begin();//feature set. 
-  // vector<GeneFeatureItem>::iterator _dit = _dsit->getFData().begin(); //feature item.
-  // while(_dit != _dsit->getFData().end()) {
-  //   while(_dsit != f_sets.end()) {
-  //     //saveFile << *_dit; 
-  //     //cout << *_dit;
-  //     _dsit++;
-  //   } //f_sets while. 
-  //   _dit++; 
-  // } //while item. 
+  // This function is deprecated. 
   saveFile.close();
 }
 // Save Equi-width bins into file. 
 void GeneDataSet::saveEquiWidthBins() {
-
+  vector<GeneFeatureData>::iterator _it = f_sets.begin(); 
+  string fname("ewidth.bins");
+  ofstream saveFile(fname.c_str());
+  while(_it != f_sets.end()) {
+    vector<GeneFeatureBins>::iterator _bit = _it->getEquiWidthBins().begin();
+    while(_bit != _it->getEquiWidthBins().end()) {
+      saveFile << *_bit; 
+      _bit++;
+    }
+    saveFile << endl;
+    _it++;
+  }
+  saveFile.close();
 }
 
 // Save entropy discretized data into file. 
@@ -92,5 +115,18 @@ void GeneDataSet::saveEntropyData(){
 
 // Save entropy discretized bins into file. 
 void GeneDataSet::saveEntropyBins(){
+  vector<GeneFeatureData>::iterator _it = f_sets.begin(); 
+  string fname("entropy.bins");
+  ofstream saveFile(fname.c_str());
+  while(_it != f_sets.end()) {
+    vector<GeneFeatureBins>::iterator _bit = _it->getEntropyBins().begin();
+    while(_bit != _it->getEntropyBins().end()) {
+      saveFile << *_bit; 
+      _bit++;
+    }
+    saveFile << endl;
+    _it++;
+  }
+  saveFile.close();
 }
 

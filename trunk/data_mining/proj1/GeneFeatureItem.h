@@ -9,7 +9,6 @@
 
 #ifndef _GeneFeatureItemClass_
 #define _GeneFeatureItemClass_ 
-#include <iostream>
 #include "defs.h"
 
 using namespace std; 
@@ -38,6 +37,8 @@ class GeneFeatureItem {
   /* printing functions */
   void print();
   friend ostream& operator<<(ostream& out, GeneFeatureItem const& item); 
+  /* overloading gene_class_t << operator so to output string. */
+  //friend ostream& operator<<(ostream& out, gene_class_t& c);
 };
 
 #endif //ifdef
