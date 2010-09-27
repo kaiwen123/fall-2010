@@ -120,7 +120,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Make title
 \title{\textbf{\hmwkClass:\ 
-      \hmwkTitle}\\\normalsize\small{Due\ Data:\
+      \hmwkTitle}\\\normalsize\small{Due\ Date:\
     \hmwkDueDate}} 
 \date{\today}
 \author{\textbf{\hmwkAuthorName}}
@@ -362,44 +362,48 @@ choose F2 as the feature. We can get the following consistency result:
 
 \begin{table}[ht]
   \begin{center}
-    \begin{tabular}{| c || c | c |}
-      \hline F1 & C & Consist \\
-      \hline 1 & 1 & \tickYes \\
-      \hline 1 & 1 & \tickYes \\
-      \hline 1 & 1 & \tickYes \\
-      \hline 0 & 0 & \tickYes \\
-      \hline 1 & 0 & \tickNo  \\
-      \hline 0 & 1 & \tickNo  \\
-      \hline 0 & 1 & \tickNo  \\
-      \hline 1 & 0 & \tickNo  \\
+    \begin{tabular}{| c | c | c || c | c | c || c | c | c |}
+      \hline F1 & C & Consist & F2 & C & Consist & F3 & C & Consist \\
+      \hline 1 & 1 & \tickYes & 1 & 1 & \tickYes & 1 & 1 & \tickYes \\
+      \hline 1 & 1 & \tickYes & 1 & 1 & \tickYes & 1 & 1 & \tickYes \\
+      \hline 1 & 1 & \tickYes & 0 & 1 & \tickYes & 1 & 1 & \tickYes \\
+      \hline 0 & 0 & \tickNo  & 1 & 0 & \tickNo  & 0 & 0 & \tickYes \\
+      \hline 1 & 0 & \tickNo  & 0 & 0 & \tickNo  & 1 & 0 & \tickNo  \\
+      \hline 0 & 1 & \tickYes & 0 & 1 & \tickYes & 1 & 1 & \tickYes \\
+      \hline 0 & 1 & \tickYes & 0 & 1 & \tickYes & 0 & 1 & \tickNo  \\
+      \hline 1 & 0 & \tickNo  & 1 & 0 & \tickNo  & 0 & 0 & \tickYes \\
       \hline 
     \end{tabular}
-    \caption{Consistency table of feature F1}
+    \caption{Consistency table for iterator one}
   \end{center}
 \end{table}
-So, the cRate for feature F1 is $\frac{4}{8} = \frac{1}{2}$. 
+So, the cRate after first iteration is $cRate_{F1}=\frac{5}{8}$
+$cRate_{F2}=\frac{5}{8}$ and $cRate_{F3}=\frac{3}{4}$. So in this iteration
+we will choose F3 as the starting point for next iteration. 
 
 \begin{table}[ht]
   \begin{center}
-    \begin{tabular}{| c || c | c |}
-      \hline F2 & C & Consist \\
-      \hline 1 & 1 & \tickNo  \\
-      \hline 1 & 1 & \tickNo  \\
-      \hline 0 & 1 & \tickYes \\
-      \hline 1 & 0 & \tickYes \\
-      \hline 0 & 0 & \tickNo  \\
-      \hline 0 & 1 & \tickYes \\
-      \hline 0 & 1 & \tickYes \\
-      \hline 1 & 0 & \tickYes \\
+    \begin{tabular}{| c | c | c || c | c | c || c | c | c |}
+      \hline F1 & F3 & C & Consist & F2 & F3 & C & Consist \\
+      \hline 1 & 1 & 1 & \tickYes & 1 & 1 & 1 & \tickYes \\
+      \hline 1 & 1 & 1 & \tickYes & 1 & 1 & 1 & \tickYes \\
+      \hline 1 & 1 & 1 & \tickYes & 0 & 1 & 1 & \tickYes \\
+      \hline 0 & 0 & 0 & \tickNo  & 1 & 0 & 0 & \tickYes \\
+      \hline 1 & 1 & 0 & \tickNo  & 0 & 1 & 0 & \tickNo  \\
+      \hline 0 & 1 & 1 & \tickYes & 0 & 1 & 1 & \tickYes \\
+      \hline 0 & 0 & 1 & \tickYes & 0 & 0 & 1 & \tickYes \\
+      \hline 1 & 0 & 0 & \tickYes & 1 & 0 & 0 & \tickYes \\
       \hline 
     \end{tabular}
-    \caption{Consistency table of feature F2}
+    \caption{Consistency table of feature two}
   \end{center}
 \end{table}
-And the cRate for feature F2 is $\frac{5}{8}$. \\ 
+So, the cRate after the second iteration is $cRate_{F1,F3}=\frac{3}{4}$
+$cRate_{F2,F3}=\frac{7}{8}$. 
 
-$\because$~ cRate$_{F1} < $ cRate$_{F2}$ \\
-$\therefore$~ the selected feature after the second iteration will be F2. 
+$\because$~ cRate$_{F1,F3} < $ cRate$_{F2,F3}$ \\
+$\therefore$~ the selected feature after the second iteration will be
+$\{F2,F3\}$. 
 \end{enumerate}
 \end{document}
 
