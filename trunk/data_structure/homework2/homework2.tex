@@ -1,0 +1,274 @@
+\documentclass{article}
+% Change "article" to "report" to get rid of page number on title page
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{algorithmic,algorithm}
+\usepackage{setspace}
+\usepackage{Tabbing}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{graphicx,float,wrapfig}
+\usepackage{pstricks,pst-node,pst-tree}
+
+\usepackage{listings}
+\usepackage{color}
+\usepackage{textcomp}
+\definecolor{listinggray}{gray}{0.9}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\lstset{
+	%backgroundcolor=\color{lbcolor},
+	tabsize=4,
+	rulecolor=,
+	language=c++,
+        basicstyle=\ttfamily\large\setstretch{1},
+        upquote=true,
+        aboveskip={\baselineskip},
+        columns=fixed,
+        showstringspaces=false,
+        extendedchars=true,
+        breaklines=true,
+        prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+        %frame=single,
+        showtabs=false,
+        showspaces=false,
+        showstringspaces=false,
+        identifierstyle=\ttfamily,
+        keywordstyle=\color[rgb]{0,0,1},
+        commentstyle=\color[rgb]{0.133,0.545,0.133},
+        stringstyle=\color[rgb]{0.627,0.126,0.941},
+}
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=0in     %
+\oddsidemargin=0in      %
+\textwidth=7.0in        %
+\textheight=9.2in       %
+\headsep=0.25in         %
+
+% Homework Specific Information
+\newcommand{\hmwkTitle}{Homework\ \#2}
+\newcommand{\hmwkDueDate}{Oct.\ 12th,\ 2010}
+\newcommand{\hmwkClass}{Data Structure}
+\newcommand{\hmwkClassTime}{TR\ 4:10-5:25pm}
+\newcommand{\hmwkClassInstructor}{Meilin\ Liu}
+\newcommand{\hmwkAuthorName}{Shumin\ Guo}
+\newcommand{\answer}{\textbf{\\\underline{ANSWER:}\\}}
+
+% Setup the header and footer
+\pagestyle{fancy}                                                       %
+\lhead{\hmwkAuthorName}                                                 %
+\chead{\hmwkClass\ - \hmwkTitle}  %
+\rhead{Page\ \thepage\ of\ \pageref{LastPage}}                          %
+\lfoot{\lastxmark}                                                      %
+\cfoot{}                                                                %
+\rfoot{}                          %
+\renewcommand\headrulewidth{0.4pt}                                      %
+\renewcommand\footrulewidth{0.2pt}                                     %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make title
+\title{\textmd{\textbf{\hmwkClass:\
+      \hmwkTitle}}\\\normalsize\small{Due\ Date:\
+    \hmwkDueDate}\\} 
+\date{\today}
+\author{\textbf{\hmwkAuthorName}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\maketitle
+
+\section*{}
+1.(10 points) Describe in pseudo-code, a linear-time algorithm for
+reversing a queue Q. To access the queue, you are only allowed to use
+the basic functions of the queue ADT defined as follows (Hint: Using a
+stack, the basic stack functions defined in the textbook and in the
+class). 
+
+\begin{lstlisting}
+class Queue {
+public:
+    int size();
+    bool isEmpty();
+    Object& front()
+    void enqueue(Object o);
+    Object dequeue()
+};
+\end{lstlisting}
+\answer
+
+\section*{}
+2. 2.(20 points) Let T be the binary tree as shown in the following
+figure.\\
+
+\begin{figure}[htb]
+  \begin{center}
+    \pstree[levelsep=10ex]{\Tcircle{A} }{
+      \pstree{ \Tcircle{B}\tvput{} }{
+        \pstree{\Tcircle{D}\tlput{}} {
+          \Tcircle{G}
+          \Tcircle{H}
+        }
+        \Tcircle{E}\trput{}
+      }
+      \pstree{\Tcircle{C}}{
+        \Tcircle{F}
+      }
+    }
+    \caption{Tree Struture for Question Two.}
+  \end{center}
+\end{figure}
+
+\begin{enumerate}
+\item[(a)]Give the output of the preorder tree traversal of T. 
+\item[(b)]Give the output of the postorder tree traversal of T.
+\item[(c)]Give the output of the inorder tree traversal of T.
+\item[(d)]Give the output of the level order tree traversal of T.
+\end{enumerate}
+\answer
+
+\section*{}
+3. (10 points) Draw a (single) binary tree T, such that
+\begin{enumerate}
+\item[(a)]Each internal node of T stores a single character
+\item[(b)]A preorder traversal of T yields A B C D F G E
+\item[(c)]An inorder traversal of T yields C B F D G A E
+\end{enumerate}
+\answer
+
+\section*{}
+4. (10 points) Let T be the tree as shown in the following figure
+\begin{figure}[htb]
+  \begin{center}
+    \pstree[levelsep=10ex]{\Tr{\psframebox[framearc=.5]{A}}}{
+      \pstree{ \Tr{\psframebox[framearc=.5]{B}}\tvput{} }{
+        \Tr{\psframebox[framearc=.5]{E}}
+        \pstree{\Tr{\psframebox[framearc=.5]{F}}\tlput{}} {
+          \Tr{\psframebox[framearc=.5]{I}}
+          \Tr{\psframebox[framearc=.5]{J}}
+        }
+      }
+      \pstree{\Tr{\psframebox[framearc=.5]{C}}}{
+        \Tr{\psframebox[framearc=.5]{G}}
+        \Tr{\psframebox[framearc=.5]{H}}
+      }
+      \Tr{\psframebox[framearc=.5]{D}}
+    }
+    \caption{Tree Struture for Question Four.}
+  \end{center}
+\end{figure}
+\begin{enumerate}
+\item[(a)]Give the output of the preorder tree traversal of T.
+\item[(b)]Give the output of the postorder tree traversal of T.
+\end{enumerate}
+\answer
+
+\section*{}
+5. (20 points) Answer the following questions (This question is for
+graduate students only, but undergraduate students are welcome to
+finish this question to get bonus points). 
+\begin{enumerate}
+\item[(a)]What is the minimum number of external nodes for a binary tree with
+height h? Justify your answer. 
+\item[(b)]What is the maximum number of external nodes for a binary tree with
+height h? Justify your answer.  
+\item[(c)]Let T be a binary tree with height h and n nodes, Show that
+$log(n+1)-1 \leq h \leq \frac{(n-1)}{2}$
+\item[(d)]For which values of n and h can the above lower and upper bounds on
+h be attained with equality? 
+\end{enumerate}
+\answer
+
+\section*{}
+6. (10points) For the set of ${ 2, 6, 10, 9, 4, 1, 13}$ of keys, draw
+binary search trees of height 2, 3, 4, 5, and 6.
+\answer   
+
+\section*{}
+7. (15 points) Consider the Binary Search Tree (BST) to the following.
+\begin{figure}[htb]
+  \begin{center}
+    \pstree[levelsep=10ex]{\Tcircle{50} }{
+      \pstree{ \Tcircle{35}}{
+        \pstree{\Tcircle{23}} {
+          \pstree{\Tcircle{12}} {
+            \Tcircle{5}
+            \Tcircle{15}
+        }          
+          \Tcircle{30}
+        }
+        \pstree{\Tcircle{42}} {
+          \Tcircle{39}
+          \Tcircle{48}
+        }
+      }
+      \pstree{\Tcircle{58}}{
+        \pstree{\Tcircle{52}} {
+          \Tcircle{51}
+          \Tcircle{55}
+        }
+        \pstree{\Tcircle{73}} {
+          \Tcircle{65}
+          \Tcircle{89}
+        }
+      }
+    }
+    \caption{Tree Struture for Question Seven.}
+  \end{center}
+\end{figure}
+\begin{enumerate}
+\item[(a)](5 points)  Draw a circle around each node that would be visited in
+a search for the value 40. 
+\item[(b)](10 points)  Show how the tree would appear if the value 35 were
+deleted. Assuming duplicates are stored in the left subtree. 
+\end{enumerate}
+\answer
+
+\section*{}
+8.  (10points). Suppose that myBST is an empty Binary Search Tree. The
+following operations are performed in the given order. Draw the
+resulting tree.  Assuming duplicates are inserted in the left
+subtree. 
+myBST.insert(20) \\
+myBST.insert(28) \\
+myBST.insert(40) \\
+myBST.insert(12) \\
+myBST.insert(25) \\
+myBST.insert(23) \\
+myBST.insert(24) \\
+myBST.insert(16) \\
+myBST.delete(23) \\
+myBST.insert(24) 
+\answer
+
+\section*{}
+9. (20 Points). Suppose you are given the following array, which
+represents a complete binary tree:
+\begin{table}[h]
+  \begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|} 
+      \hline Index &0&1&2&3&4&5&6&7&8&9&10&11&12&13&14&15&16 \\
+      \hline Key&12&25&72&49&64&58&52&92&8&19&43&27&98&16&37&33&6\\
+      \hline
+    \end{tabular}
+    \caption{Array Representation of a Binary Tree.} 
+  \end{center}
+\end{table}
+\begin{enumerate}
+\item[(a)] (5 points) Draw the complete binary tree represented by this
+array. 
+\answer 
+\item[(b)] (10 Points) Is this binary tree a binary heap? If not, build a heap
+out of this array using the BottomUpHeap() we learned in the class. 
+\answer
+\item[(c)] (5 points) List the values from the heap as they would be printed
+out by an inorder traversal of the heap, where the \textbf{visit()} function
+prints the value of the current node. 
+\answer
+\end{enumerate}
+
+%\end{spacing}
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
