@@ -17,10 +17,8 @@
 using namespace std;
 
 // ---------------------------------------------------------------------
-// main() -- Load some values into the list and print it.  Then clear
-//           the list and reload it.  Finally, print the values in the
-//           list using getfirst, which should remove all the values
-//           from the list.
+// main() -- Test the function of insert, search, load data from file and
+//           save data to file. 
 // ---------------------------------------------------------------------
 void getCmd(char& choice); 
 bool execCmd(char choice);
@@ -51,7 +49,11 @@ void getCmd(char& choice) {
 }
 
 // Execute user selected command. 
-// If 'Q' was entered, exit this program. 
+// 'I/i' for inserting new Employee record to the list. 
+// 'L/l' for last name search throught the list. 
+// 'R/r' read Employee records from data file. 
+// 'S/s' save Employee data records into file. 
+// 'Q/q' exit this program. 
 // If a wrong command was entered, prompt the user to try again. 
 bool execCmd(char choice) {
   string var; 
