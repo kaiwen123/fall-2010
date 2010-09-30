@@ -98,7 +98,7 @@ bool Employee::operator==(Employee& e) {
     (salary == e.salary); 
 }
 
-// overloading << operator. 
+// overloading << operator for output.
 ostream& operator<<(ostream& out, Employee& e) {
   out << "Last:   " << e.getLastName() << endl
       << "First:  " << e.getFirstName() << endl
@@ -112,7 +112,7 @@ ostream& operator<<(ostream& out, Employee& e) {
   return out; 
 }
 
-// 
+// overloading >> also for output.
 ostream& operator>>(ostream& out, Employee& e) {
   out << e.getLastName() << endl
       << e.getFirstName() << endl
