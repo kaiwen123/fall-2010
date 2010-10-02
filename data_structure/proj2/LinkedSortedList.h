@@ -28,23 +28,23 @@ class LinkedSortedList : public SortedList<T> {
   ~LinkedSortedList<T>();
 
   /**
-   * @brief Delete each node in the sorted list; 
-   * @param none; 
-   * @return none; 
+   * @brief Delete each node in the sorted list.
+   * @param none. 
+   * @return none. 
   */
   virtual void clear(); 
 
   /**
    * @brief Insert a value of type T into the sorted list; 
-   * @param newvalue The value to be inserted with type T; 
-   * @return true on success and false on failure; 
+   * @param newvalue The value to be inserted with type T.
+   * @return true on success and false on failure. 
    */
   virtual bool insert(T& newvalue); 
 
   /**
    * @brief Get the first value and then delete this node; 
    * @param returnvalue A variable to store the value in the first node. 
-   * @return true on success and false on failure; 
+   * @return true on success and false on failure. 
   */
   virtual bool getfirst(T& returnvalue); 
 
@@ -56,18 +56,18 @@ class LinkedSortedList : public SortedList<T> {
   /**
    * @brief find a value from the list.
    * @param searchvalue The value to be searched. 
-   * @return true on success and false on failure; 
+   * @return true on success and false on failure. 
   */
   virtual bool find(string searchvalue) const;
 
   /**
-   * @brief return the size of the list;
+   * @brief return the size of the list.
    * @return size of the list. 
   */
   virtual int size() const; 
 
   // Function specific to this class. 
-  // Operations to pointer it.
+  // Operations to pointer _it.
   /**
    * @brief rewind the pointer to the start of the list.
   */
@@ -75,29 +75,29 @@ class LinkedSortedList : public SortedList<T> {
 
   /**
    * @brief Insert node from the head of list. 
-   * @param[node] The node to be inserted. 
-   * @return true on success and false on failure; 
+   * @param node The node to be inserted. 
+   * @return true on success and false on failure. 
   */
   bool insertHead(LinkedNode<T>* node); 
 
   /**
    * @brief Insert node from the tail of list. 
-   * @param[node] The node to be inserted. 
-   * @return true on success and false on failure; 
+   * @param node The node to be inserted. 
+   * @return true on success and false on failure. 
   */
   bool insertTail(LinkedNode<T>* node); 
 
   /**
    * @brief test if the list is empty. 
-   * @return true if empty and false if not; 
+   * @return true if empty and false if not.
    */
   bool isEmpty() const; 
 
   /**
    * @brief Save All the employee data into a named file. 
    * @param The name of the file to save to. 
-   * @return void. 
+   * @return true on success and false on failure. 
    */
-  void saveToFile(string fname);
+  bool saveToFile(string fname);
 };
 #endif	/* ifdef */

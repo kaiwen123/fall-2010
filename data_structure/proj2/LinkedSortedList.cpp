@@ -60,8 +60,6 @@ bool LinkedSortedList<T>::insert(T& newvalue) {
   }
   insertTail(tmp);
   _size++;
-  cout << "Inserted new node : " << endl; 
-  cout << tmp << endl; 
   return true; 
 } //insert
 
@@ -77,7 +75,6 @@ bool LinkedSortedList<T>::getfirst(T& returnvalue) {
     delete tmp; 
     return true; 
   } else {
-    //returnvalue = (T);
     return false; 
   }
 }
@@ -94,8 +91,9 @@ void LinkedSortedList<T>::print() const {
 
 // save data to file.
 template <class T>
-void LinkedSortedList<T>::saveToFile(string fname) {
+bool LinkedSortedList<T>::saveToFile(string fname) {
   ofstream saveFile(fname.c_str());
+  if(!saveFile){cerr<<""<<endl;return false;}
   LinkedNode<T>* _it = _list_head;
   saveFile << "<Records>" << endl;
   while(_it) {
@@ -105,6 +103,7 @@ void LinkedSortedList<T>::saveToFile(string fname) {
   }
   saveFile << "<END>";
   saveFile.close(); 
+  return true;
 }
 
 // Search a value in the list
@@ -112,17 +111,16 @@ template <class T>
 bool LinkedSortedList<T>::find(string searchvalue) const {
   cout << "Searching ...." << endl; 
   LinkedNode<T>* _it = _list_head;
-  int s_count = 1, r_count = 0;	// search count and result count.
+  int r_count = 0;	// search count and result count.
   while((!isEmpty()) && (_it)) {
     if(searchvalue.compare(_it->value.getLastName())==0) {
       // print out the found item. 
       r_count++; 
       cout << _it->value << endl; 
     }
-    s_count++; 
     _it = _it->next; 
   } //while
-  cout << s_count << " Employee(s) searched. " 
+  cout << size() << " Employee(s) searched. " 
        << "Found: " << r_count << " record(s)." 
        << endl << endl; 
   return true;
@@ -159,7 +157,5 @@ bool LinkedSortedList<T>::isEmpty() const {
 }
 
 // For template class to export symbols, I initialized the template
-// class with int and double datatypes. 
-// template class LinkedSortedList<int>;
-// template class LinkedSortedList<double>; 
+// class with Employee. 
 template class LinkedSortedList<Employee>; 

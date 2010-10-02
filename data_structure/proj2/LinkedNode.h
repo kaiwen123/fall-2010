@@ -31,8 +31,7 @@ public:
  LinkedNode(const T& newval):value(newval),next(NULL){}
   
   // Inline print function:  print the node's value
-  void print() {cout << value << ", ";}
-  
+  void print() {cout << value << endl;}
 };
 
 #endif

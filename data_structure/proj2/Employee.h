@@ -119,6 +119,5 @@ class Employee {
    * @return The rhs object. 
    */
   Employee& operator=(const Employee& e);
-
 };
 #endif	/* ifdef */

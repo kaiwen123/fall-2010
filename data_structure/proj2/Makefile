@@ -7,7 +7,7 @@ EXECUTABLE = proj2
 DOX = /usr/bin/doxygen
 DOXCONF = Dox.txt
 
-SRC = LinkedSortedList.cpp Employee.cpp main.cpp 
+SRC = SortedVector.cpp LinkedSortedList.cpp Employee.cpp main.cpp 
 OBJ = $(SRC:.cpp=.o)
 
 all: $(EXECUTABLE)
