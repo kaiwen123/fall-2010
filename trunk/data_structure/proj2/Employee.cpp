@@ -10,26 +10,37 @@
 #include "Employee.h"
 
 Employee::Employee() {
-  cout << "Please enter last name: "; 
+  cout << "Please enter last name(string): "; 
   cin >> last_name; 
-  cout << "Please enter first name: "; 
+  cout << "Please enter first name(string): "; 
   cin >> first_name; 
-  cout << "Please enter department: "; 
+  cout << "Please enter department(string): "; 
   cin >> department; 
-  cout << "Please enter phone number: "; 
+  cout << "Please enter phone number(string): "; 
   cin >> phone_num; 
-  cout << "Please enter office building address: "; 
+  cout << "Please enter office building address(string): "; 
   cin >> office_building; 
-  cout << "Please enter office room number: "; 
+  cout << "Please enter office room number(string): "; 
   cin >> office_num; 
-  cout << "Please enter hire date: "; 
+  cout << "Please enter hire date(string): "; 
   cin >> hire_date; 
-  cout << "Please enter email: ";
+  cout << "Please enter email(string): ";
   cin >> email; 
-  cout << "Please enter employee ID: ";
-  cin >> eid; 
-  cout << "Please enter salary: "; 
-  cin >> salary; 
+
+  cout << "Please enter employee ID(int): ";
+  while (!(cin >> eid) || cin.get() != '\n') {
+    cin.clear();
+    cin.ignore(1000, '\n');
+    cout << "Incorrect entry! Please enter a number for EID: ";
+  }
+
+  cout << "Please enter salary(int): ";
+  while (!(cin >> salary) || cin.get() != '\n') {
+    cin.clear();
+    cin.ignore(1000, '\n');
+    cout << "Incorrect entry! Please enter a number for salary: ";
+  }
+  
 }
 
 // Constructor with vector. 
