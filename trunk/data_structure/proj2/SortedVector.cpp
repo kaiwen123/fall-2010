@@ -31,13 +31,12 @@ bool SortedVector::insert(Employee& e) {
 
 // Find element(s) with last name. 
 bool SortedVector::find(string lname) {
-  int total = 0;
+  int total = 0, cmp;
   int start = 0, end = size() - 1; // location of binary search. 
   int mid = (start + end) / 2;   // middle point.
-  if((lname.at(0)<='z') && (lname.at(0)>='a')) // change first letter
-					       // from upper case to
+  // upper first letter. 
+  if((lname.at(0)<='z') && (lname.at(0)>='a')) 
     lname.at(0) = lname.at(0) - ('a' - 'A');
-  int cmp; 
   while(1) {
     cmp = lname.compare(_sortedArray.at(mid).getLastName());
     if(cmp > 0) { // result in second half.
@@ -48,7 +47,6 @@ bool SortedVector::find(string lname) {
       mid = (start + end) / 2;
     } else { // result is around here!!.
       cout << _sortedArray.at(mid) << endl; total++; // current record. 
-      //cout << start << " " << mid << " " << end << " " << __LINE__ << endl; 
       for(int i = 1; i <= mid - start; i++) { // search up.
 	cmp = lname.compare(_sortedArray.at(mid-i).getLastName());
 	if(cmp == 0){
