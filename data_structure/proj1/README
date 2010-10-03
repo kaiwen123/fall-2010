@@ -25,7 +25,7 @@ Please note that, in order to generate doc with the "make doc"
 command, you system needs to have doxygen and dot installed. 
 
 You can check out the project code base from the google code by: 
-svn co http://project-2010-fall.googlecode.com/svn/trunk proj1
+svn co http://fall-2010.googlecode.com/svn/trunk/data_structure/proj1 proj1
 
 Note that this is only a ready only version, so you can make changes
 but can't commit any of your changes to the code base. If you really
