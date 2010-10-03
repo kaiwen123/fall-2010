@@ -8,13 +8,8 @@ GeneFeatureItem::GeneFeatureItem(gene_feature_t g_f,
   g_group = 'u';		// unknow group. 
 }
 
-// print the content of this item. 
-void GeneFeatureItem::print() {
-  cout << g_feature << "\t" << g_group << "\t" << g_class << endl; 
-}
-
 // Overloading << operator. 
 ostream& operator<<(ostream& out, GeneFeatureItem const& item) {
-  out << item.getGroup() << ","; 
+  out << item.getGroup();// << ","; 
   return out;
 }

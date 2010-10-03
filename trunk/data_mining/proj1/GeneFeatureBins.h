@@ -68,13 +68,6 @@ class GeneFeatureBins {
   float entropy();			      /* information split gain. */
 
   /**
-   * @brief Print the content of this bin. 
-   * @param None.
-   * @output void. 
-   */
-  void print();
-
-  /**
    * @brief Overloading the << operator for output.
    * @param None.
    * @output void. 

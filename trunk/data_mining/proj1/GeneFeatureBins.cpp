@@ -13,9 +13,6 @@ GeneFeatureBins::GeneFeatureBins(gene_feature_t low,
 // Insert a feature item into this bin. 
 void GeneFeatureBins::insertItem(GeneFeatureItem& f_i) {
   gene_class_t cls = f_i.getClass(); 
-  //g_f_items.push_back(f_i); // can be removed. 
-  //cout << "Setting group information for : "; 
-  //f_i.print(); 
   f_i.setGroup(b_group); 
   if(cls == positive)
     p_count++; 
@@ -25,7 +22,6 @@ void GeneFeatureBins::insertItem(GeneFeatureItem& f_i) {
 
 // calculate the consistency rate of this bin.
 float GeneFeatureBins::cRate() {
-  //cout << p_count << " " << n_count << endl;
   return (p_count > n_count) ? ((float)p_count/getTotalCount()) 
     : ((float)n_count/getTotalCount());
 }
@@ -39,15 +35,10 @@ float GeneFeatureBins::entropy() {
   entropyn = (n_count == 0) ? 0.0 : -((double)n_count/count)*log2((double)n_count/count);
   return entropyp + entropyn;
 }
-// 
-
-// Print the content of this bin. 
-void GeneFeatureBins::print() {
-  cout << "[" << b_low << ", " << b_high << ") " << getTotalCount() << endl; 
-}
 
 // Overloading << operator. 
 ostream& operator<<(ostream& out, GeneFeatureBins& b) {
-  out << "[" << b.b_low << ", " << b.b_high << ") " << b.getTotalCount() << ", "; 
+  out << "[" << b.b_low << "," 
+      << b.b_high << ")" << b.getTotalCount(); 
   return out;
 }
