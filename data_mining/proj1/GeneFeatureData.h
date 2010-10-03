@@ -1,4 +1,4 @@
-// -*- C++ -*-
+// -*- C -*-
 /**
  * @file GeneFeatureData.h
  * @brief Definition of a GeneFeatureData class. 
@@ -19,6 +19,7 @@ using namespace std;
 
 class GeneFeatureData {
  private: 
+  string fid;			  /* id info of data like G10 etc. */
   gene_feature_t f_highest;	  /* highest feature data. */
   gene_feature_t f_lowest;	  /* lowest feature data. */
   gene_feature_t entropy_split;	  /* entropy split. */
@@ -33,18 +34,21 @@ class GeneFeatureData {
   GeneFeatureData();
   ~GeneFeatureData(){f_data.clear();} 
 
+  /* getters. */
   int getTotalCount() const {return p_count+n_count;} 
+  string getFid(){return fid;}	/* gene feature id. */
   gene_feature_t getEntropySplit() const {return entropy_split;}
   float getInfoGain() const {return info_gain;}
   vector<GeneFeatureItem>& getFData() {return f_data;}
   vector<GeneFeatureBins>& getEquiWidthBins() {return f_width_bins;}
   vector<GeneFeatureBins>& getEntropyBins() {return f_entropy_bins;}
 
+  /* setters. */
+  void setFid(string id) {fid = id;} /* set feature id. */
   GeneFeatureItem* getGeneFeature(); /* return feature object */
+
   void clear();			      /* Clear the feature list */
-  //bool insert(GeneFeatureItem& feature);
   bool insert(gene_feature_t f_data, gene_class_t g_class);
-  void print();			       /* print the feature set */
   bool find(GeneFeatureItem& feature); /* Find a feature */
   bool isEmpty() const; 
 
@@ -56,7 +60,7 @@ class GeneFeatureData {
    */
   bool equiWidthBinning(int num_bins);
 
-/**
+  /**
    * @brief Entropy based binning function.
    * @param none.  
    * @return true on success and false on failure. 
@@ -97,25 +101,11 @@ class GeneFeatureData {
    */
   float calcInfoGain(); 
 
-  // Printing and output methods. 
   /**
-   * @brief Print the content of the equi-width bins. 
-   * @param None.
-   * @output void. 
-   */
-  void printEWBins();
-
-  /**
-   * @brief Print the content of the entropy bins. 
-   * @param None.
-   * @output void. 
-   */
-  void printEntropyBins();
-
-  /**
-   * @brief Print the content of the entropy bins. 
-   * @param None.
-   * @output void. 
+   * @brief overloading the operator <<. 
+   * @param out output stream. 
+   * @param d GeneFeatureData object. 
+   * @output output stream. 
    */
   friend ostream& operator<<(ostream& out, GeneFeatureData& d);
 };
