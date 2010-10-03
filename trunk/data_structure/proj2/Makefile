@@ -3,18 +3,28 @@ CPPFLAGS = -O2 -fPIC -ggdb
 LD = /usr/bin/ld
 LDFLAGS = -L/usr/lib -L/lib
 RM = /bin/rm -rf
-EXECUTABLE = proj2
+EXE1 = proj2
+EXE2 = proj2.vector
 DOX = /usr/bin/doxygen
 DOXCONF = Dox.txt
 
-SRC = SortedVector.cpp LinkedSortedList.cpp Employee.cpp main.cpp 
-OBJ = $(SRC:.cpp=.o)
+SRC1 = LinkedSortedList.cpp Employee.cpp main.cpp 
+OBJ1 = $(SRC1:.cpp=.o)
 
-all: $(EXECUTABLE)
+SRC2 = Employee.cpp SortedVector.cpp main.vector.cpp
+OBJ2 = $(SRC2:.cpp=.o)
+
+OBJS = $(OBJ1) $(OBJ2)
+EXES = $(EXE1) $(EXE2)
+
+all: $(EXE1) $(EXE2)
 
 .SUFFIX: .o .cpp
 
-$(EXECUTABLE): $(OBJ)
+$(EXE1): $(OBJ1)
+	$(CPP) $(LDFLAGS) $^ -o $@
+
+$(EXE2): $(OBJ2)
 	$(CPP) $(LDFLAGS) $^ -o $@
 
 .o: .cpp
@@ -24,4 +34,4 @@ doc: $(DOXCONF) $(SRC)
 	@$(DOX) $<
 
 clean:
-	@$(RM) $(OBJ) $(EXECUTABLE)
+	@$(RM) $(OBJS) $(EXES)

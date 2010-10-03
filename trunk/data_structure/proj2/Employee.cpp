@@ -12,6 +12,8 @@
 Employee::Employee() {
   cout << "Please enter last name(string): "; 
   cin >> last_name; 
+  if((last_name.at(0)<='z') && (last_name.at(0)>='a')) 
+    last_name.at(0) = last_name.at(0) - ('a' - 'A');
   cout << "Please enter first name(string): "; 
   cin >> first_name; 
   cout << "Please enter department(string): "; 
@@ -109,8 +111,9 @@ bool Employee::operator==(Employee& e) {
     (salary == e.salary); 
 }
 
-// overloading << operator for output.
-ostream& operator<<(ostream& out, Employee& e) {
+// overloading >> operator for output.
+// with annotations. 
+ostream& operator>>(ostream& out, Employee& e) {
   out << "Last:   " << e.getLastName() << endl
       << "First:  " << e.getFirstName() << endl
       << "EID:    " << e.getEid() << endl
@@ -123,8 +126,9 @@ ostream& operator<<(ostream& out, Employee& e) {
   return out; 
 }
 
-// overloading >> also for output.
-ostream& operator>>(ostream& out, Employee& e) {
+// overloading << also for output.
+// without annotations. 
+ostream& operator<<(ostream& out, Employee& e) {
   out << e.getLastName() << endl
       << e.getFirstName() << endl
       << e.getEid() << endl

@@ -40,7 +40,7 @@ public:
   // Print out the entire list to cout.  Print an appropriate message
   // if the list is empty.  Note:  the "const" keyword indicates that
   // this function cannot change the contents of the list.
-  virtual void print() const = 0;
+  virtual void print() = 0;
 
   // Check to see if "value" is in the list.  If it is found in the list,
   // return true, otherwise return false.  Like print(), this function is

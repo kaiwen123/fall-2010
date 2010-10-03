@@ -147,8 +147,7 @@ void loadFromFile() {
       Employee em(edata);
       eple.insert(em); num++; 
     } //if 
-  } //while 
-  
+  } //while  
 }
 
 // print out all the records to stdout.

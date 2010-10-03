@@ -34,4 +34,11 @@ public:
   void print() {cout << value << endl;}
 };
 
+// overloading the << operator for LinkedNode class. 
+template <class T>
+ostream& operator<<(ostream& out, LinkedNode<T>& node) {
+  out << node.value; 
+  return out;
+}
+
 #endif
