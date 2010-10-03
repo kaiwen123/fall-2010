@@ -15,15 +15,17 @@
 
 using namespace std; 
 
-template <class T>
 class SortedVector {
  private:
-  vector<T> _sortedList; 	/* Sorted vector list. */
+  vector<Employee> _sortedArray; 	/* Sorted vector list. */
 
  public:
   /* a ctors */
-  SortedVector<T>();
-  ~SortedVector<T>();
+  SortedVector();
+  ~SortedVector(){_sortedArray.clear();}
+
+  int size() const {return _sortedArray.size();}
+  vector<Employee>& getArray() {return _sortedArray;}
 
   /**
    * @brief Insert and element into the list. 
@@ -31,7 +33,7 @@ class SortedVector {
    * @param t Element to be inserted. 
    * @return true on success and false on failure.
   */
-  bool insert(T& t);
+  bool insert(Employee& e);
 
   /**
    * @brief find according to the last name of Employee. 
@@ -48,7 +50,20 @@ class SortedVector {
    * @param v and object of this class. 
    * @return ostream object. 
    */
-  friend ostream& operator<<(ostream& out, SortedVector<Employee>& v);
+  friend ostream& operator<<(ostream& out, SortedVector& sv);
 
+  /**
+   * @brief Save all records to file. 
+   * @param fname name of file to be saved to. 
+   * @return true on success and false on failure. 
+   */
+  bool saveToFile(string fname);
+
+  /**
+   * @brief Print all records to stdout. 
+   * @param none. 
+   * @return none. 
+   */
+  void print();
 };
 #endif	/* ifdef */

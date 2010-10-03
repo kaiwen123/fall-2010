@@ -12,8 +12,13 @@
 #include <fstream>
 #include "LinkedNode.h"
 #include "SortedList.h"
+#include "Employee.h"
 
 using namespace std; 
+
+template <class T> class LinkedSortedList;
+template <class T>
+ostream& operator<<(ostream& out, LinkedSortedList<T>& list);
 
 template <class T>
 class LinkedSortedList : public SortedList<T> {
@@ -27,6 +32,7 @@ class LinkedSortedList : public SortedList<T> {
   LinkedSortedList<T>();
   ~LinkedSortedList<T>();
 
+  LinkedNode<T>* getListHead() {return _list_head;}
   /**
    * @brief Delete each node in the sorted list.
    * @param none. 
@@ -51,14 +57,14 @@ class LinkedSortedList : public SortedList<T> {
   /**
    * @brief print the value of each node in the list. 
   */
-  virtual void print() const;
+  virtual void print();
 
   /**
    * @brief find a value from the list.
-   * @param searchvalue The value to be searched. 
+   * @param lname Last name to be searched. 
    * @return true on success and false on failure. 
   */
-  virtual bool find(string searchvalue) const;
+  virtual bool find(string lname) const;
 
   /**
    * @brief return the size of the list.
@@ -99,5 +105,34 @@ class LinkedSortedList : public SortedList<T> {
    * @return true on success and false on failure. 
    */
   bool saveToFile(string fname);
+
+  //template<class X>
+  /**
+   * @brief Overloading the operator << for output. 
+   * Here the <<<> is a little tricky, please refer to related
+   * materials about the standard of defining template friend
+   * functions. 
+   * @param out output stream. 
+   * @param list LinkedSortedList object. 
+   * @return output stream object. 
+   */
+  friend ostream& operator<<<>(ostream& out, LinkedSortedList<T>& list);
 };
+
+/**
+ * @brief An alternative method for overloading the operator << for
+ * output. Move the declaration of friend functions outside of the
+ * class definition. 
+ * @param out output stream. 
+ * @param list LinkedSortedList object. 
+ * @return output stream object. 
+ */
+// template <class T>
+// ostream& operator<<(ostream& out, LinkedSortedList<T>& list);
+// Then in the cpp source file. Implement this function as:  
+// template <class T> 
+// ostream& operator<<(ostream& out, LinkedSortedList<T>& list) {
+// Implementation detail comes here. 
+// }
+
 #endif	/* ifdef */

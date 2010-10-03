@@ -8,7 +8,6 @@
 // $Log$
 
 #include "LinkedSortedList.h"
-#include "Employee.h"
 
 // Constructor; 
 template <class T> 
@@ -46,21 +45,18 @@ bool LinkedSortedList<T>::insert(T& newvalue) {
   // Inserting from head; 
   if((isEmpty()) || (_it->value >= newvalue)) {
     insertHead(tmp);
-    _size++;
-    return true; 
+    _size++; return true; 
   } 
   while(_it->next != NULL) {
     if(_it->next->value >= newvalue) {
       tmp->next = _it->next; 
       _it->next = tmp;
-      _size++; 
-      return true;  
+      _size++; return true;  
     } // if
     _it = _it->next;
   }
   insertTail(tmp);
-  _size++;
-  return true; 
+  _size++; return true; 
 } //insert
 
 // Get first value and then delete this node; 
@@ -72,21 +68,28 @@ bool LinkedSortedList<T>::getfirst(T& returnvalue) {
     _list_head = _list_head->next;
     _it = _list_head; 
     _size--; 
-    delete tmp; 
-    return true; 
-  } else {
-    return false; 
+    delete tmp; return true; 
+  } else { return false;}
+}
+
+// Overloading the operator << 
+template <class T> 
+ostream& operator<<(ostream& out, LinkedSortedList<T>& list) {
+  LinkedNode<T>* _it = list.getListHead();
+  out << "<Records>" << endl;
+  while(_it) {
+    out << *_it; 
+    out << "--" << endl;
+    _it = _it->next; 
   }
+  out << "<END>";
+  return out; 
 }
 
 // Print out the value of each node; 
 template <class T> 
-void LinkedSortedList<T>::print() const {
-  LinkedNode<T>* _it = _list_head;
-  while(_it) {
-    _it->print(); 
-    _it = _it->next; 
-  }
+void LinkedSortedList<T>::print(){
+  cout << *this;
 }
 
 // save data to file.
@@ -94,26 +97,21 @@ template <class T>
 bool LinkedSortedList<T>::saveToFile(string fname) {
   ofstream saveFile(fname.c_str());
   if(!saveFile){cerr<<""<<endl;return false;}
-  LinkedNode<T>* _it = _list_head;
-  saveFile << "<Records>" << endl;
-  while(_it) {
-    saveFile >> _it->value; 
-    saveFile << "--" << endl;
-    _it = _it->next; 
-  }
-  saveFile << "<END>";
+  saveFile << *this; 
   saveFile.close(); 
   return true;
 }
 
 // Search a value in the list
 template <class T> 
-bool LinkedSortedList<T>::find(string searchvalue) const {
+bool LinkedSortedList<T>::find(string lname) const {
   cout << "Searching ...." << endl; 
+  if((lname.at(0)<='z') && (lname.at(0)>='a')) 
+    lname.at(0) = lname.at(0) - ('a' - 'A');
   LinkedNode<T>* _it = _list_head;
   int r_count = 0;	// search count and result count.
   while((!isEmpty()) && (_it)) {
-    if(searchvalue.compare(_it->value.getLastName())==0) {
+    if(lname.compare(_it->value.getLastName())==0) {
       // print out the found item. 
       r_count++; 
       cout << _it->value << endl; 

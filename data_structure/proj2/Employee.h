@@ -81,6 +81,7 @@ class Employee {
 
   /**
    * @brief Put employee data into output stream. 
+   * the output doesn't contain annotations. 
    * @param out Output stream. 
    * @param e Employee objected to be output. 
    */
@@ -88,7 +89,10 @@ class Employee {
 
   /**
    * @brief Put employee data into output stream.
-   * This function is used to output data to file. 
+   * Note, normally >> is used as input operator rather than output
+   * , so here I only use for convenience. And in order to remove 
+   * obsecureness, please follow common sense. Let me know if you 
+   * have other not-so misleading operators to use. Thanks. 
    * @param out Output stream. 
    * @param e Employee objected to be output. 
    */
@@ -113,7 +117,7 @@ class Employee {
   bool operator==(Employee& e);
   
   /**
-   * @brief The copy constructor.
+   * @brief The assignment constructor.
    * rhs: right hand side AND lhs: left hand side.
    * @param rhs Right hand side operant  
    * @return The rhs object. 
