@@ -90,13 +90,15 @@ void GeneDataSet::saveEquiWidthBins(string fname, int k){
 }
 void GeneDataSet::saveEntropyData(string fname, int k){
   findTopkGene(k);
-  // vector<int>::iterator it = k_highest.begin(); 
-  // while(it != k_highest.end()) {
-  //   cout << *it 
-  // 	 << "-" << f_sets.at(*it).getInfoGain() << " "; 
-  //   it++;
-  // } cout << endl;
 
+#ifdef DEBUG_DATA_SET
+  vector<int>::iterator it = k_highest.begin(); 
+  while(it != k_highest.end()) {
+    cout << *it 
+  	 << "-" << f_sets.at(*it).getInfoGain() << " "; 
+    it++;
+  } cout << endl;
+#endif
   // output k-highest data into file. 
   ofstream fout(fname.c_str());
   for(int i = 0; i < getNumRows(); i++) {
@@ -134,74 +136,74 @@ void GeneDataSet::saveEntropyBins(string fname, int k){
 void GeneDataSet::findTopkGene(int k) {
   // Put the first k gene index into vector.
   k_highest.clear();
-  for(int i = 0; i < k; i++) {
+  for(int i = 0; i < k; i++)
     k_highest.push_back(i);
-    //int idx = k_highest.at(i);
-  }
 
-  // cout << "Initial content of vector. " << endl;
-  // vector<int>::iterator it = k_highest.begin(); 
-  // while(it != k_highest.end()) {
-  //   cout << *it 
-  // 	 << " - " << f_sets.at(*it).getInfoGain() << " ; "; 
-  //   it++;
-  // } cout << endl; 
+#ifdef DEBUG_DATA_SET
+  cout << "Initial content of vector. " << endl;
+  vector<int>::iterator it = k_highest.begin(); 
+  while(it != k_highest.end()) {
+    cout << *it 
+  	 << " - " << f_sets.at(*it).getInfoGain() << " ; "; 
+    it++;
+  } cout << endl; 
+#endif
   // Scan through the rest of the feature list, and for each item,
   // replace the smallest one in the k_highest list with this one if it
   // is larger than the smallest one. 
   for(int i = k; i < getNumFeatures(); i++) {
     int smallest = 0; 		// pointing to k_highest; 
     int smlidx = k_highest.at(smallest); // pointing to f_sets.
-
-    // print out current k_highest vector info gain. 
-    // vector<int>::iterator it = k_highest.begin(); 
-    // while(it != k_highest.end()) {
-    //   cout << *it 
-    // 	   << " - " << f_sets.at(*it).getInfoGain() << " ; "; 
-    //   it++;
-    // }
-    // cout << endl; 
-
+#ifdef DEBUG_DATA_SET
+    print out current k_highest vector info gain. 
+    vector<int>::iterator it = k_highest.begin(); 
+    while(it != k_highest.end()) {
+      cout << *it << " - " << f_sets.at(*it).getInfoGain() << " ; "; 
+      it++;
+    }
+    cout << endl; 
+#endif
     // find smallest within the inital vector.
     for(int j = 0; j < k; j++) {
-      // cout << f_sets.at(smlidx).getInfoGain() << " "
-      // 	   << f_sets.at(j).getInfoGain() << endl;
+#ifdef DEBUG_K_TOP
+      cout << f_sets.at(smlidx).getInfoGain() << " "
+      	   << f_sets.at(j).getInfoGain() << endl;
+#endif
       int idx = k_highest.at(j);
       if(f_sets.at(smlidx) > f_sets.at(idx)) {
   	smallest = j; smlidx = idx; 
-	// cout << "Replace small: " << idx 
-	//      << f_sets.at(smallest).getInfoGain()
-	//      << endl;
-	
-	// cout << "Current smallest in k_highest is : " 
-	//      << smallest << " infogain: " 
-	//      << f_sets.at(smallest).getInfoGain() << endl;
-	
+#ifdef DEBUG_K_TOP
+	cout << "Replace small: " << idx 
+	     << f_sets.at(smallest).getInfoGain()
+	     << endl;	
+	cout << "Current smallest in k_highest is : " 
+	     << smallest << " infogain: " 
+	     << f_sets.at(smallest).getInfoGain() << endl;	
+#endif
       }
     }
     if(f_sets.at(i)>f_sets.at(smlidx)) {
-      
+#ifdef DEBUG_K_TOP      
       // print list before replace. 
-      // vector<int>::iterator it = k_highest.begin(); 
-      // while(it != k_highest.end()) {
-      // 	cout << *it 
-      // 	     << "-" << f_sets.at(*it).getInfoGain() << " "; 
-      // 	it++;
-      // }
-
+      vector<int>::iterator it = k_highest.begin(); 
+      while(it != k_highest.end()) {
+      	cout << *it 
+      	     << "-" << f_sets.at(*it).getInfoGain() << " "; 
+      	it++;
+      }
+#endif
       k_highest.at(smallest) = i; // replacing ...
-      // cout << "\nreplace: " << i 
-      // 	   << " " << f_sets.at(i).getInfoGain() << endl;
-
-      // print list after replace. 
-      // it = k_highest.begin(); 
-      // while(it != k_highest.end()) {
-      // 	cout << *it 
-      // 	     << "-" << f_sets.at(*it).getInfoGain() << " "; 
-      // 	it++;
-      // } 
-      // cout << endl << endl;
-      
+#ifdef DEBUG_K_TOP
+      cout << "\nreplace: " << i 
+      	   << " " << f_sets.at(i).getInfoGain() << endl;
+      //print list after replace. 
+      it = k_highest.begin(); 
+      while(it != k_highest.end()) {
+      	cout << *it << "-" << f_sets.at(*it).getInfoGain() << " "; 
+      	it++;
+      } 
+      cout << endl << endl;
+#endif      
     } // if
   }
   sort(k_highest.begin(), k_highest.end());

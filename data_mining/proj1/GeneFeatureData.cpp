@@ -55,7 +55,13 @@ float GeneFeatureData::calcDataEntropy() {
   float entropyp = 0.0, entropyn = 0.0;
   if(count == 0) return 0.0; 
   entropyp = (p_count == 0) ? 0.0 : -((double)p_count/count)*log2((double)p_count/count);
-  entropyn = (n_count == 0) ? 0.0 : -((double)n_count/count)*log2((double)n_count/count);
+  entropyn = (n_count == 0) ? 0.0 :
+  -((double)n_count/count)*log2((double)n_count/count);
+#ifdef DEBUG_DATA_ENTROPY
+  cout << "\nCalculating Data Entropy for " << getFid() << endl
+       << "Entropy of data: " << "P: " << p_count << "-" << entropyp
+       << "\t\tN: " << n_count << "-" << entropyn << endl; 
+#endif
   return entropyp + entropyn;
 }
 
@@ -67,6 +73,11 @@ float GeneFeatureData::calcInfoSplit() {
     int s_size = s1_size + s2_size; 
     float s1_entropy = f_entropy_bins.at(0).entropy(); 
     float s2_entropy = f_entropy_bins.at(1).entropy();
+#ifdef DEBUG_INFO_GAIN
+  cout << "\nCalculating info split for " << getFid() << endl
+       << "Entropy S1: " << s1_size << "-" << s1_entropy
+       << "\tEntropy S2: " << s2_size << "-" << s2_entropy << endl; 
+#endif
     return ((double)s1_size/s_size)*s1_entropy + 
       ((double)s2_size/s_size)*s2_entropy;
   } else return 0.0;
@@ -74,7 +85,15 @@ float GeneFeatureData::calcInfoSplit() {
 
 // Calculate the information gain of the split. 
 float GeneFeatureData::calcInfoGain() {
-  return calcDataEntropy() - calcInfoSplit();
+  float data_entropy = calcDataEntropy(); 
+  float info_split = calcInfoSplit();
+#ifdef DEBUG_INFO_GAIN
+  cout << "\nCalculating info gain for " << getFid() << endl
+       << "Data entropy: " << data_entropy
+       << "\tinfo split: " << info_split
+       << "\tInfo gain: " << data_entropy - info_split << endl; 
+#endif
+  return data_entropy - info_split;
 }
 
 // Do entropy based binning.
@@ -102,7 +121,9 @@ bool GeneFeatureData::entropyDiscretize(int num_bins) {
 
 // Find the best split with highest information gain. 
 bool GeneFeatureData::entropyBestSplit(int num_bins) {
-  // cout << "Working for gene " << getFid() << endl; 
+#ifdef DEBUG_DATA
+  cout << "Working for gene " << getFid() << endl; 
+#endif
   // For the gene data, try all possible split and get the one with
   // highest information split. 
   vector<GeneFeatureItem>::iterator _git = f_data.begin(); 
@@ -129,12 +150,16 @@ bool GeneFeatureData::entropyBestSplit(int num_bins) {
       f_entropy_bins.push_back(bin2); 
       _gfit++;
     } // while test all splits.
-    //cout << "info gain : " << info_gain << endl;
+#ifdef DEBUG_DATA
+    cout << "Current info gain : " << info_gain << endl;
+#endif
     float tmp_infogain = calcInfoGain();
     if(info_gain < tmp_infogain){
       info_gain = tmp_infogain;
       entropy_split = v;
-      //cout << "Info gain is: " << info_gain << endl;
+#ifdef DEBUG_DATA
+      cout << "Change info gain to: " << info_gain << endl;
+#endif
     }
     _git++;
   }//while gene data set. 
@@ -152,16 +177,8 @@ ostream& operator<<(ostream& out, GeneFeatureData& d) {
 }
 
 void GeneFeatureData::printInfoGain() {
-  cout << getFid() << ": " << getInfoGain() << endl; 
-  // if(getFid().compare("G1999")==0) {
-  //   cout << "Feature Array size: " << getFData().size() << endl;
-  //   vector<GeneFeatureItem>::iterator _dit = getFData().begin(); 
-  //   while(_dit != getFData().end()) {
-  //     cout << _dit->getFeature() << " "; 
-  //     _dit++;
-  //   }
-  //   cout << endl;
-  // }
+  cout << getFid() << " - " << "split: " << entropy_split
+       << " gain: " << getInfoGain() << endl; 
 }
 
 // overloading the >= operator. 

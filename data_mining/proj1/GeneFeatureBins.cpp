@@ -32,9 +32,13 @@ float GeneFeatureBins::cRate() {
 float GeneFeatureBins::entropy() {
   int count = getTotalCount(); 
   float entropyp = 0.0, entropyn = 0.0;
-  if(count == 0) return 0.0; 
-  entropyp = (p_count == 0) ? 0.0 : -((double)p_count/count)*log2((double)p_count/count);
-  entropyn = (n_count == 0) ? 0.0 : -((double)n_count/count)*log2((double)n_count/count);
+  if(count==0) return 0.0; 
+  entropyp=(p_count==0)?0.0:-((double)p_count/count)*log2((double)p_count/count);
+  entropyn=(n_count==0)?0.0:-((double)n_count/count)*log2((double)n_count/count);
+#ifdef DEBUG_BINS_ENTROPY
+  cout << "Entropy of bin: " << "P: " << p_count << "-" << entropyp
+       << "\t\tN: " << n_count << "-" << entropyn << endl; 
+#endif
   return entropyp + entropyn;
 }
 

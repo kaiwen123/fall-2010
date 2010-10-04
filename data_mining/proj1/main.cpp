@@ -100,6 +100,8 @@ int main() {
   pGeneSet->saveEntropyBins(fname, k);
 
   // print info gain.
-  //pGeneSet->printInfoGain();
+#ifdef PRINT_GAIN_INFO
+  pGeneSet->printInfoGain();
+#endif
   return 0; 
 }
