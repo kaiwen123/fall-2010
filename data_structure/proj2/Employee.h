@@ -112,7 +112,7 @@ class Employee {
    * rhs: right hand side AND lhs: left hand side.
    * @param rhs Right hand side operant  
    * @return true if lhs.[anyfield] == rhs.[anyfield]. 
-   * @return false if lhs.[anyfield] == rhs.[anyfield]. 
+   * @return false if lhs.[anyfield] != rhs.[anyfield]. 
    */
   bool operator==(Employee& e);
   
