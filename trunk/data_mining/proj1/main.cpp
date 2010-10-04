@@ -77,12 +77,10 @@ int main() {
 	 << "0, " << num_genes << "]: ";
   }
 
-  // First, we need to do binning for each data set for the gene data
-  // include equi-width binning and entropy binning. 
-  for(int i = 0; i < num_genes; i++) {
+  // Do equi-width binning. 
+  for(int i = 0; i < num_genes; i++)
     pGeneSet->doEquiWidthBin(i, 4);
-    pGeneSet->doEntropyDiscretize(i, 2);
-  }
+    
   // Save equi-width data. 
   fname = string("ewidth.data");
   pGeneSet->saveEquiWidthData(fname, k); // TODO
@@ -90,6 +88,10 @@ int main() {
   // Save Equi-width bins. 
   fname = string("ewidth.bins");
   pGeneSet->saveEquiWidthBins(fname, k); // finished
+
+  // Do Entropy Discretization. 
+  for(int i = 0; i < num_genes; i++) 
+    pGeneSet->doEntropyDiscretize(i, 2);
 
   // Save entropy data. 
   fname = string("entropy.data"); 
