@@ -3,6 +3,8 @@
 // Constructor. 
 GeneFeatureBins::GeneFeatureBins(gene_feature_t low, 
 				 gene_feature_t high) {
+  MININF = 0.0;
+  MAXINF = 10000.0; 
   b_low = low; 
   b_high = high; 
   b_group = 'u';		// unknow group.
@@ -38,6 +40,18 @@ float GeneFeatureBins::entropy() {
 
 // Overloading << operator. 
 ostream& operator<<(ostream& out, GeneFeatureBins& b) {
+  if(abs(b.b_low-b.MININF)<0.5) { // Deal with -inf
+    out << "[-inf" << "," 
+  	<< b.b_high << ")" << b.getTotalCount();
+    //cout << b.b_low << " " << b.MININF << endl;
+    return out; 
+  }
+  if(abs(b.b_high-b.MAXINF)<0.5) { // Deal with +inf.
+    out << "[" << b.b_low << "," 
+  	<< "+inf)" << b.getTotalCount();
+    //cout << b.b_high << " " << b.MAXINF << endl;
+    return out;
+  }
   out << "[" << b.b_low << "," 
       << b.b_high << ")" << b.getTotalCount(); 
   return out;
