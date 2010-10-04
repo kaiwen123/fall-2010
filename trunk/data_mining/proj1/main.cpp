@@ -66,7 +66,7 @@ int main() {
   cout << "Finished loading data. " << endl
        << "Totally loaded " << num_tissues
        << " lines and " << num_genes
-       << " rows of data." << endl;
+       << " columns of data." << endl;
   
   cout << "Please input number of genes(k) to process: ";
   while(!(cin >> k)||(cin.get() != '\n')
