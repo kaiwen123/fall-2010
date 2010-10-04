@@ -19,6 +19,7 @@ using namespace std;
 class GeneDataSet {
  private: 
   vector<GeneFeatureData> f_sets; /* Feature sets. */
+  vector<int> k_highest;	  /* k-highest info gain genes index. */
 
  public:
   GeneDataSet(int num_f);	/* Constructor with number of features. */
@@ -88,21 +89,13 @@ class GeneDataSet {
   void saveEntropyBins(string fname, int k);
 
   /**
-   * @brief Actual implementation of data and bins saving. 
-   * @param fname File name to save data to. 
-   * @param k number of gene data to save to. 
-   * @param method either equi-width or entropy based. 
-   * @return none. 
-   */
-  void saveData(string fname, int k);
-  void saveBins(string fname, int k, char method); 
-  /**
    * @brief Find k genes with highest information gain after the
    * entropy based discretization.
    * @param k the number of gene to be searched. 
    * @return none.
    */
   void findTopkGene(int k); 
+  void printInfoGain();
 };
 
 #endif //ifdef

@@ -18,7 +18,8 @@
 using namespace std; 
 
 class GeneFeatureBins {
- private: 
+private: 
+  float MININF, MAXINF;		/* -inf and +inf */
   gene_feature_t b_low; 	/* Lower boundary of bin. */
   gene_feature_t b_high; 	/* Higher boundary of bin. */
   gene_group_t b_group;		/* group of this bin. */
@@ -40,6 +41,8 @@ class GeneFeatureBins {
 
   /* Setters. */
   void setGroup(gene_group_t g){b_group = g;}
+  void setMinInf(float min){MININF = min;}
+  void setMaxInf(float max){MAXINF = max;}
 
   /* feature items operation. */
   void insertItem(GeneFeatureItem& feature); /* Insert feature */

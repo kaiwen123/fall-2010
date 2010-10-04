@@ -34,6 +34,7 @@ bool GeneFeatureData::equiWidthBinning(int num_bins) {
     gene_feature_t blow = f_lowest+i*interval; 
     gene_feature_t bhigh = f_lowest+(i+1)*interval; 
     GeneFeatureBins bin(blow, bhigh);
+    bin.setMinInf(0.0); bin.setMaxInf(f_highest);
     bin.setGroup('a'+i);	// Group information a,b,c,d....;
     vector<GeneFeatureItem>::iterator _iit = f_data.begin();
     while(_iit != f_data.end()) {
@@ -66,7 +67,8 @@ float GeneFeatureData::calcInfoSplit() {
     int s_size = s1_size + s2_size; 
     float s1_entropy = f_entropy_bins.at(0).entropy(); 
     float s2_entropy = f_entropy_bins.at(1).entropy();
-    return ((double)s1_size/s_size)*s1_entropy + ((double)s2_size/s_size)*s2_entropy;
+    return ((double)s1_size/s_size)*s1_entropy + 
+      ((double)s2_size/s_size)*s2_entropy;
   } else return 0.0;
 }
 
@@ -81,6 +83,8 @@ bool GeneFeatureData::entropyDiscretize(int num_bins) {
   GeneFeatureBins bin1(0.0, entropy_split);
   GeneFeatureBins bin2(entropy_split, f_highest);
   bin1.setGroup('a'); bin2.setGroup('b');
+  bin1.setMinInf(0.0); bin1.setMaxInf(f_highest);
+  bin2.setMinInf(0.0); bin2.setMaxInf(f_highest);
   vector<GeneFeatureItem>::iterator _it = f_data.begin(); 
   while(_it != f_data.end()){
     if(bin1.contains(*_it)) {
@@ -98,6 +102,7 @@ bool GeneFeatureData::entropyDiscretize(int num_bins) {
 
 // Find the best split with highest information gain. 
 bool GeneFeatureData::entropyBestSplit(int num_bins) {
+  // cout << "Working for gene " << getFid() << endl; 
   // For the gene data, try all possible split and get the one with
   // highest information split. 
   vector<GeneFeatureItem>::iterator _git = f_data.begin(); 
@@ -123,14 +128,16 @@ bool GeneFeatureData::entropyBestSplit(int num_bins) {
       f_entropy_bins.push_back(bin1);
       f_entropy_bins.push_back(bin2); 
       _gfit++;
-    }
+    } // while test all splits.
+    //cout << "info gain : " << info_gain << endl;
     float tmp_infogain = calcInfoGain();
     if(info_gain < tmp_infogain){
       info_gain = tmp_infogain;
       entropy_split = v;
+      //cout << "Info gain is: " << info_gain << endl;
     }
     _git++;
-  }
+  }//while gene data set. 
   return true;
 }
 
@@ -142,4 +149,23 @@ ostream& operator<<(ostream& out, GeneFeatureData& d) {
     _dit++;
   }
   return out; 
+}
+
+void GeneFeatureData::printInfoGain() {
+  cout << getFid() << ": " << getInfoGain() << endl; 
+  // if(getFid().compare("G1999")==0) {
+  //   cout << "Feature Array size: " << getFData().size() << endl;
+  //   vector<GeneFeatureItem>::iterator _dit = getFData().begin(); 
+  //   while(_dit != getFData().end()) {
+  //     cout << _dit->getFeature() << " "; 
+  //     _dit++;
+  //   }
+  //   cout << endl;
+  // }
+}
+
+// overloading the >= operator. 
+// Compare two objects according to info-gain.
+bool GeneFeatureData::operator>(GeneFeatureData& d) {
+  return getInfoGain() > d.getInfoGain();
 }

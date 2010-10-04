@@ -108,6 +108,19 @@ class GeneFeatureData {
    * @output output stream. 
    */
   friend ostream& operator<<(ostream& out, GeneFeatureData& d);
+
+  /**
+   * @brief Overloading the >= operator. 
+   * This operator is used to compare two GeneFeatureData objects
+   * according to their information gain. 
+   * @param d rhs operant. 
+   * @return true if lhs has higher information gain than the rhs. 
+   * @return false if lhs has smaller info-gain than rhs.
+   */
+  bool operator>(GeneFeatureData& d);
+  //bool operator<(GeneFeatureData& d);
+  void printInfoGain(); 
 };
 
+//bool operator<(GeneFeatureData& a, GeneFeatureData& b);
 #endif //ifdef

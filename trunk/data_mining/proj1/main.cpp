@@ -26,7 +26,7 @@ int main() {
     if(fdata) break; 
   } while(1);
 
-  string x; int k;		// tmp str and num k.
+  string x, line; int k;	// tmp str and num k.
   vector<double> g_data; 	// data for a gene. 
   gene_feature_t d_tmp; 	// temporary gene data. 
   gene_class_t d_class; 	// class of gene.
@@ -37,24 +37,26 @@ int main() {
     if(!fdata.good()) {
       cerr<<"Error while reading data file."<<endl; return 1;
     }
-    fdata >> x; 
-    // For feature data, strip the ',' and transform to double. 
-    if(x.find(',',0)!=string::npos) {
-      d_tmp = strtod(x.substr(0, x.find(',',0)).c_str(), p);
-      g_data.push_back(d_tmp);
-      //cout << d_tmp << endl; 
+    getline(fdata, line, fdata.widen('\n'));
+    
+    // Positive or negative class.
+    if(line.find('p',0)!=string::npos) d_class = positive; 
+    else d_class = negative;
+      
+    //cout << line << endl; 
+    while(1) {
+      int poscomma = line.find(',',0);
+      if(poscomma!=string::npos) {
+	d_tmp=strtod(line.substr(0, poscomma).c_str(), p);
+	g_data.push_back(d_tmp);
+	line=line.substr(poscomma+1,line.size()-poscomma).c_str(); 
+	//cout << d_tmp << " " << line << endl; 
+      } else break;
     }
-    // The end of line is reached. 
-    // find data class, positive or negative. 
-    if(x.find('p',0)!=string::npos || x.find('n',0)!=string::npos){
-      if(x.find('p',0)!=string::npos) d_class = positive; 
-      else d_class = negative; 
-      // Create data set object if it doesn't exist yet.
-      if(!pGeneSet) pGeneSet = new GeneDataSet(g_data.size()); 
-      for(int i = 0; i < g_data.size(); i++)
-	pGeneSet->insertData(i, g_data.at(i), d_class); 
-      g_data.clear(); fdata >> x; // to avoid errors. 
-    } //if
+    if(!pGeneSet) pGeneSet = new GeneDataSet(g_data.size()); 
+    for(int i = 0; i < g_data.size(); i++)
+      pGeneSet->insertData(i, g_data.at(i), d_class); 
+    g_data.clear();
   } //while(fdata)
   fdata.close();
   if(!pGeneSet) return 1;
@@ -68,7 +70,9 @@ int main() {
   
   cout << "Please input number of genes(k) to process: ";
   while(!(cin >> k)||(cin.get() != '\n')
-	&&!(k>0)&&!(k<=num_genes)) {
+	||!(k>=0 && k<=num_genes)) {
+    cin.clear(); cin >> noskipws;
+    cin.ignore(1000, '\n');
     cout << "please enter an integer within range: ["
 	 << "0, " << num_genes << "]: ";
   }
@@ -95,18 +99,7 @@ int main() {
   fname = string("entropy.bins"); 
   pGeneSet->saveEntropyBins(fname, k);
 
-
-  // save everything into file. 
-  // string fsname("ewidth.data"); 
-  // ofstream saveFile(fsname.c_str());
-  // saveFile << *pGeneSet; 
-  // saveFile.close();
-
-  // Output data into files. 
-  // pGeneSet->saveEquiWidthData(); 
-  
-  // pGeneSet->saveEntropyData(); 
-  // pGeneSet->saveEntropyBins();
-  // pGeneSet->findTopkGene(1);
+  // print info gain.
+  //pGeneSet->printInfoGain();
   return 0; 
 }
