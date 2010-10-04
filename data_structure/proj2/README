@@ -40,10 +40,9 @@ DOCUMENTATION
 Please note that, in order to generate API doc with the "make doc"
 command, your system needs to have doxygen and dot installed. 
 
-In this project submission, I have included the generated API
-reference doc files, and you can see the doc files by going to the
-html folder and open index.html file using your webbrowser
-(Firefox/chrome?).
+Due to the size of the doc files, I didn't attach them with this project sub-
+mission, if you met any problems during the processing of generating docs, 
+please reference related documents or contact me through: gsmsteve@gmail.com.
 
 GOOGLE CODE HOSTING
 
