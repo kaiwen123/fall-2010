@@ -1,0 +1,1 @@
+Please read the bigTable paper at http://labs.google.com/papers/bigtable.html and write a short summary, including the problem, the key techniques, the strengths and weaknesses as you understand.

@@ -1,0 +1,161 @@
+\documentclass[24pt]{article}
+% Change "article" to "report" to get rid of page number on title page
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{setspace}
+\usepackage{Tabbing}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{titlesec}
+\usepackage{graphicx,float,wrapfig}
+
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=0in     %
+\oddsidemargin=0in      %
+\textwidth=6.5in        %
+\textheight=9.0in       %
+\headsep=0.25in         %
+
+% Homework Specific Information
+\newcommand{\hmwkTitle}{Reading\ \#2}
+\newcommand{\hmwkDueDate}{Monday,\ Oct.\ 01,\ 2010}
+\newcommand{\hmwkClass}{Cloud\ Computing}
+\newcommand{\hmwkAuthorName}{Shumin\ Guo}
+
+% Setup the header and footer
+\pagestyle{fancy}                                                       %
+\lhead{\hmwkAuthorName}                                                 %
+\chead{\hmwkClass\ \hmwkTitle}  %
+\rhead{Page\ \thepage\ of\ \pageref{LastPage}} %
+\lfoot{}                                                      %
+\cfoot{}                                                                %
+\rfoot{}                          %
+\renewcommand\headrulewidth{0.4pt}                                      %
+\renewcommand\footrulewidth{0.4pt}                                      %
+\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make title
+\title{\textmd{\textbf{\hmwkClass:\
+      \hmwkTitle}}\\\normalsize\small{Due\ Date:\
+    \hmwkDueDate}\\} 
+\date{\today}
+\author{\textbf{\hmwkAuthorName}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\maketitle
+
+\section*{Bigtable: A Distributed Storage System for
+  Structured Data.}
+With the arriaval web2.0, much more data is produced by online
+computer systems, which is usually calculated in petabytes. This poses
+a great challenge to those traditional database 
+systems which are not very efficient for handling such large size
+data. And this problem must be even more urgent in google, as it's core
+business model is based on data. Either it be crawed
+webpage data, web access log data or large volumes of picture and
+streaming content data, the size is huge. All the requirements
+promoted the design and implementation of the google's data hosting
+system - Bigtable. 
+
+Bigtable is used to store structured data. And in many ways it
+resembles a database system, and shared many implementation strategies
+with databases. But it also has a lot of new features compared
+with traditional databases. It is designed to run on commodity
+machines and can scale to petabytes of data and thousands of
+machines. It provides clients with a simple data model that supports
+dynamic control over data layout and format, and allows clients to
+reason about the locality properties of the data represented in the
+underlying storage. So, clients can control the locality of their data
+through carefully choose their data schemas. Also, clients can use
+Bigtable parameter to dynamically control whether to serve data in 
+memory or from disk. 
+
+Unlike the flat table structure of traditional data model, Bigtable
+uses a very simple data model that not only considers the underlying
+structure of data, but also tracks different versions of data. This is
+a unique requirement for web page data as it changes over
+time. To make it simple, bigtable is just like a map. The key/index of
+this map is generated from strings of rows, columns and timestamps
+of data. And the data of this map is uninterpreted bytes no matter
+what type of data it is represented in the application. Bigtable
+maintains data in lexicograhic order by row key, and the row range for
+a table is dynamically partitioned. Each row range is a tablet, which
+is the unit of distribution and load balancing. Usually, the row keys
+are the URLs associated with the data content. Columns are properties
+with the row content, such as anchor pointing to the content, or the
+content itself. And the columns are usually grouped into column
+families, and a column family can contain multiple family
+qualifiers. Such as anchor is a family, and a URL address can be a
+qualifier of this column family. This feature brings a lot of
+benefits when accessing the contents of table. But as we can easily
+infer that data in Bigtable is very sparse. Bigtable API provides some
+other features of data manipulation such as row based transaction and
+execution of client-supplied scripts in the address space of the
+server. These features make Bigtable a full-fledged data storage
+choice. 
+
+Bigtable depends on a cluster management system for scheduling jobs,
+managing resources on shared machines, dealing with machine failures,
+and monitoring machine status. The Google SSTable file format is used
+internally to store Bigtable data. An SSTable provides a persistent,
+ordered and immutable map from keys to values, and internally, it contains
+a sequence of blocks along with a block index to locate blocks. The
+index will be loaded into memory when SSTable is opened. And a binary
+search method can be used to search the Sorted String Table, and thus
+greatly impoved the performace by eliminating I/O operations. Bigtable
+relies on a highly-available and persistent distributed lock service
+named Chubby. Chubby provides a namespace that consists of directories
+and small files like UNIX file system. And each directory and file can
+be used as a lock, and reads from and writes to a file are
+atomic. Chubby service greatly simplified the management of locks
+within a file system and this centralized lock management brings a lot
+of benefits as compared with the ad-hoc mode lock management. Still,
+Chubby's serving as a namespace of files make its no need to provide
+dedicated name server. 
+
+Bigtable has three major components: a library linked
+into every client, one master server, and many tablet servers. Tablet
+servers can be dynamically added from a cluster to accormmodate
+changes in workloads. At times of data transfer, clients communicate
+directly with tablet servers for reads and writes. This makes the
+master server lightly loaded. And this communication schema can
+improve the availability and throughput of the whole system. 
+
+Bigtable uses a three-level hierarchy to store tablet location
+information. Chubby contains the location of the root tablet, the root
+tablet contains the location of all tablets in a special METADATA
+table. And each METADATA table contains the location of a set of user
+tablets. Each tablet is assigned to one tablet server at a time. The
+master will keep track of the set of live tablet servers, and the
+assignment of unassignment of current tablets. And the master
+periordically checks with tablet servers for the status of its locks
+so that it can keep the timely status of all the tablet servers and
+tablet assignments. When a master server is started, it will first get
+a unique master lock on Chubby, then it will poll the status of tablet
+servers that are alive and finally it will communicate with these
+servers to find tablets that thses servers are serving.  Bigtable uses
+memtable to aggregate the log and commit information to reduce I/O
+operations. For read and write operations, a tablet server need to
+contact with Chubby to check the well-formedness of tablet and
+authorization information. 
+
+Besides the basic functionality of data storage and serving, there are
+a few refinements to the Bigtable system. Clients can use locality
+groups to group data with high correlation, and clients can choose
+whether to use comppression to the data. The row name based clustering
+makes a very good compression ratio possible, and even higher for
+multiple versions of same data in Bigtable. 
+
+In summary, the novel data model, the Chubby lock service and the
+dynamic management of tablet servers and tablets can help Bigtable
+achive the design goal of wide applicability, scalability, high
+performance and high availability. And the successful application of
+Bigtable to various production storage is the biggest proof of its
+succss. And the consideration of client experience makes it one of
+good choice of cloud data hosting. 
+
+\end{document}

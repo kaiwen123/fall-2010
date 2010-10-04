@@ -1,0 +1,32 @@
+Name : Shumin Guo (UID: U00617724)
+Email: guo.18@wright.edu
+
+Files: 
+LinkedNode.h - Declaration of Linked Node; 
+LinkedSortedList.h - Declaration of a Sorted Linked List; 
+SortedList.h - A base class for sorted list with pure virtual functions; 
+LinkedSortedList.cpp - Implementation of Linked Sorted List; 
+main.cpp - A test program to test the implementation of LinkedSortedList. 
+
+How to Test: 
+- Type make command in the CWD; 
+- Run ./proj1 to run the test program; 
+- According to the project requirement, I have implemented the int and
+  double LinkedSortedList, and created two arrays for both int and
+  double data types. Below are the steps that I did the test. 
+  -- Insert each element within the array to the sorted list; 
+  -- Print the list using the print() method; 
+  -- Test the find() method for each element; 
+  -- print the list using the getfirst() method; 
+  -- clear the list and insert again and print using print() method; 
+
+- run "make doc" to make class reference html files.
+Please note that, in order to generate doc with the "make doc"
+command, you system needs to have doxygen and dot installed. 
+
+You can check out the project code base from the google code by: 
+svn co http://fall-2010.googlecode.com/svn/trunk/data_structure/proj1 proj1
+
+Note that this is only a ready only version, so you can make changes
+but can't commit any of your changes to the code base. If you really
+want to commit, let me know!
