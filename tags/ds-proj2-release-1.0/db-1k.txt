@@ -1,0 +1,10002 @@
+<Records>
+Billings
+Deb
+287559
+114000
+Sales
+480-2547
+327 Administration bldg
+7/10/1998
+dbillings@google.com
+--
+Jeffries
+Gwen
+434055
+65000
+Sales
+201-4326
+676 Allyn Hall
+10/1/1990
+gjeffries@mailman.net
+--
+Lionel
+Terry
+194698
+45000
+Marketing
+567-5526
+68 Building A
+8/8/1997
+tlionel@yahoo.com
+--
+Hobson
+Abe
+513345
+78000
+Administration
+110-1204
+421 Building C
+2/17/1994
+ahobson@ieee.org
+--
+Lionel
+Jack
+214504
+85000
+Espionage
+805-0476
+1 Russ Engineering
+8/17/1977
+jlionel@wright.edu
+--
+Northrup
+Deb
+835547
+51000
+Espionage
+148-3630
+757 Case building
+2/24/1995
+dnorthrup@hotmail.com
+--
+Meyer
+Dave
+001024
+30000
+Accounting
+448-7017
+51 Administration bldg
+3/21/1979
+dmeyer@wow.rr.net
+--
+Smith
+Sarah
+884816
+115000
+Marketing
+751-5657
+304 Russ Engineering
+5/5/2000
+ssmith@msn.com
+--
+Smith
+Mandy
+491656
+74000
+Engineering
+854-8653
+263 Case building
+8/15/1991
+msmith@yahoo.com
+--
+Billings
+Jack
+504626
+82000
+International Warfare
+360-0247
+763 Nelson building
+4/15/1988
+jbillings@hotmail.com
+--
+Bryce
+Ethan
+851055
+82000
+Accounting
+245-6220
+489 Building A
+2/12/1996
+ebryce@mymail.com
+--
+Ellis
+Abe
+329805
+33000
+Administration
+460-6000
+709 Rockefellar Plaza
+7/5/1990
+aellis@email.com
+--
+Jackson
+Randy
+982342
+83000
+Interrogation
+235-0047
+436 Rockefellar Plaza
+4/8/2001
+rjackson@wow.rr.net
+--
+Kline
+Helen
+425951
+36000
+Administration
+322-7630
+813 Rockefellar Plaza
+4/20/1987
+hkline@msn.com
+--
+England
+Sarah
+619915
+54000
+Accounting
+786-7741
+510 Allyn Hall
+7/27/1996
+sengland@ieee.org
+--
+Kerry
+Mandy
+891061
+108000
+Engineering
+564-4453
+382 Rockefellar Plaza
+9/27/1975
+mkerry@ieee.org
+--
+Johnson
+Ben
+401896
+94000
+Marketing
+601-5127
+436 Allyn Hall
+9/17/1986
+bjohnson@email.com
+--
+Donaldson
+Linda
+255335
+56000
+Espionage
+171-2062
+548 Building A
+6/13/1998
+ldonaldson@ieee.org
+--
+Donaldson
+Mark
+065518
+80000
+Interrogation
+605-1064
+284 Building D
+2/27/1990
+mdonaldson@ieee.org
+--
+Daniels
+Allen
+248772
+61000
+Espionage
+250-5487
+839 Building A
+3/26/1979
+adaniels@msn.com
+--
+Ireland
+Wendy
+972848
+113000
+Accounting
+482-7705
+53 Building B
+9/25/2001
+wireland@ieee.org
+--
+Donaldson
+Beverly
+142993
+33000
+Research and Development
+284-5057
+252 Allyn Hall
+4/3/1978
+bdonaldson@wow.rr.net
+--
+Doom
+Ben
+192164
+100000
+Accounting
+770-0207
+878 Case building
+1/9/1995
+bdoom@wright.edu
+--
+Saxon
+Randy
+240611
+107000
+Espionage
+714-2262
+859 Rike
+1/8/1980
+rsaxon@email.com
+--
+Jones
+Mandy
+976006
+38000
+Accounting
+145-0121
+69 Building B
+2/2/1989
+mjones@wright.edu
+--
+Wendall
+Denise
+275793
+53000
+Accounting
+846-7767
+22 Russ Engineering
+2/7/1993
+dwendall@yahoo.com
+--
+Jeffries
+Ethan
+798618
+50000
+International Warfare
+488-6228
+801 Wilson building
+1/16/1983
+ejeffries@msn.com
+--
+England
+Jim
+149221
+99000
+Legal
+138-3014
+237 Russ Engineering
+8/5/1978
+jengland@snailmail.com
+--
+Billings
+Alice
+686681
+105000
+Marketing
+813-7171
+4 Rike
+11/20/1987
+abillings@email.com
+--
+Hobson
+Mike
+400525
+75000
+Accounting
+580-2520
+715 Rike
+2/9/2000
+mhobson@mymail.com
+--
+Reynolds
+Denise
+371215
+33000
+Engineering
+118-3254
+979 Building D
+6/5/1990
+dreynolds@google.com
+--
+Meyer
+Gwen
+505415
+102000
+Administration
+265-7348
+436 Building B
+7/20/2001
+gmeyer@ieee.org
+--
+Saxon
+Kylie
+651958
+52000
+Marketing
+526-8835
+33 Wilson building
+10/7/2003
+ksaxon@snailmail.com
+--
+Turner
+Dan
+508489
+81000
+Interrogation
+778-8201
+718 Nelson building
+6/4/1989
+dturner@mailman.net
+--
+Daniels
+Alice
+778135
+49000
+Legal
+713-3365
+984 Building C
+8/4/1981
+adaniels@wright.edu
+--
+Smith
+Frank
+889005
+98000
+Research and Development
+274-6570
+196 Case building
+6/17/1985
+fsmith@wow.rr.net
+--
+Bryce
+Kylie
+032605
+32000
+Espionage
+666-1111
+188 Wilson building
+10/9/1985
+kbryce@mailman.net
+--
+Jeffries
+Terry
+884056
+118000
+Sales
+140-3161
+927 Building C
+4/14/1994
+tjeffries@msn.com
+--
+Gage
+Dave
+273507
+110000
+Engineering
+650-6770
+961 Building B
+10/13/1987
+dgage@mailman.net
+--
+Ireland
+Ellen
+434019
+116000
+Interrogation
+672-2510
+728 Building B
+11/21/1986
+eireland@mymail.com
+--
+Enland
+Don
+039920
+47000
+Espionage
+301-8187
+863 Building A
+11/15/1990
+denland@hotmail.com
+--
+Sanders
+Alice
+640290
+81000
+Accounting
+864-8247
+41 Allyn Hall
+3/10/2000
+asanders@msn.com
+--
+Saxon
+Paula
+907745
+49000
+Research and Development
+816-3762
+431 Russ Engineering
+1/26/1988
+psaxon@wright.edu
+--
+Hanover
+Helen
+214499
+38000
+Interrogation
+431-0285
+909 Wilson building
+4/6/1980
+hhanover@email.com
+--
+Lincoln
+George
+107453
+120000
+Administration
+561-5680
+149 Building C
+11/21/1989
+glincoln@wright.edu
+--
+Saxon
+Ben
+736382
+91000
+Interrogation
+232-5073
+825 Wilson building
+11/17/1991
+bsaxon@mymail.com
+--
+Gage
+Allen
+384023
+93000
+Research and Development
+118-8316
+637 Building A
+8/22/1990
+agage@email.com
+--
+Howard
+Sandy
+262344
+54000
+Espionage
+036-7304
+298 Building C
+7/3/1997
+showard@snailmail.com
+--
+Hanover
+Deb
+288789
+43000
+Administration
+356-5623
+190 Wilson building
+6/5/1985
+dhanover@yahoo.com
+--
+Hanover
+Dan
+288308
+55000
+International Warfare
+844-2504
+522 Case building
+11/25/2002
+dhanover@hotmail.com
+--
+Sanders
+Andrew
+996432
+113000
+Legal
+586-6310
+493 Allyn Hall
+7/27/1999
+asanders@ieee.org
+--
+Bryce
+Mandy
+019083
+58000
+Sales
+447-2200
+622 Building C
+5/11/2000
+mbryce@yahoo.com
+--
+Bryce
+Jim
+021953
+69000
+Interrogation
+506-3206
+677 Building D
+4/10/1996
+jbryce@wright.edu
+--
+Northrup
+Steve
+303415
+111000
+Engineering
+043-1551
+589 Administration bldg
+9/24/1975
+snorthrup@google.com
+--
+Enland
+Henry
+665428
+47000
+Marketing
+002-5262
+737 Building B
+10/24/1988
+henland@ieee.org
+--
+Turner
+Mike
+283510
+35000
+Research and Development
+346-6518
+451 Rike
+6/11/1981
+mturner@mailman.net
+--
+Andrews
+George
+647089
+88000
+Legal
+404-2024
+483 Building C
+4/15/1979
+gandrews@email.com
+--
+Andrews
+Sarah
+479767
+120000
+Legal
+320-2585
+88 Russ Engineering
+3/25/1990
+sandrews@hotmail.com
+--
+Andrews
+Jack
+467782
+38000
+Research and Development
+840-0037
+914 Russ Engineering
+10/13/1998
+jandrews@mailman.net
+--
+Reynolds
+Denise
+899639
+120000
+Engineering
+883-2737
+682 Wilson building
+8/7/1993
+dreynolds@mailman.net
+--
+Billings
+Wendy
+699600
+57000
+Sales
+465-5040
+272 Building C
+9/21/1995
+wbillings@yahoo.com
+--
+Ireland
+Phil
+208104
+74000
+International Warfare
+032-2327
+377 Case building
+1/6/1983
+pireland@msn.com
+--
+Richardson
+Mandy
+846318
+89000
+Espionage
+158-2165
+283 Case building
+5/3/2001
+mrichardson@snailmail.com
+--
+Ellison
+Denise
+640561
+84000
+International Warfare
+210-5351
+121 Case building
+5/4/2000
+dellison@google.com
+--
+Innis
+Sarah
+317464
+96000
+Interrogation
+515-2081
+727 Rockefellar Plaza
+10/5/1993
+sinnis@msn.com
+--
+Enland
+Mandy
+085388
+35000
+Espionage
+247-7031
+390 Building C
+5/9/1976
+menland@mymail.com
+--
+Kerry
+Ellen
+383913
+72000
+International Warfare
+361-6182
+342 Nelson building
+5/12/2001
+ekerry@snailmail.com
+--
+Sanders
+Dillan
+829382
+112000
+Engineering
+068-3571
+864 Rockefellar Plaza
+5/10/1985
+dsanders@msn.com
+--
+Richardson
+Lee
+927227
+87000
+Engineering
+075-3860
+885 Building A
+7/5/1998
+lrichardson@wright.edu
+--
+Kerry
+Dillan
+405778
+66000
+Engineering
+266-3273
+392 Wilson building
+3/12/1983
+dkerry@mymail.com
+--
+Smith
+Sarah
+438131
+117000
+Marketing
+138-0278
+406 Administration bldg
+1/25/1975
+ssmith@mymail.com
+--
+Feldmeyer
+Wendy
+503108
+124000
+Administration
+041-5725
+473 Case building
+5/15/1978
+wfeldmeyer@msn.com
+--
+Wendall
+Allen
+687823
+43000
+Legal
+060-1222
+661 Rike
+9/24/1981
+awendall@wow.rr.net
+--
+Meyer
+Helen
+905374
+91000
+Research and Development
+203-3468
+832 Building D
+9/27/1982
+hmeyer@mailman.net
+--
+Howard
+Beverly
+410315
+61000
+Research and Development
+086-1573
+882 Building D
+4/3/1999
+bhoward@msn.com
+--
+Ellis
+Dillan
+467849
+64000
+Espionage
+531-0306
+905 Administration bldg
+4/4/1980
+dellis@wow.rr.net
+--
+Jones
+Paula
+955211
+53000
+International Warfare
+478-1356
+121 Rike
+9/4/1998
+pjones@mymail.com
+--
+Ellison
+Sandy
+442050
+118000
+Sales
+254-7568
+624 Building C
+1/6/2000
+sellison@msn.com
+--
+Daniels
+Paula
+085432
+87000
+Administration
+364-1854
+809 Rockefellar Plaza
+8/17/1979
+pdaniels@mymail.com
+--
+Donaldson
+Frank
+282458
+121000
+Sales
+462-8045
+315 Rockefellar Plaza
+11/8/2000
+fdonaldson@ieee.org
+--
+Jeffries
+Paula
+361712
+89000
+Research and Development
+360-5616
+247 Administration bldg
+1/23/1975
+pjeffries@yahoo.com
+--
+Donaldson
+Ben
+972238
+66000
+Engineering
+603-3630
+404 Rockefellar Plaza
+1/14/1978
+bdonaldson@ieee.org
+--
+Kline
+Beverly
+516938
+104000
+Espionage
+357-3545
+540 Building A
+7/19/1975
+bkline@mymail.com
+--
+Kline
+Deb
+747762
+45000
+Engineering
+046-4601
+157 Administration bldg
+4/8/1992
+dkline@msn.com
+--
+Feldmeyer
+Paula
+384538
+71000
+Research and Development
+886-2546
+294 Rike
+10/1/1999
+pfeldmeyer@google.com
+--
+Jeffries
+Gwen
+185531
+108000
+Engineering
+750-6417
+585 Rockefellar Plaza
+8/22/1990
+gjeffries@mymail.com
+--
+Price
+George
+200268
+119000
+Marketing
+218-5716
+405 Administration bldg
+1/1/1989
+gprice@email.com
+--
+Feldmeyer
+Dillan
+474628
+84000
+Sales
+300-5521
+146 Building C
+2/2/1992
+dfeldmeyer@snailmail.com
+--
+Everson
+Terry
+306387
+74000
+Legal
+738-6581
+298 Nelson building
+10/15/1989
+teverson@wow.rr.net
+--
+Bryce
+Mike
+109285
+86000
+Sales
+638-8440
+143 Building A
+2/10/1993
+mbryce@wow.rr.net
+--
+Gage
+Ben
+397502
+62000
+Engineering
+115-2584
+500 Administration bldg
+7/8/1997
+bgage@google.com
+--
+Ellis
+Alice
+392258
+34000
+Engineering
+467-1834
+828 Rike
+9/3/1980
+aellis@mailman.net
+--
+Price
+Ethan
+166249
+91000
+Marketing
+471-4244
+940 Nelson building
+10/3/1993
+eprice@ieee.org
+--
+Gage
+Dan
+827417
+105000
+Legal
+357-8658
+862 Building C
+8/2/1999
+dgage@wow.rr.net
+--
+Farmer
+Sandy
+561024
+63000
+Accounting
+600-7241
+173 Russ Engineering
+9/19/2001
+sfarmer@email.com
+--
+Francis
+Helen
+368668
+87000
+Engineering
+064-5003
+813 Building B
+4/2/1980
+hfrancis@wright.edu
+--
+Daniels
+Allen
+278480
+63000
+Accounting
+066-2156
+279 Building C
+1/22/1982
+adaniels@snailmail.com
+--
+Bryce
+Randy
+298939
+51000
+Administration
+740-3507
+704 Wilson building
+5/27/1986
+rbryce@msn.com
+--
+Reynolds
+Don
+682332
+103000
+Espionage
+710-6420
+41 Nelson building
+10/22/1987
+dreynolds@msn.com
+--
+Farmer
+Ben
+521725
+61000
+Engineering
+316-6442
+361 Allyn Hall
+4/25/1980
+bfarmer@google.com
+--
+Ireland
+Mandy
+061062
+59000
+Engineering
+318-7747
+392 Rockefellar Plaza
+1/15/1985
+mireland@mailman.net
+--
+Anderson
+Mandy
+659939
+76000
+Sales
+304-4303
+913 Rike
+11/23/1990
+manderson@hotmail.com
+--
+England
+Steve
+564581
+78000
+Legal
+238-8373
+606 Administration bldg
+7/5/1996
+sengland@msn.com
+--
+Sanders
+Sandy
+125234
+67000
+Engineering
+668-7844
+793 Rockefellar Plaza
+3/13/2003
+ssanders@ieee.org
+--
+Jackson
+Steve
+307127
+53000
+Legal
+526-0338
+191 Russ Engineering
+5/13/1993
+sjackson@mailman.net
+--
+Ireland
+Denise
+381599
+122000
+Administration
+026-3875
+508 Building B
+9/16/1984
+direland@msn.com
+--
+Hanover
+Deb
+036826
+109000
+Engineering
+536-8487
+219 Building B
+3/22/2000
+dhanover@google.com
+--
+Driver
+Ellen
+258275
+67000
+Espionage
+831-1763
+645 Wilson building
+3/20/1978
+edriver@mymail.com
+--
+Enland
+Alice
+646518
+99000
+Accounting
+655-2626
+539 Nelson building
+3/3/1996
+aenland@msn.com
+--
+Enland
+Sandy
+670659
+54000
+Sales
+650-4186
+90 Allyn Hall
+3/11/1982
+senland@google.com
+--
+Northrup
+Mandy
+077813
+107000
+Legal
+328-2764
+141 Building A
+4/10/1982
+mnorthrup@yahoo.com
+--
+Turner
+Bill
+564907
+121000
+Research and Development
+320-5547
+864 Building C
+11/16/2001
+bturner@google.com
+--
+Ellison
+Anna
+632901
+51000
+Research and Development
+382-7165
+163 Rike
+2/15/1993
+aellison@msn.com
+--
+Feldmeyer
+Dan
+647329
+31000
+Espionage
+657-1233
+271 Building A
+7/16/1989
+dfeldmeyer@yahoo.com
+--
+Donaldson
+Sarah
+498698
+42000
+Espionage
+634-2045
+831 Wilson building
+7/23/1982
+sdonaldson@wow.rr.net
+--
+Howard
+Denise
+473963
+94000
+Marketing
+463-5614
+277 Wilson building
+2/4/1992
+dhoward@wright.edu
+--
+Lionel
+Mark
+145869
+69000
+Interrogation
+784-5055
+362 Rike
+5/8/1975
+mlionel@snailmail.com
+--
+Gage
+Beverly
+903300
+68000
+Espionage
+045-7277
+121 Building A
+6/14/1980
+bgage@email.com
+--
+Ireland
+Wendy
+590332
+59000
+Legal
+550-4535
+276 Building D
+10/8/1978
+wireland@ieee.org
+--
+Reynolds
+Jim
+580002
+46000
+Research and Development
+661-2277
+905 Rockefellar Plaza
+11/24/1996
+jreynolds@msn.com
+--
+Saxon
+Frank
+671290
+68000
+Sales
+207-8057
+572 Building C
+4/1/2002
+fsaxon@wow.rr.net
+--
+Saxon
+Bill
+426085
+108000
+Marketing
+832-1875
+865 Allyn Hall
+9/12/1980
+bsaxon@wright.edu
+--
+Turner
+Ethan
+342938
+105000
+Marketing
+532-1538
+223 Allyn Hall
+4/22/1993
+eturner@email.com
+--
+Donaldson
+Sandy
+978180
+90000
+Accounting
+038-4221
+592 Administration bldg
+9/2/1991
+sdonaldson@ieee.org
+--
+Jeffries
+Jim
+450046
+31000
+Administration
+304-8331
+31 Building C
+6/6/1988
+jjeffries@wright.edu
+--
+Wendall
+Frank
+118511
+80000
+Research and Development
+633-5414
+677 Building B
+9/11/1997
+fwendall@email.com
+--
+Andrews
+Jim
+014739
+116000
+International Warfare
+473-4128
+94 Building B
+1/2/1976
+jandrews@msn.com
+--
+Northrup
+Kylie
+651803
+36000
+Espionage
+626-3726
+784 Allyn Hall
+11/2/2003
+knorthrup@ieee.org
+--
+Ellis
+Terry
+592229
+77000
+Espionage
+628-5118
+50 Case building
+1/18/1976
+tellis@snailmail.com
+--
+Bryce
+Ken
+787006
+43000
+Sales
+171-4005
+26 Russ Engineering
+6/5/1982
+kbryce@mymail.com
+--
+Richardson
+Kylie
+542710
+91000
+International Warfare
+040-7043
+929 Administration bldg
+6/20/1989
+krichardson@mailman.net
+--
+Northrup
+Steve
+570745
+113000
+Administration
+754-1147
+823 Building A
+10/14/1998
+snorthrup@mymail.com
+--
+Hobson
+Bob
+551654
+95000
+Espionage
+032-5257
+312 Case building
+9/4/1988
+bhobson@mailman.net
+--
+Northrup
+Alice
+691582
+57000
+International Warfare
+205-6551
+683 Russ Engineering
+1/14/1991
+anorthrup@mymail.com
+--
+Wendall
+Kylie
+827247
+80000
+Espionage
+055-6135
+906 Case building
+9/12/1987
+kwendall@wow.rr.net
+--
+Jackson
+Paula
+520619
+109000
+International Warfare
+114-4430
+332 Russ Engineering
+4/14/1980
+pjackson@google.com
+--
+Andrews
+Ben
+153813
+51000
+International Warfare
+540-4606
+951 Administration bldg
+8/10/1986
+bandrews@mailman.net
+--
+Jeffries
+Anna
+885591
+82000
+Accounting
+655-6585
+2 Administration bldg
+2/17/1992
+ajeffries@yahoo.com
+--
+Northrup
+Ellen
+469052
+53000
+Interrogation
+012-8632
+819 Russ Engineering
+5/26/1981
+enorthrup@msn.com
+--
+Francis
+Don
+422039
+42000
+Sales
+575-2105
+143 Nelson building
+7/23/1975
+dfrancis@email.com
+--
+Kline
+Abe
+114138
+99000
+Interrogation
+677-1728
+154 Administration bldg
+11/14/2002
+akline@mailman.net
+--
+Lionel
+George
+759568
+37000
+International Warfare
+371-0883
+219 Case building
+3/5/1981
+glionel@hotmail.com
+--
+Donaldson
+Mark
+455162
+46000
+Administration
+285-8233
+539 Building D
+9/8/1996
+mdonaldson@mymail.com
+--
+Sanders
+Jim
+755588
+107000
+Research and Development
+240-2142
+205 Wilson building
+10/3/1999
+jsanders@wright.edu
+--
+Innis
+Alice
+252261
+56000
+Marketing
+740-2457
+796 Nelson building
+6/11/1992
+ainnis@msn.com
+--
+Reynolds
+Wendy
+817017
+48000
+Administration
+642-0415
+60 Russ Engineering
+11/17/1992
+wreynolds@mymail.com
+--
+Johnson
+Abe
+023358
+92000
+Marketing
+855-4270
+497 Building C
+2/26/1984
+ajohnson@ieee.org
+--
+Driver
+Randy
+208498
+111000
+Espionage
+161-4443
+58 Wilson building
+7/19/1985
+rdriver@google.com
+--
+Lionel
+Bob
+199311
+34000
+Engineering
+721-0540
+385 Building D
+5/3/1977
+blionel@mailman.net
+--
+Jackson
+Linda
+077040
+73000
+Marketing
+287-2326
+768 Building A
+1/15/1994
+ljackson@mymail.com
+--
+Francis
+Deb
+216655
+112000
+Espionage
+642-1250
+802 Building B
+8/11/1986
+dfrancis@snailmail.com
+--
+Kerry
+Kylie
+098111
+105000
+Interrogation
+317-7030
+0 Nelson building
+11/13/1984
+kkerry@wright.edu
+--
+Price
+Terry
+861178
+75000
+Espionage
+767-4818
+542 Administration bldg
+7/5/1981
+tprice@mailman.net
+--
+Andrews
+Anna
+438604
+106000
+Interrogation
+316-2018
+345 Nelson building
+6/4/1995
+aandrews@wright.edu
+--
+Jackson
+Mandy
+977001
+66000
+Sales
+666-4146
+907 Building B
+9/23/1994
+mjackson@google.com
+--
+Donaldson
+Dave
+325182
+99000
+International Warfare
+501-5606
+9 Case building
+7/5/1978
+ddonaldson@yahoo.com
+--
+Anderson
+George
+983394
+101000
+Administration
+821-7030
+976 Building C
+6/12/1982
+ganderson@hotmail.com
+--
+Northrup
+Jack
+793160
+62000
+Interrogation
+240-8363
+589 Building C
+4/5/1980
+jnorthrup@msn.com
+--
+Bryce
+Mandy
+147238
+89000
+International Warfare
+506-5046
+830 Case building
+11/6/2001
+mbryce@yahoo.com
+--
+Bryce
+Ethan
+240599
+68000
+Accounting
+246-1175
+193 Nelson building
+4/17/1976
+ebryce@yahoo.com
+--
+Kline
+Lee
+501618
+112000
+Accounting
+123-6461
+444 Building D
+9/4/1977
+lkline@ieee.org
+--
+Hanover
+Phil
+137682
+30000
+Administration
+066-0327
+301 Rockefellar Plaza
+3/10/1979
+phanover@snailmail.com
+--
+Smith
+Lee
+325810
+35000
+Interrogation
+464-8631
+498 Russ Engineering
+1/15/2002
+lsmith@mailman.net
+--
+Donaldson
+Ethan
+076289
+74000
+Interrogation
+175-6082
+1 Russ Engineering
+9/9/1975
+edonaldson@mailman.net
+--
+Bryce
+Mike
+697527
+42000
+Interrogation
+816-7854
+240 Building D
+5/26/1981
+mbryce@mymail.com
+--
+Price
+Deb
+644243
+31000
+International Warfare
+835-8338
+131 Administration bldg
+2/3/1992
+dprice@snailmail.com
+--
+Price
+Gwen
+730178
+100000
+Legal
+650-2315
+242 Rike
+10/3/1988
+gprice@ieee.org
+--
+Lionel
+Beverly
+610032
+54000
+Administration
+316-2521
+604 Administration bldg
+3/19/1998
+blionel@hotmail.com
+--
+Jones
+Lee
+409423
+68000
+Sales
+650-3363
+988 Building C
+9/16/1989
+ljones@email.com
+--
+Lionel
+Jim
+991563
+53000
+Engineering
+734-6236
+39 Building C
+10/22/1998
+jlionel@msn.com
+--
+Everson
+Jim
+905990
+115000
+International Warfare
+435-6013
+951 Rike
+10/24/1978
+jeverson@email.com
+--
+Sanders
+Andrew
+644518
+84000
+Accounting
+427-1545
+862 Building C
+2/17/1992
+asanders@snailmail.com
+--
+Everson
+Mandy
+618783
+32000
+Engineering
+023-5048
+583 Allyn Hall
+1/9/1995
+meverson@ieee.org
+--
+Daniels
+Ethan
+889893
+88000
+Accounting
+138-6677
+705 Rockefellar Plaza
+3/11/1979
+edaniels@mailman.net
+--
+Hobson
+Terry
+062358
+96000
+Engineering
+420-6086
+347 Russ Engineering
+1/11/1986
+thobson@wow.rr.net
+--
+Enland
+Mike
+515080
+49000
+Marketing
+036-1865
+964 Building B
+11/7/2000
+menland@hotmail.com
+--
+Howard
+Dillan
+140737
+91000
+Administration
+286-1372
+145 Rike
+1/7/1977
+dhoward@google.com
+--
+Jackson
+Deb
+244618
+94000
+Espionage
+831-7004
+34 Case building
+8/2/2000
+djackson@wow.rr.net
+--
+Richardson
+Jim
+078189
+60000
+Sales
+423-6863
+683 Nelson building
+8/7/1983
+jrichardson@google.com
+--
+Donaldson
+Dan
+186574
+110000
+Accounting
+478-2820
+384 Building A
+3/4/1975
+ddonaldson@mailman.net
+--
+Saxon
+Andrew
+823285
+33000
+Research and Development
+507-7478
+302 Allyn Hall
+8/12/1978
+asaxon@mailman.net
+--
+Ellis
+Lee
+541063
+114000
+Engineering
+515-7571
+539 Building A
+3/5/1991
+lellis@google.com
+--
+Feldmeyer
+Abe
+120289
+60000
+Accounting
+363-4723
+58 Case building
+2/3/1989
+afeldmeyer@mailman.net
+--
+Turner
+Jim
+887340
+112000
+Interrogation
+584-4766
+315 Building D
+1/7/2000
+jturner@email.com
+--
+Daniels
+Ellen
+962589
+83000
+Marketing
+682-8223
+613 Administration bldg
+7/19/1995
+edaniels@email.com
+--
+Johnson
+Dillan
+078877
+98000
+Legal
+636-3678
+760 Building D
+9/27/1993
+djohnson@ieee.org
+--
+Richardson
+Ken
+018192
+100000
+Interrogation
+074-4622
+629 Russ Engineering
+9/21/1975
+krichardson@msn.com
+--
+Ellis
+Cynthia
+471894
+122000
+Espionage
+874-6586
+168 Building A
+5/8/1999
+cellis@msn.com
+--
+Jones
+Frank
+337771
+89000
+Research and Development
+175-1086
+977 Building B
+3/18/2003
+fjones@yahoo.com
+--
+Ellis
+Frank
+262906
+34000
+Research and Development
+861-4035
+85 Rike
+10/5/1979
+fellis@yahoo.com
+--
+Howard
+Ethan
+098704
+63000
+Research and Development
+831-4638
+81 Nelson building
+11/3/1994
+ehoward@yahoo.com
+--
+Ireland
+Terry
+256981
+66000
+Accounting
+274-6374
+354 Administration bldg
+7/15/1984
+tireland@hotmail.com
+--
+Smith
+Henry
+804909
+48000
+Engineering
+321-7051
+857 Rike
+7/15/1981
+hsmith@msn.com
+--
+Lionel
+Abe
+543770
+86000
+Espionage
+406-6267
+113 Building A
+1/6/1992
+alionel@email.com
+--
+Billings
+Henry
+225696
+80000
+Sales
+160-3630
+291 Administration bldg
+10/17/1986
+hbillings@msn.com
+--
+Reynolds
+Sarah
+983232
+60000
+Interrogation
+362-3260
+206 Rockefellar Plaza
+11/17/1994
+sreynolds@snailmail.com
+--
+Francis
+Alice
+215308
+63000
+Marketing
+833-5632
+181 Allyn Hall
+5/27/1984
+afrancis@google.com
+--
+Innis
+Ben
+102664
+95000
+Marketing
+434-6622
+418 Building B
+9/23/1978
+binnis@mailman.net
+--
+Feldmeyer
+Alice
+305109
+64000
+Accounting
+465-3531
+560 Case building
+4/17/1996
+afeldmeyer@email.com
+--
+Saxon
+Henry
+924923
+115000
+Accounting
+661-2073
+952 Building B
+3/18/2001
+hsaxon@wow.rr.net
+--
+Wendall
+Linda
+469985
+104000
+International Warfare
+110-2635
+612 Building C
+7/18/1985
+lwendall@ieee.org
+--
+Northrup
+Linda
+450401
+81000
+Interrogation
+460-6304
+902 Case building
+5/1/1982
+lnorthrup@mymail.com
+--
+Lincoln
+Jim
+781249
+72000
+Sales
+474-2345
+453 Rike
+1/9/1989
+jlincoln@msn.com
+--
+Doom
+Mike
+556078
+106000
+International Warfare
+872-7437
+529 Administration bldg
+4/27/1977
+mdoom@snailmail.com
+--
+Kline
+Steve
+930246
+115000
+Legal
+167-4750
+765 Case building
+2/7/2001
+skline@wright.edu
+--
+Billings
+Dan
+479033
+123000
+Research and Development
+775-0310
+882 Building C
+10/16/1983
+dbillings@hotmail.com
+--
+Ellis
+Cynthia
+250888
+62000
+Research and Development
+380-8408
+411 Nelson building
+6/16/1977
+cellis@ieee.org
+--
+Farmer
+Ken
+812462
+105000
+Espionage
+832-7485
+888 Rockefellar Plaza
+3/13/1986
+kfarmer@ieee.org
+--
+Daniels
+Don
+347064
+56000
+Accounting
+863-6003
+58 Administration bldg
+1/10/1992
+ddaniels@ieee.org
+--
+Northrup
+Dillan
+846919
+109000
+Espionage
+454-7628
+76 Nelson building
+4/18/1982
+dnorthrup@wow.rr.net
+--
+Enland
+Lee
+142792
+74000
+Research and Development
+508-2262
+844 Administration bldg
+10/4/1996
+lenland@ieee.org
+--
+Hanover
+Dan
+800186
+74000
+International Warfare
+336-3167
+760 Rike
+7/27/1975
+dhanover@google.com
+--
+Richardson
+Alice
+467286
+66000
+Marketing
+481-4367
+565 Building A
+11/26/1996
+arichardson@wow.rr.net
+--
+Phillips
+Andrew
+837151
+106000
+Marketing
+472-4411
+600 Administration bldg
+3/10/1988
+aphillips@hotmail.com
+--
+Turner
+Kylie
+850150
+54000
+Marketing
+343-5582
+223 Building D
+8/12/2000
+kturner@snailmail.com
+--
+Jones
+George
+430089
+98000
+Engineering
+541-0221
+328 Building B
+2/10/1986
+gjones@msn.com
+--
+Johnson
+Bob
+866686
+64000
+Sales
+846-1447
+437 Building A
+5/4/2001
+bjohnson@msn.com
+--
+Turner
+Don
+093693
+104000
+Accounting
+753-7766
+81 Rike
+7/1/1997
+dturner@msn.com
+--
+Bryce
+John
+630185
+115000
+Research and Development
+014-8542
+368 Nelson building
+6/13/1977
+jbryce@mymail.com
+--
+Howard
+Sandy
+985767
+67000
+Engineering
+273-3626
+975 Russ Engineering
+11/20/1983
+showard@msn.com
+--
+Richardson
+Dave
+203561
+52000
+Sales
+445-4435
+57 Allyn Hall
+3/14/1978
+drichardson@mymail.com
+--
+Sanders
+Beverly
+133583
+89000
+Marketing
+674-3472
+743 Rockefellar Plaza
+2/19/1992
+bsanders@mymail.com
+--
+Feldmeyer
+Ethan
+332217
+124000
+Sales
+262-6155
+150 Rockefellar Plaza
+5/1/2003
+efeldmeyer@hotmail.com
+--
+Northrup
+John
+143483
+124000
+Legal
+272-7132
+299 Wilson building
+7/24/2002
+jnorthrup@yahoo.com
+--
+Francis
+Cynthia
+210028
+103000
+Sales
+112-3715
+521 Wilson building
+7/6/1994
+cfrancis@yahoo.com
+--
+Jones
+Terry
+679613
+115000
+Marketing
+854-5235
+991 Case building
+8/12/1979
+tjones@mailman.net
+--
+Johnson
+Beverly
+030149
+89000
+Interrogation
+838-5314
+21 Allyn Hall
+4/11/1993
+bjohnson@mymail.com
+--
+Richardson
+Paula
+959334
+73000
+Espionage
+503-8050
+562 Building B
+8/26/1984
+prichardson@email.com
+--
+Sanders
+Lee
+256304
+50000
+Research and Development
+503-4338
+840 Case building
+3/10/1979
+lsanders@hotmail.com
+--
+Jackson
+Randy
+389232
+98000
+Accounting
+736-3658
+848 Russ Engineering
+5/8/1983
+rjackson@wright.edu
+--
+Feldmeyer
+George
+861735
+35000
+Accounting
+600-5106
+45 Administration bldg
+4/19/1991
+gfeldmeyer@mailman.net
+--
+Enland
+Dillan
+131078
+104000
+Administration
+127-4160
+115 Case building
+5/1/1980
+denland@wow.rr.net
+--
+Lincoln
+Ethan
+399110
+110000
+Administration
+625-3201
+569 Administration bldg
+10/1/1985
+elincoln@google.com
+--
+Doom
+Abe
+273999
+44000
+Interrogation
+613-0675
+777 Building A
+2/21/1989
+adoom@snailmail.com
+--
+Everson
+Lee
+701293
+113000
+Marketing
+341-7413
+620 Building B
+11/11/2000
+leverson@mailman.net
+--
+Innis
+Beverly
+363824
+68000
+Accounting
+083-0015
+722 Rockefellar Plaza
+7/9/1990
+binnis@snailmail.com
+--
+Farmer
+Ben
+341772
+56000
+Engineering
+432-0043
+456 Nelson building
+2/3/1994
+bfarmer@mailman.net
+--
+Phillips
+Jim
+491530
+55000
+Interrogation
+651-4735
+59 Wilson building
+8/12/1976
+jphillips@msn.com
+--
+Ellison
+Alice
+196438
+86000
+Espionage
+468-8653
+609 Building A
+4/19/2000
+aellison@mymail.com
+--
+Ellis
+Mandy
+899930
+102000
+Administration
+628-5111
+326 Administration bldg
+2/3/1995
+mellis@yahoo.com
+--
+Kerry
+Helen
+037897
+94000
+Research and Development
+605-6471
+986 Case building
+7/10/2001
+hkerry@mailman.net
+--
+Farmer
+Paula
+531294
+113000
+Sales
+677-1611
+128 Case building
+6/6/1985
+pfarmer@ieee.org
+--
+Anderson
+Randy
+126326
+36000
+Marketing
+425-1634
+879 Wilson building
+11/2/1982
+randerson@wright.edu
+--
+Wendall
+Alice
+039576
+114000
+Sales
+407-6125
+470 Rockefellar Plaza
+9/26/1986
+awendall@yahoo.com
+--
+Jackson
+Ellen
+472661
+42000
+International Warfare
+277-1656
+676 Allyn Hall
+5/14/1987
+ejackson@snailmail.com
+--
+Innis
+Kylie
+931395
+35000
+Interrogation
+413-4511
+388 Rockefellar Plaza
+2/3/2002
+kinnis@ieee.org
+--
+Lionel
+Randy
+638504
+79000
+Accounting
+447-1538
+395 Building A
+9/3/1986
+rlionel@snailmail.com
+--
+Everson
+Bill
+741814
+81000
+Marketing
+015-6840
+821 Rockefellar Plaza
+7/2/2001
+beverson@email.com
+--
+Hobson
+George
+363872
+108000
+Sales
+614-0116
+9 Building D
+8/3/1987
+ghobson@email.com
+--
+Hanover
+Sandy
+388107
+48000
+Legal
+045-7714
+348 Case building
+11/16/1980
+shanover@snailmail.com
+--
+Jeffries
+Sandy
+087251
+32000
+Administration
+134-0871
+105 Russ Engineering
+1/18/2001
+sjeffries@email.com
+--
+Farmer
+Jim
+568936
+70000
+International Warfare
+355-0710
+385 Rike
+2/2/1986
+jfarmer@hotmail.com
+--
+Andrews
+Andrew
+986292
+30000
+Accounting
+513-6460
+828 Case building
+7/5/1991
+aandrews@ieee.org
+--
+Jeffries
+Jim
+545134
+75000
+International Warfare
+224-0610
+883 Allyn Hall
+10/21/1995
+jjeffries@yahoo.com
+--
+Francis
+Mike
+696993
+108000
+Legal
+634-7672
+801 Rike
+6/27/1981
+mfrancis@google.com
+--
+Gage
+Denise
+206886
+46000
+Legal
+243-1714
+785 Nelson building
+4/25/1991
+dgage@google.com
+--
+Driver
+Frank
+062092
+48000
+Sales
+848-8471
+644 Building D
+1/25/1988
+fdriver@wow.rr.net
+--
+Jackson
+Mark
+206220
+50000
+Espionage
+371-1360
+220 Wilson building
+2/10/2000
+mjackson@mymail.com
+--
+Kline
+Beverly
+909324
+106000
+Legal
+668-6264
+342 Nelson building
+1/9/1976
+bkline@wright.edu
+--
+Jeffries
+George
+899388
+71000
+Research and Development
+324-7516
+122 Building C
+2/26/1987
+gjeffries@snailmail.com
+--
+Gage
+Ken
+383876
+106000
+Legal
+360-4085
+780 Nelson building
+2/7/2001
+kgage@email.com
+--
+Francis
+Linda
+125928
+70000
+Accounting
+430-2550
+755 Rike
+10/10/1998
+lfrancis@wright.edu
+--
+Hobson
+Bob
+156321
+48000
+Legal
+320-0670
+649 Building D
+2/7/1979
+bhobson@email.com
+--
+Smith
+Wendy
+261345
+52000
+Accounting
+061-6814
+696 Wilson building
+3/18/1984
+wsmith@mymail.com
+--
+Billings
+Cynthia
+587775
+104000
+Accounting
+604-8127
+944 Building B
+6/5/2002
+cbillings@snailmail.com
+--
+Ireland
+Alice
+895243
+81000
+Legal
+013-8650
+495 Building B
+7/14/1995
+aireland@wow.rr.net
+--
+Enland
+Cynthia
+587865
+62000
+Administration
+465-7784
+938 Wilson building
+9/16/1983
+cenland@google.com
+--
+Doom
+Paula
+843431
+123000
+International Warfare
+126-2306
+60 Wilson building
+1/3/1995
+pdoom@wow.rr.net
+--
+Driver
+Bob
+638862
+115000
+International Warfare
+131-2233
+161 Building A
+4/25/1994
+bdriver@ieee.org
+--
+Price
+Sandy
+200746
+69000
+Sales
+444-8741
+139 Wilson building
+4/20/1978
+sprice@mymail.com
+--
+Jackson
+George
+683099
+44000
+Legal
+848-4365
+424 Building D
+6/10/1994
+gjackson@hotmail.com
+--
+Lionel
+Gwen
+320084
+35000
+Sales
+454-4668
+228 Rockefellar Plaza
+8/3/1995
+glionel@yahoo.com
+--
+Hobson
+Lee
+892719
+121000
+Espionage
+152-4666
+290 Rockefellar Plaza
+7/19/1985
+lhobson@google.com
+--
+Northrup
+Kylie
+722869
+68000
+Accounting
+373-4312
+793 Rike
+6/17/1981
+knorthrup@mailman.net
+--
+Wendall
+Mandy
+769365
+66000
+Accounting
+243-2475
+539 Case building
+11/21/1980
+mwendall@mymail.com
+--
+Ellison
+Dan
+016489
+42000
+Marketing
+231-6582
+791 Case building
+2/26/2001
+dellison@google.com
+--
+Jackson
+Randy
+295108
+63000
+Administration
+676-6786
+36 Case building
+6/3/1994
+rjackson@msn.com
+--
+Ireland
+Henry
+184126
+87000
+Marketing
+155-7411
+105 Rike
+7/12/1992
+hireland@wright.edu
+--
+Kerry
+Mike
+489698
+109000
+Accounting
+173-6861
+198 Rike
+7/9/1984
+mkerry@snailmail.com
+--
+Bryce
+Andrew
+080153
+77000
+Engineering
+161-1306
+754 Building C
+3/17/2002
+abryce@google.com
+--
+Hanover
+Denise
+234933
+79000
+Administration
+681-6536
+231 Building C
+7/21/1997
+dhanover@msn.com
+--
+Gage
+Dave
+506119
+72000
+Accounting
+608-5567
+951 Building B
+1/24/1988
+dgage@mailman.net
+--
+Howard
+Linda
+547172
+84000
+Sales
+172-6408
+236 Rockefellar Plaza
+6/17/1980
+lhoward@mymail.com
+--
+Kline
+John
+589220
+89000
+Accounting
+542-4327
+726 Building D
+11/24/1993
+jkline@snailmail.com
+--
+Everson
+Cynthia
+062408
+35000
+Administration
+884-5236
+275 Building B
+6/13/1977
+ceverson@yahoo.com
+--
+Ellison
+Beverly
+393815
+39000
+Legal
+147-7618
+925 Building C
+9/6/1975
+bellison@mailman.net
+--
+Driver
+Joe
+174063
+108000
+Legal
+860-1613
+273 Russ Engineering
+2/5/2002
+jdriver@mailman.net
+--
+Francis
+Ethan
+761028
+104000
+Sales
+185-8805
+209 Administration bldg
+6/24/1980
+efrancis@snailmail.com
+--
+Northrup
+Paula
+281833
+50000
+Interrogation
+636-5065
+419 Building A
+3/20/1991
+pnorthrup@email.com
+--
+Andrews
+Sandy
+850603
+71000
+Espionage
+033-1547
+326 Nelson building
+3/1/1987
+sandrews@google.com
+--
+Saxon
+Paula
+860714
+36000
+Research and Development
+006-6131
+645 Administration bldg
+2/6/1996
+psaxon@google.com
+--
+Hanover
+Anna
+759624
+33000
+Marketing
+161-3072
+413 Administration bldg
+4/13/1980
+ahanover@snailmail.com
+--
+Jones
+Paula
+933194
+77000
+International Warfare
+253-1814
+933 Allyn Hall
+7/10/1988
+pjones@yahoo.com
+--
+Johnson
+Bill
+027141
+79000
+Sales
+306-7302
+628 Russ Engineering
+1/4/2002
+bjohnson@hotmail.com
+--
+Kline
+Bill
+010675
+52000
+Marketing
+132-7257
+632 Administration bldg
+4/11/1992
+bkline@mymail.com
+--
+Kerry
+Gwen
+129996
+49000
+Legal
+241-5838
+410 Case building
+9/3/1992
+gkerry@yahoo.com
+--
+Innis
+Alice
+619522
+77000
+Sales
+186-0367
+512 Administration bldg
+2/22/1984
+ainnis@mymail.com
+--
+Hanover
+Sarah
+954175
+56000
+Marketing
+105-7277
+128 Building C
+2/25/2001
+shanover@google.com
+--
+Richardson
+Helen
+027792
+67000
+Administration
+724-1470
+26 Russ Engineering
+2/7/1981
+hrichardson@mailman.net
+--
+Francis
+Deb
+040183
+101000
+Sales
+664-8411
+472 Rike
+3/4/1989
+dfrancis@yahoo.com
+--
+Wendall
+Mark
+766115
+53000
+Interrogation
+320-7255
+746 Case building
+9/27/1997
+mwendall@google.com
+--
+Lionel
+Cynthia
+333131
+114000
+Marketing
+157-4466
+799 Building D
+5/5/1994
+clionel@mailman.net
+--
+Johnson
+Jim
+711293
+88000
+Espionage
+812-8452
+740 Building D
+3/5/2002
+jjohnson@hotmail.com
+--
+Bryce
+Allen
+190333
+67000
+Espionage
+418-3821
+3 Building D
+2/21/1994
+abryce@yahoo.com
+--
+Farmer
+Terry
+628885
+30000
+Marketing
+503-8137
+733 Building B
+10/11/1984
+tfarmer@snailmail.com
+--
+Jeffries
+Frank
+613175
+96000
+Interrogation
+302-3288
+582 Building D
+4/19/1981
+fjeffries@email.com
+--
+Wendall
+Lee
+745294
+101000
+Research and Development
+030-7743
+713 Building A
+4/27/1983
+lwendall@wow.rr.net
+--
+Ireland
+George
+562524
+72000
+Administration
+383-5720
+147 Russ Engineering
+3/7/1990
+gireland@yahoo.com
+--
+Donaldson
+Cynthia
+345758
+104000
+Espionage
+412-8176
+172 Building D
+10/1/2001
+cdonaldson@hotmail.com
+--
+Saxon
+Joe
+169066
+93000
+Interrogation
+068-5776
+266 Rockefellar Plaza
+8/12/1986
+jsaxon@email.com
+--
+Meyer
+Dillan
+607120
+78000
+Espionage
+647-4851
+546 Rike
+4/11/1983
+dmeyer@ieee.org
+--
+Howard
+Kylie
+192132
+63000
+Accounting
+400-7863
+663 Building A
+1/4/1997
+khoward@snailmail.com
+--
+Price
+Don
+824692
+78000
+Espionage
+378-0134
+433 Building C
+10/10/1985
+dprice@snailmail.com
+--
+Andrews
+Joe
+239179
+124000
+Research and Development
+483-3684
+528 Russ Engineering
+3/16/1983
+jandrews@mailman.net
+--
+Ellison
+Phil
+997366
+96000
+Research and Development
+551-4066
+56 Building A
+9/16/2003
+pellison@email.com
+--
+Price
+Allen
+406036
+95000
+Interrogation
+187-2540
+84 Building C
+4/15/1991
+aprice@snailmail.com
+--
+Driver
+Lee
+787941
+96000
+Espionage
+716-7015
+56 Rike
+3/10/1983
+ldriver@mailman.net
+--
+Saxon
+Terry
+723562
+43000
+Legal
+238-5718
+752 Rike
+11/23/1995
+tsaxon@google.com
+--
+Ellison
+Cynthia
+938733
+69000
+Sales
+251-8858
+837 Administration bldg
+11/1/1995
+cellison@ieee.org
+--
+Billings
+Jack
+107280
+123000
+Sales
+257-4705
+758 Building B
+8/23/1977
+jbillings@email.com
+--
+Hanover
+Steve
+651883
+40000
+Engineering
+363-8600
+620 Wilson building
+1/5/1987
+shanover@google.com
+--
+Daniels
+Dillan
+491002
+79000
+Legal
+135-8160
+661 Building B
+6/11/1982
+ddaniels@msn.com
+--
+Donaldson
+Dan
+608231
+45000
+Espionage
+524-2547
+677 Rockefellar Plaza
+7/20/2003
+ddonaldson@msn.com
+--
+Bryce
+Sandy
+268784
+63000
+Legal
+172-7376
+593 Allyn Hall
+8/26/1993
+sbryce@ieee.org
+--
+Jeffries
+Mandy
+723440
+85000
+Sales
+207-7515
+793 Russ Engineering
+5/2/1988
+mjeffries@wow.rr.net
+--
+Ellis
+Dillan
+203642
+39000
+Accounting
+484-7736
+555 Rockefellar Plaza
+2/22/1976
+dellis@snailmail.com
+--
+Ellison
+Sarah
+282863
+86000
+Research and Development
+076-5730
+714 Administration bldg
+9/12/1979
+sellison@mymail.com
+--
+Turner
+Bill
+592489
+88000
+Sales
+326-3647
+843 Building B
+9/17/1989
+bturner@google.com
+--
+Lincoln
+Kylie
+035628
+124000
+Engineering
+463-8706
+749 Wilson building
+5/4/1978
+klincoln@google.com
+--
+England
+Ken
+526843
+94000
+Legal
+546-7854
+862 Building C
+10/20/1988
+kengland@mymail.com
+--
+Reynolds
+Lee
+745587
+34000
+Legal
+143-6512
+184 Building D
+11/19/2001
+lreynolds@wright.edu
+--
+Andrews
+Steve
+501271
+68000
+Sales
+332-1042
+374 Rockefellar Plaza
+1/24/1994
+sandrews@wow.rr.net
+--
+Lionel
+Henry
+219323
+97000
+Administration
+458-1401
+3 Building B
+1/21/1985
+hlionel@mailman.net
+--
+Francis
+John
+413642
+45000
+Espionage
+276-4163
+214 Building C
+6/22/1989
+jfrancis@google.com
+--
+Sanders
+Andrew
+585367
+77000
+International Warfare
+837-7516
+653 Nelson building
+5/23/1996
+asanders@email.com
+--
+Billings
+Steve
+241923
+89000
+Espionage
+160-2150
+889 Building B
+11/16/1993
+sbillings@yahoo.com
+--
+Billings
+Paula
+960926
+36000
+Accounting
+260-4378
+120 Wilson building
+3/25/1978
+pbillings@msn.com
+--
+Billings
+Kylie
+535991
+41000
+Legal
+058-4681
+592 Administration bldg
+10/1/1994
+kbillings@mailman.net
+--
+Price
+Bill
+251563
+76000
+Sales
+451-3418
+164 Wilson building
+2/19/1989
+bprice@email.com
+--
+England
+Beverly
+669463
+36000
+Espionage
+270-4146
+108 Allyn Hall
+1/19/1986
+bengland@msn.com
+--
+Smith
+Bill
+896861
+48000
+Engineering
+187-5404
+250 Nelson building
+10/23/1988
+bsmith@ieee.org
+--
+Wendall
+Paula
+153855
+88000
+Engineering
+806-3414
+81 Wilson building
+10/6/1997
+pwendall@wow.rr.net
+--
+Meyer
+Cynthia
+528801
+36000
+Marketing
+605-5628
+620 Russ Engineering
+7/8/1996
+cmeyer@yahoo.com
+--
+Feldmeyer
+Ken
+653292
+111000
+International Warfare
+411-8587
+447 Case building
+11/15/1995
+kfeldmeyer@mailman.net
+--
+Jackson
+Jack
+809921
+31000
+Interrogation
+736-7268
+100 Rockefellar Plaza
+7/10/1979
+jjackson@ieee.org
+--
+Doom
+Linda
+329073
+81000
+Administration
+612-8546
+396 Rike
+3/2/1993
+ldoom@ieee.org
+--
+Price
+Deb
+191260
+45000
+Administration
+240-2440
+225 Nelson building
+6/24/1979
+dprice@yahoo.com
+--
+Francis
+Ellen
+679811
+37000
+International Warfare
+308-1131
+579 Administration bldg
+6/24/1986
+efrancis@mymail.com
+--
+Daniels
+Randy
+848153
+48000
+Legal
+057-0532
+942 Allyn Hall
+1/2/1995
+rdaniels@hotmail.com
+--
+Smith
+Lee
+244253
+63000
+Marketing
+838-5384
+787 Building C
+3/1/2003
+lsmith@mymail.com
+--
+Northrup
+Terry
+394313
+107000
+Interrogation
+114-3622
+656 Administration bldg
+9/16/2001
+tnorthrup@google.com
+--
+Daniels
+Deb
+302536
+31000
+Espionage
+723-8386
+293 Building C
+9/15/2003
+ddaniels@google.com
+--
+Johnson
+Helen
+790399
+69000
+International Warfare
+141-2110
+633 Russ Engineering
+2/18/1999
+hjohnson@snailmail.com
+--
+Driver
+Jim
+172731
+95000
+Legal
+178-8771
+483 Building A
+2/27/2000
+jdriver@wright.edu
+--
+Wendall
+Gwen
+493702
+61000
+Engineering
+547-8506
+508 Russ Engineering
+5/12/1984
+gwendall@wow.rr.net
+--
+Ellis
+Kylie
+282976
+97000
+Espionage
+571-5833
+356 Russ Engineering
+6/15/1999
+kellis@yahoo.com
+--
+Sanders
+Phil
+579252
+36000
+Interrogation
+742-3786
+150 Nelson building
+4/15/2003
+psanders@wright.edu
+--
+Howard
+Anna
+215136
+67000
+Legal
+814-8184
+346 Allyn Hall
+2/14/1992
+ahoward@wow.rr.net
+--
+Kline
+Paula
+430174
+51000
+Research and Development
+558-0480
+565 Allyn Hall
+7/19/1980
+pkline@hotmail.com
+--
+Johnson
+Paula
+593784
+67000
+Espionage
+605-3372
+954 Rockefellar Plaza
+9/25/1983
+pjohnson@ieee.org
+--
+Meyer
+Denise
+996761
+71000
+Espionage
+142-4842
+602 Rockefellar Plaza
+8/12/2000
+dmeyer@snailmail.com
+--
+Jones
+Sarah
+946441
+120000
+Research and Development
+872-7248
+191 Russ Engineering
+6/11/1982
+sjones@wright.edu
+--
+Innis
+Abe
+846385
+99000
+International Warfare
+118-4882
+673 Allyn Hall
+7/10/1998
+ainnis@yahoo.com
+--
+Saxon
+Kylie
+630079
+82000
+Accounting
+068-8616
+26 Wilson building
+1/10/1999
+ksaxon@mymail.com
+--
+Turner
+John
+654101
+119000
+Interrogation
+853-1203
+913 Rike
+11/8/1990
+jturner@mymail.com
+--
+Saxon
+Lee
+224122
+100000
+Accounting
+456-7372
+87 Building D
+9/10/1994
+lsaxon@yahoo.com
+--
+Jackson
+Dillan
+856182
+31000
+Accounting
+170-8423
+141 Building A
+9/2/1993
+djackson@google.com
+--
+Feldmeyer
+Don
+712459
+97000
+Marketing
+888-7651
+531 Building C
+8/23/1991
+dfeldmeyer@mailman.net
+--
+Lionel
+Dave
+098833
+51000
+Research and Development
+166-8353
+593 Rockefellar Plaza
+5/13/1983
+dlionel@ieee.org
+--
+Driver
+Cynthia
+144545
+124000
+Engineering
+328-3256
+94 Rockefellar Plaza
+1/8/1994
+cdriver@snailmail.com
+--
+Kline
+Ethan
+762254
+78000
+Legal
+467-3641
+441 Nelson building
+9/14/1988
+ekline@ieee.org
+--
+Ellis
+Cynthia
+508631
+113000
+Legal
+252-4033
+175 Rockefellar Plaza
+9/13/1977
+cellis@yahoo.com
+--
+Howard
+Frank
+307120
+87000
+Engineering
+048-0505
+51 Wilson building
+2/16/1986
+fhoward@wow.rr.net
+--
+Anderson
+Paula
+496678
+54000
+Administration
+433-0538
+741 Building D
+2/1/1994
+panderson@msn.com
+--
+Innis
+Alice
+204655
+106000
+International Warfare
+336-0764
+743 Rockefellar Plaza
+10/22/1992
+ainnis@email.com
+--
+Lionel
+Denise
+463856
+44000
+Accounting
+668-7403
+954 Nelson building
+5/25/1992
+dlionel@wright.edu
+--
+Ireland
+Sarah
+987076
+96000
+Engineering
+611-3416
+896 Building A
+1/25/1984
+sireland@ieee.org
+--
+Sanders
+Don
+876861
+93000
+Sales
+857-7072
+188 Building D
+11/12/1994
+dsanders@mymail.com
+--
+Innis
+Allen
+586294
+115000
+Accounting
+335-1081
+394 Russ Engineering
+9/2/1982
+ainnis@wright.edu
+--
+Smith
+Ellen
+259353
+83000
+Research and Development
+507-2501
+138 Rike
+2/25/1988
+esmith@email.com
+--
+Anderson
+Kylie
+365143
+41000
+Accounting
+810-6650
+317 Building B
+3/7/1984
+kanderson@wow.rr.net
+--
+Driver
+Dave
+349119
+108000
+Research and Development
+343-3641
+110 Wilson building
+2/22/1976
+ddriver@email.com
+--
+Farmer
+Denise
+676618
+120000
+Administration
+311-0831
+33 Building B
+9/17/2001
+dfarmer@google.com
+--
+Doom
+Ethan
+323647
+32000
+Administration
+303-1802
+402 Rockefellar Plaza
+1/23/1993
+edoom@ieee.org
+--
+Francis
+Mark
+138006
+118000
+Sales
+083-3113
+703 Case building
+9/12/1984
+mfrancis@google.com
+--
+Kerry
+Anna
+420768
+104000
+Interrogation
+761-8102
+996 Building B
+5/24/1985
+akerry@email.com
+--
+Phillips
+Frank
+726081
+100000
+Accounting
+626-8371
+713 Building C
+7/7/2002
+fphillips@wow.rr.net
+--
+Sanders
+Ethan
+603221
+73000
+International Warfare
+061-7585
+874 Rike
+2/13/2002
+esanders@ieee.org
+--
+Innis
+Lee
+913933
+30000
+Research and Development
+660-4114
+510 Case building
+8/8/1990
+linnis@snailmail.com
+--
+Billings
+George
+197617
+65000
+Legal
+417-6714
+635 Building B
+8/25/2003
+gbillings@wright.edu
+--
+Ireland
+Ellen
+071716
+113000
+Espionage
+570-4827
+496 Nelson building
+5/7/1997
+eireland@hotmail.com
+--
+Gage
+Wendy
+463905
+81000
+International Warfare
+440-5770
+548 Building C
+10/3/1979
+wgage@mymail.com
+--
+Billings
+Andrew
+559155
+44000
+Legal
+438-6138
+993 Allyn Hall
+11/19/1996
+abillings@email.com
+--
+England
+Linda
+004359
+46000
+Accounting
+384-5527
+691 Case building
+8/17/1982
+lengland@hotmail.com
+--
+Saxon
+Phil
+860656
+119000
+Marketing
+116-2227
+360 Building D
+9/1/1997
+psaxon@wright.edu
+--
+Doom
+Abe
+310258
+87000
+Sales
+616-2123
+169 Building C
+2/20/1986
+adoom@email.com
+--
+Daniels
+Anna
+843537
+102000
+Marketing
+010-0165
+684 Administration bldg
+5/18/1979
+adaniels@google.com
+--
+Johnson
+Alice
+291533
+76000
+Marketing
+514-3744
+985 Rike
+4/26/2000
+ajohnson@snailmail.com
+--
+Anderson
+Sarah
+318180
+118000
+Marketing
+708-7007
+585 Rike
+11/5/1996
+sanderson@wow.rr.net
+--
+Richardson
+Ellen
+971527
+112000
+Administration
+833-0143
+975 Rike
+7/11/1994
+erichardson@ieee.org
+--
+Kline
+Henry
+549802
+108000
+International Warfare
+164-3767
+667 Administration bldg
+4/14/1978
+hkline@wow.rr.net
+--
+Everson
+Denise
+936557
+122000
+International Warfare
+024-3557
+833 Building B
+3/27/2003
+deverson@email.com
+--
+Everson
+Frank
+673836
+32000
+Interrogation
+055-5702
+673 Administration bldg
+6/9/2000
+feverson@yahoo.com
+--
+Innis
+Deb
+001553
+44000
+International Warfare
+578-6741
+310 Wilson building
+2/21/2001
+dinnis@email.com
+--
+Ellison
+John
+832877
+89000
+Interrogation
+076-2544
+957 Rockefellar Plaza
+5/6/1999
+jellison@snailmail.com
+--
+Ellison
+Sandy
+988306
+74000
+Espionage
+312-0560
+101 Allyn Hall
+5/15/1989
+sellison@mailman.net
+--
+Driver
+Cynthia
+047491
+34000
+Accounting
+640-5005
+284 Russ Engineering
+5/9/1990
+cdriver@wow.rr.net
+--
+Daniels
+Bill
+271857
+43000
+Accounting
+486-4611
+664 Building D
+3/4/1997
+bdaniels@google.com
+--
+Feldmeyer
+Allen
+367770
+39000
+Research and Development
+710-1575
+486 Case building
+11/10/1993
+afeldmeyer@ieee.org
+--
+Bryce
+Sandy
+345877
+36000
+Marketing
+523-3377
+238 Case building
+7/27/2001
+sbryce@mymail.com
+--
+Johnson
+George
+646573
+120000
+Research and Development
+484-2253
+600 Building D
+7/10/1982
+gjohnson@wow.rr.net
+--
+Driver
+George
+396733
+114000
+Accounting
+834-3161
+778 Case building
+2/11/1994
+gdriver@hotmail.com
+--
+Gage
+Dan
+959804
+32000
+Research and Development
+866-7070
+312 Building A
+4/26/1989
+dgage@ieee.org
+--
+Kerry
+Joe
+440571
+38000
+Interrogation
+730-1180
+461 Rike
+8/6/1994
+jkerry@msn.com
+--
+Turner
+Kylie
+041050
+37000
+Espionage
+265-2471
+249 Rike
+7/25/2002
+kturner@ieee.org
+--
+Lincoln
+Lee
+229611
+62000
+Research and Development
+874-7017
+436 Building C
+6/15/1975
+llincoln@yahoo.com
+--
+Andrews
+Lee
+231092
+44000
+Engineering
+310-4377
+510 Administration bldg
+9/20/2000
+landrews@hotmail.com
+--
+Turner
+Jack
+597608
+68000
+Marketing
+707-6800
+335 Wilson building
+5/4/1987
+jturner@ieee.org
+--
+Saxon
+Linda
+128185
+34000
+Marketing
+312-4700
+565 Rockefellar Plaza
+5/3/1999
+lsaxon@snailmail.com
+--
+Francis
+Dave
+433439
+121000
+Espionage
+300-7563
+506 Case building
+7/19/1994
+dfrancis@yahoo.com
+--
+Driver
+George
+805452
+31000
+Administration
+855-1580
+35 Rike
+5/17/1976
+gdriver@mymail.com
+--
+Jeffries
+Alice
+992666
+90000
+Marketing
+332-3767
+749 Nelson building
+7/24/1990
+ajeffries@ieee.org
+--
+Richardson
+Ben
+109550
+38000
+Sales
+426-7787
+696 Building B
+6/26/1990
+brichardson@wow.rr.net
+--
+Wendall
+Paula
+632920
+120000
+Legal
+316-5513
+877 Building C
+1/12/1994
+pwendall@mymail.com
+--
+Phillips
+George
+653805
+51000
+International Warfare
+745-4184
+919 Building B
+5/10/1986
+gphillips@hotmail.com
+--
+Lionel
+Steve
+519942
+68000
+Research and Development
+278-0336
+404 Nelson building
+5/26/1993
+slionel@mailman.net
+--
+Hanover
+John
+919467
+84000
+Espionage
+387-8577
+760 Building A
+3/9/1997
+jhanover@mailman.net
+--
+Reynolds
+Beverly
+800787
+61000
+Research and Development
+000-2114
+412 Building C
+7/27/1984
+breynolds@hotmail.com
+--
+Phillips
+Ethan
+169262
+118000
+Research and Development
+820-4312
+51 Nelson building
+8/11/1975
+ephillips@wright.edu
+--
+Lincoln
+Ethan
+289173
+48000
+Interrogation
+312-0473
+778 Russ Engineering
+11/27/1994
+elincoln@msn.com
+--
+Kerry
+Denise
+176793
+59000
+Marketing
+674-4127
+548 Case building
+9/13/1975
+dkerry@wow.rr.net
+--
+Farmer
+Don
+940037
+84000
+Espionage
+711-6424
+409 Rockefellar Plaza
+1/20/1998
+dfarmer@snailmail.com
+--
+Price
+Abe
+794049
+85000
+Engineering
+076-3001
+816 Nelson building
+11/13/1995
+aprice@wright.edu
+--
+Price
+Abe
+957526
+67000
+Marketing
+300-8101
+409 Rockefellar Plaza
+9/23/1996
+aprice@google.com
+--
+Billings
+Cynthia
+014512
+47000
+Sales
+510-4208
+930 Building A
+1/14/1975
+cbillings@hotmail.com
+--
+Jones
+Mandy
+332060
+71000
+Legal
+638-8075
+780 Allyn Hall
+7/10/1985
+mjones@wright.edu
+--
+England
+Wendy
+553877
+74000
+Legal
+247-6385
+533 Wilson building
+11/19/2001
+wengland@yahoo.com
+--
+Farmer
+Kylie
+729046
+80000
+Marketing
+882-7252
+162 Building D
+7/15/1978
+kfarmer@snailmail.com
+--
+Lincoln
+Lee
+171856
+52000
+Interrogation
+702-3677
+368 Building D
+1/10/1980
+llincoln@mymail.com
+--
+Everson
+Kylie
+058779
+44000
+Administration
+434-2513
+935 Wilson building
+4/4/1985
+keverson@yahoo.com
+--
+Billings
+Joe
+631530
+41000
+Administration
+535-0140
+713 Rockefellar Plaza
+10/26/1981
+jbillings@wow.rr.net
+--
+Johnson
+Jim
+146547
+74000
+Marketing
+151-2288
+760 Russ Engineering
+7/4/1981
+jjohnson@msn.com
+--
+Saxon
+Deb
+167105
+35000
+Legal
+625-0541
+276 Building B
+11/24/1981
+dsaxon@wow.rr.net
+--
+Saxon
+Ethan
+978517
+123000
+Sales
+144-4415
+789 Building B
+11/20/1997
+esaxon@google.com
+--
+Hobson
+Helen
+043194
+53000
+Legal
+777-5865
+566 Building C
+11/6/1991
+hhobson@email.com
+--
+Daniels
+Bob
+891969
+41000
+Administration
+307-5282
+119 Building D
+2/20/1999
+bdaniels@email.com
+--
+England
+Ellen
+492515
+62000
+Sales
+137-2717
+746 Russ Engineering
+9/8/1988
+eengland@msn.com
+--
+Gage
+Dan
+620843
+85000
+Accounting
+567-5713
+227 Nelson building
+1/19/1992
+dgage@mailman.net
+--
+Billings
+Mandy
+887664
+112000
+Engineering
+543-8553
+971 Building C
+7/3/2000
+mbillings@msn.com
+--
+Meyer
+Mark
+269576
+38000
+Sales
+381-6358
+305 Russ Engineering
+7/17/1984
+mmeyer@hotmail.com
+--
+Doom
+Cynthia
+781186
+79000
+Engineering
+142-6253
+776 Building A
+4/20/1981
+cdoom@email.com
+--
+Bryce
+Alice
+134626
+103000
+Interrogation
+815-6686
+525 Building B
+9/26/1986
+abryce@msn.com
+--
+Kline
+Lee
+127890
+99000
+Interrogation
+447-0034
+211 Russ Engineering
+4/6/1978
+lkline@google.com
+--
+Sanders
+Denise
+510184
+72000
+Research and Development
+650-3641
+342 Wilson building
+9/21/1985
+dsanders@msn.com
+--
+Meyer
+Frank
+266465
+98000
+International Warfare
+775-1807
+770 Rike
+6/8/1999
+fmeyer@snailmail.com
+--
+Anderson
+Terry
+495711
+124000
+Legal
+074-1463
+300 Wilson building
+8/4/2000
+tanderson@ieee.org
+--
+Andrews
+Deb
+828216
+114000
+Interrogation
+552-3682
+879 Building B
+3/2/1985
+dandrews@email.com
+--
+Enland
+Sandy
+889395
+89000
+Administration
+244-0550
+351 Allyn Hall
+8/25/1997
+senland@snailmail.com
+--
+Lincoln
+Mark
+143159
+78000
+Engineering
+175-4242
+661 Rike
+4/20/2003
+mlincoln@ieee.org
+--
+Lionel
+Anna
+655528
+102000
+Administration
+127-8626
+826 Rockefellar Plaza
+1/12/1996
+alionel@ieee.org
+--
+Lincoln
+Frank
+326143
+100000
+Administration
+003-6811
+622 Russ Engineering
+11/24/1979
+flincoln@ieee.org
+--
+Phillips
+Paula
+893311
+81000
+Espionage
+863-5721
+842 Administration bldg
+4/10/1992
+pphillips@google.com
+--
+Lincoln
+Jim
+566866
+64000
+International Warfare
+270-4382
+876 Rockefellar Plaza
+6/4/1995
+jlincoln@email.com
+--
+Kline
+Mike
+389794
+38000
+International Warfare
+051-1535
+236 Nelson building
+5/27/1991
+mkline@google.com
+--
+Everson
+Helen
+046432
+110000
+Interrogation
+622-4533
+141 Rockefellar Plaza
+8/8/1984
+heverson@yahoo.com
+--
+Billings
+Ken
+259072
+69000
+Sales
+621-2220
+411 Rike
+4/18/1995
+kbillings@wow.rr.net
+--
+England
+Jim
+956661
+86000
+Sales
+057-0272
+380 Building A
+10/7/1985
+jengland@mailman.net
+--
+Jones
+Beverly
+312540
+115000
+Engineering
+551-7665
+95 Building B
+4/22/1994
+bjones@snailmail.com
+--
+Doom
+Paula
+888828
+72000
+Legal
+315-6456
+642 Rike
+10/16/1984
+pdoom@msn.com
+--
+Hanover
+Phil
+757796
+75000
+Marketing
+362-7608
+941 Building D
+3/12/1997
+phanover@email.com
+--
+Gage
+Phil
+363040
+48000
+Research and Development
+578-1656
+569 Building A
+2/22/1987
+pgage@snailmail.com
+--
+Price
+Beverly
+782514
+57000
+Research and Development
+264-2375
+860 Case building
+5/3/1981
+bprice@email.com
+--
+Ellis
+Gwen
+796212
+70000
+Administration
+258-5231
+757 Rike
+10/25/1975
+gellis@yahoo.com
+--
+Andrews
+Joe
+114369
+54000
+International Warfare
+152-2272
+697 Wilson building
+5/15/1976
+jandrews@snailmail.com
+--
+Lincoln
+Sarah
+550219
+106000
+International Warfare
+574-7141
+339 Building B
+9/6/1998
+slincoln@msn.com
+--
+Meyer
+Don
+679919
+83000
+Interrogation
+656-3338
+774 Building A
+5/15/1979
+dmeyer@yahoo.com
+--
+Everson
+Cynthia
+959589
+47000
+Research and Development
+748-4631
+10 Building A
+6/7/1979
+ceverson@mailman.net
+--
+Kerry
+Terry
+285138
+85000
+Administration
+605-3168
+574 Case building
+2/23/1991
+tkerry@yahoo.com
+--
+Lionel
+Bob
+738142
+104000
+Sales
+431-7752
+742 Rockefellar Plaza
+5/19/1980
+blionel@ieee.org
+--
+Howard
+Ethan
+440926
+119000
+Research and Development
+261-7773
+545 Wilson building
+2/25/1990
+ehoward@mailman.net
+--
+Lionel
+Dave
+431907
+77000
+Marketing
+623-2758
+420 Rockefellar Plaza
+11/16/1990
+dlionel@snailmail.com
+--
+Turner
+Paula
+575090
+100000
+Marketing
+470-5208
+925 Building D
+2/25/2002
+pturner@wow.rr.net
+--
+Andrews
+Ellen
+736717
+93000
+International Warfare
+588-4027
+766 Nelson building
+3/11/1997
+eandrews@yahoo.com
+--
+Lincoln
+Ellen
+279281
+92000
+Research and Development
+255-0102
+167 Building A
+7/13/1997
+elincoln@email.com
+--
+Driver
+Denise
+531096
+47000
+Engineering
+432-6160
+226 Case building
+2/6/1993
+ddriver@mailman.net
+--
+Kerry
+Mandy
+209313
+85000
+Interrogation
+508-0478
+292 Wilson building
+6/23/2002
+mkerry@mailman.net
+--
+Daniels
+Paula
+776049
+73000
+Marketing
+614-5642
+779 Building A
+5/3/1979
+pdaniels@msn.com
+--
+Farmer
+Mark
+283273
+58000
+Legal
+574-4470
+485 Administration bldg
+11/17/1986
+mfarmer@google.com
+--
+Daniels
+Sandy
+059456
+68000
+Engineering
+400-3712
+852 Building D
+11/3/1986
+sdaniels@email.com
+--
+Ireland
+Joe
+777734
+122000
+Research and Development
+355-7404
+29 Russ Engineering
+4/15/1982
+jireland@wow.rr.net
+--
+Lionel
+Alice
+848178
+98000
+Interrogation
+624-3283
+957 Nelson building
+5/19/1988
+alionel@hotmail.com
+--
+Jeffries
+Denise
+503974
+36000
+Interrogation
+230-6860
+785 Allyn Hall
+1/24/1986
+djeffries@google.com
+--
+England
+Terry
+734269
+87000
+Administration
+504-0430
+882 Wilson building
+8/20/1979
+tengland@wright.edu
+--
+Phillips
+Andrew
+902819
+116000
+Marketing
+365-8221
+471 Building C
+4/20/1989
+aphillips@wright.edu
+--
+Lincoln
+Abe
+906427
+114000
+Marketing
+621-5234
+965 Building A
+3/3/1990
+alincoln@hotmail.com
+--
+Enland
+Mike
+189426
+52000
+Sales
+335-6456
+652 Russ Engineering
+5/24/1996
+menland@ieee.org
+--
+Francis
+Kylie
+622636
+77000
+Legal
+721-6216
+338 Wilson building
+6/3/1976
+kfrancis@mymail.com
+--
+Kline
+Joe
+320573
+52000
+Accounting
+788-8302
+100 Rockefellar Plaza
+4/8/2002
+jkline@google.com
+--
+Innis
+Sarah
+011805
+30000
+Accounting
+223-0731
+516 Building B
+4/9/1981
+sinnis@wright.edu
+--
+Lincoln
+Ethan
+916837
+40000
+Marketing
+871-8386
+573 Wilson building
+3/5/1994
+elincoln@msn.com
+--
+Phillips
+Jim
+039623
+55000
+Marketing
+458-3408
+50 Nelson building
+1/25/1986
+jphillips@email.com
+--
+Hanover
+Helen
+728850
+120000
+Interrogation
+170-5181
+85 Nelson building
+6/13/2000
+hhanover@email.com
+--
+Billings
+Dan
+620076
+60000
+International Warfare
+504-5670
+195 Russ Engineering
+1/9/1987
+dbillings@yahoo.com
+--
+Phillips
+Joe
+493304
+98000
+Legal
+802-7605
+960 Russ Engineering
+6/23/1997
+jphillips@wright.edu
+--
+Driver
+Andrew
+698860
+32000
+Marketing
+653-3062
+465 Russ Engineering
+1/19/1980
+adriver@yahoo.com
+--
+Jackson
+Ethan
+867754
+86000
+Interrogation
+270-5570
+822 Administration bldg
+1/24/1975
+ejackson@snailmail.com
+--
+Ellison
+Mark
+207523
+39000
+Accounting
+160-4851
+681 Rike
+2/15/1994
+mellison@msn.com
+--
+Farmer
+Mike
+822909
+122000
+Accounting
+264-5501
+230 Rockefellar Plaza
+10/24/1981
+mfarmer@snailmail.com
+--
+Turner
+Allen
+369980
+75000
+Legal
+162-8066
+210 Allyn Hall
+5/19/2003
+aturner@mymail.com
+--
+Ellison
+Mike
+445997
+66000
+Interrogation
+126-3748
+119 Building D
+10/20/1997
+mellison@snailmail.com
+--
+Sanders
+Beverly
+070478
+55000
+Administration
+852-0182
+283 Nelson building
+6/10/1979
+bsanders@wright.edu
+--
+Reynolds
+Kylie
+677084
+111000
+International Warfare
+767-0806
+154 Allyn Hall
+9/5/2003
+kreynolds@ieee.org
+--
+Kline
+Allen
+928077
+122000
+Administration
+607-3112
+381 Wilson building
+1/25/1980
+akline@ieee.org
+--
+Meyer
+Ken
+927866
+36000
+International Warfare
+202-2580
+302 Building B
+10/3/1992
+kmeyer@hotmail.com
+--
+Lincoln
+Beverly
+987035
+71000
+International Warfare
+786-1817
+287 Rike
+7/4/2000
+blincoln@ieee.org
+--
+Driver
+Gwen
+847498
+116000
+Sales
+746-1602
+328 Case building
+5/20/1994
+gdriver@email.com
+--
+Turner
+Anna
+247494
+39000
+Administration
+886-6544
+422 Building A
+3/3/1975
+aturner@wright.edu
+--
+Everson
+Don
+593217
+103000
+Engineering
+444-7462
+519 Building B
+5/16/1980
+deverson@mymail.com
+--
+Francis
+Andrew
+977551
+67000
+Interrogation
+578-7647
+567 Wilson building
+7/19/1980
+afrancis@msn.com
+--
+Meyer
+Jack
+009553
+112000
+Interrogation
+067-8524
+835 Administration bldg
+6/14/1999
+jmeyer@snailmail.com
+--
+Jones
+Dave
+021341
+68000
+Espionage
+167-4126
+333 Russ Engineering
+7/9/1980
+djones@google.com
+--
+Ellis
+Terry
+274809
+107000
+Engineering
+854-6325
+434 Nelson building
+5/11/1999
+tellis@hotmail.com
+--
+Hobson
+Gwen
+366455
+107000
+Accounting
+173-2276
+56 Allyn Hall
+2/6/1980
+ghobson@ieee.org
+--
+Hanover
+Mike
+299699
+95000
+Espionage
+778-4054
+934 Rockefellar Plaza
+11/12/2001
+mhanover@hotmail.com
+--
+Sanders
+Mark
+051526
+86000
+Research and Development
+128-0422
+171 Russ Engineering
+11/24/1987
+msanders@wow.rr.net
+--
+Kline
+Sarah
+886352
+115000
+Marketing
+860-1363
+267 Allyn Hall
+7/11/1995
+skline@email.com
+--
+Richardson
+Andrew
+165694
+94000
+Administration
+525-7037
+33 Building D
+8/18/1999
+arichardson@google.com
+--
+Driver
+Andrew
+055247
+116000
+Accounting
+215-3700
+459 Rike
+8/24/2003
+adriver@wright.edu
+--
+Jeffries
+John
+726313
+75000
+Accounting
+618-5156
+405 Building B
+3/5/2002
+jjeffries@yahoo.com
+--
+Donaldson
+Sarah
+219284
+37000
+Engineering
+634-1833
+11 Administration bldg
+7/27/1993
+sdonaldson@yahoo.com
+--
+Farmer
+John
+675630
+81000
+International Warfare
+777-5464
+244 Building C
+5/11/1999
+jfarmer@msn.com
+--
+Sanders
+Alice
+343391
+124000
+Administration
+811-2762
+730 Administration bldg
+8/7/2002
+asanders@hotmail.com
+--
+Driver
+Bob
+486731
+67000
+Espionage
+111-1326
+381 Building C
+4/27/2002
+bdriver@ieee.org
+--
+Jones
+Allen
+660617
+42000
+Accounting
+178-2156
+89 Allyn Hall
+2/16/1993
+ajones@mymail.com
+--
+England
+Alice
+798588
+92000
+Accounting
+770-3657
+321 Allyn Hall
+8/13/1987
+aengland@hotmail.com
+--
+Anderson
+Henry
+947102
+41000
+Research and Development
+037-5638
+444 Building D
+4/12/1975
+handerson@mailman.net
+--
+Donaldson
+Terry
+655161
+69000
+Sales
+304-8283
+527 Building B
+3/19/1979
+tdonaldson@hotmail.com
+--
+Farmer
+Ben
+192119
+108000
+Engineering
+820-3361
+293 Rockefellar Plaza
+3/3/1983
+bfarmer@email.com
+--
+Jackson
+Dillan
+970789
+61000
+Engineering
+844-0447
+902 Rockefellar Plaza
+2/11/1982
+djackson@snailmail.com
+--
+Saxon
+Cynthia
+118167
+36000
+Research and Development
+633-5884
+851 Building B
+1/2/1993
+csaxon@yahoo.com
+--
+Bryce
+Lee
+932571
+99000
+Engineering
+603-3270
+774 Rockefellar Plaza
+7/4/1990
+lbryce@hotmail.com
+--
+Kerry
+Andrew
+344605
+32000
+Interrogation
+005-0740
+702 Building C
+5/20/1983
+akerry@wright.edu
+--
+Everson
+Joe
+526000
+53000
+Interrogation
+063-8402
+478 Building B
+2/18/1991
+jeverson@snailmail.com
+--
+Wendall
+Denise
+868154
+56000
+Interrogation
+013-0213
+662 Allyn Hall
+5/16/1983
+dwendall@hotmail.com
+--
+Innis
+Deb
+884475
+79000
+Engineering
+477-2552
+684 Administration bldg
+10/6/1980
+dinnis@email.com
+--
+Richardson
+Bob
+490788
+46000
+Research and Development
+186-1142
+29 Allyn Hall
+9/21/1983
+brichardson@wright.edu
+--
+Sanders
+Allen
+042976
+95000
+Engineering
+243-6830
+852 Building B
+10/22/1998
+asanders@google.com
+--
+Andrews
+George
+902283
+42000
+Research and Development
+280-8663
+602 Allyn Hall
+3/18/1984
+gandrews@ieee.org
+--
+Wendall
+Jim
+597311
+78000
+Legal
+157-8803
+53 Rockefellar Plaza
+11/14/1991
+jwendall@email.com
+--
+Hanover
+Mark
+366973
+77000
+Administration
+681-0854
+17 Russ Engineering
+2/20/1975
+mhanover@email.com
+--
+Wendall
+Abe
+758483
+86000
+Marketing
+718-3707
+467 Building B
+7/1/1986
+awendall@google.com
+--
+Northrup
+Joe
+510346
+110000
+Espionage
+141-1344
+704 Building A
+10/16/1985
+jnorthrup@snailmail.com
+--
+Jeffries
+Mark
+058826
+91000
+Marketing
+046-6521
+148 Building A
+3/27/1996
+mjeffries@hotmail.com
+--
+Reynolds
+Jim
+149577
+104000
+International Warfare
+803-8272
+464 Building A
+10/5/1987
+jreynolds@hotmail.com
+--
+Feldmeyer
+Phil
+217907
+76000
+Engineering
+332-3558
+117 Nelson building
+1/17/1979
+pfeldmeyer@hotmail.com
+--
+Kline
+Paula
+738361
+30000
+Accounting
+764-0463
+624 Wilson building
+9/12/1999
+pkline@ieee.org
+--
+Smith
+Sarah
+232153
+60000
+Marketing
+875-0252
+241 Allyn Hall
+6/18/1986
+ssmith@wright.edu
+--
+Andrews
+Alice
+265175
+115000
+Administration
+732-2628
+476 Building D
+4/9/1983
+aandrews@yahoo.com
+--
+Johnson
+John
+254232
+41000
+Sales
+310-4311
+814 Wilson building
+9/26/1975
+jjohnson@ieee.org
+--
+Northrup
+Joe
+435481
+124000
+Engineering
+162-4058
+505 Nelson building
+8/20/2002
+jnorthrup@wright.edu
+--
+Everson
+Dave
+379145
+111000
+Engineering
+222-7484
+409 Allyn Hall
+7/18/1977
+deverson@snailmail.com
+--
+Everson
+Lee
+242676
+82000
+Legal
+656-7402
+438 Russ Engineering
+10/24/1981
+leverson@wow.rr.net
+--
+Doom
+Steve
+423861
+93000
+Espionage
+874-7675
+365 Nelson building
+11/3/1975
+sdoom@yahoo.com
+--
+Kline
+Dave
+510892
+108000
+Research and Development
+300-7808
+623 Rockefellar Plaza
+2/17/1990
+dkline@yahoo.com
+--
+Ellis
+Ellen
+629397
+92000
+Sales
+123-6760
+895 Building B
+9/24/1983
+eellis@wow.rr.net
+--
+Kline
+Joe
+773454
+30000
+International Warfare
+082-6164
+173 Administration bldg
+8/6/2001
+jkline@mailman.net
+--
+Jones
+Dillan
+588690
+75000
+International Warfare
+636-1380
+177 Rockefellar Plaza
+6/7/1979
+djones@wow.rr.net
+--
+Francis
+Jim
+838554
+97000
+Sales
+085-3534
+985 Building B
+8/24/1977
+jfrancis@snailmail.com
+--
+Wendall
+Dan
+725866
+38000
+Engineering
+705-1786
+854 Nelson building
+11/1/1997
+dwendall@wow.rr.net
+--
+Lincoln
+Don
+765243
+102000
+Espionage
+605-7783
+524 Case building
+5/4/1982
+dlincoln@msn.com
+--
+Doom
+Dillan
+162306
+83000
+Marketing
+000-8140
+221 Administration bldg
+7/2/1982
+ddoom@mailman.net
+--
+Gage
+Wendy
+774646
+99000
+Legal
+530-0106
+506 Administration bldg
+11/25/1983
+wgage@email.com
+--
+Gage
+Sandy
+671586
+55000
+International Warfare
+153-4533
+784 Case building
+7/12/1980
+sgage@wow.rr.net
+--
+Donaldson
+Bill
+906702
+78000
+International Warfare
+665-3453
+394 Building C
+10/9/1995
+bdonaldson@snailmail.com
+--
+Donaldson
+Dave
+182274
+122000
+Accounting
+112-5610
+560 Allyn Hall
+2/23/1984
+ddonaldson@msn.com
+--
+Sanders
+Frank
+482147
+53000
+Research and Development
+643-3368
+508 Building D
+1/10/1985
+fsanders@google.com
+--
+Smith
+Deb
+558257
+114000
+Interrogation
+833-4856
+296 Administration bldg
+6/18/1988
+dsmith@mymail.com
+--
+Andrews
+Sandy
+054728
+113000
+Marketing
+841-7665
+451 Building A
+3/14/1984
+sandrews@mailman.net
+--
+Jackson
+Deb
+619160
+36000
+Marketing
+822-1234
+454 Building C
+3/16/1982
+djackson@hotmail.com
+--
+Howard
+Sandy
+261033
+107000
+Interrogation
+747-8116
+452 Building B
+10/12/2000
+showard@wow.rr.net
+--
+Smith
+Alice
+810381
+106000
+Sales
+477-0708
+1 Administration bldg
+7/6/1985
+asmith@mailman.net
+--
+Hobson
+Sarah
+558085
+122000
+Espionage
+007-8734
+774 Nelson building
+3/27/1983
+shobson@wright.edu
+--
+Price
+Ken
+842235
+90000
+Engineering
+538-2858
+625 Allyn Hall
+11/25/1998
+kprice@email.com
+--
+Lincoln
+Sarah
+324409
+85000
+Marketing
+275-8740
+824 Russ Engineering
+2/12/1993
+slincoln@hotmail.com
+--
+Richardson
+Steve
+146559
+81000
+Sales
+576-3312
+698 Case building
+7/8/2002
+srichardson@wow.rr.net
+--
+Smith
+Bill
+749035
+110000
+Interrogation
+557-6568
+548 Building B
+4/4/1977
+bsmith@google.com
+--
+Northrup
+Randy
+336893
+39000
+Administration
+078-1026
+431 Allyn Hall
+6/9/1980
+rnorthrup@email.com
+--
+Howard
+Beverly
+131435
+80000
+Engineering
+530-1168
+477 Case building
+9/2/1991
+bhoward@wright.edu
+--
+Innis
+Bob
+515476
+98000
+Engineering
+130-8471
+623 Building A
+9/10/1977
+binnis@wright.edu
+--
+Northrup
+Allen
+599511
+109000
+Accounting
+375-6555
+747 Wilson building
+11/20/1991
+anorthrup@mymail.com
+--
+Driver
+Denise
+527128
+42000
+Legal
+462-8216
+808 Administration bldg
+9/14/1988
+ddriver@snailmail.com
+--
+Sanders
+John
+564177
+58000
+Engineering
+005-8566
+291 Building B
+7/4/2001
+jsanders@msn.com
+--
+Lincoln
+Alice
+079948
+63000
+Interrogation
+202-8300
+373 Russ Engineering
+10/16/1990
+alincoln@email.com
+--
+Jeffries
+Randy
+532372
+83000
+Interrogation
+021-7332
+18 Building D
+2/10/1988
+rjeffries@google.com
+--
+Jones
+Don
+917372
+31000
+Espionage
+448-2443
+559 Russ Engineering
+1/10/1986
+djones@ieee.org
+--
+Kline
+Mike
+422713
+93000
+Research and Development
+207-1875
+950 Building A
+6/23/1990
+mkline@ieee.org
+--
+Innis
+John
+733313
+74000
+Interrogation
+502-2615
+833 Building B
+4/17/1989
+jinnis@google.com
+--
+Jones
+Phil
+352440
+45000
+Marketing
+200-4045
+952 Building B
+10/9/1981
+pjones@hotmail.com
+--
+Price
+Helen
+847907
+79000
+Espionage
+873-0268
+593 Building A
+11/7/1988
+hprice@ieee.org
+--
+Farmer
+Ben
+868938
+120000
+International Warfare
+462-6823
+596 Administration bldg
+5/23/1991
+bfarmer@mailman.net
+--
+Wendall
+Dan
+924056
+59000
+Sales
+313-7114
+920 Building C
+3/19/1997
+dwendall@wright.edu
+--
+Ellison
+Allen
+389498
+118000
+Interrogation
+531-5164
+573 Building B
+2/25/1995
+aellison@mymail.com
+--
+Hobson
+Deb
+460485
+102000
+Espionage
+545-2312
+372 Building B
+2/12/1979
+dhobson@mailman.net
+--
+Jones
+Paula
+347789
+47000
+Interrogation
+716-2621
+476 Russ Engineering
+4/15/1980
+pjones@ieee.org
+--
+Innis
+Andrew
+100439
+39000
+Espionage
+781-0003
+464 Rike
+2/21/2002
+ainnis@wow.rr.net
+--
+Howard
+Bob
+298952
+83000
+Accounting
+524-3120
+565 Building B
+9/24/1993
+bhoward@mymail.com
+--
+Smith
+Ken
+128547
+99000
+Sales
+742-5344
+198 Russ Engineering
+3/15/1976
+ksmith@snailmail.com
+--
+Andrews
+Jim
+227770
+30000
+Marketing
+048-6412
+77 Case building
+7/7/1989
+jandrews@mymail.com
+--
+Northrup
+Sarah
+484067
+88000
+Interrogation
+842-6560
+354 Building D
+7/17/1979
+snorthrup@mailman.net
+--
+Smith
+Deb
+093994
+99000
+Research and Development
+546-6223
+943 Allyn Hall
+3/21/1990
+dsmith@yahoo.com
+--
+Richardson
+Ellen
+064003
+64000
+Marketing
+544-7184
+256 Building B
+7/20/1993
+erichardson@wow.rr.net
+--
+Feldmeyer
+Henry
+379531
+72000
+International Warfare
+003-2266
+238 Wilson building
+9/1/1995
+hfeldmeyer@mailman.net
+--
+Hobson
+Don
+199837
+113000
+International Warfare
+062-1526
+760 Case building
+2/1/1990
+dhobson@ieee.org
+--
+Billings
+Dave
+188677
+57000
+Legal
+517-3273
+771 Wilson building
+11/27/2002
+dbillings@hotmail.com
+--
+Donaldson
+Andrew
+486452
+41000
+Legal
+723-8562
+156 Administration bldg
+3/26/1982
+adonaldson@yahoo.com
+--
+Phillips
+Deb
+762637
+32000
+Research and Development
+733-1060
+567 Nelson building
+8/24/1986
+dphillips@wow.rr.net
+--
+Daniels
+Bill
+942322
+50000
+Espionage
+044-8756
+326 Building C
+1/11/1978
+bdaniels@msn.com
+--
+Turner
+Mark
+633527
+35000
+Legal
+160-1580
+228 Rike
+2/20/1987
+mturner@email.com
+--
+Billings
+Kylie
+323153
+37000
+Administration
+023-1304
+669 Building B
+9/14/2000
+kbillings@mailman.net
+--
+Richardson
+Kylie
+701115
+34000
+International Warfare
+215-2287
+23 Case building
+10/20/1992
+krichardson@snailmail.com
+--
+Lionel
+Terry
+662960
+44000
+Sales
+466-8872
+290 Rockefellar Plaza
+8/25/1999
+tlionel@msn.com
+--
+Francis
+Steve
+720623
+105000
+Administration
+132-3171
+439 Administration bldg
+4/15/1981
+sfrancis@google.com
+--
+Innis
+Dillan
+787215
+109000
+Interrogation
+006-6234
+456 Rockefellar Plaza
+5/8/1987
+dinnis@mymail.com
+--
+Lionel
+Gwen
+051301
+62000
+Sales
+652-2543
+113 Russ Engineering
+8/24/2001
+glionel@email.com
+--
+Saxon
+Don
+270021
+110000
+Administration
+353-4627
+460 Rockefellar Plaza
+11/12/1996
+dsaxon@wright.edu
+--
+Howard
+Jack
+147333
+32000
+Legal
+442-2700
+968 Allyn Hall
+3/4/1990
+jhoward@wright.edu
+--
+England
+Wendy
+277980
+96000
+Espionage
+758-1525
+64 Russ Engineering
+5/16/1996
+wengland@mymail.com
+--
+Smith
+Sarah
+783206
+123000
+Espionage
+157-0262
+303 Building C
+10/9/1976
+ssmith@msn.com
+--
+Jackson
+Alice
+943617
+63000
+Accounting
+208-6625
+287 Building B
+3/24/1986
+ajackson@msn.com
+--
+Jeffries
+Bill
+600281
+43000
+Espionage
+543-6531
+838 Building D
+9/17/1981
+bjeffries@google.com
+--
+Jeffries
+Joe
+254764
+62000
+Engineering
+286-8247
+107 Building B
+9/8/1999
+jjeffries@msn.com
+--
+Jones
+Mandy
+539801
+87000
+Legal
+513-2068
+178 Building D
+7/27/1995
+mjones@wright.edu
+--
+Sanders
+Jack
+432643
+103000
+Administration
+408-1632
+338 Case building
+7/16/1977
+jsanders@wow.rr.net
+--
+Ellison
+Mike
+612753
+56000
+International Warfare
+711-6357
+80 Rockefellar Plaza
+10/3/1993
+mellison@email.com
+--
+Daniels
+Linda
+453921
+56000
+Engineering
+684-5120
+128 Building D
+6/27/1995
+ldaniels@snailmail.com
+--
+Reynolds
+Jack
+516699
+52000
+Research and Development
+362-4631
+247 Wilson building
+4/18/2002
+jreynolds@snailmail.com
+--
+Anderson
+Ben
+313828
+108000
+Administration
+753-5118
+903 Building A
+8/22/1977
+banderson@wow.rr.net
+--
+Phillips
+Deb
+408893
+105000
+Espionage
+073-1008
+818 Nelson building
+11/15/1991
+dphillips@ieee.org
+--
+Doom
+Mandy
+198133
+109000
+Interrogation
+561-4551
+319 Building D
+9/13/2001
+mdoom@mymail.com
+--
+Northrup
+Linda
+681981
+84000
+Sales
+043-2710
+613 Russ Engineering
+7/13/1989
+lnorthrup@google.com
+--
+Saxon
+Mike
+308314
+33000
+International Warfare
+730-1788
+332 Rike
+7/1/1983
+msaxon@wright.edu
+--
+Richardson
+Don
+516040
+84000
+Legal
+881-0700
+895 Case building
+8/20/1978
+drichardson@email.com
+--
+Meyer
+Helen
+371938
+71000
+Legal
+148-6581
+417 Administration bldg
+1/5/1979
+hmeyer@msn.com
+--
+Wendall
+Denise
+586079
+65000
+Interrogation
+611-5216
+197 Allyn Hall
+10/25/1986
+dwendall@google.com
+--
+Lionel
+Gwen
+535265
+94000
+Interrogation
+075-7114
+884 Building B
+11/2/1979
+glionel@wow.rr.net
+--
+Enland
+Cynthia
+503028
+41000
+Engineering
+416-2583
+507 Nelson building
+2/18/1991
+cenland@yahoo.com
+--
+Smith
+Sandy
+145716
+75000
+Marketing
+167-6680
+855 Administration bldg
+4/10/1996
+ssmith@mymail.com
+--
+England
+Mike
+271343
+88000
+Espionage
+611-1064
+257 Nelson building
+11/6/1990
+mengland@google.com
+--
+Johnson
+Joe
+297704
+60000
+Legal
+727-1355
+270 Allyn Hall
+5/14/1980
+jjohnson@ieee.org
+--
+Lionel
+Denise
+054491
+76000
+Marketing
+718-0423
+108 Allyn Hall
+7/21/1982
+dlionel@google.com
+--
+Smith
+Helen
+505102
+104000
+Research and Development
+301-7045
+462 Case building
+2/10/1981
+hsmith@yahoo.com
+--
+Howard
+Lee
+624164
+64000
+Sales
+230-7885
+368 Building B
+9/6/1991
+lhoward@snailmail.com
+--
+Feldmeyer
+Gwen
+275352
+47000
+Administration
+716-6552
+168 Case building
+10/14/1995
+gfeldmeyer@google.com
+--
+Daniels
+Dillan
+587649
+77000
+Research and Development
+785-0307
+711 Case building
+7/4/1995
+ddaniels@ieee.org
+--
+Farmer
+Lee
+593833
+84000
+Interrogation
+642-4826
+577 Building D
+6/3/2001
+lfarmer@wright.edu
+--
+Francis
+Wendy
+140504
+72000
+Marketing
+578-5654
+135 Allyn Hall
+11/13/1989
+wfrancis@google.com
+--
+Enland
+Sarah
+864390
+37000
+Administration
+610-0858
+667 Administration bldg
+6/18/2001
+senland@yahoo.com
+--
+Farmer
+Randy
+235324
+100000
+Interrogation
+228-0023
+65 Building C
+5/27/1982
+rfarmer@wright.edu
+--
+Reynolds
+Mark
+089980
+120000
+Marketing
+525-8343
+538 Russ Engineering
+9/26/1978
+mreynolds@google.com
+--
+Saxon
+Alice
+097008
+87000
+Accounting
+202-1560
+784 Rockefellar Plaza
+9/20/1986
+asaxon@snailmail.com
+--
+Phillips
+Ken
+869954
+88000
+Espionage
+171-6154
+435 Rike
+4/25/1984
+kphillips@hotmail.com
+--
+Farmer
+Cynthia
+461715
+35000
+Marketing
+627-1688
+674 Allyn Hall
+5/26/1988
+cfarmer@msn.com
+--
+Phillips
+Cynthia
+297838
+67000
+Research and Development
+813-1678
+98 Building D
+7/7/1981
+cphillips@mymail.com
+--
+Jackson
+Andrew
+974384
+85000
+Accounting
+331-3502
+212 Case building
+9/23/1993
+ajackson@google.com
+--
+Kerry
+Gwen
+171329
+103000
+Sales
+130-0657
+684 Nelson building
+8/14/1997
+gkerry@ieee.org
+--
+Wendall
+Kylie
+450900
+123000
+Espionage
+084-8251
+100 Nelson building
+3/10/1991
+kwendall@wow.rr.net
+--
+Johnson
+Kylie
+920554
+68000
+Legal
+371-3858
+251 Building B
+6/9/1977
+kjohnson@snailmail.com
+--
+Richardson
+Bob
+144926
+115000
+Administration
+545-2425
+777 Case building
+4/18/1987
+brichardson@yahoo.com
+--
+Kerry
+Randy
+958788
+79000
+International Warfare
+144-4886
+165 Russ Engineering
+8/1/1988
+rkerry@email.com
+--
+Andrews
+Ben
+001274
+90000
+Research and Development
+814-5411
+984 Allyn Hall
+8/15/1981
+bandrews@google.com
+--
+Billings
+Anna
+571461
+94000
+Engineering
+031-4062
+106 Building B
+4/8/1994
+abillings@email.com
+--
+Price
+Bob
+222229
+30000
+Engineering
+414-2442
+307 Building B
+2/11/1978
+bprice@msn.com
+--
+Enland
+Steve
+438969
+103000
+Administration
+077-4561
+682 Rockefellar Plaza
+6/27/1989
+senland@yahoo.com
+--
+Feldmeyer
+Denise
+551994
+72000
+Sales
+512-2641
+867 Case building
+2/25/1982
+dfeldmeyer@ieee.org
+--
+Turner
+Gwen
+132095
+40000
+Administration
+636-4676
+984 Case building
+2/27/1979
+gturner@ieee.org
+--
+Hobson
+Paula
+557779
+93000
+International Warfare
+855-5736
+636 Building B
+4/14/1988
+phobson@msn.com
+--
+Feldmeyer
+Paula
+976341
+121000
+Research and Development
+704-2317
+595 Allyn Hall
+11/20/2000
+pfeldmeyer@ieee.org
+--
+Hanover
+George
+280764
+45000
+International Warfare
+115-6576
+797 Rike
+11/24/1987
+ghanover@mailman.net
+--
+Jeffries
+Helen
+610117
+59000
+Marketing
+525-0657
+609 Building C
+6/13/2001
+hjeffries@mymail.com
+--
+Reynolds
+Mark
+401653
+68000
+Engineering
+275-1722
+433 Russ Engineering
+10/10/1988
+mreynolds@mymail.com
+--
+Phillips
+Abe
+020845
+119000
+Engineering
+574-8018
+23 Building C
+6/1/1980
+aphillips@ieee.org
+--
+Jones
+Allen
+074548
+64000
+International Warfare
+464-0631
+11 Nelson building
+6/27/1987
+ajones@wow.rr.net
+--
+Lincoln
+Bob
+832147
+80000
+Accounting
+335-1520
+632 Rockefellar Plaza
+1/16/1996
+blincoln@mymail.com
+--
+Howard
+Anna
+405927
+114000
+Interrogation
+485-4446
+77 Rike
+7/3/1977
+ahoward@wright.edu
+--
+Jones
+Dan
+820952
+55000
+Administration
+782-1577
+905 Case building
+6/5/1975
+djones@mailman.net
+--
+Andrews
+John
+011593
+113000
+Accounting
+884-8255
+662 Rike
+9/8/1977
+jandrews@mymail.com
+--
+Kerry
+Ethan
+381184
+72000
+Espionage
+211-4021
+109 Building A
+3/14/1996
+ekerry@ieee.org
+--
+Ellis
+Bob
+960886
+52000
+Research and Development
+636-7604
+897 Building A
+2/8/1977
+bellis@yahoo.com
+--
+Jeffries
+Paula
+269019
+77000
+Espionage
+040-0356
+684 Allyn Hall
+7/1/1996
+pjeffries@mymail.com
+--
+Enland
+Mike
+677358
+89000
+Research and Development
+065-8085
+588 Russ Engineering
+9/13/1998
+menland@yahoo.com
+--
+Everson
+John
+293296
+95000
+Research and Development
+622-2327
+525 Building A
+4/21/2002
+jeverson@snailmail.com
+--
+Kline
+Deb
+793362
+108000
+Espionage
+660-5412
+446 Rockefellar Plaza
+6/10/1987
+dkline@wright.edu
+--
+Kline
+Lee
+066003
+47000
+Legal
+235-7066
+367 Rike
+8/5/1997
+lkline@email.com
+--
+Francis
+Beverly
+742225
+45000
+Espionage
+756-3123
+831 Nelson building
+3/24/2000
+bfrancis@wright.edu
+--
+Bryce
+Henry
+266847
+104000
+Interrogation
+437-0323
+599 Rike
+2/16/1992
+hbryce@msn.com
+--
+Daniels
+Denise
+019284
+99000
+Interrogation
+037-2277
+194 Rockefellar Plaza
+3/11/1986
+ddaniels@hotmail.com
+--
+Jeffries
+John
+636562
+34000
+Interrogation
+223-6025
+638 Building C
+5/9/2002
+jjeffries@mymail.com
+--
+Phillips
+Sarah
+217004
+115000
+Accounting
+027-4624
+601 Nelson building
+9/16/1978
+sphillips@yahoo.com
+--
+Turner
+Kylie
+858181
+108000
+Administration
+131-8511
+352 Wilson building
+5/14/1999
+kturner@hotmail.com
+--
+Billings
+Terry
+520659
+44000
+Legal
+875-7825
+988 Russ Engineering
+4/5/1976
+tbillings@google.com
+--
+Hanover
+Ben
+927325
+67000
+Marketing
+153-0422
+941 Administration bldg
+5/24/1989
+bhanover@hotmail.com
+--
+Ellison
+Terry
+503458
+33000
+Sales
+706-2684
+944 Building D
+8/21/1999
+tellison@msn.com
+--
+Saxon
+Helen
+900857
+67000
+Administration
+706-3824
+946 Russ Engineering
+9/19/1993
+hsaxon@mymail.com
+--
+Jones
+Dillan
+949166
+104000
+Interrogation
+611-4768
+588 Wilson building
+1/9/1992
+djones@wow.rr.net
+--
+Johnson
+Helen
+190954
+80000
+Research and Development
+006-7876
+880 Russ Engineering
+1/10/1992
+hjohnson@msn.com
+--
+Howard
+Sarah
+643656
+70000
+Engineering
+381-4650
+717 Building C
+6/1/1995
+showard@mailman.net
+--
+Meyer
+Sandy
+645368
+78000
+Research and Development
+248-4633
+182 Russ Engineering
+11/19/1982
+smeyer@email.com
+--
+Francis
+Dave
+060424
+54000
+Espionage
+561-8464
+618 Russ Engineering
+3/21/1988
+dfrancis@google.com
+--
+Jeffries
+Kylie
+688989
+117000
+Interrogation
+286-6448
+76 Administration bldg
+1/17/1987
+kjeffries@hotmail.com
+--
+Daniels
+Ken
+027476
+50000
+Research and Development
+764-3062
+360 Building D
+7/27/1989
+kdaniels@snailmail.com
+--
+Sanders
+Ben
+395943
+62000
+Administration
+260-8503
+762 Nelson building
+4/12/1985
+bsanders@email.com
+--
+Jeffries
+Steve
+708152
+39000
+Administration
+752-3357
+659 Building B
+6/4/1986
+sjeffries@snailmail.com
+--
+Anderson
+Gwen
+973878
+79000
+Accounting
+172-7623
+983 Building A
+8/11/1979
+ganderson@snailmail.com
+--
+Phillips
+Ethan
+607215
+79000
+Espionage
+534-7307
+560 Rockefellar Plaza
+10/8/2001
+ephillips@hotmail.com
+--
+Doom
+Phil
+712667
+106000
+Accounting
+152-0564
+896 Case building
+1/8/2001
+pdoom@mymail.com
+--
+Bryce
+Henry
+066621
+113000
+Accounting
+070-4684
+807 Nelson building
+5/25/1988
+hbryce@google.com
+--
+Bryce
+Joe
+775034
+79000
+Research and Development
+408-5488
+671 Building A
+2/9/1995
+jbryce@ieee.org
+--
+Howard
+Dillan
+102647
+46000
+Accounting
+762-7277
+289 Case building
+6/20/1990
+dhoward@google.com
+--
+Turner
+Ethan
+023275
+71000
+Administration
+156-0475
+751 Building A
+8/13/1981
+eturner@ieee.org
+--
+Turner
+Cynthia
+896888
+64000
+Marketing
+102-8614
+206 Nelson building
+2/17/1978
+cturner@wow.rr.net
+--
+Innis
+Bill
+010417
+68000
+Marketing
+084-8568
+52 Rike
+4/9/1994
+binnis@snailmail.com
+--
+Ellison
+Abe
+623747
+68000
+Engineering
+262-2286
+990 Russ Engineering
+3/17/1995
+aellison@wow.rr.net
+--
+Andrews
+Abe
+420949
+55000
+Espionage
+200-2036
+206 Building B
+6/2/1998
+aandrews@wright.edu
+--
+Northrup
+Cynthia
+562667
+119000
+Accounting
+632-6652
+187 Allyn Hall
+6/19/1998
+cnorthrup@email.com
+--
+Johnson
+Mike
+537087
+35000
+Sales
+267-1345
+912 Building B
+1/18/1989
+mjohnson@msn.com
+--
+Reynolds
+Bill
+726758
+100000
+Espionage
+808-8638
+956 Building D
+10/9/1987
+breynolds@mailman.net
+--
+Kerry
+Bob
+967926
+54000
+Research and Development
+878-4243
+303 Case building
+2/19/1990
+bkerry@snailmail.com
+--
+Innis
+Frank
+472558
+73000
+Marketing
+022-3772
+187 Rike
+7/9/1975
+finnis@yahoo.com
+--
+Enland
+Terry
+985582
+72000
+Engineering
+085-4234
+792 Russ Engineering
+7/21/1986
+tenland@wright.edu
+--
+Driver
+Mandy
+801353
+105000
+Interrogation
+064-4116
+779 Case building
+11/16/1980
+mdriver@hotmail.com
+--
+Bryce
+Joe
+614575
+111000
+Marketing
+345-3167
+203 Russ Engineering
+9/7/2001
+jbryce@wright.edu
+--
+Saxon
+Gwen
+051572
+45000
+Accounting
+124-4306
+948 Wilson building
+4/1/1977
+gsaxon@google.com
+--
+Donaldson
+Jack
+095051
+51000
+Engineering
+467-7552
+39 Case building
+1/18/1983
+jdonaldson@wow.rr.net
+--
+Jackson
+Phil
+401285
+86000
+Engineering
+735-4186
+114 Building B
+7/16/1997
+pjackson@wright.edu
+--
+Saxon
+Deb
+384882
+66000
+International Warfare
+575-1403
+18 Building D
+2/27/1994
+dsaxon@hotmail.com
+--
+Bryce
+Anna
+414331
+73000
+Research and Development
+122-3604
+203 Administration bldg
+2/5/2002
+abryce@hotmail.com
+--
+Wendall
+Allen
+689052
+91000
+Sales
+175-0734
+64 Building D
+11/22/1984
+awendall@email.com
+--
+Lionel
+Terry
+711966
+36000
+Espionage
+845-1851
+696 Russ Engineering
+5/10/1983
+tlionel@wow.rr.net
+--
+Hanover
+Dave
+308033
+39000
+Espionage
+035-0744
+326 Building D
+9/3/2001
+dhanover@mailman.net
+--
+Reynolds
+Beverly
+081259
+54000
+Accounting
+561-5864
+996 Building B
+4/18/1987
+breynolds@hotmail.com
+--
+Smith
+Linda
+830588
+71000
+Legal
+514-3361
+728 Administration bldg
+2/12/1988
+lsmith@wow.rr.net
+--
+Hanover
+Ethan
+119198
+82000
+Interrogation
+621-8623
+746 Case building
+5/12/2002
+ehanover@wow.rr.net
+--
+Wendall
+Terry
+093667
+56000
+Espionage
+531-5623
+3 Building C
+5/25/1981
+twendall@wright.edu
+--
+Enland
+Ellen
+774090
+121000
+Marketing
+745-2754
+879 Russ Engineering
+7/7/1976
+eenland@wright.edu
+--
+Wendall
+Bob
+273814
+68000
+Legal
+667-0046
+141 Russ Engineering
+9/18/1994
+bwendall@google.com
+--
+Sanders
+Ethan
+933901
+41000
+Research and Development
+284-0630
+483 Nelson building
+8/9/1997
+esanders@google.com
+--
+Driver
+Andrew
+904068
+62000
+Accounting
+515-0758
+685 Russ Engineering
+6/27/2002
+adriver@mailman.net
+--
+Anderson
+Frank
+312980
+84000
+Marketing
+802-1624
+421 Allyn Hall
+5/20/1980
+fanderson@google.com
+--
+Sanders
+Wendy
+972366
+66000
+Sales
+046-5202
+934 Building C
+2/19/1975
+wsanders@ieee.org
+--
+Farmer
+Phil
+578442
+91000
+Administration
+554-1787
+239 Building C
+11/21/1982
+pfarmer@google.com
+--
+Lincoln
+Lee
+981273
+115000
+Engineering
+201-6830
+282 Wilson building
+7/14/1996
+llincoln@wow.rr.net
+--
+Jeffries
+Randy
+073919
+115000
+Administration
+176-6742
+680 Rike
+1/26/1987
+rjeffries@yahoo.com
+--
+Billings
+Terry
+880698
+112000
+Research and Development
+880-6467
+260 Administration bldg
+8/15/1994
+tbillings@mailman.net
+--
+Meyer
+Jim
+097109
+77000
+Administration
+851-6008
+504 Wilson building
+4/3/1983
+jmeyer@email.com
+--
+Ellison
+Helen
+745627
+107000
+Espionage
+072-6381
+231 Rike
+5/11/1998
+hellison@msn.com
+--
+Reynolds
+Paula
+543650
+42000
+Administration
+863-6065
+226 Wilson building
+4/10/1975
+preynolds@wow.rr.net
+--
+Gage
+Don
+956595
+112000
+Research and Development
+715-8073
+900 Building A
+1/16/1979
+dgage@msn.com
+--
+Ellison
+Denise
+307457
+116000
+Marketing
+417-3525
+244 Building A
+7/11/1978
+dellison@mailman.net
+--
+Driver
+Jim
+468722
+114000
+Engineering
+747-4104
+630 Case building
+6/20/2000
+jdriver@ieee.org
+--
+Kline
+Ben
+698817
+84000
+Espionage
+725-0570
+957 Building D
+10/26/2001
+bkline@email.com
+--
+Anderson
+Frank
+968550
+82000
+Marketing
+704-0562
+344 Case building
+7/26/1987
+fanderson@ieee.org
+--
+Donaldson
+Bob
+193520
+122000
+Research and Development
+668-1724
+813 Russ Engineering
+3/8/2002
+bdonaldson@hotmail.com
+--
+Phillips
+Ken
+039734
+77000
+Interrogation
+310-6704
+453 Building B
+2/16/1977
+kphillips@msn.com
+--
+Everson
+Joe
+690824
+87000
+International Warfare
+627-4537
+132 Building D
+3/24/1995
+jeverson@mailman.net
+--
+Feldmeyer
+Dave
+417152
+47000
+Espionage
+454-5720
+20 Building A
+10/7/1982
+dfeldmeyer@hotmail.com
+--
+Phillips
+Jim
+499602
+97000
+Administration
+000-3441
+369 Rike
+11/23/1985
+jphillips@mymail.com
+--
+Howard
+Wendy
+275388
+114000
+Research and Development
+332-5165
+139 Administration bldg
+10/5/1982
+whoward@email.com
+--
+Smith
+Wendy
+057549
+108000
+Research and Development
+524-6233
+192 Case building
+3/23/1979
+wsmith@msn.com
+--
+Everson
+Steve
+944700
+32000
+Accounting
+541-1161
+561 Building B
+8/19/1976
+severson@email.com
+--
+Wendall
+Mike
+935483
+76000
+Legal
+175-8463
+299 Nelson building
+4/9/1978
+mwendall@snailmail.com
+--
+Kline
+Terry
+194245
+121000
+Legal
+804-5476
+531 Allyn Hall
+2/15/1987
+tkline@msn.com
+--
+Price
+Sandy
+590157
+80000
+Interrogation
+457-6788
+270 Nelson building
+7/18/1986
+sprice@snailmail.com
+--
+Smith
+Joe
+478374
+63000
+International Warfare
+438-1640
+122 Building B
+9/6/1998
+jsmith@wow.rr.net
+--
+Farmer
+Cynthia
+538683
+39000
+Interrogation
+346-7322
+759 Allyn Hall
+9/9/1979
+cfarmer@snailmail.com
+--
+Northrup
+Linda
+570564
+56000
+Research and Development
+212-2762
+425 Russ Engineering
+6/26/1999
+lnorthrup@mailman.net
+--
+Jones
+Joe
+735889
+54000
+Marketing
+784-1000
+470 Wilson building
+8/14/2003
+jjones@wright.edu
+--
+Richardson
+Jim
+892198
+103000
+Administration
+246-2288
+686 Nelson building
+7/23/1996
+jrichardson@wow.rr.net
+--
+Daniels
+Lee
+369832
+97000
+Legal
+133-7777
+672 Rockefellar Plaza
+8/16/1991
+ldaniels@wright.edu
+--
+Smith
+Dave
+521793
+77000
+Legal
+440-7347
+689 Building A
+8/14/1985
+dsmith@google.com
+--
+Northrup
+Mark
+160629
+30000
+Research and Development
+712-7574
+654 Rockefellar Plaza
+2/23/1995
+mnorthrup@ieee.org
+--
+Ellison
+Paula
+204230
+51000
+Sales
+876-3114
+156 Allyn Hall
+11/12/1998
+pellison@google.com
+--
+Francis
+Randy
+724608
+117000
+Administration
+765-3030
+260 Building A
+11/2/1995
+rfrancis@wow.rr.net
+--
+Kline
+Jim
+396331
+39000
+Engineering
+026-0758
+682 Building B
+7/25/1993
+jkline@email.com
+--
+Kline
+Gwen
+492821
+106000
+Research and Development
+224-5040
+968 Administration bldg
+1/2/1995
+gkline@yahoo.com
+--
+Anderson
+Mike
+123240
+99000
+Accounting
+871-6123
+307 Rike
+2/13/1983
+manderson@google.com
+--
+Wendall
+Frank
+165406
+42000
+Engineering
+706-0125
+568 Rockefellar Plaza
+7/7/1985
+fwendall@snailmail.com
+--
+Billings
+Alice
+747403
+54000
+Marketing
+263-1120
+7 Russ Engineering
+3/8/1976
+abillings@msn.com
+--
+Johnson
+Bill
+036537
+51000
+Engineering
+501-6200
+481 Rockefellar Plaza
+3/27/1988
+bjohnson@wow.rr.net
+--
+Enland
+Paula
+215592
+118000
+Administration
+813-8414
+141 Russ Engineering
+1/18/1990
+penland@ieee.org
+--
+Jackson
+Denise
+988695
+46000
+Research and Development
+882-8053
+247 Rike
+8/12/1978
+djackson@google.com
+--
+Innis
+Ellen
+302050
+60000
+Research and Development
+645-4553
+812 Building B
+6/13/1987
+einnis@snailmail.com
+--
+Jackson
+Ben
+294234
+54000
+Interrogation
+035-2887
+818 Building B
+3/20/1990
+bjackson@hotmail.com
+--
+Hanover
+Beverly
+924842
+94000
+Espionage
+203-0385
+124 Wilson building
+6/21/1983
+bhanover@msn.com
+--
+Turner
+Sarah
+151346
+42000
+International Warfare
+422-7365
+989 Building D
+6/22/2003
+sturner@wow.rr.net
+--
+Ireland
+Sarah
+016130
+60000
+Legal
+845-0332
+349 Rike
+5/2/1998
+sireland@msn.com
+--
+Kline
+Don
+227788
+45000
+Sales
+304-5546
+961 Building D
+8/17/1976
+dkline@yahoo.com
+--
+Reynolds
+Alice
+672811
+113000
+International Warfare
+360-1136
+962 Nelson building
+1/6/1999
+areynolds@yahoo.com
+--
+Saxon
+Ethan
+766377
+92000
+International Warfare
+440-6478
+307 Rockefellar Plaza
+7/27/2003
+esaxon@email.com
+--
+Ellis
+Steve
+135936
+33000
+Espionage
+141-1628
+673 Wilson building
+7/7/1978
+sellis@google.com
+--
+Innis
+Allen
+634735
+63000
+Engineering
+444-8655
+78 Building C
+3/1/1998
+ainnis@yahoo.com
+--
+Jeffries
+Beverly
+121966
+107000
+Legal
+575-0255
+462 Russ Engineering
+5/21/1979
+bjeffries@yahoo.com
+--
+Doom
+Henry
+772954
+96000
+Accounting
+361-7833
+212 Building B
+6/5/1983
+hdoom@wow.rr.net
+--
+Everson
+Mandy
+150636
+80000
+Administration
+747-8738
+959 Building D
+9/10/1996
+meverson@mymail.com
+--
+Daniels
+Wendy
+068917
+72000
+Espionage
+283-8236
+639 Building D
+6/19/1978
+wdaniels@hotmail.com
+--
+Jones
+Dillan
+506974
+84000
+Espionage
+753-8587
+32 Building D
+6/16/1999
+djones@hotmail.com
+--
+Francis
+Ellen
+321408
+32000
+International Warfare
+075-2348
+784 Building C
+6/20/1985
+efrancis@hotmail.com
+--
+Kerry
+Sandy
+204142
+59000
+Marketing
+025-8073
+378 Building D
+1/9/1999
+skerry@wow.rr.net
+--
+Ellison
+Deb
+542831
+42000
+Sales
+505-5684
+254 Building C
+4/14/2002
+dellison@email.com
+--
+Meyer
+Henry
+497494
+34000
+Engineering
+724-0547
+677 Russ Engineering
+8/15/1978
+hmeyer@google.com
+--
+Gage
+Lee
+792293
+69000
+Research and Development
+114-6331
+491 Nelson building
+1/12/1988
+lgage@mymail.com
+--
+Hanover
+Bill
+496722
+117000
+Engineering
+685-7311
+400 Building B
+5/23/1988
+bhanover@google.com
+--
+Reynolds
+Sandy
+315016
+64000
+Engineering
+153-8745
+515 Building D
+3/17/1986
+sreynolds@yahoo.com
+--
+Anderson
+Deb
+266849
+119000
+Administration
+864-6564
+976 Administration bldg
+3/23/1997
+danderson@email.com
+--
+Price
+Kylie
+631304
+39000
+Research and Development
+332-4836
+509 Case building
+6/12/1992
+kprice@yahoo.com
+--
+Innis
+Mandy
+549036
+49000
+Research and Development
+602-6018
+590 Nelson building
+5/26/1980
+minnis@msn.com
+--
+Phillips
+Beverly
+663369
+37000
+Sales
+527-4736
+348 Building B
+11/26/1990
+bphillips@snailmail.com
+--
+Ireland
+Sarah
+201296
+30000
+Sales
+157-2853
+834 Building C
+3/11/1976
+sireland@hotmail.com
+--
+Anderson
+John
+140486
+30000
+Research and Development
+146-1735
+809 Building A
+11/8/1986
+janderson@email.com
+--
+Doom
+Mark
+942028
+96000
+Accounting
+831-1534
+351 Building C
+8/3/1993
+mdoom@hotmail.com
+--
+Jeffries
+Ken
+821099
+103000
+Engineering
+522-6583
+430 Building C
+8/1/1984
+kjeffries@mymail.com
+--
+Andrews
+John
+806934
+88000
+Marketing
+051-1454
+609 Rike
+8/8/1980
+jandrews@email.com
+--
+Hanover
+Abe
+905609
+40000
+Espionage
+230-0306
+302 Building B
+9/23/1992
+ahanover@snailmail.com
+--
+Hobson
+Beverly
+185701
+30000
+Engineering
+353-5028
+673 Building D
+10/7/1998
+bhobson@google.com
+--
+Hanover
+Mandy
+739967
+91000
+Espionage
+600-4534
+361 Building A
+4/9/1989
+mhanover@ieee.org
+--
+Hobson
+Lee
+803519
+108000
+Engineering
+841-8404
+598 Allyn Hall
+4/7/2002
+lhobson@mailman.net
+--
+Ireland
+Joe
+479973
+42000
+Administration
+237-7544
+22 Case building
+11/23/1978
+jireland@mailman.net
+--
+Donaldson
+Mark
+547982
+33000
+Espionage
+258-0041
+30 Rike
+10/3/1990
+mdonaldson@google.com
+--
+Francis
+Cynthia
+720438
+116000
+Research and Development
+263-6622
+582 Case building
+10/22/1999
+cfrancis@snailmail.com
+--
+Wendall
+Paula
+451715
+95000
+Accounting
+702-2337
+898 Rockefellar Plaza
+4/27/2003
+pwendall@google.com
+--
+Andrews
+Mike
+559395
+55000
+International Warfare
+515-7638
+71 Building D
+10/14/1984
+mandrews@msn.com
+--
+Turner
+Gwen
+515248
+103000
+Administration
+711-3124
+379 Building C
+8/2/1993
+gturner@mymail.com
+--
+Richardson
+Ethan
+759222
+62000
+Espionage
+144-5841
+883 Building B
+2/5/1992
+erichardson@ieee.org
+--
+Ellison
+Lee
+949657
+119000
+Legal
+347-3486
+939 Building C
+9/10/1976
+lellison@snailmail.com
+--
+Richardson
+Ken
+977713
+96000
+Accounting
+836-3860
+943 Russ Engineering
+5/11/1975
+krichardson@google.com
+--
+Farmer
+Jack
+504208
+58000
+Research and Development
+213-5117
+383 Rockefellar Plaza
+9/19/1989
+jfarmer@yahoo.com
+--
+Farmer
+Dave
+079745
+51000
+Accounting
+684-4733
+79 Administration bldg
+1/7/1976
+dfarmer@hotmail.com
+--
+Gage
+Mandy
+427911
+30000
+Interrogation
+376-0722
+523 Building C
+11/11/1992
+mgage@wow.rr.net
+--
+Turner
+Ellen
+114791
+110000
+Espionage
+407-7305
+188 Administration bldg
+5/12/1988
+eturner@yahoo.com
+--
+Lionel
+Abe
+958603
+71000
+Sales
+028-8511
+352 Case building
+9/25/2003
+alionel@email.com
+--
+Sanders
+Henry
+986387
+97000
+Espionage
+645-0302
+959 Building D
+4/17/1998
+hsanders@mymail.com
+--
+Driver
+Jack
+735273
+39000
+Research and Development
+733-5353
+14 Russ Engineering
+6/9/2003
+jdriver@yahoo.com
+--
+Gage
+Frank
+876559
+118000
+Sales
+171-2507
+504 Building D
+3/22/2003
+fgage@hotmail.com
+--
+Saxon
+Allen
+942571
+99000
+Research and Development
+784-7556
+215 Case building
+4/15/1985
+asaxon@yahoo.com
+--
+Hanover
+Deb
+872204
+58000
+Marketing
+258-5220
+339 Nelson building
+5/21/1995
+dhanover@google.com
+--
+Ellis
+Alice
+409513
+56000
+Engineering
+848-5150
+865 Nelson building
+9/6/1994
+aellis@snailmail.com
+--
+Doom
+Dan
+295404
+107000
+International Warfare
+346-1200
+368 Case building
+8/19/1991
+ddoom@ieee.org
+--
+Doom
+Ethan
+277738
+37000
+Sales
+015-4114
+431 Building D
+4/19/1985
+edoom@email.com
+--
+Daniels
+Henry
+619925
+110000
+Accounting
+133-6806
+756 Building A
+5/12/1996
+hdaniels@mymail.com
+--
+Howard
+Mark
+650993
+101000
+Research and Development
+042-0135
+754 Building B
+7/3/1993
+mhoward@hotmail.com
+--
+Daniels
+Sarah
+520313
+123000
+Interrogation
+374-7153
+220 Building A
+9/7/2000
+sdaniels@hotmail.com
+--
+Turner
+Allen
+082034
+102000
+Marketing
+602-4042
+396 Case building
+7/3/1991
+aturner@email.com
+--
+Johnson
+Andrew
+439497
+98000
+Legal
+467-7332
+981 Building A
+8/24/1988
+ajohnson@msn.com
+--
+Saxon
+Phil
+268420
+64000
+Interrogation
+715-5608
+965 Administration bldg
+3/27/1999
+psaxon@wow.rr.net
+--
+Lionel
+Ken
+002004
+104000
+International Warfare
+664-1338
+942 Case building
+9/20/1997
+klionel@google.com
+--
+Kerry
+Dan
+474500
+118000
+Espionage
+867-1138
+36 Building C
+7/17/1992
+dkerry@wright.edu
+--
+Turner
+Mandy
+107300
+37000
+Espionage
+586-5416
+910 Case building
+8/1/1993
+mturner@yahoo.com
+--
+Daniels
+John
+649488
+36000
+Interrogation
+606-8075
+103 Rike
+10/16/1986
+jdaniels@ieee.org
+--
+Northrup
+Abe
+751705
+119000
+International Warfare
+740-0142
+8 Building A
+6/15/1993
+anorthrup@mailman.net
+--
+Jeffries
+Wendy
+892048
+101000
+Accounting
+482-5221
+59 Building D
+7/15/1992
+wjeffries@email.com
+--
+Donaldson
+Ellen
+575139
+99000
+Administration
+757-4610
+512 Wilson building
+5/8/1981
+edonaldson@email.com
+--
+Lincoln
+Helen
+267547
+64000
+Sales
+770-2287
+758 Building B
+11/9/1991
+hlincoln@google.com
+--
+Richardson
+Lee
+406142
+123000
+Research and Development
+274-3747
+852 Wilson building
+6/15/1975
+lrichardson@yahoo.com
+--
+Lincoln
+Sandy
+516413
+117000
+Administration
+046-0748
+733 Nelson building
+7/10/1995
+slincoln@wow.rr.net
+--
+Anderson
+Bill
+164921
+49000
+Sales
+582-4206
+867 Rockefellar Plaza
+5/18/1983
+banderson@snailmail.com
+--
+Farmer
+Frank
+381376
+64000
+Marketing
+002-3070
+357 Administration bldg
+1/27/1985
+ffarmer@wright.edu
+--
+Doom
+Jim
+483844
+81000
+Administration
+025-8284
+976 Russ Engineering
+6/20/1989
+jdoom@wright.edu
+--
+Smith
+Mandy
+202077
+51000
+Engineering
+342-8284
+66 Rike
+3/20/1977
+msmith@wow.rr.net
+--
+Wendall
+Deb
+591098
+87000
+Accounting
+686-3064
+315 Allyn Hall
+2/10/1981
+dwendall@mailman.net
+--
+Northrup
+Helen
+994664
+99000
+Espionage
+487-4750
+78 Building C
+1/10/1995
+hnorthrup@wright.edu
+--
+Gage
+Allen
+067979
+31000
+International Warfare
+812-0401
+351 Administration bldg
+8/23/2003
+agage@wright.edu
+--
+Meyer
+Frank
+265889
+93000
+Espionage
+142-0213
+60 Administration bldg
+6/14/1997
+fmeyer@msn.com
+--
+Anderson
+Sarah
+072354
+85000
+Legal
+838-3745
+391 Rockefellar Plaza
+6/27/1981
+sanderson@wright.edu
+--
+Jones
+Randy
+601720
+78000
+Legal
+306-4668
+200 Rike
+6/21/1989
+rjones@yahoo.com
+--
+Wendall
+Phil
+021994
+104000
+Espionage
+514-2675
+186 Building C
+11/7/1997
+pwendall@yahoo.com
+--
+Donaldson
+Don
+108264
+65000
+Marketing
+632-3751
+932 Rike
+2/4/1989
+ddonaldson@yahoo.com
+--
+Phillips
+George
+858813
+93000
+Legal
+380-8801
+687 Wilson building
+7/10/1985
+gphillips@msn.com
+--
+Howard
+Mark
+428590
+84000
+Research and Development
+357-7828
+185 Russ Engineering
+11/24/1975
+mhoward@email.com
+--
+Richardson
+Henry
+224999
+100000
+Espionage
+105-7257
+275 Rockefellar Plaza
+8/6/1992
+hrichardson@ieee.org
+--
+Hobson
+Steve
+686540
+54000
+Engineering
+832-1525
+459 Building C
+10/2/1991
+shobson@ieee.org
+--
+Ireland
+Henry
+284347
+61000
+Research and Development
+313-0086
+27 Administration bldg
+2/22/1988
+hireland@ieee.org
+--
+Daniels
+Ken
+853411
+35000
+International Warfare
+506-4746
+757 Building B
+10/10/1984
+kdaniels@ieee.org
+--
+Anderson
+Denise
+179373
+42000
+Legal
+171-1826
+552 Nelson building
+4/27/1992
+danderson@wright.edu
+--
+Daniels
+Henry
+248725
+63000
+Legal
+146-0218
+936 Russ Engineering
+3/15/1983
+hdaniels@mymail.com
+--
+Hobson
+Abe
+675183
+50000
+Sales
+564-1717
+943 Allyn Hall
+5/26/1980
+ahobson@hotmail.com
+--
+Reynolds
+George
+818297
+89000
+Marketing
+445-0170
+563 Rike
+4/1/1988
+greynolds@mailman.net
+--
+Hobson
+Allen
+610804
+59000
+Accounting
+760-4721
+916 Building A
+7/22/1991
+ahobson@wow.rr.net
+--
+Gage
+Gwen
+426958
+48000
+Administration
+235-5760
+371 Case building
+4/21/1976
+ggage@wow.rr.net
+--
+Enland
+Dave
+270038
+69000
+Administration
+172-1860
+804 Allyn Hall
+5/14/1980
+denland@hotmail.com
+--
+Price
+Steve
+891920
+104000
+Research and Development
+652-6304
+855 Wilson building
+6/20/1986
+sprice@msn.com
+--
+Kerry
+Denise
+917970
+64000
+Administration
+012-1280
+245 Building B
+2/12/1988
+dkerry@ieee.org
+--
+Donaldson
+Beverly
+637053
+33000
+Administration
+685-0576
+683 Building B
+5/18/1984
+bdonaldson@mymail.com
+--
+Jones
+Gwen
+459477
+53000
+Marketing
+610-6880
+830 Administration bldg
+7/7/1981
+gjones@ieee.org
+--
+Kerry
+John
+502040
+103000
+Marketing
+500-6628
+942 Rike
+10/5/1978
+jkerry@wow.rr.net
+--
+Everson
+Ben
+276747
+47000
+Research and Development
+354-0335
+649 Allyn Hall
+9/10/1999
+beverson@wow.rr.net
+--
+Phillips
+Don
+805764
+91000
+Research and Development
+788-5726
+203 Case building
+1/11/1996
+dphillips@mailman.net
+--
+Bryce
+Gwen
+427725
+107000
+Administration
+848-6674
+133 Building D
+6/18/1984
+gbryce@wow.rr.net
+--
+Kerry
+Randy
+158709
+61000
+Sales
+827-3414
+450 Administration bldg
+6/7/2002
+rkerry@mailman.net
+--
+Lionel
+Jim
+572563
+39000
+Administration
+137-5071
+66 Building A
+8/3/1990
+jlionel@msn.com
+--
+Donaldson
+Dan
+402844
+73000
+Accounting
+633-2410
+907 Building A
+10/17/1980
+ddonaldson@mymail.com
+--
+Innis
+Denise
+155977
+109000
+Administration
+026-8662
+837 Building D
+2/9/2002
+dinnis@yahoo.com
+--
+Howard
+Helen
+071674
+101000
+Legal
+182-0057
+887 Building A
+5/6/1998
+hhoward@wright.edu
+--
+Donaldson
+Dillan
+441320
+40000
+Legal
+357-1008
+190 Allyn Hall
+10/18/1990
+ddonaldson@google.com
+--
+Kline
+Ken
+289580
+50000
+Sales
+582-8706
+812 Case building
+1/27/1993
+kkline@hotmail.com
+--
+Everson
+Terry
+315648
+59000
+Legal
+771-2637
+763 Administration bldg
+8/25/1983
+teverson@yahoo.com
+--
+Innis
+Gwen
+932132
+33000
+Espionage
+353-1325
+34 Building D
+5/26/1975
+ginnis@msn.com
+--
+Jackson
+Bob
+716176
+112000
+Interrogation
+346-4153
+421 Wilson building
+10/12/1983
+bjackson@mailman.net
+--
+Turner
+Sarah
+055023
+73000
+Accounting
+358-5841
+884 Allyn Hall
+11/3/1991
+sturner@wow.rr.net
+--
+Richardson
+Henry
+091957
+91000
+Legal
+702-8234
+127 Allyn Hall
+7/6/1977
+hrichardson@wright.edu
+--
+Everson
+Abe
+998090
+77000
+Marketing
+567-5205
+582 Rike
+7/12/1977
+aeverson@snailmail.com
+--
+Meyer
+Abe
+976314
+94000
+Espionage
+615-7214
+4 Allyn Hall
+2/6/1995
+ameyer@yahoo.com
+--
+Enland
+Bill
+661346
+60000
+Espionage
+557-7238
+238 Administration bldg
+1/16/1981
+benland@mymail.com
+--
+Francis
+Bob
+792223
+62000
+Administration
+111-1202
+429 Case building
+2/18/2002
+bfrancis@google.com
+--
+Ireland
+Gwen
+574155
+95000
+Sales
+053-0337
+588 Building A
+1/26/1987
+gireland@ieee.org
+--
+Driver
+Abe
+971782
+121000
+Interrogation
+351-5226
+794 Wilson building
+4/5/1992
+adriver@ieee.org
+--
+Meyer
+Sarah
+680337
+87000
+Sales
+222-7476
+230 Administration bldg
+6/10/2000
+smeyer@ieee.org
+--
+Donaldson
+Bill
+575579
+59000
+Legal
+435-5143
+784 Russ Engineering
+10/1/1981
+bdonaldson@email.com
+--
+Hobson
+Beverly
+971199
+76000
+Legal
+105-8715
+236 Building A
+11/12/2003
+bhobson@wright.edu
+--
+Phillips
+Allen
+508988
+96000
+Espionage
+782-7026
+54 Case building
+1/14/1999
+aphillips@msn.com
+--
+Johnson
+Kylie
+762569
+59000
+International Warfare
+053-4808
+200 Building A
+4/22/1992
+kjohnson@hotmail.com
+--
+Johnson
+Gwen
+273960
+115000
+Administration
+878-1810
+444 Case building
+5/24/1997
+gjohnson@wow.rr.net
+--
+Bryce
+Bob
+530200
+87000
+Marketing
+371-6861
+845 Building D
+9/26/1985
+bbryce@wright.edu
+--
+Saxon
+Dave
+001250
+73000
+International Warfare
+845-4505
+348 Russ Engineering
+1/14/1997
+dsaxon@wow.rr.net
+--
+Farmer
+Frank
+840273
+63000
+Engineering
+386-0511
+78 Building A
+7/6/1976
+ffarmer@msn.com
+--
+Bryce
+Sandy
+013928
+120000
+Accounting
+324-3664
+583 Building A
+1/12/1985
+sbryce@mymail.com
+--
+Sanders
+Helen
+049052
+49000
+Sales
+285-3186
+678 Building A
+5/19/1980
+hsanders@mymail.com
+--
+England
+Phil
+369658
+75000
+Marketing
+780-1617
+766 Building C
+8/26/2000
+pengland@email.com
+--
+Saxon
+Dave
+454465
+79000
+Engineering
+301-6712
+226 Wilson building
+5/6/1977
+dsaxon@email.com
+--
+Saxon
+Abe
+230222
+107000
+Administration
+241-2228
+528 Rike
+2/16/1998
+asaxon@wow.rr.net
+--
+Daniels
+Joe
+542463
+52000
+International Warfare
+364-5038
+385 Rike
+8/16/1988
+jdaniels@snailmail.com
+--
+Kline
+Phil
+644165
+39000
+Engineering
+620-5074
+613 Case building
+9/1/1987
+pkline@email.com
+--
+Driver
+George
+664144
+96000
+Administration
+100-1485
+498 Administration bldg
+10/2/1999
+gdriver@mymail.com
+--
+Reynolds
+Frank
+233921
+77000
+Marketing
+738-1845
+646 Russ Engineering
+8/7/1989
+freynolds@wow.rr.net
+--
+Jackson
+Steve
+051926
+99000
+Research and Development
+087-0078
+318 Rockefellar Plaza
+1/17/1980
+sjackson@ieee.org
+--
+Francis
+Lee
+807674
+37000
+Administration
+261-5128
+707 Building C
+9/4/1991
+lfrancis@wow.rr.net
+--
+Daniels
+Phil
+662232
+36000
+Interrogation
+808-3035
+271 Rockefellar Plaza
+2/10/1976
+pdaniels@ieee.org
+--
+Jeffries
+John
+388267
+90000
+International Warfare
+423-3271
+496 Building C
+10/4/1996
+jjeffries@wow.rr.net
+--
+Howard
+Kylie
+581008
+30000
+Engineering
+310-5060
+917 Building A
+2/15/1977
+khoward@yahoo.com
+--
+Hanover
+Dillan
+204719
+56000
+Administration
+633-3715
+291 Rockefellar Plaza
+8/12/2001
+dhanover@email.com
+--
+Northrup
+Mike
+511787
+30000
+Marketing
+221-2015
+609 Building D
+8/13/1993
+mnorthrup@wow.rr.net
+--
+Hobson
+Abe
+292335
+89000
+Research and Development
+107-8626
+427 Case building
+2/14/1994
+ahobson@msn.com
+--
+Northrup
+Ethan
+954303
+59000
+Interrogation
+034-8670
+40 Building D
+6/5/1975
+enorthrup@wow.rr.net
+--
+Meyer
+Lee
+598982
+111000
+Engineering
+125-0178
+615 Rockefellar Plaza
+5/22/1990
+lmeyer@ieee.org
+--
+Turner
+Sarah
+520296
+103000
+Accounting
+152-1822
+444 Allyn Hall
+9/17/2001
+sturner@mailman.net
+--
+Doom
+Anna
+836055
+47000
+Administration
+333-5560
+286 Building A
+4/13/1977
+adoom@wow.rr.net
+--
+Hobson
+Kylie
+111156
+124000
+Sales
+515-5818
+710 Nelson building
+7/24/1995
+khobson@google.com
+--
+Turner
+Alice
+726702
+119000
+Research and Development
+108-0831
+110 Allyn Hall
+8/6/1982
+aturner@snailmail.com
+--
+Anderson
+Linda
+645344
+32000
+International Warfare
+230-0067
+216 Building D
+11/1/1983
+landerson@ieee.org
+--
+Ellis
+Bill
+554111
+57000
+Legal
+836-1246
+622 Building C
+4/2/2000
+bellis@msn.com
+--
+England
+Dave
+027516
+33000
+Espionage
+207-8086
+370 Building D
+2/13/1979
+dengland@wow.rr.net
+--
+Enland
+Terry
+416890
+40000
+Administration
+376-4443
+154 Building B
+2/14/1984
+tenland@ieee.org
+--
+Jones
+Don
+084406
+107000
+Accounting
+778-0275
+613 Russ Engineering
+9/11/2003
+djones@email.com
+--
+Jeffries
+Mark
+817899
+114000
+International Warfare
+524-8283
+209 Building C
+2/20/1975
+mjeffries@email.com
+--
+Sanders
+George
+030205
+89000
+Interrogation
+157-3150
+466 Nelson building
+10/14/1988
+gsanders@wright.edu
+--
+Howard
+Deb
+939234
+78000
+Accounting
+888-7735
+477 Building B
+9/2/1993
+dhoward@ieee.org
+--
+Anderson
+Andrew
+726643
+110000
+Accounting
+720-7013
+4 Russ Engineering
+2/7/1994
+aanderson@wright.edu
+--
+Lincoln
+Don
+263143
+38000
+Interrogation
+612-2185
+340 Nelson building
+6/9/1976
+dlincoln@wright.edu
+--
+Meyer
+Anna
+911025
+105000
+Interrogation
+650-0417
+171 Wilson building
+9/10/1977
+ameyer@ieee.org
+--
+Innis
+Jack
+017185
+106000
+Legal
+056-4677
+985 Administration bldg
+6/6/1994
+jinnis@mymail.com
+--
+Johnson
+Beverly
+378334
+48000
+Research and Development
+858-8132
+557 Building B
+11/21/2000
+bjohnson@wright.edu
+--
+Saxon
+Dan
+482897
+36000
+Engineering
+786-1540
+269 Nelson building
+4/16/1983
+dsaxon@wright.edu
+--
+Johnson
+Beverly
+858197
+37000
+Marketing
+065-7676
+814 Case building
+2/19/1985
+bjohnson@google.com
+--
+England
+Andrew
+518920
+98000
+Interrogation
+063-6060
+361 Wilson building
+5/10/1978
+aengland@snailmail.com
+--
+Lionel
+Phil
+620777
+56000
+Sales
+240-4203
+259 Building A
+6/11/1979
+plionel@wright.edu
+--
+Gage
+Jack
+184834
+51000
+Accounting
+403-7364
+907 Building B
+5/3/1988
+jgage@google.com
+--
+Anderson
+Paula
+459888
+94000
+Research and Development
+463-8876
+713 Building D
+3/20/1993
+panderson@msn.com
+--
+Enland
+Sarah
+587831
+113000
+Sales
+428-1077
+638 Nelson building
+9/1/1995
+senland@wright.edu
+--
+Gage
+Ethan
+242267
+57000
+Espionage
+572-5210
+336 Wilson building
+8/23/2001
+egage@snailmail.com
+--
+Feldmeyer
+Mike
+546879
+70000
+Interrogation
+276-7678
+242 Allyn Hall
+9/25/1985
+mfeldmeyer@yahoo.com
+--
+Doom
+Ken
+955351
+68000
+Accounting
+477-6285
+312 Building C
+8/27/1994
+kdoom@mymail.com
+--
+Farmer
+Steve
+590926
+83000
+International Warfare
+125-2312
+188 Rockefellar Plaza
+5/8/1990
+sfarmer@hotmail.com
+--
+Francis
+Steve
+120966
+51000
+Administration
+765-2876
+343 Nelson building
+9/19/1995
+sfrancis@wright.edu
+--
+Reynolds
+Henry
+804584
+92000
+Legal
+835-6785
+903 Nelson building
+4/9/1995
+hreynolds@mailman.net
+--
+Howard
+Dillan
+182434
+54000
+Sales
+353-1213
+925 Administration bldg
+7/13/1997
+dhoward@ieee.org
+--
+England
+Denise
+803981
+58000
+Marketing
+652-1207
+956 Wilson building
+9/9/1977
+dengland@yahoo.com
+--
+Driver
+Frank
+890192
+48000
+Administration
+035-5616
+295 Building D
+10/7/1993
+fdriver@hotmail.com
+--
+Innis
+Sandy
+046107
+91000
+Accounting
+282-3843
+645 Building C
+11/15/1991
+sinnis@email.com
+--
+Northrup
+Ellen
+606233
+96000
+International Warfare
+277-6362
+584 Allyn Hall
+4/20/1999
+enorthrup@ieee.org
+--
+Turner
+Ken
+561451
+55000
+Interrogation
+462-8757
+712 Allyn Hall
+11/17/1996
+kturner@yahoo.com
+--
+Hobson
+Don
+157460
+87000
+International Warfare
+773-3655
+920 Rockefellar Plaza
+9/14/1990
+dhobson@mailman.net
+--
+Wendall
+Ellen
+120399
+104000
+Administration
+365-7038
+489 Building B
+9/7/1983
+ewendall@msn.com
+--
+Enland
+Frank
+867619
+117000
+Research and Development
+813-8738
+139 Building B
+8/6/1979
+fenland@wright.edu
+--
+Lionel
+Bill
+703009
+52000
+Sales
+652-7826
+803 Russ Engineering
+11/27/1992
+blionel@mymail.com
+--
+Francis
+Beverly
+460352
+111000
+Administration
+535-0263
+24 Building A
+3/14/1975
+bfrancis@yahoo.com
+--
+Price
+Bill
+095101
+40000
+Sales
+162-2440
+577 Wilson building
+9/27/1987
+bprice@mymail.com
+--
+Andrews
+Randy
+383609
+52000
+Legal
+671-0276
+658 Administration bldg
+2/21/1998
+randrews@hotmail.com
+--
+Jeffries
+Helen
+351274
+120000
+International Warfare
+388-1882
+652 Case building
+6/7/1980
+hjeffries@google.com
+--
+Billings
+Helen
+690931
+47000
+Espionage
+316-1656
+137 Administration bldg
+3/26/2000
+hbillings@mailman.net
+--
+Daniels
+Dan
+878782
+86000
+Marketing
+633-6525
+946 Administration bldg
+7/2/1998
+ddaniels@wright.edu
+--
+Sanders
+Deb
+512700
+76000
+Interrogation
+632-6700
+2 Russ Engineering
+4/5/1996
+dsanders@wright.edu
+--
+Farmer
+Dave
+917393
+120000
+Marketing
+323-1763
+600 Building B
+8/17/1997
+dfarmer@msn.com
+--
+Lionel
+Paula
+798951
+117000
+Engineering
+167-4762
+828 Rockefellar Plaza
+9/24/2002
+plionel@ieee.org
+--
+Turner
+Gwen
+248542
+82000
+Accounting
+218-7182
+756 Building C
+10/11/1981
+gturner@google.com
+--
+Sanders
+Terry
+643533
+71000
+Espionage
+286-6178
+277 Building A
+6/23/1999
+tsanders@wow.rr.net
+--
+Farmer
+Frank
+092877
+100000
+Administration
+682-5827
+515 Rockefellar Plaza
+3/3/1983
+ffarmer@mymail.com
+--
+Jeffries
+Terry
+028902
+55000
+Administration
+702-5722
+545 Building C
+11/21/2003
+tjeffries@mymail.com
+--
+Howard
+Randy
+236869
+101000
+International Warfare
+826-7884
+363 Nelson building
+5/25/1977
+rhoward@yahoo.com
+--
+Lionel
+George
+595568
+74000
+Marketing
+337-6515
+800 Building A
+6/16/1987
+glionel@hotmail.com
+--
+Everson
+Bill
+943837
+76000
+International Warfare
+236-6736
+471 Building B
+7/14/1998
+beverson@mailman.net
+--
+Smith
+Ben
+665829
+55000
+Accounting
+754-3547
+2 Building A
+8/24/1986
+bsmith@msn.com
+--
+Hanover
+Ben
+356001
+109000
+Research and Development
+130-8584
+432 Administration bldg
+11/24/1999
+bhanover@email.com
+--
+<END>
