@@ -1,0 +1,22 @@
+CS499/699 Cloud Computing
+Mini Project 2: Mapreduce Programming
+                                                           
+Goals: students will get familiar with mapreduce programming, and understand the basic techniques for constructing a mapreduce solution.
+ 
+Steps:
+Read the online reference about Hadoop streaming http://hadoop.apache.org/common/docs/r0.20.1/streaming.html, the wordcount example for using the java API: http://hadoop.apache.org/common/docs/r0.20.2/mapred_tutorial.html, and java API http://hadoop.apache.org/common/docs/r0.20.1/api/
+ 
+Get connected with the same method described in project 1. Note we still work on the single node system.
+         
+The directory /home/hadoop/examples/ contains the wordcount python implementation that we discussed in class. Please take a look, try different streaming commands and check the output data
+ 
+Design and implement (1) a streaming version of MR program and (2) a java API version for document indexing. This MR program will index the files under HDFS /user/hadoop/text/ and output the index file, which contains lines
+word \t a list of docID:position
+ 
+where “word” is any word showing in the documents, “docID” is used to identify the documents, and “position” is the byte offset of the indexed word in the document. You will use the single file /user/hadoop/text/prj2.txt as the input. In this file, we use lines to mimic documents. Each line is in the following format:       
+DocID \t content.
+ 
+Save your code and description to your home directory with directory name “project2”.
+ 
+ 
+Due date: Sept 30
