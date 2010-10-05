@@ -1,0 +1,26 @@
+FILES
+
+- main.cpp
+  Main project file to test the implementation. 
+- GeneFeatureItem.{h, cpp}
+  Files to define and implement a feature along with the class data for a gene. 
+- GeneFeatureBins.{h,cpp}
+  Files to define and implement a bin object. 
+- GeneFeatureData.{h, cpp}
+  Files to define and implement the data for a particular feature. 
+- GeneDataSet.{h,cpp}
+  Files to store the feature set for genes.   
+- defs.h
+  File used to define some macros.
+- README
+  This file. 
+- Makefile 
+  The project management file. 
+
+HOWTO
+
+Simply type make in the current working directory, which will generate
+the executable binningexe file. 
+Run the executable by ./binningexe
+Provide input according to the program prompt.
+Check the result in the current working directory.
