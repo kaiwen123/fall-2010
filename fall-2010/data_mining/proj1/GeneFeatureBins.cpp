@@ -45,7 +45,7 @@ float GeneFeatureBins::entropy() {
 // Overloading << operator. 
 ostream& operator<<(ostream& out, GeneFeatureBins& b) {
   if(abs(b.b_low-b.MININF)<0.5) { // Deal with -inf
-    out << "[-inf" << "," 
+    out << "(-inf" << "," 
   	<< b.b_high << ")" << b.getTotalCount();
     //cout << b.b_low << " " << b.MININF << endl;
     return out; 

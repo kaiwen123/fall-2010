@@ -24,3 +24,9 @@ the executable binningexe file.
 Run the executable by ./binningexe
 Provide input according to the program prompt.
 Check the result in the current working directory.
+
+TODO
+
+- Singular design pattern for GeneDataSet class. 
+- Move the function of loading data into GeneDataSet class. 
+  This is more complied with the OOP design mechanism. 
