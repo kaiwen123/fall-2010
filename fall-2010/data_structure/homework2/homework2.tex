@@ -9,9 +9,16 @@
 \usepackage{extramarks}
 \usepackage{chngpage}
 \usepackage{soul,color}
+\usepackage{ulem}
 \usepackage{graphicx,float,wrapfig}
+\usepackage{pifont}
+\usepackage{booktabs}
+\usepackage{hyperref}
 \usepackage{pstricks,pst-node,pst-tree}
 \usepackage{pdftricks}
+\usepackage{subfigure}
+\usepackage{multicol}
+\usepackage{enumerate}
 
 \usepackage{listings}
 \usepackage{color}
@@ -23,7 +30,7 @@
 	tabsize=4,
 	rulecolor=,
 	language=c++,
-        basicstyle=\ttfamily\large\setstretch{1},
+        basicstyle=\setstretch{1},
         upquote=true,
         aboveskip={\baselineskip},
         columns=fixed,
@@ -66,7 +73,7 @@
 \cfoot{}                                                                %
 \rfoot{}                          %
 \renewcommand\headrulewidth{0.4pt}                                      %
-\renewcommand\footrulewidth{0.2pt}                                     %
+%\renewcommand\footrulewidth{0.2pt}                                     %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Make title
@@ -80,8 +87,8 @@
 \begin{document}
 \maketitle
 
-\section*{}
-1.(10 points) Describe in pseudo-code, a linear-time algorithm for
+\begin{enumerate}
+\item(10 points) Describe in pseudo-code, a linear-time algorithm for
 reversing a queue Q. To access the queue, you are only allowed to use
 the basic functions of the queue ADT defined as follows (Hint: Using a
 stack, the basic stack functions defined in the textbook and in the
@@ -97,52 +104,105 @@ public:
     Object dequeue()
 };
 \end{lstlisting}
-\answer
 
-\section*{}
-2. 2.(20 points) Let T be the binary tree as shown in the following
-figure.\\
+\begin{multicols}{2}
+  \setlength{\columnseprule}{1pt}
+  \textsc{\large{\uuline{Pseudocode With Queue}}}
+    \begin{algorithmic}[1]
+      \STATE{\textbf{Input:}Queue with length N($N \geq 0$).}
+      \STATE{\textbf{Output:}Reversed Queue.}
+      \STATE $x\leftarrow N$
+      \WHILE{$x > 0$}
+      \STATE $X \leftarrow Queue.dequeue()$
+      \STATE $Queue.enqueue(X)$
+      \STATE $x \leftarrow x - 1$
+      \ENDWHILE
+    \end{algorithmic}
+    \vspace{70pt}
+    \textsc{\large{\uuline{Pseudocode With Stack}}}
+    \begin{algorithmic}[1]
+      \STATE{\textbf{Input:}Queue with length N($N \geq 0$).}
+      \STATE{\textbf{Output:}Reversed Queue.}
+      \STATE $x\leftarrow N$
+      \WHILE{$x > 0$}
+      \STATE $X \leftarrow Queue.dequeue()$
+      \STATE $Stack.Push(X)$
+      \STATE $x \leftarrow x - 1$
+      \ENDWHILE
+      \STATE $x\leftarrow N$
+      \WHILE{$x > 0$}
+      \STATE $X \leftarrow Stack.Pop()$
+      \STATE $Queue.enqueue(X)$
+      \STATE $x \leftarrow x - 1$
+      \ENDWHILE
+    \end{algorithmic}
+\end{multicols}
 
-\begin{figure}[htb]
+\setcounter{figure}{0}          %set the figure counter to zero.
+\item(20 points) Let T be the binary tree as shown in the following
+figure. (See Figure ~\ref{fig:question2})
+\begin{enumerate}[(a)]
+\item Give the output of the preorder tree traversal of T. \fbox{A
+  B G H E C F}
+\item Give the output of the postorder tree traversal of
+  T. \fbox{G H D E B F C A}
+\item Give the output of the inorder tree traversal of T. \fbox{G
+    D H B E A F C}
+\item Give the output of the level order tree traversal of
+  T. \fbox{A B C D E F G H}
+\end{enumerate}
+
+\begin{figure}[H]
+  \vspace{-10pt}
   \begin{center}
-    \pstree[levelsep=10ex]{\Tcircle{A} }{
+    \pstree[levelsep=5ex]{\Tcircle{A}}{
       \pstree{ \Tcircle{B}\tvput{} }{
-        \pstree{\Tcircle{D}\tlput{}} {
+        \pstree{\Tcircle{D}\tlput{}}{
           \Tcircle{G}
           \Tcircle{H}
         }
         \Tcircle{E}\trput{}
       }
       \pstree{\Tcircle{C}}{
-        \Tcircle{F}
+        \Tcircle{F}\Tn
       }
     }
-    \caption{Tree Struture for Question Two.}
+    \caption{Tree Struture for Question Two.\label{fig:question2}}
+    \vspace{-10pt}
   \end{center}
 \end{figure}
 
-\begin{enumerate}
-\item[(a)]Give the output of the preorder tree traversal of T. 
-\item[(b)]Give the output of the postorder tree traversal of T.
-\item[(c)]Give the output of the inorder tree traversal of T.
-\item[(d)]Give the output of the level order tree traversal of T.
+\item(10 points) Draw a (single) binary tree T, such that
+\begin{enumerate}[(a)]
+\item Each internal node of T stores a single character
+\item A preorder traversal of T yields A B C D F G E
+\item An inorder traversal of T yields C B F D G A E 
+\hspace{1em}\fbox{See Result in Figure ~\ref{fig:question3}}
 \end{enumerate}
-\answer
-
-\section*{}
-3. (10 points) Draw a (single) binary tree T, such that
-\begin{enumerate}
-\item[(a)]Each internal node of T stores a single character
-\item[(b)]A preorder traversal of T yields A B C D F G E
-\item[(c)]An inorder traversal of T yields C B F D G A E
-\end{enumerate}
-\answer
-
-\section*{}
-4. (10 points) Let T be the tree as shown in the following figure
-\begin{figure}[htb]
+\begin{figure}[H]
+  \vspace{-10pt}
   \begin{center}
-    \pstree[levelsep=10ex]{\Tr{\psframebox[framearc=.5]{A}}}{
+    \pstree[levelsep=5ex]{\Tcircle{A} }{
+      \pstree{ \Tcircle{B}}{ % level - 1
+        \Tcircle{C}
+        \pstree{\Tcircle{D}} {
+          \Tcircle{F}
+          \Tcircle{G}
+        }
+      }
+      \Tcircle{F}               % level - 1 
+    }
+    \caption{Binary Tree.\label{fig:question3}}
+    \vspace{-15pt}
+  \end{center}
+\end{figure}
+
+\item(10 points) Let T be the tree as shown in the following figure
+\fbox{See Figure \ref{fig:question4}}
+
+\begin{figure}[H]
+  \begin{center}
+    \pstree[levelsep=5ex]{\Tr{\psframebox[framearc=.5]{A}}}{
       \pstree{ \Tr{\psframebox[framearc=.5]{B}}\tvput{} }{
         \Tr{\psframebox[framearc=.5]{E}}
         \pstree{\Tr{\psframebox[framearc=.5]{F}}\tlput{}} {
@@ -156,48 +216,237 @@ figure.\\
       }
       \Tr{\psframebox[framearc=.5]{D}}
     }
-    \caption{Tree Struture for Question Four.}
+    \caption{Tree Struture for Question Four.\label{fig:question4}}
+    \vspace{-15pt}
   \end{center}
 \end{figure}
-\begin{enumerate}
-\item[(a)]Give the output of the preorder tree traversal of T.
-\item[(b)]Give the output of the postorder tree traversal of T.
+\begin{enumerate}[(a)]
+\item Give the output of the preorder tree traversal of
+  T. \fbox{A B E F I J C G H D} 
+\item Give the output of the postorder tree traversal of
+  T. \fbox{E I J F B G H C D A} 
 \end{enumerate}
-\answer
 
-\section*{}
-5. (20 points) Answer the following questions (This question is for
+\item(20 points) Answer the following questions (This question is for
 graduate students only, but undergraduate students are welcome to
 finish this question to get bonus points). 
-\begin{enumerate}
-\item[(a)]What is the minimum number of external nodes for a binary tree with
-height h? Justify your answer. 
-\item[(b)]What is the maximum number of external nodes for a binary tree with
-height h? Justify your answer.  
-\item[(c)]Let T be a binary tree with height h and n nodes, Show that
-$log(n+1)-1 \leq h \leq \frac{(n-1)}{2}$
-\item[(d)]For which values of n and h can the above lower and upper bounds on
-h be attained with equality? 
+\begin{enumerate}[(a)]
+\item What is the minimum height h of a binary tree with n nodes.
+\fbox{$log_2(n)$}
+\item What is the maximum height h of a binary tree with n nodes.
+\fbox{n-1}
 \end{enumerate}
-\answer
 
-\section*{}
-6. (10points) For the set of ${ 2, 6, 10, 9, 4, 1, 13}$ of keys, draw
-binary search trees of height 2, 3, 4, 5, and 6.
-\answer   
+\item(20 points) Answer the following questions (This question is for
+graduate students only, but undergraduate students are welcome to
+finish this question to get bonus points).
+\begin{enumerate}[(a)]
+\item What is the minimum number of external nodes for a full
+  binary tree (proper binary tree) with height h? Justify your answer.\\
+  \answer In order to get a minimum number of external(leaf) nodes, we
+    need to assign as many nodes as possible to be as internal nodes,
+    but for a proper binary tree, a node either have zero or two
+    children. So we can try to build a tree whose deepest nodes are
+    two external nodes and for other levels there is only one external
+    node for each level. The prototype of this kind of tree is shown
+    in the picture below. And we can easily calculate the minimum
+    number of external nodes to be $h+1$. \fbox{Please see
+      Figure~\ref{fig:int_ext}~for a sample tree.} \\
+    \begin{figure}[H]
+      \begin{center}
+        \psset{fillstyle=solid}
+        \pstree[levelsep=5ex]{\Tcircle[fillcolor=gray]{I}}{
+          \pstree{\Tcircle[fillcolor=gray]{I}}{
+            \pstree{\Tcircle[fillcolor=gray]{I}}{
+              \pstree{\Tcircle[fillcolor=gray]{I}}{
+                \pstree{\Tcircle[fillcolor=gray]{I}}{
+                  \Tcircle{E}
+                  \Tcircle{E}
+                }
+                \Tcircle{E}
+              }          
+              \Tcircle{E}
+            }
+            \Tcircle{E}
+          }
+          \Tcircle{E}
+        }
+        \caption{Tree structure for minimum number of external
+          node.\label{fig:int_ext}} 
+        \vspace{-15pt}
+        \end{center}
+      \end{figure}
 
-\section*{}
-7. (15 points) Consider the Binary Search Tree (BST) to the following.
-\begin{figure}[htb]
+\item What is the maximum number of external nodes for a full
+  binary tree (proper binary tree) with height h? Justify your
+  answer. 
+  \answer A proper binary tree with height h will have the maximum
+  number of external nodes if this tree becomes a perfect tree. This
+  means for level l of this tree it will have $2^l$ nodes in this
+  level and for level h(the height), we will have $2^h$ nodes, which
+  are all external nodes. 
+
+\item Let T be a full binary tree (proper binary tree) with height
+  h and n nodes, Show that $log_2(n+1)-1 \leq h\leq \frac{n-1}{2}$. 
+  \answer According to the answers of the above two questions, we know
+  that for a proper binary tree, the height $h$ will be the highest if
+  there are minimum number of external nodes($en=h+1$ where the
+  number of internal nodes will be $in=h$) and $h$ will be the
+  lowest when there are maximum number of external nodes($en=2^h$ and
+  at this time the number of internal nodes is $in=2^h-1$). \\
+  And according to the above description, we can get the relationship
+  between the height of tree and the total number of nodes as follows:
+  
+  Maximum height: $n=h+h+1=2h+1 \Rightarrow h = \frac{n-1}{2}$ \\
+  Minimum height: $n=2^h+2^h-1 \Rightarrow h=log_2(n+1)-1$ \\
+  To Sum up, we have: $log_2(n+1)-1\leq h \leq \frac{n-1}{2}$.\\ 
+  Done. \\
+
+\item For which values of n and h can the above lower and upper
+  bounds on h be attained with equality?
+\answer When $n=2h+1$ the upper bound can attain equality. \\
+When $n=2^{h+1}-1$ the lower bound can attain equality. 
+\end{enumerate}
+
+\item(10points) For the set of $\{ 2, 6, 10, 9, 4, 1, 13\}$ of keys, draw
+binary search trees of height 2, 3, 4, 5, and 6. \fbox{See Result on
+  Figure ~\ref{fig:question7}.}
+\begin{figure}[H]
+  \vspace{-10pt}
+  \begin{center} 
+    \subfigure[height=2]{
+      \label{fig:height2}
+      \pstree[levelsep=5ex,treesep=2ex]{\Tcircle{6} }{
+        \pstree{ \Tcircle{2}}{
+          \Tcircle{1}
+          \Tcircle{4}
+        }
+        \pstree{\Tcircle{10}} {
+          \Tcircle{9}
+          \Tcircle{13}        
+        }
+      }
+    }
+    \subfigure[height=3]{
+      \label{fig:height3}
+      \pstree[levelsep=5ex,treesep=2ex]{\Tcircle{6} }{
+        \pstree{\Tcircle{4}}{
+          \pstree{\Tcircle{2}}{
+            \Tcircle{1}\Tn
+          }\Tn
+        }
+        \pstree{ \Tcircle{9}}{
+          \Tn\pstree{\Tcircle{10}}{
+            \Tn\Tcircle{13}
+          }
+        }
+      }
+    }
+    \subfigure[height=4]{
+      \label{fig:height4}
+      \pstree[levelsep=5ex,treesep=2ex]{\Tcircle{9} }{
+        \pstree{\Tcircle{6}}{
+          \pstree{\Tcircle{4}}{
+            \pstree{\Tcircle{2}}{
+              \Tcircle{1}\Tn
+            }\Tn
+          }\Tn
+        }
+        \pstree{\Tcircle{10}}{
+          \Tn\Tcircle{13}
+        }
+      }
+    }
+    \subfigure[height=5]{
+      \label{fig:height5}
+      \pstree[levelsep=5ex,treesep=2ex]{\Tcircle{10} }{
+        \pstree{\Tcircle{9}}{
+          \pstree{\Tcircle{6}}{
+            \pstree{\Tcircle{4}}{
+              \pstree{\Tcircle{2}}{
+                \Tcircle{1}\Tn
+              }\Tn
+            }\Tn
+          }\Tn
+        }
+        \Tn\Tcircle{13}
+      }
+    }
+    \subfigure[height=6]{
+      \label{fig:height6}
+      \pstree[levelsep=5ex,treesep=2ex]{\Tcircle{13} }{
+        \pstree{\Tcircle{10}}{
+          \pstree{\Tcircle{9}}{
+            \pstree{\Tcircle{6}}{
+              \pstree{\Tcircle{4}}{
+                \pstree{\Tcircle{2}}{
+                  \Tcircle{1}\Tn
+                }\Tn
+              }\Tn
+            }\Tn
+          }\Tn
+        }\Tn
+      }
+    }
+    \caption{BST with different depth.\label{fig:question7}}
+    \vspace{-15pt}
+  \end{center}
+\end{figure}
+
+
+\item(15 points) Consider the Binary Search Tree (BST) to the following.
+\begin{enumerate}[(a)]
+\item (5 points)  Draw a circle around each node that would be visited in
+a search for the value 40. \\
+\fbox{Please see Figure \ref{fig:bst_visit}.}
+
+\begin{figure}[H]
   \begin{center}
-    \pstree[levelsep=10ex]{\Tcircle{50} }{
-      \pstree{ \Tcircle{35}}{
+    \psset{fillstyle=solid}
+    \pstree[levelsep=5ex]{\Tcircle[doubleline=true,fillcolor=gray]{50}}{ 
+      \pstree{ \Tcircle[doubleline=true,fillcolor=gray]{35}}{
         \pstree{\Tcircle{23}} {
           \pstree{\Tcircle{12}} {
             \Tcircle{5}
             \Tcircle{15}
         }          
           \Tcircle{30}
+        }
+        \pstree{\Tcircle[doubleline=true,fillcolor=gray]{42}} {
+          \Tcircle[doubleline=true,fillcolor=gray]{39}
+          \Tcircle{48}
+        }
+      }
+      \pstree{\Tcircle{58}}{
+        \pstree{\Tcircle{52}} {
+          \Tcircle{51}
+          \Tcircle{55}
+        }
+        \pstree{\Tcircle{73}} {
+          \Tcircle{65}
+          \Tcircle{89}
+        }
+      }
+    }
+    \caption{Tree Struture for Question Seven(a).\label{fig:bst_visit}}
+    \vspace{-15pt}
+  \end{center}
+\end{figure}
+
+\item (10 points)  Show how the tree would appear if the value 35 were
+deleted. Assuming duplicates are stored in the left subtree. 
+\answer In order to conform to the property of binary search tree, I
+picked node 30 to replace the delete node 35. Because node 30 is the
+largest node on the left subtree. \fbox{See Figure \ref{fig:bst_delete}.}
+\begin{figure}[H]
+  \begin{center}
+    \pstree[levelsep=5ex]{\Tcircle{50} }{
+      \pstree{ \Tcircle{30}}{
+        \pstree{\Tcircle{23}} {
+          \pstree{\Tcircle{12}} {
+            \Tcircle{5}
+            \Tcircle{15}
+          }\Tn     
         }
         \pstree{\Tcircle{42}} {
           \Tcircle{39}
@@ -215,22 +464,15 @@ binary search trees of height 2, 3, 4, 5, and 6.
         }
       }
     }
-    \caption{Tree Struture for Question Seven.}
+    \caption{Tree Struture for Question Seven(b).\label{fig:bst_delete}}
+    \vspace{-15pt}
   \end{center}
 \end{figure}
-\begin{enumerate}
-\item[(a)](5 points)  Draw a circle around each node that would be visited in
-a search for the value 40. 
-\item[(b)](10 points)  Show how the tree would appear if the value 35 were
-deleted. Assuming duplicates are stored in the left subtree. 
 \end{enumerate}
-\answer
 
-\section*{}
-8.  (10points). Suppose that myBST is an empty Binary Search Tree. The
+\item(10points). Suppose that myBST is an empty Binary Search Tree. The
 following operations are performed in the given order. Draw the
-resulting tree.  Assuming duplicates are inserted in the left
-subtree. 
+resulting tree.  Assuming duplicates are inserted in the left subtree. \\
 myBST.insert(20) \\
 myBST.insert(28) \\
 myBST.insert(40) \\
@@ -240,11 +482,35 @@ myBST.insert(23) \\
 myBST.insert(24) \\
 myBST.insert(16) \\
 myBST.delete(23) \\
-myBST.insert(24) 
-\answer
+myBST.insert(24) \\
+\fbox{Please See Figure \ref{fig:insert}.} \\
+\begin{figure}[H]
+  \vspace{-15pt}
+  \begin{center}
+    \def\dedge{\ncline[linestyle=dashed]}
+    \pstree[levelsep=5ex]{\Tcircle{20} }{
+      \pstree{\Tcircle{12}}{
+        \Tn\Tcircle{16}
+      }
+      \pstree{\Tcircle{28}}{
+        \pstree{\Tcircle{25}} {
+          \pstree{\Tcircle{23}} {
+            \Tcircle[linestyle=dashed,edge=\dedge,
+            fillstyle=solid,fillcolor=lightgray]{23}
+            \pstree{\Tcircle{24}}{
+              \Tcircle{24}\Tn
+            }
+          }\Tn
+        }
+        \Tcircle{40}
+      }
+    }
+    \caption{BST structure after insert.\label{fig:insert}}
+    \vspace{-15pt}
+  \end{center}
+\end{figure}
 
-\section*{}
-9. (20 Points). Suppose you are given the following array, which
+\item(20 Points). Suppose you are given the following array, which
 represents a complete binary tree:
 \begin{table}[h]
   \begin{center}
@@ -254,22 +520,57 @@ represents a complete binary tree:
       \hline
     \end{tabular}
     \caption{Array Representation of a Binary Tree.} 
+    \vspace{-15pt}
   \end{center}
 \end{table}
-\begin{enumerate}
-\item[(a)] (5 points) Draw the complete binary tree represented by this
+\begin{enumerate}[(a)]
+\item (5 points) Draw the complete binary tree represented by this
 array. 
-\answer 
-\item[(b)] (10 Points) Is this binary tree a binary heap? If not, build a heap
+\fbox{Please See Figure \ref{fig:complete_tree}} \\
+\begin{figure}[H]
+  \vspace{-10pt}
+  \begin{center}
+    \pstree[levelsep=8ex]{\Tcircle{0/12} }{
+      \pstree{ \Tcircle{1/25}}{
+        \pstree{\Tcircle{3/49}} {
+          \pstree{\Tcircle{7/92}}{
+            \Tcircle{15/33}
+            \Tcircle{16/6}
+          }
+          \Tcircle{8/8}
+        }
+        \pstree{\Tcircle{4/64}} {
+          \Tcircle{9/19}
+          \Tcircle{10/43}
+        }
+      }
+      \pstree{\Tcircle{2/72}}{
+        \pstree{\Tcircle{5/58}} {
+          \Tcircle{11/27}
+          \Tcircle{12/98}
+        }
+        \pstree{\Tcircle{6/52}} {
+          \Tcircle{13/16}
+          \Tcircle{14/37}
+        }
+      }
+    }
+    \caption{Complete Binary Tree Representation of
+      List.\label{fig:complete_tree}} 
+    \vspace{-15pt}
+  \end{center}
+\end{figure}
+
+\item (10 Points) Is this binary tree a binary heap? If not, build a heap
 out of this array using the BottomUpHeap() we learned in the class. 
-\answer
-\item[(c)] (5 points) List the values from the heap as they would be printed
+\fbox{No, this is not a binary heap.}
+
+\item (5 Points) List the values from the heap as they would be printed
 out by an inorder traversal of the heap, where the \textbf{visit()} function
 prints the value of the current node. 
-\answer
-\end{enumerate}
 
-%\end{spacing}
+\end{enumerate}
+\end{enumerate}                 %the whole doc
 \end{document}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

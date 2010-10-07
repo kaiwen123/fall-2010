@@ -1,4 +1,5 @@
 // -*- C++ -*-
+// @(#) $Id$
 /**
  * @file LinkedSortedList.cpp 
  * @brief Implementation of a LinkedSortedList class. 
