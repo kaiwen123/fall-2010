@@ -1,0 +1,81 @@
+\begin{figure}[H]
+  \vspace{-10pt}
+  \begin{center} 
+    \subfigure[height=2]{
+      \label{fig:height2}
+      \pstree[levelsep=5ex,treesep=2ex]{\Tcircle{6} }{
+        \pstree{ \Tcircle{2}}{
+          \Tcircle{1}
+          \Tcircle{4}
+        }
+        \pstree{\Tcircle{10}} {
+          \Tcircle{9}
+          \Tcircle{13}        
+        }
+      }
+    }
+    \subfigure[height=3]{
+      \label{fig:height3}
+      \pstree[levelsep=5ex,treesep=2ex]{\Tcircle{6} }{
+        \pstree{\Tcircle{4}}{
+          \pstree{\Tcircle{2}}{
+            \Tcircle{1}\Tn
+          }\Tn
+        }
+        \pstree{ \Tcircle{9}}{
+          \Tn\pstree{\Tcircle{10}}{
+            \Tn\Tcircle{13}
+          }
+        }
+      }
+    }
+    \subfigure[height=4]{
+      \label{fig:height4}
+      \pstree[levelsep=5ex,treesep=2ex]{\Tcircle{9} }{
+        \pstree{\Tcircle{6}}{
+          \pstree{\Tcircle{4}}{
+            \pstree{\Tcircle{2}}{
+              \Tcircle{1}\Tn
+            }\Tn
+          }\Tn
+        }
+        \pstree{\Tcircle{10}}{
+          \Tn\Tcircle{13}
+        }
+      }
+    }
+    \subfigure[height=5]{
+      \label{fig:height5}
+      \pstree[levelsep=5ex,treesep=2ex]{\Tcircle{10} }{
+        \pstree{\Tcircle{9}}{
+          \pstree{\Tcircle{6}}{
+            \pstree{\Tcircle{4}}{
+              \pstree{\Tcircle{2}}{
+                \Tcircle{1}\Tn
+              }\Tn
+            }\Tn
+          }\Tn
+        }
+        \Tn\Tcircle{13}
+      }
+    }
+    \subfigure[height=6]{
+      \label{fig:height6}
+      \pstree[levelsep=5ex,treesep=2ex]{\Tcircle{13} }{
+        \pstree{\Tcircle{10}}{
+          \pstree{\Tcircle{9}}{
+            \pstree{\Tcircle{6}}{
+              \pstree{\Tcircle{4}}{
+                \pstree{\Tcircle{2}}{
+                  \Tcircle{1}\Tn
+                }\Tn
+              }\Tn
+            }\Tn
+          }\Tn
+        }\Tn
+      }
+    }
+    \caption{BST with different depth.\label{fig:question7}}
+    \vspace{-15pt}
+  \end{center}
+\end{figure}

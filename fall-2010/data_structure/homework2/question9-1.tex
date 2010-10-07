@@ -1,0 +1,27 @@
+\begin{figure}[H]
+  \vspace{-15pt}
+  \begin{center}
+    \def\dedge{\ncline[linestyle=dashed]}
+    \pstree[levelsep=5ex]{\Tcircle{20} }{
+      \pstree{\Tcircle{12}}{
+        \Tn\Tcircle{16}
+      }
+      \pstree{\Tcircle{28}}{
+        \pstree{\Tcircle{25}} {
+          \pstree{\Tcircle{24}}{
+            \Tcircle{24}\Tn
+          % \pstree{\Tcircle{23}} {
+          %   \Tcircle[linestyle=dashed,edge=\dedge,
+          %   fillstyle=solid,fillcolor=lightgray]{23}
+          %   \pstree{\Tcircle{24}}{
+          %     \Tcircle{24}\Tn
+          %   }
+          }\Tn
+        }
+        \Tcircle{40}
+      }
+    }
+    \caption{BST structure after insert.\label{fig:insert}}
+    \vspace{-15pt}
+  \end{center}
+\end{figure}
