@@ -1,0 +1,241 @@
+\documentclass{article}
+% Change "article" to "report" to get rid of page number on title page
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{algorithmic,algorithm}
+\usepackage{setspace}
+\usepackage{Tabbing}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{ulem}
+\usepackage{graphicx,float,wrapfig}
+\usepackage{amsfonts}
+\usepackage{pifont}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{pstricks,pst-node,pst-tree}
+\usepackage{pdftricks}
+
+\newcommand{\tickYes}{\checkmark}
+\newcommand{\tickNo}{\hspace{1pt}\ding{55}}
+
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=0in     %
+\oddsidemargin=0in      %
+\textwidth=6.8in        %
+\textheight=9.4in       %
+\headsep=0.25in         %
+
+% Homework Specific Information
+\newcommand{\hmwkTitle}{Homework\ \#2}
+\newcommand{\hmwkDueDate}{Oct.\ 06,\ 2010}
+\newcommand{\hmwkClass}{Data Mining}
+\newcommand{\hmwkClassTime}{MW\ 4:10-5:25pm}
+\newcommand{\hmwkClassInstructor}{Guozhu\ Dong}
+\newcommand{\hmwkAuthorName}{Shumin\ Guo}
+
+% Setup the header and footer
+\pagestyle{fancy}                                                       %
+\lhead{\hmwkAuthorName}                                                 %
+\chead{\hmwkClass\ - \hmwkTitle}  %
+\rhead{Page\ \thepage\ of\ \pageref{LastPage}}                          %
+\lfoot{\lastxmark}                                                      %
+\cfoot{}                                                                %
+\rfoot{}                          %
+\renewcommand\headrulewidth{0.4pt}                                      %
+%\renewcommand\footrulewidth{0.4pt}                                     %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make title
+\title{\textbf{\hmwkClass:\ 
+      \hmwkTitle}\\\normalsize\small{Due\ Date:\
+    \hmwkDueDate}} 
+\date{\today}
+\author{\textbf{\hmwkAuthorName}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+% \begin{spacing}{1.1}
+\maketitle
+
+\begin{enumerate}
+\item Give an example application to discuss how association mining
+  can be useful. You should provide a description of the items, how
+  relationships between the items can be used for the application
+  etc. 
+
+\textbf{ANSWER:}\\
+The knowledge provided by association mining can be useful for a lot
+of areas, such as e-Marketing, where marketers can promote their
+products to customers when they buy some of products. Through
+association mining, we can get the association rules between these
+products rules. Also, on social networks, systems can try to mining
+users' personality or identity and then do related advertisement or
+friendship recommendations. \\
+
+\textbf{\underline{For the questions below, consider the following
+    example: }} 
+\begin{verbatim}
+abcd g i
+a cd g
+ bc  ghi
+ab d  hi
+ bc eghi
+\end{verbatim}
+
+\item For $minSupp=50\%$,apply the APRIORI algorithm to the dataset
+  above. You should show work for each level k, show the (a)$C_k$ and
+  (b) $L_k$, show (c) the results of the join step and (d) the results
+  of the prune step. You should also draw(e) the hash tree. \\
+Assume that the items are ordered alphabetically. \\
+(f)If you were not able to prune any candidate after the joining step
+for all possible k's, try to use a new ordering on the items. If that
+still does not let you prune any candidate, try to use a lower
+$minSupp$ and perhaps also a new ordering. \\
+\textbf{ANSWER:} 
+\begin{table}[ht]
+  \begin{center}
+    \begin{tabular}{r | l}
+      \toprule
+      Scans & $C_k$(s) and $L_k$(s) \\
+      \midrule%
+      Scan 1:&a:3 b:4 c:4 d:3 e:1 g:4 h:3 i:3 $\rightarrow C_1$\\
+       &a:3 b:4 c:4 d:3 g:4 h:3 i:3 $\rightarrow L_1$ \\
+       &ab ac ad ag ah ai bc bd bg bh bi cd cg ch ci dg dh di gh gi hi
+      $\rightarrow C_2$ \\
+      \midrule
+      Scan 2:&ab:2 ac:2 ad:3 ag:2 ah:1 ai:2 bc:3 bd:2 bg:3 bh:3 bi:4
+      cd:2 cg:4 ch:2 ci:3 dg:2 dh:1 di:2 gh:2 gi:3 hi:3$\rightarrow C_2$\\
+        &ad:3 bc:3 bg:3 bh:3 bi:4 cg:4 ci:3 gi:3 hi:3 $\rightarrow L_2$\\
+        &bcg bch bci bgh bgi bhi cgi $\rightarrow C_3$ \\
+      \midrule
+      Scan 3:&bcg:3 bch:2 bci:3 bgh:2 bgi:3 bhi:3 cgi:3 $\rightarrow
+      C_3$ \\
+        &bcg:3 bci:3 bgi:3 bhi:3 cgi:3 $\rightarrow L_3$\\
+        &bcgi $\rightarrow C_4$ \\
+      \midrule
+      Scan 4:&bcgi:3 $\rightarrow C_4$ \\
+        &bcgi:3 $\rightarrow L_4$~So, we get the $L_4$ frequent
+        itemset \textbf{\fbox{bcgi}}.\\
+      \bottomrule
+    \end{tabular}
+    \caption{APRIORI Steps}
+  \end{center}
+\end{table}
+Let's use hash function $h(x)=ord(x)mod3$. And we can get the function
+value for all the characters as shown in \ref{tbl:hash_value}
+\begin{table}[ht]
+  \begin{center}
+    \begin{tabular}{|c|c|}
+      \toprule Character & hash value \\
+      \midrule a & 0 \\
+      \midrule b & 1 \\ 
+      \midrule c & 2 \\ 
+      \midrule d & 0 \\
+      \midrule e & 1 \\ 
+      \midrule f & 2 \\ 
+      \midrule g & 0 \\
+      \midrule h & 1 \\ 
+      \midrule i & 2 \\ 
+      \bottomrule
+    \end{tabular}
+    \label{tbl:hash_value}
+    \caption{Hash Table}
+  \end{center}
+\end{table}
+Please see the tree structure below: \\
+\begin{figure}[htb]
+  \begin{center}
+    \pstree[levelsep=10ex]{\Tcircle{$\Phi$}}{
+      \pstree{\Tcircle{a/d/g}\tlput{0} }{ % level - 1 
+        \Tcircle{ad}\tlput{0}             % level - 2 
+        \Tcircle{gi}\trput{2}
+      }
+      \pstree{\Tcircle{b/h}\trput{1}}{   % level - 1 
+        \pstree{\Tcircle{bg}\tlput{0}} { % level - 2
+          \Tcircle{bgi}\tlput{2}
+        }
+        \pstree{\Tcircle{bh}\tlput{1}} { % level - 2
+          \Tcircle{bhi}\tlput{2}
+        }
+        \pstree{\Tcircle{bc/bi/hi}\tlput{2}} { % level - 2
+          \pstree{\Tcircle{bcg}\tlput{0}} { % level - 3
+            \Tcircle{bcgi}\tlput{2}         % level - 4
+          }
+          \Tcircle{bci}\trput{2}
+        }
+      }
+      \pstree{\Tcircle{c/i}\trput{2}}{     %level - 1
+        \pstree{\Tcircle{cg}\tlput{0}} { % level - 2
+          \Tcircle{cgi}\tlput{2}
+        } 
+        \Tcircle{ci}\trput{2}
+      }
+    }
+    \caption{Hash Tree For APRIORI}
+    \label{tree:hash}
+  \end{center}
+\end{figure}
+
+\item For the data given above, roughly estimate (A) how many
+  candidate itemsets you will need to count if you consider all
+  itemsets as candidate itemsets. Also roughly estimate (B) how many
+  candidate itemsets you will need to count if you used the "generate
+  when seen" approach to candidate generation. (The "generate when
+  see" approach counts exactly those itemsets that occur in some
+  transactions.) \\
+\textbf{ANSWER:} If all the possible itemsets are counted, we need to
+count \\
+$N = \sum_{k=1}^8C_8^k = C_8^1 + C_8^2 + \ldots + C_8^8 \\
+= 8 + 28 + 56 + 70 + 56 + 28 + 8 + 1\\
+= 255$ \\
+
+While if we can use the "generate when seen" approach to generate
+candidates, we can have: \\
+$N = \sum_{k=1}^6C_k \\
+= 8 + 21 + 7 + 1 \\
+= 37$ \\
+As it is clearly can be seen that the last method is far more
+efficient than the naive method.
+
+\item 
+\begin{enumerate}
+\item[(a)] Roughly describe the "hash-based" idea for candidate
+  elimination.  \\
+\textbf{ANSWER:} When counting candidate(k-1)-itemsets, get counts of
+"hash-groups" of k-itemsets.\\
+- use a hash function h on k-itemsets \\
+- For each transaction t and k-subset s of t, add 1 to count of h(s)
+\\
+- Remove candidates q generated by Apriori if h(q)'s
+count$<$minSupp. \\
+- This idea is very useful for $k = 2$, but often not so useful
+elsewhere. 
+
+\item[(b)] Roughly describe the partition algorithm for frequent
+  itemset mining. \\ 
+\textbf{ANSWER:} For large dataset D, it can be divided into smaller
+sized partitions $D_1, D_2, \ldots, D_m$ and do association mining to
+get feature sets for each partition $F_1, F_2, \ldots, F_m$. If
+itemset $X_i$ is frequent in D, it must be frequent in some of $D_i$.
+The union of $F_i$ forms a candidate set of the frequent itemsets in
+D, and their counts can be used to remove false positives. 
+
+\item[(c)] Is it possible to mine frequent itemsets w/o candidate
+  generation? \\
+\textbf{ANSWER:} Yes, definitely. 
+
+\item[(d)] From the result of the APRIORI algorithm with
+  $minSupp=50\%$, find the corresponding closed itemsets. \\
+\textbf{ANSWER:} bi, cg, bcgi. 
+
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
