@@ -81,7 +81,7 @@
       \hmwkTitle}}\\\normalsize\small{Due\ Date:\
     \hmwkDueDate}\\} 
 \date{\today}
-\author{\textbf{\hmwkAuthorName}}
+\author{\textsc{\hmwkAuthorName}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
@@ -227,13 +227,13 @@ finish this question to get bonus points).
   
   Maximum height: $n=h+h+1=2h+1 \Rightarrow h = \frac{n-1}{2}$ \\
   Minimum height: $n=2^h+2^h-1 \Rightarrow h=log_2(n+1)-1$ \\
-  To Sum up, we have: $log_2(n+1)-1\leq h \leq \frac{n-1}{2}$.\\ 
-  Done. \\
+  To Sum up, we have: \fbox{$log_2(n+1)-1\leq h \leq \frac{n-1}{2}$}.\\ 
+  Done. 
 
 \item For which values of n and h can the above lower and upper
   bounds on h be attained with equality?
-\answer When $n=2h+1$ the upper bound can attain equality. \\
-When $n=2^{h+1}-1$ the lower bound can attain equality. 
+\answer When \fbox{$n=2h+1$} the upper bound can attain equality. \\
+When \fbox{$n=2^{h+1}-1$} the lower bound can attain equality. 
 \end{enumerate}
 
 % Question 7.
@@ -290,18 +290,22 @@ represents a complete binary tree:
   \end{center}
 \end{table}
 \begin{enumerate}[(a)]
-\item (5 points) Draw the complete binary tree represented by this
-array. 
+\item (5 points) Draw the complete binary tree represented by this array. 
 \fbox{Please See Figure \ref{fig:complete_tree}} \\
 \input{question10-1}
 
 \item (10 Points) Is this binary tree a binary heap? If not, build a heap
 out of this array using the BottomUpHeap() we learned in the class. 
-\fbox{No, this is not a binary heap.}
+\fbox{No, this is not a binary heap. Please see result on Figure
+  \ref{fig:binary_heap}}
+\input{question10-2}
 
 \item (5 Points) List the values from the heap as they would be printed
 out by an inorder traversal of the heap, where the \textbf{visit()} function
-prints the value of the current node. 
+prints the value of the current node. \\
+
+\fbox{\large{49, 33, 92, 12, 25, 8, 64, 19, 43, 6, 58, 27, 98, 16, 52,
+    37, 72}}
 
 \end{enumerate}
 \end{enumerate}                 %the whole doc
