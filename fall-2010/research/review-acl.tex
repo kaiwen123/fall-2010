@@ -1,0 +1,147 @@
+\documentclass[24pt]{article}
+% Change "article" to "report" to get rid of page number on title page
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{setspace}
+\usepackage{Tabbing}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{titlesec}
+\usepackage{graphicx,float,wrapfig}
+
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=0in     %
+\oddsidemargin=0in      %
+\textwidth=6.5in        %
+\textheight=9.0in       %
+\headsep=0.25in         %
+
+% Homework Specific Information
+\newcommand{\hmwkTitle}{Reading\ \#2}
+\newcommand{\hmwkDueDate}{Monday,\ Oct.\ 01,\ 2010}
+\newcommand{\hmwkClass}{Cloud\ Computing}
+\newcommand{\hmwkAuthorName}{Shumin\ Guo}
+
+% Setup the header and footer
+% \pagestyle{fancy}                                                       %
+% \lhead{\hmwkAuthorName}                                                 %
+% \chead{\hmwkClass\ \hmwkTitle}  %
+% \rhead{Page\ \thepage\ of\ \pageref{LastPage}} %
+% \lfoot{}                                                      %
+% \cfoot{}                                                                %
+% \rfoot{}   
+% 
+% \renewcommand\headrulewidth{0.4pt}                                      %
+% \renewcommand\footrulewidth{0.4pt}                                      %
+\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make title
+\title{\textmd{\textbf{\hmwkClass:\
+      \hmwkTitle}}\\\normalsize\small{Due\ Date:\
+    \hmwkDueDate}\\} 
+\date{\today}
+\author{\textbf{\hmwkAuthorName}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\section*{Known Access Control Privacy Protection Issues.}
+Online social networks provide a platform for people to publish
+details about themselves and to connect to other members of the
+network through various relationships. These services provide a lot
+of benefits to people within this virtual world. But the
+huge amount of data including person specific information creates both
+interesting research challenges and security threats. \\
+While the privacy issue has raised a lot of concerns among OSN users,
+current OSNs implement very basic access control models. Although
+easy to use and understand, these models lack flexibility and often
+times fail to protect the privacy of users. So, how to protect the
+privacy of OSN users have become a very interesting and hot research
+topic. \\
+Social Networks are built upon relations between users, so the access
+control and privacy protection models should be built based on the
+relationships among users. A lot of research proposals expressed the
+access control requirements in terms of relationship paths existing in
+the network and their depth. Also, some models support a notion of
+trust/reputation as a further parameter for access control decisions.
+
+Besides, the enforcement of relationship-based access control poses
+interesting issues regarding privacy protection. A further issue is
+the architecture on the support of access control. Unlike traditional
+access control models such as rule based access control, the
+centralized access control are no longer a suitable or efficient model
+for OSNs. A decentralized privacy-aware access control mechanism
+should be devised to enforce not only relationship-based access
+control but also ensure the relationship privacy. 
+
+\section*{Access Control Requirements.}
+According to a relationship-based access control model, access control
+policies are specified in terms of relationships existing in the
+OSN. Additionally, the depth of the relationship path is an important
+parameter for some access control decisions, since users are usually
+more inclined to share their resources with users not much away from
+them. Still a further important parameter is represented by trust
+among social network nodes. \\
+Moreover, in OSN, there exists relationship between users and
+resources. So, a relationship-based access control model should
+exploit not only the standard user to user relationships but should
+also consider the various relationships and connection between users
+and resources. \\
+As we have discussed earlier, a centralized access control model is
+not suitable for OSNs, a decentralized model should be used, where
+each user is responsible for policy specification and enforcement. But
+the decentralized model need to verify the existence of specific paths
+within an OSN. This kind of task may be very difficult and time
+consuming in a decentralized manner. So, a further essential
+requirement of access control enforcement is to devise efficient and
+scalable implementation strategies. \\
+On the other hand, the relationship-based access control also poses
+threats to the relationships which are in general sensitive
+information. As the relationship-based access control may require
+disclosure of personal relationships. So, another requirement for
+relationship-based access control model is to ensure that relationship
+privacy is not breached during access control. Also, relationships may
+have an associated trust value that must be protected during access
+control. So, there will be a requirement to protect the relationship
+trust level.\\
+Also, the decentralized enforcement of access control should have some
+mechanism to help a user to precisely estimate the other users's trust
+level. And such mechanism should also preserve user privacy when
+performing trust computation. 
+
+\section*{Some Review of Literature.}
+In current available literatures, various access control models have
+been proposed, such as access rule based model, client-based access
+control model, ACL model, multi-level access control,
+challenge-response-based model etc. 
+Also, there are proposals on distance based access control, in which
+requestors are divided into adjacent zones, and different zones have
+different rules or policies for access control. 
+A lot of literature also proposed cryptographic methods which are used
+for relationship certificate exchange, attestation and so on. And there
+are also a formalized access control model proposed in the literature,
+in which the authers proposed several types of access control
+policies, resources access control, search policy, tranversal policies
+and communication policies. And recent research on semantic web also
+provides opportunities for access control research. \\
+
+But, it is important to know that most of the research related to
+privacy in OSNs have focused on privacy-preserving techniques to mine
+social network data, only a few provide solutions for privacy aware
+access control. Among these privacy aware access control models, some
+are policy based, while others consider trust protection. 
+
+\section*{Interesting research topics.}
+Research in OSN privacy related area is still in its infancy, there
+are a lot of issues to be explored. One is the design of a
+satisfactory solution to relationship privacy protection during path
+discovery. Another research direction is related to policy
+administration. Due to the large size of social network and relations,
+it is important to devise techniques and tools that can help user
+evaluate the risk of unauthorized flows of information that the
+specification of a policy or its update may cause.
+
+\end{document}
