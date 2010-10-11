@@ -1,7 +1,7 @@
 #summary One-sentence summary of this page.
 
 = Repository List of This project =
-Please checkout class projects to your local dir. This is only readonly version, if you want to commit please let me know by sending me email: gsmsteve\[AT\]gmail\[DOT\]com
+Please checkout class projects to your local dir. This is only readonly version, if you want to commit please let me know by sending me email: gsmsteve(AT)gmail(DOT)com
 ===Data Mining===
 {{{
 svn co http://fall-2010.googlecode.com/svn/fall-2010/data_mining data_mining
