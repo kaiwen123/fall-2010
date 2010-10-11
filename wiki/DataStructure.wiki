@@ -1,0 +1,12 @@
+#Comments and notes about the data structure courses.
+
+= Introduction =
+
+Comment on Data Structure. 
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
