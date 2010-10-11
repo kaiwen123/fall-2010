@@ -6,5 +6,5 @@
 
 = Techniques =
 
-How to find the best split in entropy based binning. 
-How to select top-k gene. 
+  #How to find the best split in entropy based binning. 
+  #How to select top-k gene. 
