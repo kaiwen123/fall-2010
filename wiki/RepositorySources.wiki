@@ -1,4 +1,4 @@
-#Repository sources for separate classes. 
+#summary Repository sources for separate classes.
 
 = Repository List of This project =
 Please checkout class projects to your local dir. This is only readonly version, if you want to commit please let me know by sending me email: gsmsteve(AT)gmail(DOT)com
