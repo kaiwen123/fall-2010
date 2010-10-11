@@ -1,10 +1,16 @@
+#summary Notes, technical issues and topics for this class.
+
 = Introduction =
 
-Comment on Data Structure. 
+Topics in this class: 
+  # Algorithm analysis, Big-O, Big-Theta and Big-Omega Notations.
+  # List, Vector. 
+  # Stack and Queue. 
+  # Tree, Binary tree, Full, Complete, Perfect Tree.
+  # Binary Search Tree. 
+  # Heap.
+  # More ... ... 
 
 = Details =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+  # note s. 
