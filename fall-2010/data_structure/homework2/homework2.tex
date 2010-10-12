@@ -104,12 +104,13 @@ public:
     Object dequeue()
 };
 \end{lstlisting}
-
+\vspace{-10pt}
 \begin{multicols}{2}
   \setlength{\baselineskip}{10pt}
   \addtolength{\columnsep}{0.25cm} 
   \setlength{\columnseprule}{1pt}
-  \textsc{\large{\uuline{Pseudocode With Queue}}}
+  \textsc{\large{\uuline{Pseudocode With Queue}}}\\
+  \textbf{Algorithm} reverseQueue(Q):
     \begin{algorithmic}[1]
       \STATE{\textbf{Input:}Queue(Q) with length N($N \geq 0$).}
       \STATE{\textbf{Output:}Reversed Queue.}
@@ -121,7 +122,8 @@ public:
       \ENDWHILE
     \end{algorithmic}
     \vspace{70pt}
-    \textsc{\large{\uuline{Pseudocode With Stack}}}
+    \textsc{\large{\uuline{Pseudocode With Stack}}}\\
+    \textbf{Algorithm} reverseQueue(Q):
     \begin{algorithmic}[1]
       \STATE{\textbf{Input:}Queue(Q) with length N($N \geq 0$).}
       \STATE{\textbf{Output:}Reversed Queue.}
@@ -143,7 +145,7 @@ public:
 figure. (See Figure ~\ref{fig:question2})
 \begin{enumerate}[(a)]
 \item Give the output of the preorder tree traversal of T. \fbox{A
-  B G H E C F}
+  B D G H E C F}
 \item Give the output of the postorder tree traversal of
   T. \fbox{G H D E B F C A}
 \item Give the output of the inorder tree traversal of T. \fbox{G
@@ -225,8 +227,8 @@ finish this question to get bonus points).
   And according to the above description, we can get the relationship
   between the height of tree and the total number of nodes as follows:
   
-  Maximum height: $n=h+h+1=2h+1 \Rightarrow h = \frac{n-1}{2}$ \\
-  Minimum height: $n=2^h+2^h-1 \Rightarrow h=log_2(n+1)-1$ \\
+  Maximum height: $n=in + en = h+h+1=2h+1 \Rightarrow h = \frac{n-1}{2}$ \\
+  Minimum height: $n=in + en = 2^h-1+2^h \Rightarrow h=log_2(n+1)-1$ \\
   To Sum up, we have: \fbox{$log_2(n+1)-1\leq h \leq \frac{n-1}{2}$}.\\ 
   Done. 
 
