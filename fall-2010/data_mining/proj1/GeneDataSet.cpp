@@ -206,7 +206,9 @@ void GeneDataSet::findTopkGene(int k) {
 #endif      
     } // if
   }
+#ifdef SORT_ENTROPY
   sort(k_highest.begin(), k_highest.end());
+#endif
 }
 
 void GeneDataSet::printInfoGain() {
