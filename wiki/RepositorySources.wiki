@@ -19,4 +19,4 @@ svn co http://fall-2010.googlecode.com/svn/fall-2010/cloud_computing cloud_compu
 }}}
 
 = Source Browsing =
-You can browse the source of each project throw [code.google.com/p/fall-2010/source/ here].
+You can browse the source of each project throw [https://fall-2010.googlecode.com/svn/fall-2010 here].
