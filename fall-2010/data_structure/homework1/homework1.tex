@@ -21,7 +21,7 @@
 	tabsize=4,
 	rulecolor=,
 	language=c++,
-        basicstyle=\ttfamily\large\setstretch{1},
+        basicstyle=\setstretch{1},
         upquote=true,
         aboveskip={\baselineskip},
         columns=fixed,
@@ -63,7 +63,7 @@
 \cfoot{}                                                                %
 \rfoot{}                          %
 \renewcommand\headrulewidth{0.4pt}                                      %
-\renewcommand\footrulewidth{0.2pt}                                     %
+%\renewcommand\footrulewidth{0.2pt}                                     %
 
 % This is used to trace down (pin point) problems
 % in latexing a document:
@@ -99,7 +99,7 @@
   {\exitProblemHeader{\homeworkProblemName}}%
 
 \newcommand{\problemAnswer}[1]
-  {\noindent\fbox{\begin{minipage}[c]{\columnwidth}#1\end{minipage}}}%
+  {\noindent\fbox{\begin{minipage}{\columnwidth}#1\end{minipage}}}%
 
 \newcommand{\problemLAnswer}[1]
   {\labelAnswer{\homeworkProblemName}{#1}}
@@ -223,11 +223,11 @@ inputs can you process on you new machine in T seconds? \\
 Similar to the question above, we have: \\
 $T = 2 \times \frac{n^3}{P}\Rightarrow P = 2 \times \frac{n^3}{T}$ \\
 And for the new machine, we have: \\
-$P' = 64 \times P = \frac{64 \times 2 \times n^3}{T}$ \\
-$\Rightarrow T = \frac{2 \times n'^{3}}{P'} = \frac{2 \times n'^{3}}{\frac{64
-\times 2 \times n^3}{T}}$ \\  
-$\Rightarrow n'^3 = 64\times n^3 = (4n)^3$ \\ 
-$\Rightarrow n' = 4n$ \\ 
+$P' = 64 \times P = \frac{64 \times 2 \times n^3}{T}
+\Rightarrow T = \frac{2 \times n'^{3}}{P'} = \frac{2 \times n'^{3}}{\frac{64
+\times 2 \times n^3}{T}}
+\Rightarrow n'^3 = 64\times n^3 = (4n)^3
+\Rightarrow n' = 4n$ \\ 
 So, the new machine can process 4n instruction within T seconds. 
 }
 \item Suppose that a particular algorithm has time complexity $T(n) =
@@ -238,13 +238,15 @@ inputs can you process on you new machine in T seconds? \\
 
 \problemLAnswer{
 Similar to the question above, we have: \\
-$T = \frac{16n}{P}$
-$\Rightarrow P = 16 \times \frac{n}{T}$ \\
+$T = \frac{16n}{P}
+\Rightarrow P = 16 \times \frac{n}{T}$.
+
 And for the new machine, we have: \\
-$P' = 64 \times P = \frac{64 \times 16 \times n}{T}$ \\
-$\Rightarrow T = \frac{16 \times n'}{P'} = \frac{16 \times n'}{\frac{64
-\times 16 \times n}{T}}$ \\  
-$\Rightarrow n' = 64n$ \\ 
+$P' = 64 \times P = \frac{64 \times 16 \times n}{T}
+\Rightarrow T = \frac{16 \times n'}{P'} = \frac{16 \times n'}{\frac{64
+\times 16 \times n}{T}}  
+\Rightarrow n' = 64n$.
+
 So, the new machine can process 64n instruction within T seconds.
 }
 \end{itemize}
@@ -331,7 +333,7 @@ which relationship is correct: \\
   \begin{center}   
     \begin{tabular}{| l | c | r |} 
       \hline $f(n)$ & $g(n)$ & $f(n)=(X)g(n)$ \\
-      \hline $logn^2$ & $logn + 5$ & $f(n) = \Omega(g(n))$ \\ 
+      \hline $logn^2$ & $logn + 5$ & $f(n) = \Theta(g(n))$ \\ 
       \hline $nlogn + n$ & $logn$ & $f(n) = \Omega(g(n))$ \\
       \hline $log^2n$ & $logn$ & $f(n) = \Omega(g(n))$ \\
       \hline 10 & $log10$ & $f(n) = \Theta(g(n))$ \\
@@ -340,11 +342,12 @@ which relationship is correct: \\
       \hline 
     \end{tabular} 
     % \hfill{}
-    \caption{Relationship of pair of functions.}
-    \label{tb:tablename}
+    \caption{Relationship of pair of functions.\label{tb:tablename}}
   \end{center}
+  \vspace{-20pt}
 \end{table}
 \end{homeworkProblem}
+
 % number 7
 \begin{homeworkProblem}
 7. (15 points) For each of the following sums, determine a closed-form
@@ -417,25 +420,23 @@ fragments of code, as a function of N:
 n elements. The algorithm should rely on constant additional storage
 (only a few variables, no additional linked lists, arrays, etc.) 
 
-%\problemLAnswer{
 \begin{center}
   \begin{algorithm}[H]
-    \caption{reverseList(pHead, n)}
-    \label{alg:reverse_str}
-    \begin{algorithmic}
-      \STATE{\textbf{Input:}Head of A Linked List and number of elements n }
-      \STATE{\textbf{Output:}Reversed Linked List}
-      \STATE $pHead \Leftarrow~ HeadofList$
-      \STATE pTail $\Leftarrow$~ TailofList
-      \STATE pTmp $\Leftarrow$~ NULL
-      \FOR{$i \Leftarrow 1$ to n-1}
-      \STATE $i \Leftarrow~ i + 1$
-      \STATE pTmp $\Leftarrow$~ pHead
-      \STATE pHead $\Leftarrow$~ pHead.next
-      \STATE pTmp.next $\Leftarrow$~ NULL
-      \STATE pTail.next $\Leftarrow$~ pTmp
-      \STATE pTail $\Leftarrow$~ pTail.next
-      \ENDFOR
+    \caption{reverseList(pHead, n)\label{alg:reverse_str}}
+    \begin{algorithmic}[1]
+      \STATE{\textbf{Input:}Linked List with n elements ($n\geq~0$)}
+      \STATE{\textbf{Output:}Reversed List}
+      \STATE pTail $\leftarrow$ TailofList
+      \STATE pTmp $\leftarrow$ NULL
+      \STATE i $\leftarrow$ 0
+      \WHILE {$i \leq n-1$}
+      \STATE $i \leftarrow i + 1$
+      \STATE pTmp $\leftarrow$ pHead
+      \STATE pHead $\leftarrow$ pHead.next
+      \STATE pTmp.next $\leftarrow$ NULL
+      \STATE pTail.next $\leftarrow$ pTmp
+      \STATE pTail $\leftarrow$ pTmp
+      \ENDWHILE
       \RETURN TRUE
     \end{algorithmic}
   \end{algorithm}
