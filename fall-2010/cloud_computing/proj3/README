@@ -1,0 +1,14 @@
+HOWTO
+
+Test this project by simply run the following command in PWD. 
+./run.sh
+
+NOTICE: 
+After deleting the output directories, you will be led into the pig Grunt command line, 
+within the command line, you can run the program by typing "run proj3.pig". 
+
+Concerning the layout of the files and directories, I recommend to change
+to my user name w234sxg with passwd w234sxg
+
+CONTACT
+In case of any problems, please contact the author by guo.18@wright.edu.
