@@ -1,7 +1,8 @@
 HOWTO
-
-Test this project by simply run the following command in PWD. 
+First, you need to go to my directory for this project on nimbus17, which is /home/w234sxg/project3
+Test this project by running the following command in PWD. 
 ./run.sh
+and ./run-local.sh will run the pig script locally. 
 
 NOTICE: 
 After deleting the output directories, you will be led into the pig Grunt command line, 
