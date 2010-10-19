@@ -17,9 +17,8 @@ EXECUTABLE = AssoRuleMiner
 DOX = /usr/bin/doxygen
 DOXCONF = Doxygen
 
-SRC = Apriori.cpp DataLoader.cpp ItemMapper.cpp main.cpp \
-	GeneDataSet.cpp GeneFeatureData.cpp \
-	GeneFeatureItem.cpp ItemMapper.cpp
+SRC = Apriori.cpp main.cpp GeneDataSet.cpp GeneFeatureData.cpp \
+	GeneFeatureItem.cpp 
 OBJ = $(SRC:.cpp=.o)
 
 all: $(EXECUTABLE)
