@@ -15,7 +15,7 @@ LDFLAGS = -L/usr/lib -L/lib
 RM = /bin/rm -rf
 EXECUTABLE = binningexe 
 DOX = /usr/bin/doxygen
-DOXCONF = Dox.txt
+DOXCONF = Doxygen
 
 SRC = GeneDataSet.cpp GeneFeatureData.cpp main.cpp \
 	GeneFeatureBins.cpp GeneFeatureItem.cpp
