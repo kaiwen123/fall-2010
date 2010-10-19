@@ -15,10 +15,11 @@ LDFLAGS = -L/usr/lib -L/lib
 RM = /bin/rm -rf
 EXECUTABLE = AssoRuleMiner
 DOX = /usr/bin/doxygen
-DOXCONF = Dox.txt
+DOXCONF = Doxygen
 
-SRC = GeneDataSet.cpp GeneFeatureData.cpp main.cpp \
-	GeneFeatureBins.cpp GeneFeatureItem.cpp
+SRC = Apriori.cpp DataLoader.cpp ItemMapper.cpp main.cpp \
+	GeneDataSet.cpp GeneFeatureData.cpp \
+	GeneFeatureItem.cpp ItemMapper.cpp
 OBJ = $(SRC:.cpp=.o)
 
 all: $(EXECUTABLE)
