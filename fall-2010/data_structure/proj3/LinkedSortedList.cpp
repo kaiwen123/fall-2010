@@ -39,7 +39,7 @@ void LinkedSortedList<T>::clear() {
 // Insert a value into the list; 
 template <class T> 
 bool LinkedSortedList<T>::insert(T& newvalue) {
-  LinkedNode<T> * tmp = new LinkedNode<T>(newvalue); 
+  LinkedNode<T> * tmp = new (nothrow) LinkedNode<T>(newvalue); 
   if(!tmp) {cerr << "Error Creating new node. " << endl; return false;}
   reset();
   // Inserting from head; 

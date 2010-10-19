@@ -5,6 +5,8 @@ FILES
 
 LinkedNode.h - Declaration of Linked Node; 
 LinkedSortedList.h - Declaration of a Sorted Linked List; 
+BSTree.h - Declaration of BSTree and BTreeNode classes; 
+BSTree.cpp - Implementation of BSTree and BTreeNode classes; 
 SortedList.h - A base class for sorted list with pure virtual functions; 
 LinkedSortedList.cpp - Implementation of Linked Sorted List; 
 SortedVector.h - A vector version of the employee database with b-search; 
@@ -16,7 +18,6 @@ HOWTO
 
 - Type make command in the CWD; 
 - Run ./proj3 to run the test program; 
-- Run ./proj3.vector to run the program of vector version. 
 
 FUNCTION DESCRIPTION
 

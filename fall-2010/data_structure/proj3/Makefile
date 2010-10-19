@@ -3,11 +3,11 @@ CPPFLAGS = -O2 -fPIC -ggdb
 LD = /usr/bin/ld
 LDFLAGS = -L/usr/lib -L/lib
 RM = /bin/rm -rf
-EXE = proj2
+EXE = proj3
 DOX = /usr/bin/doxygen
 DOXCONF = Dox.txt
 
-SRC = LinkedSortedList.cpp Employee.cpp main.cpp 
+SRC = Database.cpp BSTree.cpp LinkedSortedList.cpp Employee.cpp main.cpp 
 OBJ = $(SRC:.cpp=.o)
 
 all: $(EXE)
