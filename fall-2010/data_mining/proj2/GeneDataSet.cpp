@@ -2,6 +2,10 @@
 #include <cstdio> 		/* for sprintf() */
 #include <algorithm>		// for sort algorithm
 
+// Default constructor. 
+GeneDataSet::GeneDataSet() {
+}
+
 // Constructor with number of features. 
 GeneDataSet::GeneDataSet(int num_f) {
   for(int i = 0; i < num_f; i++) {
@@ -10,6 +14,103 @@ GeneDataSet::GeneDataSet(int num_f) {
   } // for loop
 }
 
+// Create gene data. 
+bool GeneDataSet::createGeneData(int num_gene) {
+  for(int i = 0; i < num_gene; i++) {
+    GeneFeatureData f_data; 
+    f_sets.push_back(f_data); 
+  } // for loop
+}
+
+// Load gene data from file.  
+bool GeneDataSet::loadFromFile() {
+  string fname; fstream fdata; 
+  do {
+    cout << "Please enter the name of data file: ";
+    cin >> fname; 
+    fdata.open(fname.c_str(),fstream::in);
+    if(fdata) break; 
+  } while(1);
+
+  string x, line; int k;	// tmp str and num k.
+  vector<string> g_data; 	// data for a gene. 
+  gene_class_t d_class; 	// class of gene.
+  GeneDataSet* pGeneSet = NULL; // pointer to gene data set. 
+  cout << "Start loading data ... " << endl; 
+  while(fdata) {
+    if(!fdata.good()) {
+      cerr<<"Error while reading data file."<<endl; return 1;
+    }
+    getline(fdata, line, fdata.widen('\n'));
+    
+    // Positive or negative class.
+    if(line.find('p',0)!=string::npos) d_class = positive; 
+    else d_class = negative;
+    //cout << line << endl; 
+    while(1) {
+      int poscomma = line.find(',',0);
+      if(poscomma!=string::npos) {
+	string tmp=line.substr(0, poscomma);
+	g_data.push_back(tmp);
+	line=line.substr(poscomma+1,line.size()-poscomma).c_str();
+	//cout << d_tmp << " " << line << endl; 
+      } else break;
+    }
+    //if(!pGeneSet) pGeneSet = new GeneDataSet(g_data.size()); 
+    createGeneData(g_data.size());
+    for(int i = 0; i < g_data.size(); i++)
+      insertData(i, g_data.at(i), d_class); 
+    g_data.clear();
+  } //while(fdata)
+  fdata.close();
+  if(!pGeneSet) return 1;
+  int num_tissues = getNumRows();
+  int num_genes = getNumFeatures();
+  // Statistics. 
+  cout << "Finished loading data. " << endl
+       << "Totally loaded " << num_tissues
+       << " lines and " << num_genes
+       << " columns of data." << endl;
+  
+  cout << "Please input number of genes(k) to process: ";
+  while(!(cin >> k)||(cin.get() != '\n')
+	||!(k>=0 && k<=num_genes)) {
+    cin.clear(); cin >> noskipws;
+    cin.ignore(1000, '\n');
+    cout << "please enter an integer within range: ["
+	 << "0, " << num_genes << "]: ";
+  }
+}
+
+// Map gene data into unique identifiers. 
+bool GeneDataSet::doItemMap() {
+  int counter = 1; 
+  vector<GeneFeatureData>::iterator _itgenedata = f_sets.begin();
+  while(_itgenedata != f_sets.end()){
+    vector<GeneFeatureItem>::iterator _itt = _itgenedata->begin();
+    while(_itt != _itgenedata->begin()){
+      int id = counter + _itt->getFeature() - 'a';
+      cout << "id :" << id << __LINE__ << endl;
+      _itt++;
+    } // gene data item. 
+    _itgenedata++;
+  } // item sets. 
+}
+
+// Save item map into given file. 
+bool GeneDataSet::saveItemMap(string fname) {
+
+}
+
+// Do apriori association rule mining to the gene set. 
+bool GeneDataSet::doApriori() {
+
+}
+
+// Save frequent itemsets into given file.
+bool GeneDataSet::saveFreqItemSets(string fname) {
+
+}
 // Insert data into the data set. 
 bool GeneDataSet::insertData(int f_id, 
 			     gene_feature_t f_data, 
@@ -22,7 +123,7 @@ bool GeneDataSet::insertData(int f_id,
 } 
 
 // Overload << operator for gene_class_t. 
-std::ostream& operator<<(std::ostream& out, const gene_class_t& c) {
+ostream& operator<<(std::ostream& out, const gene_class_t& c) {
   switch(c) {
   case positive: out << "positive"; break; 
   case negative: out << "negative"; break; 
@@ -44,177 +145,3 @@ ostream& operator<<(ostream& out, GeneDataSet& g) {
   }
   return out;
 }
-
-// Do equi-width binning on a particular feature. 
-// bool GeneDataSet::doEquiWidthBin(int id, int num_bins) {
-//   return f_sets.at(id).equiWidthBinning(num_bins); 
-// }
-
-// Do entropy based discretization. 
-// bool GeneDataSet::doEntropyDiscretize(int id, int num_bins) {
-//   return f_sets.at(id).entropyDiscretize(num_bins); 
-// }
-
-// Save data and bins. 
-// void GeneDataSet::saveEquiWidthData(string fname, int k){
-//   ofstream fout(fname.c_str());
-//   int col_count = k;
-//   for(int i = 0; i < getNumRows(); i++) {
-//     gene_class_t c; 
-//     for(int j = 0; j < col_count; j++){
-//       c = f_sets.at(j).getFData().at(i).getClass();
-//       fout << f_sets.at(j).getFData().at(i) << ",";
-//     } // for cols. 
-//     fout << c << endl;
-//   } // for rows. 
-//   fout.close();
-// }
-
-// void GeneDataSet::saveEquiWidthBins(string fname, int k){
-//     vector<GeneFeatureData>::iterator _it = f_sets.begin(); 
-//   int num = 0;
-//   ofstream saveFile(fname.c_str());
-//   while(_it != f_sets.end()) {
-//     saveFile << _it->getFid() << ": ";
-//     vector<GeneFeatureBins>::iterator
-//       _bit=_it->getEquiWidthBins().begin();
-//     while(_bit != _it->getEquiWidthBins().end()) {
-//       saveFile << *_bit << ", "; 
-//       _bit++;
-//     } // while bins of gene data.
-//     saveFile << endl;
-//     _it++; num++; 
-//     if(num >= k) break; 
-//   } // while gene sets. 
-//   saveFile.close();
-// }
-// void GeneDataSet::saveEntropyData(string fname, int k){
-//   findTopkGene(k);
-
-// #ifdef DEBUG_DATA_SET
-//   vector<int>::iterator it = k_highest.begin(); 
-//   while(it != k_highest.end()) {
-//     cout << *it 
-//   	 << "-" << f_sets.at(*it).getInfoGain() << " "; 
-//     it++;
-//   } cout << endl;
-// #endif
-//   // output k-highest data into file. 
-//   ofstream fout(fname.c_str());
-//   for(int i = 0; i < getNumRows(); i++) {
-//     gene_class_t c; 
-//     for(int j = 0; j < k; j++){
-//       int idx = k_highest.at(j); 
-//       //cout << idx << endl; 
-//       c = f_sets.at(idx).getFData().at(i).getClass();
-//       fout << f_sets.at(idx).getFData().at(i) << ",";
-//     } // for cols. 
-//     fout << c << endl;
-//   } // for rows. 
-//   fout.close();
-// }
-
-// void GeneDataSet::saveEntropyBins(string fname, int k){
-//   ofstream saveFile(fname.c_str());
-
-//   for(int i = 0; i < k; i++){
-//     int idx = k_highest.at(i);
-//     saveFile << f_sets.at(idx).getFid() << ": "; 
-//     vector<GeneFeatureBins>::iterator
-//       _bit=f_sets.at(idx).getEntropyBins().begin();
-//     while(_bit != f_sets.at(idx).getEntropyBins().end()) {
-//       saveFile << *_bit << ", "; 
-//       _bit++;
-//     } // while bins of gene data.
-//     saveFile << endl;
-//   }
-//   saveFile.close();
-// }
-
-// Find k genes with highest information gain. 
-// And put the index number into the vector k_highest. 
-// void GeneDataSet::findTopkGene(int k) {
-//   // Put the first k gene index into vector.
-//   k_highest.clear();
-//   for(int i = 0; i < k; i++)
-//     k_highest.push_back(i);
-
-// #ifdef DEBUG_DATA_SET
-//   cout << "Initial content of vector. " << endl;
-//   vector<int>::iterator it = k_highest.begin(); 
-//   while(it != k_highest.end()) {
-//     cout << *it 
-//   	 << " - " << f_sets.at(*it).getInfoGain() << " ; "; 
-//     it++;
-//   } cout << endl; 
-// #endif
-//   // Scan through the rest of the feature list, and for each item,
-//   // replace the smallest one in the k_highest list with this one if it
-//   // is larger than the smallest one. 
-//   for(int i = k; i < getNumFeatures(); i++) {
-//     int smallest = 0; 		// pointing to k_highest; 
-//     int smlidx = k_highest.at(smallest); // pointing to f_sets.
-// #ifdef DEBUG_DATA_SET
-//     print out current k_highest vector info gain. 
-//     vector<int>::iterator it = k_highest.begin(); 
-//     while(it != k_highest.end()) {
-//       cout << *it << " - " << f_sets.at(*it).getInfoGain() << " ; "; 
-//       it++;
-//     }
-//     cout << endl; 
-// #endif
-//     // find smallest within the inital vector.
-//     for(int j = 0; j < k; j++) {
-// #ifdef DEBUG_K_TOP
-//       cout << f_sets.at(smlidx).getInfoGain() << " "
-//       	   << f_sets.at(j).getInfoGain() << endl;
-// #endif
-//       int idx = k_highest.at(j);
-//       if(f_sets.at(smlidx) > f_sets.at(idx)) {
-//   	smallest = j; smlidx = idx; 
-// #ifdef DEBUG_K_TOP
-// 	cout << "Replace small: " << idx 
-// 	     << f_sets.at(smallest).getInfoGain()
-// 	     << endl;	
-// 	cout << "Current smallest in k_highest is : " 
-// 	     << smallest << " infogain: " 
-// 	     << f_sets.at(smallest).getInfoGain() << endl;	
-// #endif
-//       }
-//     }
-//     if(f_sets.at(i)>f_sets.at(smlidx)) {
-// #ifdef DEBUG_K_TOP      
-//       // print list before replace. 
-//       vector<int>::iterator it = k_highest.begin(); 
-//       while(it != k_highest.end()) {
-//       	cout << *it 
-//       	     << "-" << f_sets.at(*it).getInfoGain() << " "; 
-//       	it++;
-//       }
-// #endif
-//       k_highest.at(smallest) = i; // replacing ...
-// #ifdef DEBUG_K_TOP
-//       cout << "\nreplace: " << i 
-//       	   << " " << f_sets.at(i).getInfoGain() << endl;
-//       //print list after replace. 
-//       it = k_highest.begin(); 
-//       while(it != k_highest.end()) {
-//       	cout << *it << "-" << f_sets.at(*it).getInfoGain() << " "; 
-//       	it++;
-//       } 
-//       cout << endl << endl;
-// #endif      
-//     } // if
-//   }
-// #ifdef SORT_ENTROPY
-//   sort(k_highest.begin(), k_highest.end());
-// #endif
-// }
-
-// void GeneDataSet::printInfoGain() {
-//   vector<GeneFeatureData>::iterator _it = f_sets.begin();
-//   while(_it != f_sets.end()) {
-//     _it->printInfoGain();
-//     _it++;
-//   }
-// }

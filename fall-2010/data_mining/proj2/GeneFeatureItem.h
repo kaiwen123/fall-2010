@@ -18,6 +18,7 @@ class GeneFeatureItem {
   gene_feature_t g_feature; 	/* Gene feature value */
   gene_class_t g_class; 	/* Anotated gene class value */
   gene_group_t g_group; 	/* Group information 'a,b,c,d'*/
+  int g_id;			/* unique item id. */
 
  public:
   GeneFeatureItem(gene_feature_t g_feature, 
@@ -28,11 +29,13 @@ class GeneFeatureItem {
   gene_feature_t getFeature()const{return g_feature;}
   gene_class_t getClass()const{return g_class;}
   gene_group_t getGroup()const{return g_group;}
+  int getId() const {return g_id;}
 
   /* setter */
   void setFeature(gene_feature_t f){g_feature = f;}
   void setClass(gene_class_t c){g_class = c;}
   void setGroup(gene_group_t g){g_group = g;}
+  void setId(int id){g_id = id;}
 
   friend ostream& operator<<(ostream& out, GeneFeatureItem const& item); 
 };

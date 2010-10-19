@@ -12,6 +12,7 @@
 #include <iostream>
 #include <fstream>
 #include "defs.h"
+#include "HashTree.h"
 #include "GeneFeatureData.h"
 
 using namespace std; 
@@ -19,15 +20,58 @@ using namespace std;
 class GeneDataSet {
  private: 
   vector<GeneFeatureData> f_sets; /* Feature sets. */
-  vector<int> k_highest;	  /* k-highest info gain genes index. */
+  vector<int> k_highest;	  /* k-highest info gain genes. */
 
  public:
-  GeneDataSet(int num_f);	/* Constructor with number of features. */
+  GeneDataSet();	    /* Default constructor. */
+  GeneDataSet(int num_f);   /* Constructor with number of features. */
   ~GeneDataSet(){f_sets.clear();}
 
   /* getters. */
   int getNumFeatures() const {return f_sets.size();}
   int getNumRows() const {return f_sets.at(0).getTotalCount();}
+
+  /**
+   * @brief Load gene data from file.
+   * @param num_gene Number of genes. 
+   * @return true on success and false on failure. 
+   */
+  bool createGeneData(int num_gene);
+
+  /**
+   * @brief Load gene data from file.
+   * @param function will prompt user to enter the file name. 
+   * @return true on success and false on failure. 
+   */
+  bool loadFromFile();
+
+  /**
+   * @brief Do the gene Item mapping from group data into unique ids.
+   * @param none.
+   * @return true on success and false on failure. 
+   */
+  bool doItemMap(); 
+
+  /**
+   * @brief Save item map into given file. 
+   * @param none.
+   * @return true on success and false on failure. 
+   */
+  bool saveItemMap(string fname);
+
+  /**
+   * @brief Do apriori association rule mining to gene data set.
+   * @param none.
+   * @return true on success and false on failure. 
+   */
+  bool doApriori();
+
+  /**
+   * @brief Save frequent itemsets into given file.
+   * @param fname The name of file to save to.
+   * @return true on success and false on failure. 
+   */
+  bool saveFreqItemSets(string fname);
 
   /**
    * @brief Insert data into gene vector. 

@@ -2,7 +2,7 @@
 #define _typedef_header_
 #include <iostream>
 /* data type for gene feature */
-typedef double gene_feature_t; 
+typedef char gene_feature_t; 
 
 /* data type for class */
 typedef enum {positive, negative} gene_class_t;

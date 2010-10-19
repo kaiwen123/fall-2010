@@ -1,4 +1,5 @@
-Implementing the loader and mapper. 
+Implementing the loader(to be debugged.) and mapper. 
+- gene_feature_t should be a char rather than string. 
 
 Implementing the apriori algorithm. 
 
