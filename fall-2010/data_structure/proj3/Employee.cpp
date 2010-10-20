@@ -140,3 +140,7 @@ ostream& operator<<(ostream& out, Employee& e) {
       << e.getEmail() << endl; 
   return out;
 }
+
+void Employee::print() {
+  cout << *this;
+}

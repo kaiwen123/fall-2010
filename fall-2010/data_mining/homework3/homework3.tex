@@ -1,0 +1,133 @@
+\documentclass{article}
+% Change "article" to "report" to get rid of page number on title page
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{algorithmic,algorithm}
+\usepackage{setspace}
+\usepackage{Tabbing}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{ulem}
+\usepackage{graphicx,float,wrapfig}
+\usepackage{amsfonts}
+\usepackage{pifont}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\newcommand{\tickYes}{\checkmark}
+\newcommand{\tickNo}{\hspace{1pt}\ding{55}}
+
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=0in     %
+\oddsidemargin=0in      %
+\textwidth=6.8in        %
+\textheight=9.4in       %
+\headsep=0.25in         %
+
+% Homework Specific Information
+\newcommand{\hmwkTitle}{Homework\ \#3}
+\newcommand{\hmwkDueDate}{Oct.\ 27,\ 2010}
+\newcommand{\hmwkClass}{Data Mining}
+\newcommand{\hmwkClassTime}{MW\ 4:10-5:25pm}
+\newcommand{\hmwkClassInstructor}{Guozhu\ Dong}
+\newcommand{\hmwkAuthorName}{Shumin\ Guo}
+
+% Setup the header and footer
+\pagestyle{fancy}                                                       %
+\lhead{\hmwkAuthorName}                                                 %
+\chead{\hmwkClass\ - \hmwkTitle}  %
+\rhead{Page\ \thepage\ of\ \pageref{LastPage}}                          %
+\lfoot{\lastxmark}                                                      %
+\cfoot{}                                                                %
+\rfoot{}                          %
+\renewcommand\headrulewidth{0.4pt}                                      %
+%\renewcommand\footrulewidth{0.4pt}                                     %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make title
+\title{\textbf{\hmwkClass:\ 
+      \hmwkTitle}\\\normalsize\small{Due\ Date:\
+    \hmwkDueDate}} 
+\date{\today}
+\author{\textbf{\hmwkAuthorName}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+% \begin{spacing}{1.1}
+\maketitle
+
+\begin{enumerate}
+\item Compare the advantages and disadvantages of eager classification
+  (e.g., decision trees, bayesian, etc.) versus lazy classification
+  (e.g., k-nearest neighbors). Eager systems build the model before
+  they see the test data, lazy systems do not do model building until
+  they see the test data. \\
+\textbf{ANSWER:}
+
+
+\item Why is tree pruning useful in decision tree induction? \\
+\textbf{ANSWER:} 
+
+\item Given a decision tree, you have the option of (a)converting the
+  decision tree to rules and then pruning the resulting rules, or (b)
+  pruning the decision tree and then converting the pruned tree to
+  rules. Which method is better and why? 
+
+
+
+\item Explain why is the NBC algorithm called naive? \\
+\textbf{ANSWER:}
+
+\item The following table consists of training data from an employee
+  database.
+\begin{table}[ht]
+  \begin{center}
+    \begin{tabular}{|c|c|c|c|}
+      \hline {\it department} & {\it status}&{\it age}&{\it salary} \\
+      \hline 
+      sales & senior & 31-40 & Medium \\
+      sales & junior & 21-30 & Low \\
+      sales & junior & 31-40 & Low \\
+      systems & junior & 21-30 & Medium \\
+      systems & senior & 31-40 & High \\
+      systems & junior & 21-30 & Medium \\
+      systems & senior & 41-50 & High \\
+      marketing & senior & 31-40 & Medium \\
+      marketing & junior & 31-40 & Medium \\
+      secretary & senior & 41-50 & Medium \\
+      secretary & junior & 21-30 & Low \\
+      \hline
+    \end{tabular}
+    \caption{Training Data of Employee Data.\label{tbl:dat_eple}}
+  \end{center}
+\end{table}
+
+\begin{enumerate}
+\item[(a)] Let {\it status} be the class attribute. Use the ID3
+  algorithm to construct a decision tree from the given data.\\
+\textbf{ANSWER:}
+
+\item[(b)] Given an instance with the values systems, senior, and
+  21-30 for the attribute {\it department},{\it status}, and
+  {\it age}, respectively, what would be a naive bayesian
+  classification for the {\it salary} of the sample be? You want to
+  use "Laplace correction" for probability estimates. Show all the
+  steps. \\
+\textbf{ANSWER:}
+\end{enumerate} % For question five. 
+
+\item Given the data points (0,0/1), (1,0/1), (1,1/1), (4,3/2),
+  (3,4/2), (1,4/2) where (x,y/c) gives a sample with x and y as
+  attribute values and c the class label. Use k-NN to find the class
+  label for (2,2/?) when k=1, and when k=5. Use Euclidean distance as
+  the distance measure. \\ 
+\textbf{ANSWER:}
+
+\end{enumerate} % For whole homework. 
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

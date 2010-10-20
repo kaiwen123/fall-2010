@@ -95,5 +95,6 @@ void Database::findByLastname(string var) {
 // Search employee record by eid, this is used to test if there is
 // duplicates if this item is inserted into the list. 
 bool Database::findByEid(int eid) {
-
+  cout << "Search index by Eid...... " << eid << endl;
+  index->findNode(index->getRoot(), eid);
 }

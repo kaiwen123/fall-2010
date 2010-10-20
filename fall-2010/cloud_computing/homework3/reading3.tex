@@ -1,0 +1,98 @@
+\documentclass[12pt]{article}
+% Change "article" to "report" to get rid of page number on title page
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{setspace}
+\usepackage{Tabbing}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{titlesec}
+\usepackage{graphicx,float,wrapfig}
+
+% In case you need to adjust margins:
+\topmargin=-0.6in      %
+\evensidemargin=0in     %
+\oddsidemargin=0in      %
+\textwidth=6.5in        %
+\textheight=9.0in       %
+\headsep=0.25in         %
+
+% Homework Specific Information
+\newcommand{\hmwkTitle}{Reading\ \#3}
+\newcommand{\hmwkDueDate}{Monday,\ Oct.\ 01,\ 2010}
+\newcommand{\hmwkClass}{Cloud\ Computing}
+\newcommand{\hmwkAuthorName}{Shumin\ Guo}
+
+% Setup the header and footer
+\pagestyle{fancy}                                                       %
+\lhead{\hmwkAuthorName}                                                 %
+\chead{\hmwkClass\ \hmwkTitle}  %
+\rhead{Page\ \thepage\ of\ \pageref{LastPage}} %
+\lfoot{}                                                      %
+\cfoot{}                                                                %
+\rfoot{}                          %
+\renewcommand\headrulewidth{0.4pt}                                      %
+\renewcommand\footrulewidth{0.4pt}                                      %
+\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make title
+\title{\textmd{\textbf{\hmwkClass:\
+      \hmwkTitle}}\\\normalsize\small{Due\ Date:\
+    \hmwkDueDate}\\} 
+\date{\today}
+\author{\textbf{\hmwkAuthorName}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\maketitle
+
+%\section*{}
+Xen is a x86 virtual machine hypervisor which allows multiple commodity
+operating systems to share conventional hardware in a safe and
+resource managed way, but without sacrificing either performance or
+functionality. It enables users to dynamically instantiate an
+operating system to execute whatever they desire. It also provides an
+isolated environment for various operating systems to run
+simultaneously on one hardware machine. 
+
+Xen uses the paravirtualization approach to multiplexe physical
+resources at the granularity of an entire operating system and is able
+to provide performance isolation between them. So it allows a range of
+guest operating systems to coexist rather than mandating a specific
+application binary interface. This feature also enables users to run
+unmodified binaries in a resource controlled fashion. It can provide a
+very high level of flexibility for users.
+
+Xen is designed in the way similar to a hardware controller for operating
+systems that it is hosting. And it exposes a set of clean and simple
+device abstractions for the guest operating systems. It sets itself with
+highest priviledge and guest operating systems have lower priviledges
+so that it can do more priviledged jobs such as instruction
+validation, relaying hardware interrupts as a light weight queue
+system, physical memory management and creation and termination of an
+operating system instance. 
+
+Xen uses hypercall for domains to perform a priviledged operation, and
+a asynchronous event system is used for communication from Xen to a
+domain. It uttilizes I/O rings for resource management and event
+notification. And such communiation mechanisms are used to virtualize
+the CPU, Time, Virtual Address translation, Physical memory
+allocation, Networking and Disk subsystems. These subsystems are
+virtulized such that little efforts are need for guest OSes to be
+ported to Xen platform. The task of building the intial guest OS
+structures for a new domain is mostly delegated to domain0 which is
+the priviledged control interface to access the new Domain's memory
+and inform Xen of initial register state.
+
+In real performance evaluations, Xen performs much better than virutal
+machines with full virtualization and embedded virutalization and can
+achieve identical performance to native operating systems. I think the
+reason is that the paravirtualization design places a high emphasis on
+performance and resource management. It gracely abstracts the hardware
+layer for guest operating systems and the supervises the guest OSes as
+a management system. And this hardware level design can provide much
+higher efficiency than those embedded or full virutal machines. 
+
+\end{document}

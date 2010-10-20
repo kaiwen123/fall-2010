@@ -83,7 +83,10 @@ BTreeNode& BSTree::findLargest() const {
 // Search node with Employee id. 
 bool BSTree::findNode(BTreeNode * root, int eid) {
   if(!root) return false; 	// Empty tree.
-  if(root->getEid() == eid) return true; 
+  if(root->getEid() == eid) {
+    root->getEmployeeRecord()->print(); 
+    return true; 
+  }
   findNode(root->getLeftChild(), eid);
   findNode(root->getRightChild(), eid);
   return false; 

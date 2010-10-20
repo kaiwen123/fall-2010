@@ -1,0 +1,162 @@
+\documentclass{article}
+% Change "article" to "report" to get rid of page number on title page
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{algorithmic,algorithm}
+\usepackage{setspace}
+\usepackage{Tabbing}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{ulem}
+\usepackage{graphicx,float,wrapfig}
+\usepackage{amsfonts}
+\usepackage{pifont}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\newcommand{\tickYes}{\checkmark}
+\newcommand{\tickNo}{\hspace{1pt}\ding{55}}
+
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=0in     %
+\oddsidemargin=0in      %
+\textwidth=6.8in        %
+\textheight=9.4in       %
+\headsep=0.25in         %
+
+% Homework Specific Information
+\newcommand{\hmwkTitle}{Project\ \#4}
+\newcommand{\hmwkDueDate}{Nov.\ 1,\ 2010}
+\newcommand{\hmwkClass}{Cloud Computing}
+\newcommand{\hmwkClassTime}{MW\ 4:10-5:25pm}
+\newcommand{\hmwkClassInstructor}{Keke\ Chen}
+\newcommand{\hmwkAuthorName}{Shumin\ Guo}
+
+% Setup the header and footer
+\pagestyle{fancy}                                                       %
+\lhead{\hmwkAuthorName}                                                 %
+\chead{\hmwkClass\ - \hmwkTitle}  %
+\rhead{Page\ \thepage\ of\ \pageref{LastPage}}                          %
+\lfoot{\lastxmark}                                                      %
+\cfoot{}                                                                %
+\rfoot{}                          %
+\renewcommand\headrulewidth{0.4pt}                                      %
+%\renewcommand\footrulewidth{0.4pt}                                     %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make title
+\title{\textbf{\hmwkClass:\ 
+      \hmwkTitle}\\\normalsize\small{Due\ Date:\
+    \hmwkDueDate}} 
+\date{\today}
+\author{\textbf{\hmwkAuthorName}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\begin{center}
+\textbf{CS499/699 Cloud Computing Mini \\
+Project 4: Hacking Hadoop on EC2}
+\end{center}
+
+\textbf{Goals:} We will learn to use EC2 and S3 and setup hadoop on EC2 with
+scripts. 
+ 
+This project consists of two parts: the first part is getting familiar
+with EC2 and S3. The second part is hacking existing scripts and
+setting up hadoop on EC2 and using S3 as the persistent storage for
+hadoop.
+ 
+Note: EC2 tools have been installed at nimbus17 /usr/local/ec2. Boto
+python library has been installed, too.
+ 
+\textbf{Steps:}
+
+\underline{First part:}
+ 
+review the lecture about using AWS and create your own AWS account
+online by yourself. Ask me for your AWS coupon code and redeem it
+(there is an option in your AWS account).
+ 
+login to your nimbus17 account and setup the environment variables for
+AWS, especially your AWS ID and keys.
+ 
+Follow the steps we discussed in class to start an EC2 instance and to
+use S3, with both EC2 tools and boto library.
+
+\underline{Second part:}
+ 
+Read the tutorial http://wiki.apache.org/hadoop/AmazonEC2 for setting
+up hadoop on EC2 using the existing scripts (you will realize they
+won’t work well). Read 
+\begin{verbatim}
+http://www.michael-noll.com/wiki/Running_Hadoop_On_Ubuntu_Linux_(Single-Node_Cluster)  
+\end{verbatim}
+and related links on how to configure a hadoop system (note the
+difference between version 0.19 and 0.20. For version 0.19, everything
+is in the same configuration file: hadoop-site.xml.)
+ 
+Copy the HadoopEC2 tool directory from the directory
+/usr/local/hadoop/src/contrib/ec2/ to your own directory, e.g.,
+~/ec2/. Go to ~/ec2/bin and start a hadoop cluster with hadoop-ec2
+script with 1 data node. Use ec2-describe-instances to find the
+external ip and internal ip for the instances.
+ 
+Login the master node and check how the cluster is running. You can
+use hadoop fsck / to check the status. You will find the number of
+data nodes is 0, which is abnormal. You can check the log files at
+/mnt/hadoop/logs to see what happened.
+ 
+Read the scripts in the directory ~/ec2/ and try to answer the
+following questions\\
+
+(1) How do you pass a script file to an EC2 instance, when you start
+up an instance?  (2) After an instance is started, how to pass a
+command or a script and execute it in the instance?  (3) Check the
+file hadoop-ec2-init-remote.sh and describe what the script does for
+master node and data node, respectively
+ 
+Consider the possible reasons that the hadoop cluster does not
+normally. Write down what you observed and analyze the problem. You
+may need to check
+\begin{verbatim}
+ http://www.michael-noll.com/wiki/Running_Hadoop_On_Ubuntu_Linux_(Single-Node_Cluster)
+\end{verbatim}
+and see a normal process.  (1) does the master node work normally in
+the single node mode? Are the processes: namenode, jobtracker and
+secondary namenode started normally?  (2) can the data nodes
+communicate with the master node with keyless ssh? If not, how do you
+change the HadoopEC2 script?  (3) are the processes: datanode and
+tasktracker in the data node started normally? If not, what is the
+reason? You may check whether all the ports are correctly authorized.
+ 
+Revise the scripts and make the hadoop cluster work normally.
+ 
+Read the tutorial http://wiki.apache.org/hadoop/AmazonS3 for using
+hadoop with S3. How do you change the configuration in the
+corresponding HadoopEC2 script file correspondingly to make the hadoop
+input/output based on S3?
+ 
+Check the script cmd-hadoop-cluster and learn how to submit a command
+to the cluster. Upload the input data to S3. Submit your project 2
+code to a running cluster with input/output set to S3. Write down the
+script for submitting the job to the cluster.
+ 
+\textbf{Deliverables:}
+
+You should submit a report that answers the questions at
+step 7, 8, 10 and 11, and the zipped working hadoopEC2 scripts to the
+WebCT submission system.  You can also try to implement the scripts
+with python and the boto library.
+ 
+Remember each time after you finish your experiment, you should check
+the EC2 instances and terminate all running ones. Otherwise, it will
+keep charging your account.
+ 
+Write a description on what you did, the problems you encountered, and
+the result on S3. You can save it on your directory and let me know
+the directory.
+ 
+\end{document}

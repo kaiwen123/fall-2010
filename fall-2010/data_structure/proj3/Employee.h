@@ -88,6 +88,11 @@ class Employee {
   friend ostream& operator<<(ostream& out, Employee& e); 
 
   /**
+   * @brief Print employee record to output.
+   */
+  void print();
+
+  /**
    * @brief Put employee data into output stream.
    * Note, normally >> is used as input operator rather than output
    * , so here I only use for convenience. And in order to remove 
