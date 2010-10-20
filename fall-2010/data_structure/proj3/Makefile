@@ -7,7 +7,7 @@ EXE = proj3
 DOX = /usr/bin/doxygen
 DOXCONF = Dox.txt
 
-SRC = Database.cpp BSTree.cpp LinkedSortedList.cpp Employee.cpp main.cpp 
+SRC = Database.cpp BSTree.cpp LinkedSortedList.cpp Employee.cpp lab3.cpp 
 OBJ = $(SRC:.cpp=.o)
 
 all: $(EXE)

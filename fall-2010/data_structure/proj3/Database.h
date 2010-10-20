@@ -25,8 +25,6 @@ class Database {
 
  public:
   Database();
-  Database(const vector<string>& ed); 
-  Database(const Database& e);
   ~Database(){}
   /* getters. */
   int size() const {return employee.size();}
@@ -48,6 +46,14 @@ class Database {
    * @return void.
    */
   void findByLastname(string var);
+
+  /**
+   * @brief Search Employee by employee Id. 
+   * 
+   * @param eid The Employee Id. 
+   * @return true on success and false on failure. 
+   */
+  bool findByEid(int eid);
  
   /**
    * @brief Save Database Data into file. 

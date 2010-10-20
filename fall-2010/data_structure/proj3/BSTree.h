@@ -37,8 +37,8 @@ class BTreeNode {
   /* setters. */
   void setEid(int id) {eid_ = id;} 
   void setParent(BTreeNode *p) {parent = p;}
-  void setLeftChild(BTreeNode *l) {left = l;}
-  void setRightChild(BTreeNode *r) {right = r;}
+  void setLeftChild(BTreeNode *l) {left = l; l->setParent(this);}
+  void setRightChild(BTreeNode *r) {right = r; r->setParent(this);}
   void setEmployeeRecord(Employee *e) {employee = e;}
 
   /* getters. */
@@ -47,6 +47,9 @@ class BTreeNode {
   BTreeNode* getLeftChild() const {return left;}
   BTreeNode* getRightChild() const {return right;}
   Employee* getEmployeeRecord() const {return employee;}
+
+  /* visitor */
+  void visit() {cout << eid_ << endl;}
 
   /**
    * @brief Output BTreeNode info into output stream. 
@@ -60,7 +63,7 @@ class BTreeNode {
 
 class BSTree {
  private:
-  BTreeNode *root; 		/* root of tree. */
+  BTreeNode *root_; 		/* root of tree. */
   int size; 			/* size of tree. */
 
  public:
@@ -82,7 +85,7 @@ class BSTree {
   /**
    * @brief getters. 
    */
-  BTreeNode* getRoot() {return root;}
+  BTreeNode* getRoot() {return root_;}
 
   // Construct tree, Insert, delete elements. 
   /**
@@ -110,6 +113,13 @@ class BSTree {
   void deleteNode(string key);
 
   /**
+   * @brief Find node with given eid. 
+   * @param none.
+   * @return bool on true and false on failure.
+   */
+  bool findNode(BTreeNode *root, int eid);
+
+  /**
    * @brief Find node with smallest eid. 
    * @param none.
    * @return BTreeNode the element of this node should not be
@@ -128,24 +138,24 @@ class BSTree {
   // Tree traversers. 
   /**
    * @brief Pre-Order traversal of tree. 
-   * @param none.
+   * @param root root of BSTree.
    * @return void.
    */
-  void preOrderTraverse();
+  void preOrderTraverse(BTreeNode *root);
 
   /**
    * @brief In-Order traversal of tree. 
-   * @param none.
+   * @param root root of BSTree.
    * @return void.
    */
-  void inOrderTraverse();
+  void inOrderTraverse(BTreeNode *root);
 
   /**
    * @brief Post-Order traversal of tree. 
-   * @param none.
+   * @param root root of BSTree.
    * @return void.
    */
-  void postOrderTraverse();
+  void postOrderTraverse(BTreeNode *root);
 
   /**
    * @brief Output BSTree info into output stream. 

@@ -16,16 +16,6 @@ Database::Database() {
   }
 }
 
-// Constructor with vector. 
-Database::Database(const vector<string>& ed) {
-
-}
-
-// Copy Constructor. 
-Database::Database(const Database& e) {
-
-}
-
 // overloading << also for output.
 // without annotations. 
 ostream& operator<<(ostream& out, Database& e) {
@@ -65,6 +55,9 @@ bool Database::loadFromFile() {
 	if(line.compare("<END>")==0) {
 	  cout << "Loading finished, totally loaded " 
 	       << num << " records. "<< endl; 
+	  //index->preOrderTraverse(index->getRoot());
+	  //index->inOrderTraverse(index->getRoot());
+	  //index->postOrderTraverse(index->getRoot());
 	  return true; // end of file 
 	}
 	edata.push_back(line);
@@ -97,4 +90,10 @@ bool Database::insertNewEmployee() {
 // Search employee by lastname. 
 void Database::findByLastname(string var) {
   employee.find(var);
+}
+
+// Search employee record by eid, this is used to test if there is
+// duplicates if this item is inserted into the list. 
+bool Database::findByEid(int eid) {
+
 }
