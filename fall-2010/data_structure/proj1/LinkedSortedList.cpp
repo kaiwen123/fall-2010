@@ -40,7 +40,7 @@ void LinkedSortedList<T>::clear() {
 // Insert a value into the list; 
 template <typename T> 
 bool LinkedSortedList<T>::insert(T newvalue) {
-  LinkedNode<T> * tmp = new LinkedNode<T>((T)newvalue); 
+  LinkedNode<T> * tmp = new (std::nothrow) LinkedNode<T>((T)newvalue); 
   if(!tmp) return false;
   reset();
   // Inserting from head; 
@@ -94,7 +94,7 @@ void LinkedSortedList<T>::print() const {
 template <typename T> 
 bool LinkedSortedList<T>::find(T searchvalue) const {
   LinkedNode<T>* _it = _list_head;
-  while(!isEmpty()) {
+  while(_it->next != NULL) {
     if(_it->value == searchvalue)
       return true; 
     _it = _it->next; 
