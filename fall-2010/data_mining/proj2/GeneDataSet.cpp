@@ -59,7 +59,7 @@ bool GeneDataSet::loadFromFile() {
     //if(!pGeneSet) pGeneSet = new GeneDataSet(g_data.size()); 
     createGeneData(g_data.size());
     for(int i = 0; i < g_data.size(); i++)
-      insertData(i, g_data.at(i), d_class); 
+      //insertData(i, g_data.at(i), d_class); 
     g_data.clear();
   } //while(fdata)
   fdata.close();
@@ -86,15 +86,15 @@ bool GeneDataSet::loadFromFile() {
 bool GeneDataSet::doItemMap() {
   int counter = 1; 
   vector<GeneFeatureData>::iterator _itgenedata = f_sets.begin();
-  while(_itgenedata != f_sets.end()){
-    vector<GeneFeatureItem>::iterator _itt = _itgenedata->begin();
-    while(_itt != _itgenedata->begin()){
-      int id = counter + _itt->getFeature() - 'a';
-      cout << "id :" << id << __LINE__ << endl;
-      _itt++;
-    } // gene data item. 
-    _itgenedata++;
-  } // item sets. 
+  // while(_itgenedata != f_sets.end()){
+  //   vector<GeneFeatureItem>::iterator _itt = (_itgenedata->getFData()).begin();
+  //   while(_itt != _itgenedata->begin()){
+  //     int id = counter + _itt->getFeature() - 'a';
+  //     cout << "id :" << id << __LINE__ << endl;
+  //     _itt++;
+  //   } // gene data item. 
+  //   _itgenedata++;
+  // } // item sets. 
 }
 
 // Save item map into given file. 
