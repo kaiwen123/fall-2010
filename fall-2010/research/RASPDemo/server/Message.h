@@ -37,7 +37,7 @@ public:
     * dimension, and data to caller. 
     */
    virtual string getCommand() const = 0;
-   virtual string getDimension() const = 0;
+   virtual int getDimension() const = 0;
    virtual string getData() const = 0;
    
    /**

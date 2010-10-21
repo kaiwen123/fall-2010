@@ -13,6 +13,8 @@ RequestMsg::RequestMsg(char *s) {
   int pos; 
   trim(str);
   pos = str.find_first_of(" ");
+  cout << "Request info is: " << str << endl;
+  cout << "Parsing......" << endl; 
   // parsing command. 
   if(!pos) cmd_ = str; 		// only command; 
   if(pos > 0) {
@@ -50,41 +52,14 @@ void RequestMsg::parseParam(string &param) {
   } while(pos > 0);
 }
 
-// Return a string representing the command in the message.
-string RequestMsg::getCommand() const {
-  return cmd_; 
-}
-
-// Return dimension in the cmd msg.
-string RequestMsg::getDimension() const {
-}
-
-// get content of data.
-string RequestMsg::getData() const {
-   // string temp(parameter2);
-   // return temp;
-}
-
 // set up command. 
 void RequestMsg::setCommand(string in) {
-   // for(int i = 0; i < in.size(); i++)
-   // {
-   //    command[i] = in[i];
-   // }
 }
   
 // set up dimension info. 
 void RequestMsg::setDimension(string in) {
-   // for(int i = 0; i < in.size(); i++)
-   // {
-   //    parameter1[i] = in[i];
-   // }
 }
    
 // Set up data.
 void RequestMsg::setData(string in) {
-   // for(int i = 0; i < in.size(); i++)
-   // {
-   //    parameter2[i] = in[i];
-   // }
 }

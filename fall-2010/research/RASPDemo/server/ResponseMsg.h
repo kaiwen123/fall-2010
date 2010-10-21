@@ -33,9 +33,10 @@ public:
    ResponseMsg(char *s);
    virtual ~ResponseMsg(){}
 
-   virtual string getCommand() const;
-   virtual string getDimension() const;
-   virtual string getData() const;
+   virtual string getCommand() const {return cmd_;}
+   virtual int getDimension() const {return dim_;}
+   virtual string getData() const {return "";}
+   vector<double>& getDataValue(){return data_;}
 
    virtual void setCommand(string m);
    virtual void setDimension(string m);

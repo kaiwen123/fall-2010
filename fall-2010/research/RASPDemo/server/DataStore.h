@@ -25,31 +25,88 @@
 #define _DATA_STORE_H_ 
 
 #include <SpatialIndex.h>
+#include <string.h>
 #include <string> 
 #include <queue>		// queue to store data. 
 #include <stdlib.h>
 #include <iostream>
 
 using namespace SpatialIndex;
+using namespace SpatialIndex::StorageManager;
+using namespace SpatialIndex::RTree;
 using namespace std;
 
+/* A visitor class for visiting the data store. */
+class StoreVisitor : public IVisitor {
+ private:
+  int numNodeVisited;		/* number of nodes visited. */
+  int totalResult;		/* number of result after step two; */
+  int preresult;		/* number of result after step one; */
+
+  string validate_key; 		/* validator key. */
+  string result_; 		/* The query result. */
+
+ public:
+  StoreVisitor();
+  /* virtual functions. */
+  virtual ~StoreVisitor();
+
+  /**
+   * @brief Data visitor. Not Implemented yet.
+   * @param v A vector with IData to be visited. 
+   * @return void. 
+   */
+  virtual void visitData(std::vector<const IData*>& v) {}
+
+  /**
+   * @brief Data visitor.
+   * If a node is visited, it means that it will be part of the
+   * preresult. Then it should be validated using the validationg key. 
+   * TODO: validationg using the validation key.
+   * @param d IData object to be visited. 
+   * @return void. 
+   */  
+  virtual void visitData(const IData& d);
+  
+  /**
+   * @brief Node visitor. In this implementation, it is only used to
+   * count how many nodes are visited.
+   * @param n node to be visited. 
+   * @return void. 
+   */
+  virtual void visitNode(const INode& n) {numNodeVisited++;}
+
+  /* getters. */
+  string getQueryResult() const {return result_;}
+  int getNumNodeVisited() { return numNodeVisited;}
+  int getNumTotalResult() { return totalResult;}
+  int getNumPreresult() {return preresult;}
+
+  /* validation function. */
+  bool validate(const string& s);
+};
+
+// The DataStore class.
+// This class is responsible for creating, managing data stores. 
 class DataStore{
  private: 
-  int _dim; 			/* dimension. */
-  ISpatialIndex* _data;		/* Spatial index for data storage. */
+  int dim_; 			/* dimension. */
+  IStorageManager *diskfile_;	/* disk file. */
+  IBuffer *buffer_;		/* buffer. */
+  ISpatialIndex* index_;	/* Spatial index file. */
+  StoreVisitor visitor; 	/* Store visitor for query purpose. */
 
  public:
   /* constructors and destructor. */
-  DataStore(); 
   DataStore(int dim);
   ~DataStore(){}
 
   /* getters. */
-  int getDimension() const {return _dim;};
+  int getDimension() const {return dim_;};
   int getStoreSize(); 		/* how many data items are stored? */
 
   /* setters. */
-  void setDimension(int d) {_dim = d;}
+  void setDimension(int d) {dim_ = d;}
 
   /**
    * @brief Insert data item into store. 
@@ -60,24 +117,34 @@ class DataStore{
 
   /**
    * @brief Do data query to this store. 
-   * @param query. 
+   * @param phigh The higher boundary of the query. 
+   * @param plow The lower boundary of the query. 
+   * @param dim The dimension of the query. 
    * @return result in string format (Need to be defined.).
    */
-  string queryData(); 
+  string queryData(double *phigh, double *plow, int dim); 
 
   /**
    * @brief Clean everything within the store. 
    * @param none. 
    * @return void. 
    */
-  bool dumpData(); 
+  //bool dumpData(); 
 
   /**
    * @brief Clean everything within the store. 
    * @param none. 
    * @return void. 
    */
-  void purgeStore(); 
+  //void purgeStore();
+ 
+  /**
+   * @brief Flush data onto disk file.
+   * So the memory cache will be all purged.
+   * @param none. 
+   * @return void. 
+   */
+  //void flush();
 };
 
 #endif //ifdef

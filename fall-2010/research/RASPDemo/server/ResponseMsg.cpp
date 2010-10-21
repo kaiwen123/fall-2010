@@ -50,21 +50,6 @@ void ResponseMsg::parseParam(string &param) {
   } while(pos > 0);
 }
 
-// Return a string representing the command in the message.
-string ResponseMsg::getCommand() const {
-  return cmd_; 
-}
-
-// Return dimension in the cmd msg.
-string ResponseMsg::getDimension() const {
-}
-
-// get content of data.
-string ResponseMsg::getData() const {
-   // string temp(parameter2);
-   // return temp;
-}
-
 // set up command. 
 void ResponseMsg::setCommand(string in) {
    // for(int i = 0; i < in.size(); i++)

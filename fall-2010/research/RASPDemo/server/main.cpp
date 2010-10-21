@@ -150,14 +150,15 @@ int main(void)
     //printf("%s\n", buf);
 
     RequestMsg request(buf);
-    cout << "I get command: " << request.getCommand() 
-	 << " from client." << endl; 
-    
+    cout << "Server receive " << request.getCommand() 
+	 << " request from client." << endl; 
+    bzero(buf, BUFSIZE);    
     // Reading data from client. 
-
+    write(new_fd, "SUCCESS", 7);
     close(new_fd);
     sleep(1);
     // Write data to client. 
+
   }
 
   return 0;
