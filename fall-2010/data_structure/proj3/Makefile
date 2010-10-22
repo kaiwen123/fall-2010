@@ -1,5 +1,6 @@
 CPP = /usr/bin/g++
-CPPFLAGS = -O2 -fPIC -ggdb
+MACROS += -DDEBUG_LIST_INSERT
+CPPFLAGS = -O2 -fPIC -ggdb $(MACROS)
 LD = /usr/bin/ld
 LDFLAGS = -L/usr/lib -L/lib
 RM = /bin/rm -rf

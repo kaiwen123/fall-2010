@@ -23,16 +23,17 @@ ostream& operator<<(ostream& out, LinkedSortedList<T>& list);
 template <class T>
 class LinkedSortedList : public SortedList<T> {
  private:
-  int _size; 
-  LinkedNode<T>* _list_head;
-  LinkedNode<T>* _it; 		/* The List iterator */
-
+  int size_; 
+  LinkedNode<T>* list_head;
+  LinkedNode<T>* iter; 		/* The List iterator */
+  
  public:
   /* a ctors */
   LinkedSortedList<T>();
-  ~LinkedSortedList<T>();
+  virtual ~LinkedSortedList<T>();
 
-  LinkedNode<T>* getListHead() {return _list_head;}
+  LinkedNode<T>* getListHead() {return list_head;}
+  void setListHead(LinkedNode<T>* n) {list_head = n;}
   /**
    * @brief Delete each node in the sorted list.
    * @param none. 
@@ -41,11 +42,19 @@ class LinkedSortedList : public SortedList<T> {
   virtual void clear(); 
 
   /**
+   * @brief Delete each node in the sorted list.
+   * @param node Node to be deleted. 
+   * @return true on success and false on failure.
+  */
+  bool deleteNode(LinkedNode<T> *node); 
+
+  /**
    * @brief Insert a value of type T into the sorted list; 
    * @param newvalue The value to be inserted with type T.
    * @return true on success and false on failure. 
    */
   virtual bool insert(T& newvalue); 
+  bool insert(LinkedNode<T> *node);
 
   /**
    * @brief Get the first value and then delete this node; 
@@ -72,27 +81,6 @@ class LinkedSortedList : public SortedList<T> {
   */
   virtual int size() const; 
 
-  // Function specific to this class. 
-  // Operations to pointer _it.
-  /**
-   * @brief rewind the pointer to the start of the list.
-  */
-  void reset(); 
-
-  /**
-   * @brief Insert node from the head of list. 
-   * @param node The node to be inserted. 
-   * @return true on success and false on failure. 
-  */
-  bool insertHead(LinkedNode<T>* node); 
-
-  /**
-   * @brief Insert node from the tail of list. 
-   * @param node The node to be inserted. 
-   * @return true on success and false on failure. 
-  */
-  bool insertTail(LinkedNode<T>* node); 
-
   /**
    * @brief test if the list is empty. 
    * @return true if empty and false if not.
@@ -106,7 +94,6 @@ class LinkedSortedList : public SortedList<T> {
    */
   bool saveToFile(string fname);
 
-  //template<class X>
   /**
    * @brief Overloading the operator << for output. 
    * Here the <<<> is a little tricky, please refer to related

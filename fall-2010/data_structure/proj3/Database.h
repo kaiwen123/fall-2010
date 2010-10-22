@@ -40,6 +40,20 @@ class Database {
   bool insertNewEmployee(); 
 
   /**
+   * @brief Delete Employee record by Eid. 
+   * @param eid The Employee Eid to be deleted. 
+   * @return true on success and false on failure. 
+   */
+  bool deleteByEid(int eid);
+
+  /**
+   * @brief Update the employee eid index tree.
+   * @param node BSTree node object. 
+   * @return true on success and false on failure. 
+   */
+  bool updateEidIndex(BTreeNode *node);
+
+  /**
    * @brief Search Employee by last name. 
    * 
    * @param lastname.

@@ -24,14 +24,32 @@ public:
 
   T value;			// The data value
   LinkedNode *next;		// Pointer to the next node
+  LinkedNode *prev;		// Pointer to the previous node
   
   // Simple inline constructor:  initialize values
   // In order to avoid calling the default constructor,
   // move the assignment to the initilization list. 
- LinkedNode(const T& newval):value(newval),next(NULL){}
+ LinkedNode(const T& newval):value(newval),next(NULL),prev(NULL){}
+
+  T& getValue() {return value;}
   
   // Inline print function:  print the node's value
   void print() {cout << value << endl;}
+
+  /**
+   * @brief Overloading operators.
+   */
+  bool operator>(LinkedNode<T> &node) {
+    return value > node.getValue();
+  }
+
+  bool operator==(LinkedNode<T> &node) {
+    return value == node.getValue(); 
+  }
+  
+  bool operator<(LinkedNode<T> &node) {
+    return value < node.getValue();
+  }
 };
 
 // overloading the << operator for LinkedNode class. 

@@ -55,7 +55,7 @@ bool Database::loadFromFile() {
 	if(line.compare("<END>")==0) {
 	  cout << "Loading finished, totally loaded " 
 	       << num << " records. "<< endl; 
-	  //index->preOrderTraverse(index->getRoot());
+	  index->preOrderTraverse(index->getRoot());
 	  //index->inOrderTraverse(index->getRoot());
 	  //index->postOrderTraverse(index->getRoot());
 	  return true; // end of file 
@@ -64,10 +64,20 @@ bool Database::loadFromFile() {
       }
       // Now creating Employee object and insert into list.
       Employee em(edata);
-      BTreeNode *node = new (nothrow) BTreeNode(&em);
-      index->insertNode(index->getRoot(), node);
-      if(!node) return false;
-      employee.insert(em); num++; 
+      LinkedNode<Employee> *enode = 
+	new (nothrow) LinkedNode<Employee>(em); 
+      if(!enode) {
+	cerr << "Error creating Employee Node. " << endl;
+	return false; 
+      }
+      BTreeNode *bnode = new (nothrow) BTreeNode(enode);
+      if(!bnode) return false;
+      if(updateEidIndex(bnode)) {
+	employee.insert(enode); 
+	num++; 
+      } else {
+	delete bnode, enode; 
+      }
     } //if 
   } //while 
   return true; 
@@ -81,10 +91,25 @@ void Database::printAll() {
 // Insert new Employee into database. 
 bool Database::insertNewEmployee() {
   Employee e;
-  BTreeNode *node = new (nothrow) BTreeNode(&e);
-  if(!node) return false;
-  index->insertNode(index->getRoot(), node);
-  employee.insert(e);
+  LinkedNode<Employee> *enode = new (nothrow) LinkedNode<Employee>(e); 
+  if(!enode) {
+    cerr << "Error creating Employee Node. " << endl;
+    return false; 
+  }
+  BTreeNode *bnode = new (nothrow) BTreeNode(enode);
+  if(!bnode) return false;
+  if(updateEidIndex(bnode)) {
+    employee.insert(enode);
+  } else {
+    delete enode, bnode;
+  }
+}
+
+// Update Eid index tree. 
+// This function will try to insert the newly created node into the
+// index tree, which will also do duplicates tests.
+bool Database::updateEidIndex(BTreeNode *node) {
+  return index->insertNode(index->getRoot(), node);
 }
 
 // Search employee by lastname. 
@@ -97,4 +122,17 @@ void Database::findByLastname(string var) {
 bool Database::findByEid(int eid) {
   cout << "Search index by Eid...... " << eid << endl;
   index->findNode(index->getRoot(), eid);
+  return true;
+}
+
+// Delete employee record by Eid. 
+bool Database::deleteByEid(int eid) {
+  // First, search eid index which will return BSTree node. 
+
+  // Second, from the BTreeNode get the Employee node and delete the
+  // node. 
+
+  // Third, delete the BTreeNode from index tree. 
+
+  return true; 
 }

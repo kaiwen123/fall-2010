@@ -11,10 +11,7 @@
 
 // Constructor; 
 template <class T> 
-LinkedSortedList<T>::LinkedSortedList() {
-  _size = 0;
-  _list_head = NULL; 
-  _it = NULL;
+LinkedSortedList<T>::LinkedSortedList():size_(0),list_head(NULL),iter(NULL) {
 }
 
 // Destructor;
@@ -26,48 +23,92 @@ LinkedSortedList<T>::~LinkedSortedList<T>() {
 // Clear the list; 
 template <class T> 
 void LinkedSortedList<T>::clear() {
-  for(_it = _list_head; _it != NULL;) {
-    LinkedNode<T> * tmp = _it; 
-    _it = _it->next;
+  for(iter = getListHead(); iter != NULL; iter = iter->next) {
+    LinkedNode<T> * tmp = iter; 
     delete tmp; 
   }
-  _list_head = NULL; 
-  _it = _list_head; 
-  _size = 0; 
+  setListHead(NULL);
+  iter = getListHead();
+  size_ = 0; 
 }
 
 // Insert a value into the list; 
 template <class T> 
 bool LinkedSortedList<T>::insert(T& newvalue) {
-  LinkedNode<T> * tmp = new (nothrow) LinkedNode<T>(newvalue); 
-  if(!tmp) {cerr << "Error Creating new node. " << endl; return false;}
-  reset();
-  // Inserting from head; 
-  if((isEmpty()) || (_it->value >= newvalue)) {
-    insertHead(tmp);
-    _size++; return true; 
-  } 
-  while(_it->next != NULL) {
-    if(_it->next->value >= newvalue) {
-      tmp->next = _it->next; 
-      _it->next = tmp;
-      _size++; return true;  
-    } // if
-    _it = _it->next;
+  LinkedNode<T> *node = new (nothrow) LinkedNode<T>(newvalue); 
+  if(!node) {
+    cerr << "Error Creating new node. " << endl;
+    return false;
   }
-  insertTail(tmp);
-  _size++; return true; 
+  insert(node);
 } //insert
+
+// Insert a node into the list. 
+template <class T> 
+bool LinkedSortedList<T>::insert(LinkedNode<T> *node) {
+  iter = getListHead();
+  if(!iter) {			// Empty list. 
+    setListHead(node); 
+#ifdef DEBUG_LIST_INSERT
+    cout << "First node. " 
+	 << node->getValue().getLastName() << endl; 
+#endif
+    size_++; return true;
+  } 
+  // Now start inserting the node into list.
+  while(iter->next) {
+    if(*node < *iter) {		// node is smaller, insert in front. 
+#ifdef DEBUG_LIST_INSERT
+      cout << "Inserting node. " 
+	   << node->getValue().getLastName() << endl; 
+#endif
+      node->next = iter; 
+      node->prev = iter->prev;
+      iter->prev = node; 
+      size_++; return true; 
+    } else {
+      iter = iter->next;
+    }
+  } // while
+  // Then we need to test the last node and *this* node. 
+  if(*node > *iter) {		// insert tail
+#ifdef DEBUG_LIST_INSERT
+    cout << "Inserting tail--. " 
+	 << node->getValue().getLastName() << endl; 
+#endif
+    iter->next = node;
+    node->prev = iter;
+    node->next = NULL;
+    size_++; return true; 
+  } else {			// insert the second last.
+    cout << "Inserting node--. " << node->getValue().getLastName() << endl; 
+    node->next = iter; 
+    node->prev = iter->prev;
+    iter->prev = node; 
+    size_++; return true; 
+  }
+}
+
+// delete node from list. 
+template <class T> 
+bool LinkedSortedList<T>::deleteNode(LinkedNode<T> *node) {
+  node->prev->next = node->next;
+  node->next->prev = node->prev;
+  delete node; size_--;
+  return true;
+}
 
 // Get first value and then delete this node; 
 template <class T> 
 bool LinkedSortedList<T>::getfirst(T& returnvalue) {
   if(!isEmpty()) {
-    returnvalue = _list_head->value;
-    LinkedNode<T>* tmp = _list_head;
-    _list_head = _list_head->next;
-    _it = _list_head; 
-    _size--; 
+    returnvalue = list_head->value;
+    LinkedNode<T>* tmp = list_head;
+    list_head = list_head->next;
+    list_head->next = NULL;
+    list_head->prev = NULL;
+    iter = list_head; 
+    size_--; 
     delete tmp; return true; 
   } else { return false;}
 }
@@ -75,12 +116,12 @@ bool LinkedSortedList<T>::getfirst(T& returnvalue) {
 // Overloading the operator << 
 template <class T> 
 ostream& operator<<(ostream& out, LinkedSortedList<T>& list) {
-  LinkedNode<T>* _it = list.getListHead();
+  LinkedNode<T>* iter = list.getListHead();
   out << "<Records>" << endl;
-  while(_it) {
-    out << *_it; 
+  while(iter) {
+    out << *iter; 
     out << "--" << endl;
-    _it = _it->next; 
+    iter = iter->next; 
   }
   out << "<END>";
   return out; 
@@ -108,15 +149,15 @@ bool LinkedSortedList<T>::find(string lname) const {
   cout << "Searching ...." << endl; 
   if((lname.at(0)<='z') && (lname.at(0)>='a')) 
     lname.at(0) = lname.at(0) - ('a' - 'A');
-  LinkedNode<T>* _it = _list_head;
+  LinkedNode<T>* iter = list_head;
   int r_count = 0;	// search count and result count.
-  while((!isEmpty()) && (_it)) {
-    if(lname.compare(_it->value.getLastName())==0) {
+  while((!isEmpty()) && (iter)) {
+    if(lname.compare(iter->getValue().getLastName())==0) {
       // print out the found item. 
       r_count++; 
-      cout << _it->value << endl; 
+      cout << iter->getValue() << endl; 
     }
-    _it = _it->next; 
+    iter = iter->next; 
   } //while
   cout << size() << " Employee(s) searched. " 
        << "Found: " << r_count << " record(s)." 
@@ -127,31 +168,13 @@ bool LinkedSortedList<T>::find(string lname) const {
 // Return the size of the list; 
 template <class T> 
 int LinkedSortedList<T>::size() const {
-  return _size; 
-}
-// Reset the _it pointer to the start of list. 
-template <class T> 
-void LinkedSortedList<T>::reset() {
-  _it = _list_head; 
-}
-// Insert node on the head;
-template <class T> 
-bool LinkedSortedList<T>::insertHead(LinkedNode<T>* node) {
-  node->next = _list_head; 
-  _list_head = node; 
-  return true; 
-}
-// Insert node from the tail; 
-template <class T> 
-bool LinkedSortedList<T>::insertTail(LinkedNode<T>* node) {
-  _it->next = node;
-  return true; 
+  return size_; 
 }
 
 // Test if the list is empty? 
 template <class T> 
 bool LinkedSortedList<T>::isEmpty() const {
-  return (_size == 0); 
+  return (size_ == 0); 
 }
 
 // For template class to export symbols, I initialized the template
