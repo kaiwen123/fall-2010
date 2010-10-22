@@ -43,6 +43,10 @@ public:
     return value > node.getValue();
   }
 
+  bool operator<=(LinkedNode<T> &node) {
+    return value <= node.getValue();
+  }
+
   bool operator==(LinkedNode<T> &node) {
     return value == node.getValue(); 
   }

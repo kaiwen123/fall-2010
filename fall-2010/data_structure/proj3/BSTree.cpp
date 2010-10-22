@@ -132,7 +132,7 @@ bool BSTree::deleteNode(BTreeNode *root, int eid) {
     return true; 
   }
   // delete a node who has a direct successor.  
-  BTreeNode *successor = findSmallest(node->getRightChild());
+  BTreeNode *successor = getSmallest(node->getRightChild());
   successor = pickLeafNode(successor);
   replaceNode(node, successor);
   delete node; 
@@ -149,12 +149,14 @@ bool BSTree::deleteNode(BTreeNode *root, int eid) {
 // This function is generally used to destroy all the nodes of the
 // tree, which usually include the employee records indexed by this
 // tree.  
-bool destroyTree(BTreeNode *root) {
-
+bool BSTree::destroyTree(BTreeNode *root) {
+  //cout << "Destroying the index tree..." << endl; 
+  return true; 
 }
 
 // Find smallest element
-BTreeNode* BSTree::findSmallest(BTreeNode *root) const {
+// For BStree, the left most element is our goal.
+BTreeNode* BSTree::getSmallest(BTreeNode *root) const {
   if(!root) {			// Empty tree.
     return NULL;
   }
@@ -163,12 +165,30 @@ BTreeNode* BSTree::findSmallest(BTreeNode *root) const {
   if(root->getLeftChild() == NULL) {
     return root; 
   } else {
-    findSmallest(root->getLeftChild());
+    getSmallest(root->getLeftChild());
+  }
+}
+
+// Find smallest leaf element
+BTreeNode* BSTree::getSmallestNode(BTreeNode *root) const {
+  BTreeNode *node = getSmallest(root);
+  if(node->isLeafNode()) {	// return leaf node directly.
+    return node; 
+  } else {			
+    // if it is not leaf, it has right child.
+    // then, let its direct right child take its place. 
+    // Then release the node by setting its right child to NULL. 
+    if(node->getParent()) {
+      node->getParent()->setLeftChild(node->getRightChild());
+      node->getRightChild()->setParent(node->getParent());
+      node->setRightChild(NULL);
+    }
+    return node;
   }
 }
 
 // Find largest from tree. 
-BTreeNode* BSTree::findLargest(BTreeNode *root) const {
+BTreeNode* BSTree::getLargest(BTreeNode *root) const {
   if(!root) {			// Empty tree.
     return NULL;
   }
@@ -177,7 +197,7 @@ BTreeNode* BSTree::findLargest(BTreeNode *root) const {
   if(root->getRightChild() == NULL) {
     return root; 
   } else {
-    findSmallest(root->getRightChild());
+    getSmallest(root->getRightChild());
   }
 }
 

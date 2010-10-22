@@ -97,16 +97,16 @@ Employee& Employee::operator=(const Employee& e) {
 bool Employee::operator>=(Employee& e) {
   return getLastName().compare(e.getLastName()) >= 0; 
 }
-
-// Overloading Operator >. 
+bool Employee::operator<=(Employee& e) {
+  return getLastName().compare(e.getLastName()) <= 0; 
+}
 bool Employee::operator>(Employee& e) {
   return getLastName().compare(e.getLastName()) > 0; 
 }
-
-// Overloading operator <.
 bool Employee::operator<(Employee& e) {
   return getLastName().compare(e.getLastName()) < 0;
 }
+
 // Overloading the == operator. 
 bool Employee::operator==(Employee& e) {
   return (last_name.compare(e.last_name)==0) && 

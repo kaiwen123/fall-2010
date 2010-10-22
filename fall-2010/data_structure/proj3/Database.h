@@ -20,14 +20,17 @@ using namespace std;
 
 class Database {
  private:
-  LinkedSortedList<Employee> employee; /* The employee record list. */
+  LinkedSortedList<Employee> *employee; /* The employee record list. */
   BSTree *index;		       /* employee id index. */
 
  public:
   Database();
   ~Database(){}
   /* getters. */
-  int size() const {return employee.size();}
+  int size() const {return employee->size();}
+  BSTree* getDBIndex() const {return index;}
+  LinkedSortedList<Employee>* getRecordList() const {return employee;}
+
   /* setters. */
 
   // Functions to access Employee object. 
@@ -45,6 +48,16 @@ class Database {
    * @return true on success and false on failure. 
    */
   bool deleteByEid(int eid);
+
+  /**
+   * @brief Delete all records within the database.
+   * This function is reponsible for deleting all the records within
+   * the current database, including deleting the linked list employee
+   * records as well as the eid index tree. 
+   * @param eid The Employee Eid to be deleted. 
+   * @return true on success and false on failure. 
+   */
+  bool emptyDatabase();
 
   /**
    * @brief Update the employee eid index tree.

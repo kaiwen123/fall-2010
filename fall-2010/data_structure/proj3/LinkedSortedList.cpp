@@ -25,11 +25,18 @@ template <class T>
 void LinkedSortedList<T>::clear() {
   for(iter = getListHead(); iter != NULL; iter = iter->next) {
     LinkedNode<T> * tmp = iter; 
-    delete tmp; 
+    if(tmp) delete tmp; 
   }
   setListHead(NULL);
   iter = getListHead();
   size_ = 0; 
+}
+
+// Make the list empty. 
+template <class T> 
+bool LinkedSortedList<T>::emptyList() {
+  clear();
+  return true; 
 }
 
 // Insert a value into the list; 
@@ -47,54 +54,74 @@ bool LinkedSortedList<T>::insert(T& newvalue) {
 template <class T> 
 bool LinkedSortedList<T>::insert(LinkedNode<T> *node) {
   iter = getListHead();
-  if(!iter) {			// Empty list. 
+  if(!iter) {			// First node becomes head. 
     setListHead(node); 
+
 #ifdef DEBUG_LIST_INSERT
-    cout << "First node. " 
+    cout << "Insert First node. " 
 	 << node->getValue().getLastName() << endl; 
 #endif
+
     size_++; return true;
-  } 
-  // Now start inserting the node into list.
-  while(iter->next) {
-    if(*node < *iter) {		// node is smaller, insert in front. 
+  }
+  for(iter = getListHead(); iter; iter = iter->next) {
+    if(*node <= *iter) {	// node is smaller, insert in front. 
+
 #ifdef DEBUG_LIST_INSERT
-      cout << "Inserting node. " 
-	   << node->getValue().getLastName() << endl; 
+      cout << "Insert node: " << node->getValue().getLastName() 
+	   << " \tbefore: " << iter->getValue().getLastName() << endl; 
 #endif
       node->next = iter; 
       node->prev = iter->prev;
+      if(iter == getListHead()) { // insert to Head.
+	setListHead(node);
+
+#ifdef DEBUG_LIST_INSERT
+	cout << "Set head to: " << node->getValue().getLastName() <<
+	endl;
+#endif
+
+      }	else {			// not head insert.
+	iter->prev->next = node; // Head does not have this.
+      }
       iter->prev = node; 
       size_++; return true; 
-    } else {
-      iter = iter->next;
+
+    } else if((*node > *iter) && (!(iter->next))) {//tail
+
+#ifdef DEBUG_LIST_INSERT
+      cout << "Insert tail: " << node->getValue().getLastName()
+	   << " \tafter: " << iter->getValue().getLastName() << endl; 
+#endif
+
+      iter->next = node;
+      node->prev = iter;
+      node->next = NULL;
+      size_++; return true; 
     }
   } // while
-  // Then we need to test the last node and *this* node. 
-  if(*node > *iter) {		// insert tail
-#ifdef DEBUG_LIST_INSERT
-    cout << "Inserting tail--. " 
-	 << node->getValue().getLastName() << endl; 
-#endif
-    iter->next = node;
-    node->prev = iter;
-    node->next = NULL;
-    size_++; return true; 
-  } else {			// insert the second last.
-    cout << "Inserting node--. " << node->getValue().getLastName() << endl; 
-    node->next = iter; 
-    node->prev = iter->prev;
-    iter->prev = node; 
-    size_++; return true; 
-  }
 }
 
 // delete node from list. 
 template <class T> 
 bool LinkedSortedList<T>::deleteNode(LinkedNode<T> *node) {
-  node->prev->next = node->next;
-  node->next->prev = node->prev;
-  delete node; size_--;
+  if(!node) return false;	// node is NULL;
+  // First, we need to release the node before deleting.
+  if(getListHead() == node) {	// Head node.
+    setListHead(node->next);
+  } else if(node->next == NULL) {
+    node->prev->next = NULL;
+  } else {
+    node->prev->next = node->next;
+    node->next->prev = node->prev;
+  }
+  // Now, delete node. 
+  cout << "Deleted record for : " 
+       << node->getValue().getLastName() 
+       << "\t" << node->getValue().getEid() 
+       << "\t" << endl;
+  delete node; 
+  size_--;
   return true;
 }
 
@@ -137,7 +164,10 @@ void LinkedSortedList<T>::print(){
 template <class T>
 bool LinkedSortedList<T>::saveToFile(string fname) {
   ofstream saveFile(fname.c_str());
-  if(!saveFile){cerr<<""<<endl;return false;}
+  if(!saveFile){
+    cerr<<"Openning save file error..."<<endl;
+    return false;
+  }
   saveFile << *this; 
   saveFile.close(); 
   return true;
@@ -179,4 +209,4 @@ bool LinkedSortedList<T>::isEmpty() const {
 
 // For template class to export symbols, I initialized the template
 // class with Employee. 
-template class LinkedSortedList<Employee>; 
+template class LinkedSortedList<Employee>;

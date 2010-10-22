@@ -26,7 +26,6 @@ class BTreeNode {
   BTreeNode *left; 		/* left child. */
   BTreeNode *right;		/* right child. */
   LinkedNode<Employee> *enode; /* employ node in the linked list. */
-  // LinkedSortedList<Employee> *elist; /* the employee list. */
 
  public:
   // Constructors
@@ -39,8 +38,11 @@ class BTreeNode {
   /* setters. */
   void setEid(int id) {eid_ = id;} 
   void setParent(BTreeNode *p) {parent = p;}
-  void setLeftChild(BTreeNode *l) {left = l; l->setParent(this);}
-  void setRightChild(BTreeNode *r) {right = r; r->setParent(this);}
+  void setLeftChild(BTreeNode *l) {left = l; 
+    if(l) l->setParent(this);}
+  void setRightChild(BTreeNode *r) {right = r;
+    if(r) r->setParent(this);}
+
   void setEmployeeRecord(LinkedNode<Employee> *e) {enode = e;}
 
   /* getters. */
@@ -162,7 +164,15 @@ class BSTree {
    * @return BTreeNode the element of this node should not be
    * altered. 
    */
-  BTreeNode* findSmallest(BTreeNode *root) const;
+  BTreeNode* getSmallest(BTreeNode *root) const;
+
+  /**
+   * @brief Find node with smallest eid. 
+   * @param root The root of tree to be processed. 
+   * @return BTreeNode the element of this node should not be
+   * altered. 
+   */
+  BTreeNode* getSmallestNode(BTreeNode *root) const;
 
   /**
    * @brief Find node with largest eid. 
@@ -170,7 +180,7 @@ class BSTree {
    * @return BTreeNode the element of this node should not be
    * altered. 
    */
-  BTreeNode* findLargest(BTreeNode *root) const;
+  BTreeNode* getLargest(BTreeNode *root) const;
 
   // Tree traversers. 
   /**

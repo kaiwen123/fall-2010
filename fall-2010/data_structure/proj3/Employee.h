@@ -113,6 +113,15 @@ class Employee {
   bool operator>=(Employee& e); 
 
   /**
+   * @brief Overloading the <= operator according to the last name.
+   * rhs: right hand side AND lhs: left hand side.
+   * @param rhs Right hand side operant  
+   * @return true if lhs.last_name <= rhs.last_name. 
+   * @return false if lhs.last_name > rhs.last_name. 
+   */
+  bool operator<=(Employee& e); 
+
+  /**
    * @brief Overloading the == operator.
    * rhs: right hand side AND lhs: left hand side.
    * @param rhs Right hand side operant  

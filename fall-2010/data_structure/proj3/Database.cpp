@@ -14,6 +14,10 @@ Database::Database() {
   if(!index) {
     cerr << "Error while creating employee index." << endl;
   }
+  employee = new (nothrow) LinkedSortedList<Employee>;
+  if(!employee) {
+    cerr << "Error while creating employee record list." << endl;
+  }
 }
 
 // overloading << also for output.
@@ -28,14 +32,20 @@ bool Database::saveToFile() {
   cout << "Please Enter the File Name to Save TO: ";
   cin >> fname; 
   cout << "Saving records to file " << fname << "..." << endl; 
-  if(employee.saveToFile(fname))
-    cout << "Totally saved " << employee.size() 
+  if(employee->saveToFile(fname))
+    cout << "Totally saved " << employee->size() 
 	 << " records to " << fname << endl;
   return true;
 }
 
 // Load employee information from file. 
 bool Database::loadFromFile() {
+  // Empty the employee database if it is not empty yet.
+  if(employee->size() > 0) { 
+    emptyDatabase();
+  }
+
+  // Now, start loading from file. 
   string fname; 
   cout << "Please Enter file name to read from: ";
   cin >> fname;
@@ -55,7 +65,7 @@ bool Database::loadFromFile() {
 	if(line.compare("<END>")==0) {
 	  cout << "Loading finished, totally loaded " 
 	       << num << " records. "<< endl; 
-	  index->preOrderTraverse(index->getRoot());
+	  //index->preOrderTraverse(index->getRoot());
 	  //index->inOrderTraverse(index->getRoot());
 	  //index->postOrderTraverse(index->getRoot());
 	  return true; // end of file 
@@ -73,7 +83,7 @@ bool Database::loadFromFile() {
       BTreeNode *bnode = new (nothrow) BTreeNode(enode);
       if(!bnode) return false;
       if(updateEidIndex(bnode)) {
-	employee.insert(enode); 
+	employee->insert(enode); 
 	num++; 
       } else {
 	delete bnode, enode; 
@@ -83,9 +93,23 @@ bool Database::loadFromFile() {
   return true; 
 }
 
+// Delete all the records within the database. 
+bool Database::emptyDatabase() {
+  cout << "Clearing Employee Records in list ...";
+  if(employee->emptyList()) {
+    cout << " done!" << endl; 
+  } else {return false;}
+
+  cout << "Clearing index ...";
+  if(index->destroyTree(index->getRoot())){
+    cout << " done!" << endl;
+  } else {return true;}
+  return true;
+}
+
 // print out all the records to stdout.
 void Database::printAll() {
-  employee.print();
+  employee->print();
 }
 
 // Insert new Employee into database. 
@@ -99,7 +123,7 @@ bool Database::insertNewEmployee() {
   BTreeNode *bnode = new (nothrow) BTreeNode(enode);
   if(!bnode) return false;
   if(updateEidIndex(bnode)) {
-    employee.insert(enode);
+    employee->insert(enode);
   } else {
     delete enode, bnode;
   }
@@ -114,7 +138,7 @@ bool Database::updateEidIndex(BTreeNode *node) {
 
 // Search employee by lastname. 
 void Database::findByLastname(string var) {
-  employee.find(var);
+  employee->find(var);
 }
 
 // Search employee record by eid, this is used to test if there is

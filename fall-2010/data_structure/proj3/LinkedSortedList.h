@@ -88,6 +88,12 @@ class LinkedSortedList : public SortedList<T> {
   bool isEmpty() const; 
 
   /**
+   * @brief Make the linked list empty. 
+   * @return true if empty and false if not.
+   */
+  bool emptyList(); 
+
+  /**
    * @brief Save All the employee data into a named file. 
    * @param The name of the file to save to. 
    * @return true on success and false on failure. 
