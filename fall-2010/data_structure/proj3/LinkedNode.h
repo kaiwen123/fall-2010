@@ -30,6 +30,7 @@ public:
   // In order to avoid calling the default constructor,
   // move the assignment to the initilization list. 
  LinkedNode(const T& newval):value(newval),next(NULL),prev(NULL){}
+  ~LinkedNode(){cout << "Node is deleted ... " << endl;}
 
   T& getValue() {return value;}
   

@@ -142,6 +142,7 @@ class BSTree {
    * @return true on success and false on failure.
    */
   bool deleteNode(BTreeNode *root, int eid);
+  bool deleteNode(BTreeNode *node);
 
   /**
    * @brief Destroy the whole tree. 
@@ -157,6 +158,7 @@ class BSTree {
    * @return pointer to the found node.
    */
   BTreeNode* findNode(BTreeNode *root, int eid);
+  BTreeNode* findNode(BTreeNode *node);
 
   /**
    * @brief Find node with smallest eid. 

@@ -115,11 +115,12 @@ bool LinkedSortedList<T>::deleteNode(LinkedNode<T> *node) {
     node->prev->next = node->next;
     node->next->prev = node->prev;
   }
-  // Now, delete node. 
+  // Now, delete node.
+#ifdef DEBUG_LIST_DELETE 
   cout << "Deleted record for : " 
        << node->getValue().getLastName() 
-       << "\t" << node->getValue().getEid() 
-       << "\t" << endl;
+       << "\t" << node->getValue().getEid() << endl;
+#endif
   delete node; 
   size_--;
   return true;

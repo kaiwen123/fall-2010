@@ -53,7 +53,10 @@ bool Database::loadFromFile() {
   fstream fd;
   vector<string> edata;		// Employee data. 
   fd.open(fname.c_str(), fstream::in);
-  if(!fd) {cerr << "Error opening data file..." << endl; return false;}
+  if(!fd) {
+    cerr << "Error opening data file..." << endl; 
+    return false;
+  }
   cout << "Loading records from file " << fname << "..." << endl; 
   while(fd) {
     getline(fd, line, fd.widen('\n'));
@@ -152,11 +155,17 @@ bool Database::findByEid(int eid) {
 // Delete employee record by Eid. 
 bool Database::deleteByEid(int eid) {
   // First, search eid index which will return BSTree node. 
-
+  BTreeNode* bnode = index->findNode(index->getRoot(), eid);
+  cout << "Employee Record node: " << bnode << endl; 
+  if(!bnode) {			// can't find. 
+    cout << "\nSorry, I can't find record with EID: " 
+	 << eid << endl;
+    return false; 
+  }
   // Second, from the BTreeNode get the Employee node and delete the
   // node. 
-
+  employee->deleteNode(bnode->getEmployeeRecord());
   // Third, delete the BTreeNode from index tree. 
-
+  index->deleteNode(bnode);
   return true; 
 }
