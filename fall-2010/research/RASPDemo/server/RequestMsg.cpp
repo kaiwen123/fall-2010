@@ -3,7 +3,13 @@
 
 using namespace boost;
 // Constructor. Zero out the strings.
-RequestMsg::RequestMsg():Message() {
+RequestMsg::RequestMsg() {
+}
+
+
+// Request constructor. 
+RequestMsg::RequestMsg(string request) {
+  cout << request << endl; 
 }
 
 // Constructor to build a request msg from a c raw string. 

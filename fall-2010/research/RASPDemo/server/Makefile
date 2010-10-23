@@ -37,9 +37,9 @@ $(EXECUTABLE): $(OBJ)
 
 # Rules to build the wrapper library.
 $(WRAPPERLIB):$(WRAPPEROBJ)
-	$(LD) -shared -lpython2.6 $< -o $@
+	$(CPP) -shared -lpython2.6 $< -o $@
 
-wrapper_wrap.cxx:wrapper.i
+wrapper_wrap.cxx:wrapper.i wrapper.h
 	swig -c++ -python $<
 
 wrapper_wrap.o: wrapper_wrap.cxx

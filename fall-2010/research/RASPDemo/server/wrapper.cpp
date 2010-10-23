@@ -1,15 +1,20 @@
 /* File : time.c */
- 
-#include <stdio.h>
-#include <gsl/gsl_blas.h>
-#include <iostream>
-#include <string>
+#include "wrapper.h"
 
-using namespace std;
+DataServer server; 		// Server object. 
 
 // Insert data into data store. 
+// A successful message will be returned on success. 
+// In case of failure, a Failed message will be returned. 
 string insertData(string data) {
-
+  RequestMsg *requestmsg = new (nothrow) RequestMsg(data);
+  if(!requestmsg) {
+    cout << "Error creating request message. " << endl; 
+    return string("FAILURE");
+  }
+  string cmd = requestmsg->getCommand();
+  cout << cmd << endl; 
+  return cmd;
 }
 
 // Query data from data store. 

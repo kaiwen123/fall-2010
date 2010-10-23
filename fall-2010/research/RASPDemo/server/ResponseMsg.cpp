@@ -3,7 +3,7 @@
 
 using namespace boost;
 // Constructor. Zero out the strings.
-ResponseMsg::ResponseMsg():Message() {
+ResponseMsg::ResponseMsg() {
 }
 
 // Constructor to build a request msg from a c raw string. 

@@ -14,15 +14,13 @@
 #include <vector>
 #include <stdlib.h>
 
-#include "Message.h"
-
 using namespace std;
 
 /**
  * @brief The ResponseMsg class defines a message type of request from
  * client. 
  */
-class ResponseMsg : public Message {
+class ResponseMsg {
 private:
   string cmd_;			/* command */
   int dim_; 			/* dimension. */
@@ -31,17 +29,17 @@ private:
 public:
    ResponseMsg(); // Constructor
    ResponseMsg(char *s);
-   virtual ~ResponseMsg(){}
-
-   virtual string getCommand() const {return cmd_;}
-   virtual int getDimension() const {return dim_;}
-   virtual string getData() const {return "";}
+   ~ResponseMsg(){}
+   
+   string getCommand() const {return cmd_;}
+   int getDimension() const {return dim_;}
+   string getData() const {return "";}
    vector<double>& getDataValue(){return data_;}
-
-   virtual void setCommand(string m);
-   virtual void setDimension(string m);
-   virtual void setData(string m);
-
+   
+   void setCommand(string m);
+   void setDimension(string m);
+   void setData(string m);
+   
    void parseParam(string &param); 	/* param parser. */
 };
 #endif // ifdef

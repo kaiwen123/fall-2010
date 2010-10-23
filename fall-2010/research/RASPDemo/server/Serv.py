@@ -12,6 +12,7 @@ from socket import *
 from threading import *
 import thread
 import numpy as np
+import rasp_demo as demo
 
 def handler(clientsock,addr):
     BUFSIZ = 4096
@@ -37,7 +38,8 @@ def processdata(data):
 
 def insertData(data):
     #print "Inserting data..." 
-    return "INSERT SUCCESSFUL"
+    result = demo.insertData(data)
+    return result # "INSERT SUCCESSFUL"
 
 def queryData(data):
     #print "Querying data..."
