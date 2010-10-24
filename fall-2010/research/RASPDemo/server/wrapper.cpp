@@ -1,33 +1,29 @@
 /* File : time.c */
 #include "wrapper.h"
 
-DataServer server; 		// Server object. 
+DataServer *server = DataServer::getInstance();	// Server object. 
 
 // Insert data into data store. 
 // A successful message will be returned on success. 
 // In case of failure, a Failed message will be returned. 
 string insertData(string data) {
-  RequestMsg *requestmsg = new (nothrow) RequestMsg(data);
-  if(!requestmsg) {
-    cout << "Error creating request message. " << endl; 
-    return string("FAILURE");
-  }
-  string cmd = requestmsg->getCommand();
-  cout << cmd << endl; 
-  return cmd;
+  server->doInsert(data);
+  return "SUCCESS";
 }
 
 // Query data from data store. 
 string queryData(string data) {
-
+  server->doQuery(data);
+  return "SUCCESS";
 }
 
+// validation using T.
 float validate(float* y, float* T, int k) {
-  /* 
-     result = y^T * T * y
-     Steps of evaluation: 
-     1: y^T * T = x (1xk)
-     2: x * y = result (1x1)
+  /**
+   * result = y^T * T * y
+   * Steps of evaluation: 
+   * 1: y^T * T = x (1xk)
+   * 2: x * y = result (1x1)
    */
   float result = 0.0, x[k];
   int i, j;
@@ -43,6 +39,7 @@ float validate(float* y, float* T, int k) {
   return result; 
 }
 
+// Another validation function.
 int validate0(float* y, float* invA, float* W, int k) {
   int i, j; 
   float x[k], x1[k];

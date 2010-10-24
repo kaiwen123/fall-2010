@@ -2,8 +2,11 @@
 #include <gsl/gsl_blas.h>
 #include <iostream>
 #include <string>
-
-#include "DataServer.cpp"
+#include <map>
+#include <SpatialIndex.h>
+#include <queue>		// queue to store data. 
+#include <stdlib.h>
+#include "DataServer.h"
 
 using namespace std;
 

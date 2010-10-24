@@ -1,5 +1,6 @@
 ##################################################
-# Version 1.0.1
+# Version 1.5.1
+# Time : Sun Oct 24 13:23:10 EDT 2010
 # Author Shumin Guo(gsmsteve@gmail.com).
 ##################################################
 
@@ -15,17 +16,17 @@ INCLUDES = -I/usr/local/include/spatialindex
 CPPFLAGS = -O2 -fPIC $(MACROS) $(INCLUDES) #-Wall
 LDFLAGS = -L/usr/lib -L/lib -lspatialindex
 
+# Source files. 
+SRC = DataServer.cpp DataStore.cpp
+DOXCONF = Dox.txt
+
 # Executables and object files. 
 EXECUTABLE = RASPServer
 WRAPPERLIB = _rasp_demo.so
 OBJ = $(SRC:.cpp=.o)
-WRAPPEROBJ = wrapper.o wrapper_wrap.o
+WRAPPEROBJ = wrapper.o wrapper_wrap.o $(OBJ)
 
-# Source files. 
-SRC = DataServer.cpp DataStore.cpp main.cpp RequestMsg.cpp ResponseMsg.cpp
-DOXCONF = Dox.txt
-
-all: $(EXECUTABLE) $(WRAPPERLIB)
+all:  $(WRAPPERLIB)
 
 .SUFFIX: .o .cpp .cxx .i
 
@@ -37,7 +38,7 @@ $(EXECUTABLE): $(OBJ)
 
 # Rules to build the wrapper library.
 $(WRAPPERLIB):$(WRAPPEROBJ)
-	$(CPP) -shared -lpython2.6 $< -o $@
+	$(CPP) -shared -lpython2.6 $(LDFLAGS) $^ -o $@
 
 wrapper_wrap.cxx:wrapper.i wrapper.h
 	swig -c++ -python $<

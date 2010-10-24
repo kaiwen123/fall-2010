@@ -23,34 +23,42 @@
 #include <map>		     /* for data store objs. */
 #include <queue>	     /* message queues. */
 #include "DataStore.h"
-#include "RequestMsg.h"
-#include "ResponseMsg.h"
 
 using namespace std;
 
 class DataServer{
  private: 
-  queue<RequestMsg> _requests;	 /* Requests. */
-  queue<ResponseMsg> _responses; /* Responses. */
   map<int, DataStore*> _stores;	 /* DataStore objects. */
+  static bool instanceFlag;	 /* instance flag. */
+  static DataServer *instance;	 /* Singleton instance. */
 
   /* Statistics about server. */
-  // TODO
 
  public:
   DataServer(); 
-  ~DataServer() {}
+  ~DataServer();
   
   /* getters. */
-  int getNumStores() const {return _stores.size();}
-  int getNumRequests() const {return _requests.size();}
-  int getNumResponses() const {return _responses.size();}
+  static DataServer* getInstance();
   
   /* setters. */
 
-  // Message collectors. 
-  bool collectRequest(); 
-  bool collectResponse();
+  /**
+   * @breif Do inserting data into the store.
+   *
+   * @param data Data to be inserted.
+   * @return Response message to the client. 
+   */
+  string doInsert(string data);
+
+  /**
+   * @breif Do querying data. 
+   *
+   * @param data Data to be query.
+   * @return Response message to the client. 
+   */
+  string doQuery(string data);
+
 
   /**
    * @breif Request processor. 
@@ -97,7 +105,6 @@ class DataServer{
    * @return true on success and false on failure. 
    */
   bool loadStore(int key);
-
 };
 
 #endif //ifdef
