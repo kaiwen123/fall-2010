@@ -18,7 +18,6 @@ def handler(clientsock,addr):
     BUFSIZ = 4096
     while 1:
         data = clientsock.recv(BUFSIZ)
-        print data
         if data == "BYE": 
             break 
         result = processdata(data)
@@ -29,21 +28,19 @@ def handler(clientsock,addr):
 def processdata(data):
     # First let's decide if this is insert or query.
     operation = data.strip().split(" ")[0]
-    print operation
     if operation == '1':
-        result = insertData(data)
+        result = insert(data)
     if operation == '2':
-        result = queryData(data)
+        result = query(data)
     return result
 
-def insertData(data):
-    #print "Inserting data..." 
+def insert(data):
     result = demo.insertData(data)
     return result # "INSERT SUCCESSFUL"
 
-def queryData(data):
-    #print "Querying data..."
-    return "Query result is:"
+def query(data):
+    result = demo.queryData(data)
+    return "Result:"
 
 if __name__=="__main__": 
     HOST = 'localhost'

@@ -7,14 +7,12 @@ DataServer *server = DataServer::getInstance();	// Server object.
 // A successful message will be returned on success. 
 // In case of failure, a Failed message will be returned. 
 string insertData(string data) {
-  server->doInsert(data);
-  return "SUCCESS";
+  return server->doInsert(data);
 }
 
 // Query data from data store. 
 string queryData(string data) {
-  server->doQuery(data);
-  return "SUCCESS";
+  return server->doQuery(data);
 }
 
 // validation using T.

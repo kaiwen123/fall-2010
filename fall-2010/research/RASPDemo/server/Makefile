@@ -12,6 +12,7 @@ DOX = /usr/bin/doxygen
 
 # Macros and variables. 
 #MACROS += -DDEBUG_ALL
+MACROS += -DDEBUG_INSERT_DATA
 INCLUDES = -I/usr/local/include/spatialindex
 CPPFLAGS = -O2 -fPIC $(MACROS) $(INCLUDES) #-Wall
 LDFLAGS = -L/usr/lib -L/lib -lspatialindex

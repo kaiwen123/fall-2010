@@ -18,17 +18,17 @@
 
 #ifndef _DATA_SERVER_H_
 #define _DATA_SERVER_H_ 
-
 #include <iostream>
 #include <map>		     /* for data store objs. */
 #include <queue>	     /* message queues. */
+#include <list>		     /* for storage of data. */
 #include "DataStore.h"
 
 using namespace std;
 
 class DataServer{
  private: 
-  map<int, DataStore*> _stores;	 /* DataStore objects. */
+  map<int, DataStore*> stores;	 /* DataStore objects. */
   static bool instanceFlag;	 /* instance flag. */
   static DataServer *instance;	 /* Singleton instance. */
 
@@ -40,6 +40,7 @@ class DataServer{
   
   /* getters. */
   static DataServer* getInstance();
+  bool parseParam(string param, list<double>& data);
   
   /* setters. */
 
@@ -59,6 +60,13 @@ class DataServer{
    */
   string doQuery(string data);
 
+  /**
+   * @breif Check if store with a given dimension already exists. 
+   *
+   * @param dim Dimension of store. 
+   * @return true on success and false on failure. 
+   */
+  bool exists(int dim);
 
   /**
    * @breif Request processor. 

@@ -25,7 +25,6 @@
 #define _DATA_STORE_H_ 
 
 #include <SpatialIndex.h>
-#include <string.h>
 #include <string> 
 #include <queue>		// queue to store data. 
 #include <stdlib.h>
@@ -109,11 +108,14 @@ class DataStore{
   void setDimension(int d) {dim_ = d;}
 
   /**
-   * @brief Insert data item into store. 
-   * @param data to be inserted. 
-   * @return true on success, false on failure.
+   * @brief Do data query to this store. 
+   * @param phigh The higher boundary of the query. 
+   * @param plow The lower boundary of the query. 
+   * @param dim The dimension of the query. 
+   * @param id of the data to be inserted. 
+   * @return result in string format (Need to be defined.).
    */
-  bool insertData(string data);
+  bool insertData(double *phigh, double *plow, int dim, int id); 
 
   /**
    * @brief Do data query to this store. 
