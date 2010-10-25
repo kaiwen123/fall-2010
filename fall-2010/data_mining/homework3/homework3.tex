@@ -295,8 +295,76 @@ easy to see that we can't make the decision. So, Figure
   use "Laplace correction" for probability estimates. Show all the
   steps. \\
 \textbf{ANSWER:} \\
+For the class {\it salary}, we have three possible values, Low, Medium
+and High respectively.
 
+According to the requirement, the tuple that we need to classify is:
+X=(department=systems, status=senior, age=21-30) \\
+We need to maximize $P(X|C_i)P(C_i)$, for $i=1,2,3$. let's first
+compute the prior probability of each class: \\
+P(salary=Low) = 3/11 = 0.273 \\
+P(salary=Medium) = 6/11 = 0.5455\\
+P(salary=High) = 2/11 = 0.182\\
 
+Then, let's compute the conditional probalities: \\
+P(department=systems $|$ salary=Low) = 0.0 \\
+P(department=systems $|$ salary=Medium) = 2/4 = 0.5 \\
+P(department=systems $|$ salary=High) = 2/4 = 0.5 \\
+P(status=senior $|$ salary=Low) = 0.0 \\
+P(status=senior $|$ salary=Medium) = 2/4 = 0.5 \\
+P(status=senior $|$ salary=High) = 2/4 = 0.5 \\
+P(age=21-30 $|$ salary=Low) = 2/4 = 0.5 \\
+P(age=21-30 $|$ salary=Medium) = 2/4 = 0.5 \\
+P(age=21-30 $|$ salary=High) = 0.0 \\
+
+With the above possibilities, we can have: \\ 
+P(X$|$salary=Low) = P(department=systems$|$salary=Low)$\times$ \\
+P(status=senior$|$salary=Low)$\times$ P(age=21-30$|$salary=Low) \\
+= $0.0 \times 0.0 \times 0.5$ \\
+= 0.0 \\
+
+Similarly, we have: \\
+P(X$|$salary=Medium) = $0.5 \times 0.5 \times 0.5 = 0.125$. \\
+P(X$|$salary=High) = $0.5 \times 0.5 \times 0.0 = 0.0$. \\
+
+Then, let's compute $P(X|C_i)P(C_i)$, and maximize it: \\
+P(X$|$salary=Low)$\times$P(salary=Low) = 0.0 \\
+P(X$|$salary=Medium)$\times$P(salary=Medium) \\
+= 0.125$\times$0.5455 = 0.0682 \\
+P(X$|$salary=High)$\times$P(salary=High) = 0.0
+
+Therefore, the naive Bayesian classfier predicts salary=Medium for
+tuple X. \\
+
+\textbf{With Laplacian correction}, we can avoid computing probability
+values of zero as what has happened above. \\
+First, we have the conditional probability as below: \\
+P(department=systems $|$ salary=Low) = 1/7 = 0.143 \\
+P(department=systems $|$ salary=Medium) = 3/7 = 0.429 \\
+P(department=systems $|$ salary=High) = 3/7 = 0.429 \\
+P(status=senior $|$ salary=Low) = 1/7 = 0.143 \\
+P(status=senior $|$ salary=Medium) = 3/7 = 0.429 \\
+P(status=senior $|$ salary=High) = 3/7 = 0.429 \\
+P(age=21-30 $|$ salary=Low) = 3/7 = 0.429 \\
+P(age=21-30 $|$ salary=Medium) = 3/7 = 0.429 \\
+P(age=21-30 $|$ salary=High) = 1/7 = 0.143\\
+
+P(X$|$salary=Low) = P(department=systems$|$salary=Low)$\times$ \\
+P(status=senior$|$salary=Low)$\times$ P(age=21-30$|$salary=Low) \\
+= $0.143 \times 0.143 \times 0.429$ \\
+$\approx$~ 0.008773\\
+
+Similarly, we have: \\
+P(X$|$salary=Medium) = $0.429 \times 0.429 \times 0.429 = 0.078954$. \\
+P(X$|$salary=High) = $0.429 \times 0.429 \times 0.143 = 0.02632$. \\
+
+Similarly, we have: \\
+P(X$|$salary=Low)$\times$P(salary=Low)=0.008773$\times$0.273=0.002395\\
+P(X$|$salary=Medium)$\times$P(salary=Medium) \\
+= 0.078954$\times$0.5455 = 0.04307 \\
+P(X$|$salary=High)$\times$P(salary=High) = 0.02632$\times$0.182 =
+0.00478. \\
+Still, we have NBC predicts salary = Medium for tuple X.
 \end{enumerate} % For question five. 
 
 \item Given the data points (0,0/1), (1,0/1), (1,1/1), (4,3/2),
@@ -305,7 +373,19 @@ easy to see that we can't make the decision. So, Figure
   label for (2,2/?) when k=1, and when k=5. Use Euclidean distance as
   the distance measure. \\ 
 \textbf{ANSWER:} \\
+Let's compute the distance for (2,2) to each point. \\
+(0,0/1) and (2,2/?) $\rightarrow$ $\sqrt{8}$ = 2.828\\
+(1,0/1) and (2,2/?) $\rightarrow$ $\sqrt{5}$ = 2.236\\
+(1,1/1) and (2,2/?) $\rightarrow$ $\sqrt{2}$ = 1.414\\ 
+(4,3/2) and (2,2/?) $\rightarrow$ $\sqrt{5}$ = 2.236\\
+(3,4/2) and (2,2/?) $\rightarrow$ $\sqrt{5}$ = 2.236\\
+(1,4/2) and (2,2/?) $\rightarrow$ $\sqrt{5}$ = 2.236\\
 
+When k=1, (1,1/1) has the nearest Euclidean distance with (2,2/?), so
+we have the result: (2,2/1).\\
+
+When k=5, we have two samples with class 1 and three samples with
+class 2, so we have the result: (2,2/2).
 
 
 \end{enumerate} % For whole homework. 
