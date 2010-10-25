@@ -113,6 +113,13 @@ class DataServer{
    * @return true on success and false on failure. 
    */
   bool loadStore(int key);
+
+  /**
+   * @breif Delete all the data stores. 
+   * @param none. 
+   * @return true on success and false on failure. 
+   */
+  bool deleteStores();
 };
 
 #endif //ifdef

@@ -23,7 +23,7 @@
 
 #ifndef _DATA_STORE_H_
 #define _DATA_STORE_H_ 
-
+#include <gsl/gsl_blas.h>
 #include <SpatialIndex.h>
 #include <string> 
 #include <queue>		// queue to store data. 
@@ -98,7 +98,7 @@ class DataStore{
  public:
   /* constructors and destructor. */
   DataStore(int dim);
-  ~DataStore(){}
+  ~DataStore();
 
   /* getters. */
   int getDimension() const {return dim_;};
@@ -146,7 +146,7 @@ class DataStore{
    * @param none. 
    * @return void. 
    */
-  //void flush();
+  void flush();
 };
 
 #endif //ifdef

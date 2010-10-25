@@ -20,15 +20,33 @@ void StoreVisitor::visitData(const IData& d){
   size_t len = 0;
   d.getData(len, &data);
   string preresult = reinterpret_cast<char*>(data);
-  cout << "Pre result is: " << preresult << endl;
+#ifdef DEBUG_QUERYD_DATA
+  cout << "Pre-Query Result: " << preresult << endl;
+#endif
   if(validate(preresult)) {	// passed validation.
-    result_ += "Passed."; 
+    result_ += preresult; 
   }
 }
 
 // Validation implementation. 
 bool StoreVisitor::validate(const string& s) {
   cout << "TODO: Now, validating the result......" << endl;
+  // get the validation key. 
+
+  // do the validation.
+  int k = 5; 
+  float result = 0.0, x[k];
+  float y[k], T[k];
+  for(int i = 0; i < k; i++){
+    x[i] = 0.0; 
+  }
+  for(int i = 0; i < k; i++){
+    for(int j = 0; j < k; j++) {
+      x[i] += y[j] * T[k*j + i]; 
+    }
+    result += x[i] * y[i]; 
+  }
+  // if result >= 0 then pass, else fail.
   return true;
 }
 
@@ -38,8 +56,10 @@ bool StoreVisitor::validate(const string& s) {
 
 // Constructor 
 DataStore::DataStore(int dim):dim_(dim){
-  cout << "TODO: Creating data store object...." << endl;
-  string baseName = '0' + dim + "_";
+  char tmp[3]; 
+  sprintf(tmp, "%d", dim);
+  string baseName =  "db_" + string(tmp);
+  cout << "Creating data store with basename : " << baseName << endl;
   // disk file. 
   diskfile_ = createNewDiskStorageManager(baseName, 4096);
   // buffer in memory. 
@@ -50,6 +70,9 @@ DataStore::DataStore(int dim):dim_(dim){
   index_ = createNewRTree(*buffer_, 0.7, capacity, capacity, dim, \
 			      RV_RSTAR, indexIdentifier);
 }
+
+// Destructor. 
+DataStore::~DataStore() {cout << "Destroying data store." << endl;}
 
 // Insert data into spatial index. 
 bool DataStore::insertData(double *phigh, double *plow, int dim, int id) {
@@ -63,22 +86,13 @@ bool DataStore::insertData(double *phigh, double *plow, int dim, int id) {
   index_->insertData(data.size() + 1,				
   		   reinterpret_cast<const byte*>(data.c_str()),
   		   r, id);
-  return true; 
+  return index_->isIndexValid();
 }
 
 // Query data within this store. 
-// In order to do query, I need to have, 
-// One: region. 
-// Two: visitor object. 
-// Thr: intersect query.
 string DataStore::queryData(double *phigh, double *plow, int dim) {
-  cout << "Done: Do the querying...." << endl;
+  cout << "Do the querying...." << endl;
   Region r = Region(plow, phigh, dim);
   index_->intersectsWithQuery(r, visitor);
   return visitor.getQueryResult(); 
 }
-
-// flush data onto disk. 
-// void DataStore::flush() {
-//DiskStorageManager *x = dynamic_cast<DiskStorageManager*>(diskfile_);
-// }

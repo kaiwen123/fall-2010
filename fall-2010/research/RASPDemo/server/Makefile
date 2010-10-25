@@ -12,7 +12,7 @@ DOX = /usr/bin/doxygen
 
 # Macros and variables. 
 #MACROS += -DDEBUG_ALL
-MACROS += -DDEBUG_INSERT_DATA
+#MACROS += -DDEBUG_INSERT_DATA
 INCLUDES = -I/usr/local/include/spatialindex
 CPPFLAGS = -O2 -fPIC $(MACROS) $(INCLUDES) #-Wall
 LDFLAGS = -L/usr/lib -L/lib -lspatialindex
@@ -41,7 +41,7 @@ $(EXECUTABLE): $(OBJ)
 $(WRAPPERLIB):$(WRAPPEROBJ)
 	$(CPP) -shared -lpython2.6 $(LDFLAGS) $^ -o $@
 
-wrapper_wrap.cxx:wrapper.i wrapper.h
+wrapper_wrap.cxx:wrapper.i
 	swig -c++ -python $<
 
 wrapper_wrap.o: wrapper_wrap.cxx

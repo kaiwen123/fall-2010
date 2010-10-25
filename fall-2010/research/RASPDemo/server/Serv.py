@@ -19,6 +19,7 @@ def handler(clientsock,addr):
     while 1:
         data = clientsock.recv(BUFSIZ)
         if data == "BYE": 
+            #demo.flushData();
             break 
         result = processdata(data)
         clientsock.send(result)

@@ -4,9 +4,7 @@ bool DataServer::instanceFlag = false;
 DataServer* DataServer::instance = NULL;
 
 // Constructor. 
-DataServer::DataServer() {
-
-}
+DataServer::DataServer() {}
 
 // Destructor. 
 DataServer::~DataServer() {
@@ -34,7 +32,7 @@ string DataServer::doInsert(string dinsert) {
 #ifdef DEBUG_INSERT_DATA
   cout << "Operation Code: " << op
        << " Data Id: " << id
-       << " Dimension: " << dim << " " 
+       << " Dimension: " << dim << " ->AT: " 
        << __FILE__ << ":" 
        << __LINE__ << endl; 
 #endif
@@ -57,8 +55,6 @@ string DataServer::doInsert(string dinsert) {
     }
     store->insertData(phigh, plow, dim, id); // test .
   } else {
-    //cout << "Store doesn't exist. ..." << endl;
-    // now create a store. 
     DataStore* store = new (nothrow) DataStore(dim);
     if(!store) {
       cerr << "Error Creating DataStore Object...." << endl; 
@@ -74,17 +70,45 @@ string DataServer::doInsert(string dinsert) {
 bool DataServer::exists(int dim) {
   return stores[dim] == NULL ? false : true;
 }
+
 // Query processing by server. 
-string DataServer::doQuery(string data) {
-  return "Here is the query result";
+string DataServer::doQuery(string query) {
+  list<double> data;
+  parseParam(query, data);
+  // First, get the dimenstion. 
+  int op = data.front(); data.pop_front();
+  int id = data.front(); data.pop_front();
+  int dim = data.front(); data.pop_front();
+
+#ifdef DEBUG_QUERY_DATA
+  cout << "Operation Code: " << op
+       << " Data Id: " << id
+       << " Dimension: " << dim << " ->AT: " 
+       << __FILE__ << ":" 
+       << __LINE__ << endl; 
+#endif
+
+  cout << "HELLO KITTY..." << endl;
+  if(exists(dim)) {
+    DataStore* store = stores[dim];
+    double phigh[dim], plow[dim]; 
+    int i = 0;
+    while(data.size()) {
+      plow[i] = data.front(); 
+      data.pop_front();
+      phigh[i] = data.front();
+      data.pop_front();
+      i++;
+    } // while
+    return "Result: " + store->queryData(phigh, plow, dim);
+  } else {
+    return "No DATA in Server.";
+  } // if-else
 }
 
-// help function for parameter parsing.
-// parsing parameters. with the form: 
-// [dim d00 d01 d10 d11 ......]
+// Parsing string parameter to vector. 
 bool DataServer::parseParam(string param, list<double>& data) {
-  // data format: 
-  // 1 0 5 1.0012 1.0012 .......
+  // data format: 1 0 5 1.0012 1.0012 .......
   char** p;
   double t_dat; 
   int pos;
@@ -100,3 +124,10 @@ bool DataServer::parseParam(string param, list<double>& data) {
   return true;
 }
 
+// Delete all the data stores. 
+bool DataServer::deleteStores() {
+  map<int, DataStore*>::iterator it; 
+  for(it = stores.begin(); it != stores.end(); it++) {
+    if((*it).second) delete (*it).second;
+  }
+}
