@@ -103,9 +103,18 @@ bool Database::emptyDatabase() {
     cout << " done!" << endl; 
   } else {return false;}
 
-  cout << "Clearing index ...";
+  cout << "Clearing index ..." << endl;
+#ifdef DEBUG_DELETE_TREE
+  cout << "Before index Deletion..." << endl;
+  index->inOrderTraverse(index->getRoot());
+#endif
   if(index->destroyTree(index->getRoot())){
-    cout << " done!" << endl;
+    cout << "size of tree now is: " << index->getSize() << endl; 
+    cout << index->getRoot() << endl; 
+#ifdef DEBUG_DELETE_TREE
+    cout << "After index Deletion..." << endl;
+    index->inOrderTraverse(index->getRoot());
+#endif
   } else {return true;}
   return true;
 }
@@ -156,14 +165,13 @@ bool Database::findByEid(int eid) {
 bool Database::deleteByEid(int eid) {
   // First, search eid index which will return BSTree node. 
   BTreeNode* bnode = index->findNode(index->getRoot(), eid);
-  cout << "Employee Record node: " << bnode << endl; 
+  cout << "\nEmployee Record node: " << bnode 
+       << " for Eid: " << eid << endl; 
   if(!bnode) {			// can't find. 
-    cout << "\nSorry, I can't find record with EID: " 
+    cout << "\nSorry, Can't find record with EID: " 
 	 << eid << endl;
     return false; 
-  }
-  // Second, from the BTreeNode get the Employee node and delete the
-  // node. 
+  } 
   employee->deleteNode(bnode->getEmployeeRecord());
   // Third, delete the BTreeNode from index tree. 
   index->deleteNode(bnode);

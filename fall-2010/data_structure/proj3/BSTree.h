@@ -33,7 +33,7 @@ class BTreeNode {
   BTreeNode(LinkedNode<Employee> *e); 
 
   // Destructor.
-  ~BTreeNode(){killContent();}
+  ~BTreeNode(){}
 
   /* setters. */
   void setEid(int id) {eid_ = id;} 
@@ -68,14 +68,6 @@ class BTreeNode {
   bool isInternalNode(); 
 
   /**
-   * @brief kill the content stored within *this* node.
-   * This function is used to delete the Employee record. 
-   * @param elist The employee list to work on.
-   * @return true on success and false on failure.
-   */
-  bool killContent();
-
-  /**
    * @brief Output BTreeNode info into output stream. 
    * 
    * @param out Output stream. 
@@ -102,8 +94,10 @@ class BSTree {
    * @brief getters. 
    */
   BTreeNode* getRoot() {return root_;}
+  // after destroying the tree, remember to reset the root_ pointer,
+  // which will point to an none existing tree. 
+  void setNullRoot() {root_ = NULL;}
   int getSize() {return size;}
-
 
   /**
    * @brief Pick up node from tree.
@@ -158,7 +152,7 @@ class BSTree {
    * @return pointer to the found node.
    */
   BTreeNode* findNode(BTreeNode *root, int eid);
-  BTreeNode* findNode(BTreeNode *node);
+  BTreeNode* findNode(BTreeNode *root, BTreeNode *node);
 
   /**
    * @brief Find node with smallest eid. 
