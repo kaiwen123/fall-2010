@@ -2,8 +2,8 @@ CPP = /usr/bin/g++
 #MACROS += -DDEBUG_LIST_INSERT
 #MACROS += -DDEBUG_INDEX_SEARCH
 #MACROS += -DDEBUG_LIST_DELETE
-MACROS += -DDEBUG_DELETE_TREE
-MACROS += -DDEBUG_DELETE_BYEID
+#MACROS += -DDEBUG_DELETE_TREE
+#MACROS += -DDEBUG_DELETE_BYEID
 CPPFLAGS = -O2 -fPIC -ggdb3 $(MACROS)
 
 LD = /usr/bin/ld
@@ -13,7 +13,7 @@ EXE = proj3
 DOX = /usr/bin/doxygen
 DOXCONF = Dox.txt
 
-SRC = Database.cpp BSTree.cpp LinkedSortedList.cpp Employee.cpp lab3.cpp 
+SRC = Database.cpp bst.cpp LinkedSortedList.cpp Employee.cpp lab3.cpp 
 OBJ = $(SRC:.cpp=.o)
 
 all: $(EXE)

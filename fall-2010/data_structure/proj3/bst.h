@@ -1,6 +1,6 @@
 // -*- C++ -*-
 /**
- * @file BSTree.h
+ * @file bst.h
  * @brief Definition of a BSTree and BTreeNode class.
  * BTreeNode class defines the structure of the node for BSTree. 
  * BSTree defines a binary search tree class. 
@@ -70,6 +70,8 @@ class BSTree {
   inline bool isEmpty() {root_ == NULL;}
   inline void setNullRoot() {root_ = NULL;}
   inline int getSize() {return size;}
+  inline void setRoot(BTreeNode *node) 
+  {root_ = node; node->setParent(NULL);} 
 
   /**
    * @brief Pick up node from tree.
@@ -131,6 +133,7 @@ class BSTree {
    * @return pointer to the found node.
    */
   BTreeNode* findNode(int eid);
+  void findByEid(int eid);
 
   /**
    * @brief Find node with smallest eid. 
@@ -138,14 +141,14 @@ class BSTree {
    * @return BTreeNode the element of this node should not be
    * altered. 
    */
-  BTreeNode* getSmallest();
+  BTreeNode* getSmallest(BTreeNode* root);
   /**
    * @brief Find node with largest eid. 
-   * @param none.
+   * @param root The root of tree to be processed.
    * @return BTreeNode the element of this node should not be
    * altered. 
    */
-  BTreeNode* getLargest();
+  BTreeNode* getLargest(BTreeNode* root);
 
   /**
    * @brief Pre-Order traversal of tree. 

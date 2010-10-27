@@ -108,14 +108,13 @@ bool Database::emptyDatabase() {
   cout << "Before index Deletion..." << endl;
   index->inOrderTraverse(index->getRoot());
 #endif
-  if(index->destroyTree(index->getRoot())){
+  index->destroyTree(index->getRoot());
+#ifdef DEBUG_DELETE_TREE
     cout << "size of tree now is: " << index->getSize() << endl; 
     cout << index->getRoot() << endl; 
-#ifdef DEBUG_DELETE_TREE
     cout << "After index Deletion..." << endl;
     index->inOrderTraverse(index->getRoot());
 #endif
-  } else {return true;}
   return true;
 }
 
@@ -156,8 +155,8 @@ void Database::findByLastname(string var) {
 // Search employee record by eid, this is used to test if there is
 // duplicates if this item is inserted into the list. 
 void Database::findByEid(int eid) {
-  cout << "Search index by Eid...... " << eid << endl;
-  index->findNode(eid);
+  cout << "Searching...... " << endl;
+  index->findByEid(eid);
 }
 
 // Delete employee record by Eid. 

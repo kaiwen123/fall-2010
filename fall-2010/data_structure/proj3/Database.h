@@ -13,7 +13,7 @@
 #include <string>
 #include <iostream>
 #include "Employee.h"
-#include "BSTree.h"
+#include "bst.h"
 #include "LinkedSortedList.h" 
 
 using namespace std; 
