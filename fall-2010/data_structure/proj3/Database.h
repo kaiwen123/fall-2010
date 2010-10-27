@@ -47,7 +47,7 @@ class Database {
    * @param eid The Employee Eid to be deleted. 
    * @return true on success and false on failure. 
    */
-  bool deleteByEid(int eid);
+  void deleteByEid(int eid);
 
   /**
    * @brief Delete all records within the database.
@@ -78,9 +78,9 @@ class Database {
    * @brief Search Employee by employee Id. 
    * 
    * @param eid The Employee Id. 
-   * @return true on success and false on failure. 
+   * @return void.
    */
-  bool findByEid(int eid);
+  void findByEid(int eid);
  
   /**
    * @brief Save Database Data into file. 

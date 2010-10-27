@@ -11,30 +11,11 @@
 
 // Constructor with Employee object pointer.
 BTreeNode::BTreeNode(LinkedNode<Employee> *e):eid_(e->getValue().getEid()),
-					      parent(NULL),
-					      left(NULL),right(NULL),
-					      enode(e) {}
-
-// BTreeNode functions. 
-// Overloading BTreeNode << operator. 
-ostream& operator<<(ostream& out, BTreeNode& n) {
+					      enode(e) {
+  parent = left = right = NULL;
 }
-
-// Test if *this* node is leaf node.
-bool BTreeNode::isLeafNode() {
-  return (!getRightChild()) && (!getLeftChild());
-}
-
-// Test if *this* node is internal node.
-bool BTreeNode::isInternalNode() {
-  return (!getRightChild() || !getLeftChild());
-}
-
+/////////////////////////////////////////////////////////////
 // BSTree Functions. 
-// Default Constructor.
-BSTree::BSTree():root_(NULL),size(0) {
-}
-
 // pick a leaf node from the BSTree. 
 BTreeNode* BSTree::pickLeafNode(BTreeNode* node) {
   // if node is null or this is the root of tree. 
@@ -67,21 +48,15 @@ bool BSTree::replaceNode(BTreeNode* snode, BTreeNode* dnode) {
   return true;
 }
 
-
-// Destructor.
-BSTree::~BSTree() {}
-
 // Insert a node into the tree.  
 bool BSTree::insertNode(BTreeNode *root, BTreeNode *node) {
-  BTreeNode *n = findNode(root, node);
-
+  BTreeNode *n = findNode(node->getEid());
   if(n) {
     cout << "This Eid " << n << " " 
 	 << node->getEmployeeRecord()->getValue().getEid() 
 	 << " already exists in the index. " << endl;  
     return false;
   }
-
   if(!root_) {			// No elements in the tree yet. 
     // Insert node into tree structure.
     root_ = node;
@@ -119,8 +94,8 @@ bool BSTree::insertNode(BTreeNode *root, BTreeNode *node) {
 // 3, neither of above, node has a predecessor, work the similar way
 //    as deleting a node from a linked list. Nodes are linked by left
 //    child and parent pointers.
-bool BSTree::deleteNode(BTreeNode *root, int eid) {
-  BTreeNode *node = findNode(root, eid);
+bool BSTree::deleteNode(int eid) {
+  BTreeNode *node = findNode(eid);
   if(node->isLeafNode() && !node->getParent()) {
     delete node; 
     setNullRoot();
@@ -135,7 +110,7 @@ bool BSTree::deleteNode(BTreeNode *root, int eid) {
     return true; 
   }
   // delete a node who has a direct successor.  
-  BTreeNode *successor = getSmallest(node->getRightChild());
+  BTreeNode *successor = getSmallest();
   successor = pickLeafNode(successor);
   replaceNode(node, successor);
   delete node; size--;
@@ -152,64 +127,52 @@ bool BSTree::deleteNode(BTreeNode *root, int eid) {
 bool BSTree::deleteNode(BTreeNode *node) {
   if(!node) return false; 	// node is NULL.
   int eid = node->getEmployeeRecord()->getValue().getEid();
-  return deleteNode(node, eid); 
+  return deleteNode(eid); 
+}
+
+// Delete node by eid.
+bool BSTree::deleteByEid(LinkedSortedList<Employee>* employee, int
+eid) {
+  BTreeNode* node = findNode(eid);
+  if(!node) {return false;}
+#ifdef DEBUG_DELETE_BYEID
+  cout << "Delete by eid " << node->getEid() << endl; 
+#endif
+  LinkedNode<Employee>* enode = node->getEmployeeRecord();
+  deleteNode(node);
+  employee->deleteNode(enode);
+  return true; 
 }
 
 // Destroy the whole tree. 
 // This function is generally used to destroy all the nodes of the
 // tree, which usually include the employee records indexed by this
 // tree.  
-bool BSTree::destroyTree(BTreeNode *root) {
-  if(!root) return false; 
-  if(!root->isLeafNode()) {
-    if(root->getLeftChild()) {	// delete left tree. 
-      destroyTree(root->getLeftChild());
-    } 
-    if(root->getRightChild()) {	// delete right tree.
-      destroyTree(root->getRightChild());
-    }
+bool BSTree::destroyTree(BTreeNode* root) {
+  if(root != NULL) {
+    destroyTree(root->getLeftChild());
+    destroyTree(root->getRightChild());
+    cout << "Deleting node : " << root->getEid() << endl; 
+    root = pickLeafNode(root);
+    delete(root); size--;
   }
-#ifdef DEBUG_DELETE_TREE
-    cout << "node " 
-	 << root->getEmployeeRecord()->getValue().getEid() 
-	 << " is deleted ..." << endl; 
-#endif
-  root = pickLeafNode(root);
-  delete root;
   setNullRoot();
-  size--; 
-  return true; 
-}
-
-// Find node by node pointer.
-BTreeNode* BSTree::findNode(BTreeNode *root, BTreeNode *node) {
-  if(!node || !root) return NULL;
-  int eid = node->getEmployeeRecord()->getValue().getEid();
-  return findNode(root, eid);
+  return true;
 }
 
 // Search node with Employee id. 
-BTreeNode* BSTree::findNode(BTreeNode *root, int eid) {
-  preOrderTraverse(root);
-  if(!root) return NULL;
-  //  cout << root->getEmployeeRecord()->getValue().getEid() << endl;
-  if(root->getEid() == eid) {
-    //root->getEmployeeRecord()->print();
+BTreeNode* BSTree::findNode(int eid) {
+  BTreeNode *node = getRoot();
+  while ((node != 0) && (node->getEid() != eid)) {
+    if (node->getEid() > eid)
+      node = node->getLeftChild();
+    else
+      node = node->getRightChild();
+  }
 #ifdef DEBUG_INDEX_SEARCH
-    cout << "Found employee record with Eid: " << eid << " "
-	 << root << " " 
-	 << root->getEmployeeRecord()->getValue().getLastName()
-	 << endl;  
+  if(node) cout << node->getEid() << endl; 
 #endif
-    return root;
-  }
-  if(root->getLeftChild()) {
-    findNode(root->getLeftChild(), eid);
-  }
-  if(root->getRightChild()) {
-    findNode(root->getRightChild(), eid);
-  }
-  return NULL;
+  return node;
 }
 
 // preorder traversal. 
@@ -218,7 +181,6 @@ void BSTree::preOrderTraverse(BTreeNode *root) {
   root->visit();		// visit root node. 
   preOrderTraverse(root->getLeftChild()); // visit left child.
   preOrderTraverse(root->getRightChild()); // visit right child.
-  return;
 }
 
 // inorder traversal. 
@@ -227,7 +189,6 @@ void BSTree::inOrderTraverse(BTreeNode *root) {
   inOrderTraverse(root->getLeftChild()); // visit left child.
   root->visit();		// visit root node. 
   inOrderTraverse(root->getRightChild()); // visit right child.
-  return;
 }
 
 // postorder traversal. 
@@ -236,7 +197,6 @@ void BSTree::postOrderTraverse(BTreeNode *root) {
   postOrderTraverse(root->getLeftChild()); // visit left child.
   postOrderTraverse(root->getRightChild()); // visit right child.
   root->visit();		// visit root node. 
-  return;
 }
 
 // Overloading the << operator for the BSTree class. 
@@ -247,48 +207,21 @@ ostream& operator<<(ostream& out, BSTree& bstree) {
 }
 
 // Find smallest element
-// For BStree, the left most element is our goal.
-BTreeNode* BSTree::getSmallest(BTreeNode *root) const {
-  if(!root) {			// Empty tree.
-    return NULL;
+// For BStree, the left most node is our goal.
+BTreeNode* BSTree::getSmallest() {
+  BTreeNode *node = getRoot();
+  while(node->getLeftChild()) {
+    node = node->getLeftChild();
   }
-  // If the left child of current node is null, 
-  // return current node.
-  if(root->getLeftChild() == NULL) {
-    return root; 
-  } else {
-    getSmallest(root->getLeftChild());
-  }
-}
-
-// Find smallest leaf element
-BTreeNode* BSTree::getSmallestNode(BTreeNode *root) const {
-  BTreeNode *node = getSmallest(root);
-  if(node->isLeafNode()) {	// return leaf node directly.
-    return node; 
-  } else {			
-    // if it is not leaf, it has right child.
-    // then, let its direct right child take its place. 
-    // Then release the node by setting its right child to NULL. 
-    if(node->getParent()) {
-      node->getParent()->setLeftChild(node->getRightChild());
-      node->getRightChild()->setParent(node->getParent());
-      node->setRightChild(NULL);
-    }
-    return node;
-  }
+  return node; 
 }
 
 // Find largest from tree. 
-BTreeNode* BSTree::getLargest(BTreeNode *root) const {
-  if(!root) {			// Empty tree.
-    return NULL;
+// For BStree, the right most node is our goal.
+BTreeNode* BSTree::getLargest(){
+  BTreeNode *node = getRoot();
+  while(node->getRightChild()) {
+    node = node->getRightChild();
   }
-  // If the left child of current node is null, 
-  // return current node.
-  if(root->getRightChild() == NULL) {
-    return root; 
-  } else {
-    getSmallest(root->getRightChild());
-  }
+  return node;
 }

@@ -31,50 +31,30 @@ class BTreeNode {
   // Constructors
   BTreeNode();
   BTreeNode(LinkedNode<Employee> *e); 
-
   // Destructor.
   ~BTreeNode(){}
 
-  /* setters. */
-  void setEid(int id) {eid_ = id;} 
-  void setParent(BTreeNode *p) {parent = p;}
-  void setLeftChild(BTreeNode *l) {left = l; 
+  /* mutators. */
+  inline void setEid(int id) {eid_ = id;} 
+  inline void setParent(BTreeNode *p) {parent = p;}
+  inline void setLeftChild(BTreeNode *l) {left = l; 
     if(l) l->setParent(this);}
-  void setRightChild(BTreeNode *r) {right = r;
+  inline void setRightChild(BTreeNode *r) {right = r;
     if(r) r->setParent(this);}
 
-  void setEmployeeRecord(LinkedNode<Employee> *e) {enode = e;}
+  inline void setEmployeeRecord(LinkedNode<Employee> *e) {enode = e;}
 
   /* getters. */
-  int getEid() const {return eid_;}
-  BTreeNode* getParent() const {return parent;}
-  BTreeNode* getLeftChild() const {return left;}
-  BTreeNode* getRightChild() const {return right;}
-  LinkedNode<Employee>* getEmployeeRecord() const {return enode;}
+  inline int getEid() const {return eid_;}
+  inline BTreeNode* getParent() const {return parent;}
+  inline BTreeNode* getLeftChild() const {return left;}
+  inline BTreeNode* getRightChild() const {return right;}
+  inline LinkedNode<Employee>* getEmployeeRecord() const {return enode;}
 
   /* visitor */
-  void visit() {cout << eid_ << endl;}
-
-  /**
-   * @brief Test if *this* node is leaf node.
-   * @return true on success and false on failure.
-   */
-  bool isLeafNode();
-
-  /**
-   * @brief Test if *this* node is internal node.
-   * @return true on success and false on failure.
-   */
-  bool isInternalNode(); 
-
-  /**
-   * @brief Output BTreeNode info into output stream. 
-   * 
-   * @param out Output stream. 
-   * @param n BTreeNode object to be output. 
-   * @return Output stream.
-   */
-  friend ostream& operator<<(ostream& out, BTreeNode& n);
+  inline void visit() {cout << eid_ << endl;}
+  inline bool isLeafNode(){return (!getRightChild()) && (!getLeftChild());}
+  inline bool isInternalNode(){return (!getRightChild() || !getLeftChild());}
 };
 
 class BSTree {
@@ -83,21 +63,13 @@ class BSTree {
   int size; 			/* size of tree. */
 
  public:
-  /**
-   * @brief Default constructor. 
-   */
-  BSTree();
-  // Destructor.
-  ~BSTree();
-
-  /**
-   * @brief getters. 
-   */
-  BTreeNode* getRoot() {return root_;}
-  // after destroying the tree, remember to reset the root_ pointer,
-  // which will point to an none existing tree. 
-  void setNullRoot() {root_ = NULL;}
-  int getSize() {return size;}
+  BSTree():root_(NULL),size(0){}
+  ~BSTree() {}
+  // Getters.
+  inline BTreeNode* getRoot() {return root_;}
+  inline bool isEmpty() {root_ == NULL;}
+  inline void setNullRoot() {root_ = NULL;}
+  inline int getSize() {return size;}
 
   /**
    * @brief Pick up node from tree.
@@ -135,24 +107,30 @@ class BSTree {
    * @param eid of node to be deleted. 
    * @return true on success and false on failure.
    */
-  bool deleteNode(BTreeNode *root, int eid);
+  bool deleteNode(int eid);
   bool deleteNode(BTreeNode *node);
+
+  /**
+   * @brief Delete node from tree by Eid.
+   * @param employee employee list. 
+   * @param eid of node to be deleted. 
+   * @return true on success and false on failure.
+   */
+  bool deleteByEid(LinkedSortedList<Employee>* employee, int eid);
 
   /**
    * @brief Destroy the whole tree. 
    * @param root root of tree.
    * @return true on success and false on failure.
    */
-  bool destroyTree(BTreeNode *root);
+  bool destroyTree(BTreeNode* root);
 
   /**
    * @brief Find node with given eid. 
-   * @param root The root of tree to be processed. 
    * @param eid The Employee Id to be found. 
    * @return pointer to the found node.
    */
-  BTreeNode* findNode(BTreeNode *root, int eid);
-  BTreeNode* findNode(BTreeNode *root, BTreeNode *node);
+  BTreeNode* findNode(int eid);
 
   /**
    * @brief Find node with smallest eid. 
@@ -160,25 +138,15 @@ class BSTree {
    * @return BTreeNode the element of this node should not be
    * altered. 
    */
-  BTreeNode* getSmallest(BTreeNode *root) const;
-
-  /**
-   * @brief Find node with smallest eid. 
-   * @param root The root of tree to be processed. 
-   * @return BTreeNode the element of this node should not be
-   * altered. 
-   */
-  BTreeNode* getSmallestNode(BTreeNode *root) const;
-
+  BTreeNode* getSmallest();
   /**
    * @brief Find node with largest eid. 
-   * @param root The root of tree to be processed. 
+   * @param none.
    * @return BTreeNode the element of this node should not be
    * altered. 
    */
-  BTreeNode* getLargest(BTreeNode *root) const;
+  BTreeNode* getLargest();
 
-  // Tree traversers. 
   /**
    * @brief Pre-Order traversal of tree. 
    * @param root root of BSTree.

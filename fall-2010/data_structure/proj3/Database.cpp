@@ -155,25 +155,12 @@ void Database::findByLastname(string var) {
 
 // Search employee record by eid, this is used to test if there is
 // duplicates if this item is inserted into the list. 
-bool Database::findByEid(int eid) {
+void Database::findByEid(int eid) {
   cout << "Search index by Eid...... " << eid << endl;
-  index->findNode(index->getRoot(), eid);
-  return true;
+  index->findNode(eid);
 }
 
 // Delete employee record by Eid. 
-bool Database::deleteByEid(int eid) {
-  // First, search eid index which will return BSTree node. 
-  BTreeNode* bnode = index->findNode(index->getRoot(), eid);
-  cout << "\nEmployee Record node: " << bnode 
-       << " for Eid: " << eid << endl; 
-  if(!bnode) {			// can't find. 
-    cout << "\nSorry, Can't find record with EID: " 
-	 << eid << endl;
-    return false; 
-  } 
-  employee->deleteNode(bnode->getEmployeeRecord());
-  // Third, delete the BTreeNode from index tree. 
-  index->deleteNode(bnode);
-  return true; 
+void Database::deleteByEid(int eid) {
+  index->deleteByEid(employee, eid);
 }
