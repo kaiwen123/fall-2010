@@ -5,14 +5,13 @@ FILES
 
 LinkedNode.h - Declaration of Linked Node; 
 LinkedSortedList.h - Declaration of a Sorted Linked List; 
-BSTree.h - Declaration of BSTree and BTreeNode classes; 
-BSTree.cpp - Implementation of BSTree and BTreeNode classes; 
+bst.h - Declaration of BSTree and BTreeNode classes; 
+bst.cpp - Implementation of BSTree and BTreeNode classes; 
 SortedList.h - A base class for sorted list with pure virtual functions; 
 LinkedSortedList.cpp - Implementation of Linked Sorted List; 
 SortedVector.h - A vector version of the employee database with b-search; 
 SortedVector.cpp - Implementation of the SortedVector class; 
-main.cpp - A test program to test the implementation of LinkedSortedList. 
-main.vector.cpp - A test program to test the vector version.
+lab3.cpp - A test program to test the implementation of LinkedSortedList. 
 
 HOWTO 
 
@@ -25,8 +24,10 @@ FUNCTION DESCRIPTION
   functions for this project. 
   -- manually insert an Employee record by providing all employee info; 
   -- search the database with last name as keyword; 
+  -- search the database by employee id; 
+  -- delete database records by employee id; 
   -- save the employee records to a file, which can be read in again; 
-  -- load employee records from file; 
+  -- load employee records from file and delete all data when loading file.
   -- print all the employee records to stdout (additional); 
   -- print the total number of records of the employee list (additional);
   -- quit.
