@@ -55,6 +55,7 @@ class BTreeNode {
   inline void visit() {cout << eid_ << endl;}
   inline bool isLeafNode(){return (!getRightChild()) && (!getLeftChild());}
   inline bool isInternalNode(){return (!getRightChild() || !getLeftChild());}
+  inline bool isRoot(){return getParent() == NULL;}
 };
 
 class BSTree {

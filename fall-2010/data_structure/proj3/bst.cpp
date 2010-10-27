@@ -42,9 +42,27 @@ BTreeNode* BSTree::pickLeafNode(BTreeNode* node) {
 
 // Replace one node on tree with a given node.
 bool BSTree::replaceNode(BTreeNode* snode, BTreeNode* dnode) {
-  dnode->setParent(snode->getParent());
-  dnode->setLeftChild(snode->getLeftChild());
-  dnode->setRightChild(snode->getRightChild());
+  if(snode->isRoot()) setRoot(dnode); // set root. 
+  // dnode is from right subtree.
+  if(dnode->getEid() > snode->getEid()) { 
+    dnode->setLeftChild(snode->getLeftChild());
+    // Avoid replacing by itself. 
+    if(snode->getRightChild() != dnode) {
+      dnode->setRightChild(snode->getRightChild());
+    }
+    if(!dnode->isRoot()) {
+      snode->getParent()->setRightChild(dnode);
+    }
+  } else {			// dnode is from left subtree. 
+    dnode->setRightChild(snode->getRightChild());
+    // Avoid replacing by itself. 
+    if(snode->getLeftChild() != dnode) {
+      dnode->setLeftChild(snode->getLeftChild());
+    }
+    if(!dnode->isRoot()) {
+      snode->getParent()->setLeftChild(dnode);
+    }
+  }
   return true;
 }
 
@@ -98,13 +116,17 @@ bool BSTree::deleteNode(int eid) {
   BTreeNode *node = findNode(eid);
   if(!node) return false; 	// node doesn't exist. 
   if(node->isLeafNode() && (!node->getParent())) { // root.
+#ifdef DEBUG_DELETE_BYEID
     cout << "root node deleted." << endl; 
+#endif
     delete node; setNullRoot(); size--;
     return true; 
   }
   if(node->isLeafNode()) {	  // leaf node. 
     node = pickLeafNode(node); 
+#ifdef DEBUG_DELETE_BYEID
     cout << "leaf node deleted." << endl; 
+#endif
     delete node; size--;
     return true; 
   }
@@ -112,21 +134,15 @@ bool BSTree::deleteNode(int eid) {
   if(node->getRightChild()){
     BTreeNode *successor = getSmallest(node->getRightChild());
     if(successor->isLeafNode()) successor = pickLeafNode(successor);
+
 #ifdef DEBUG_DELETE_BYEID
     cout << "Before Replace: " 
 	 << "Current: " << node->getEid() 
 	 << " Replace by successor: " 
 	 << successor->getEid() << endl; 
 #endif
-    //replaceNode(node, successor);
-    if(node->getParent()) {
-      node->getParent()->setLeftChild(successor);
-    } else {
-      setRoot(successor);
-    }
-    successor->setLeftChild(node->getLeftChild());
-    // successor->setParent(node->getParent());
-    // successor->setLeftChild(node->getLeftChild());
+
+    replaceNode(node, successor);
 
 #ifdef DEBUG_DELETE_BYEID
     cout << "After Replace: " 
@@ -139,10 +155,13 @@ bool BSTree::deleteNode(int eid) {
   }
   // finally, the third situation. 
   if(node->getLeftChild()) {
+    // predecessor.
     replaceNode(node, node->getLeftChild());
+
 #ifdef DEBUG_DELETE_BYEID
     cout << "Replace by predecessor." << endl; 
 #endif
+
     delete node; size--;
     return true;
   }
@@ -164,6 +183,7 @@ bool BSTree::deleteByEid(LinkedSortedList<Employee>* employee,
     cout << "Employee Id " << eid << " doesn't exist. " << endl; 
     return false;
   }
+
 #ifdef DEBUG_DELETE_BYEID
   cout << "Before Deleting: " << node->getEid() << endl; 
   cout << "In Order traverse: " << endl; 
@@ -171,9 +191,11 @@ bool BSTree::deleteByEid(LinkedSortedList<Employee>* employee,
   cout << "Pre Order traverse: " << endl; 
   preOrderTraverse(getRoot());
 #endif
+
   LinkedNode<Employee>* enode = node->getEmployeeRecord();
   deleteNode(eid);
   employee->deleteNode(enode);
+
 #ifdef DEBUG_DELETE_BYEID
   cout << "After Deleting: " << node->getEid() << endl; 
   cout << "In Order traverse: " << endl; 
