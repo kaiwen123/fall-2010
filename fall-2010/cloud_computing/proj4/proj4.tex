@@ -29,7 +29,7 @@
 
 % Homework Specific Information
 \newcommand{\hmwkTitle}{Project\ \#4}
-\newcommand{\hmwkDueDate}{Nov.\ 1,\ 2010}
+\newcommand{\hmwkDueDate}{Oct.\ 31,\ 2010}
 \newcommand{\hmwkClass}{Cloud Computing}
 \newcommand{\hmwkClassTime}{MW\ 4:10-5:25pm}
 \newcommand{\hmwkClassInstructor}{Keke\ Chen}
@@ -86,6 +86,8 @@ AWS, especially your AWS ID and keys.
 Follow the steps we discussed in class to start an EC2 instance and to
 use S3, with both EC2 tools and boto library.
 
+\textbf{This part has been done without issues. }
+
 \underline{Second part:}
  
 Read the tutorial http://wiki.apache.org/hadoop/AmazonEC2 for setting
@@ -103,6 +105,188 @@ Copy the HadoopEC2 tool directory from the directory
 ~/ec2/. Go to ~/ec2/bin and start a hadoop cluster with hadoop-ec2
 script with 1 data node. Use ec2-describe-instances to find the
 external ip and internal ip for the instances.
+
+Commands that I have used: \\
+\begin{verbatim}
+ec2-describe-images -o amazon | grep public | grep -i fedora
+ec2-run-instances ami-f51aff9c -k gsg-keypair
+ec2-describe-instances i-dc22feb1
+ec2-authorize default -p 22
+ssh -i .ec2/id_rsa-gsg-keypair root@ec2-174-129-169-230.compute-1.amazonaws.com
+# Till now, I have successfully run an instance on ec2 and logged into
+# the system as root. 
+
+# Steps in creating a personalized image with hadoop. 
+# Following steps on EC2 official website, I have done following
+# work:
+# First, I need to upload the prirvate key the certificate from local
+# server to EC2 system using scp, but mine seems doesn't work, so, I
+# setup a ftp server and uploaded my files using ftp.
+ftp ec2-174-129-169-230.compute-1.amazonaws.com
+> put cert*.pem pk*.perm 
+
+# Then, with the following command, I created images bundled to the
+# /mnt filesystem.
+ec2-bundle-vol -d /mnt/ -k 
+~root/pk-GQCBBR74ZCXWRRKCNXYCOUUXPSM6JVAA.pem -c
+cert-GQCBBR74ZCXWRRKCNXYCOUUXPSM6JVAA.pem -u 869345430376 -s 1536 
+
+# I generated following output: 
+Please specify a value for arch [i386]: 
+Copying / into the image file /mnt/image...
+Excluding: 
+	 /sys
+	 /proc
+	 /sys/fs/fuse/connections
+	 /dev/pts
+	 /proc/sys/fs/binfmt_misc
+	 /dev
+	 /media
+	 /mnt
+	 /proc
+	 /sys
+	 /mnt/image
+	 /mnt/img-mnt
+1+0 records in
+1+0 records out
+1048576 bytes (1.0 MB) copied, 0.029888 s, 35.1 MB/s
+mke2fs 1.40.4 (31-Dec-2007)
+NOTE: rsync with preservation of extended file attributes failed. Retrying rsync
+without attempting to preserve extended file attributes...
+NOTE: rsync seemed successful but exited with error code 23. This probably means
+that your version of rsync was built against a kernel with HAVE_LUTIMES defined,
+although the current kernel was not built with this option enabled. The bundling
+process will thus ignore the error and continue bundling.  If bundling completes
+successfully, your image should be perfectly usable. We, however, recommend that
+you install a version of rsync that handles this situation more elegantly.
+Bundling image file...
+Created image.part.00
+Created image.part.01
+Created image.part.02
+Created image.part.03
+Created image.part.04
+Created image.part.05
+Created image.part.06
+Created image.part.07
+Created image.part.08
+Created image.part.09
+Created image.part.10
+Created image.part.11
+Created image.part.12
+Created image.part.13
+Created image.part.14
+Created image.part.15
+Created image.part.16
+Created image.part.17
+Created image.part.18
+Created image.part.19
+Created image.part.20
+Created image.part.21
+Created image.part.22
+Created image.part.23
+Created image.part.24
+Created image.part.25
+Created image.part.26
+Created image.part.27
+Created image.part.28
+Created image.part.29
+Created image.part.30
+Created image.part.31
+Created image.part.32
+Generating digests for each part...
+Digests generated.
+Unable to read instance meta-data for product-codes
+Creating bundle manifest...
+ec2-bundle-vol complete.
+
+# Then, I follow the step to upload my image to S3 using the following
+# command.
+# following command is optional. 
+ec2-bundle-image -c cert-GQCBBR74ZCXWRRKCNXYCOUUXPSM6JVAA.pem -k
+pk-GQCBBR74ZCXWRRKCNXYCOUUXPSM6JVAA.pem -u 869345430376 -i
+/mnt/image.manifest.xml 
+
+ec2-upload-bundle -b myfirstami -m /mnt/image.manifest.xml -a
+"AKIAIG3LY6E3ZN356JHQ" -s "Qf3DVlqk52GveizYWNlYVIyS/l/5/XSVdBfQDpQy"
+
+# Below is the output for bundle. 
+Please specify a value for arch [i386]: 
+Bundling image file...
+Splitting /tmp/image.manifest.xml.tar.gz.enc...
+Created image.manifest.xml.part.0
+Generating digests for each part...
+Digests generated.
+Creating bundle manifest...
+ec2-bundle-image complete.
+
+# Below is the output for uploading images to S3. 
+Creating bucket...
+Uploading bundled image parts to the S3 bucket myfirstami ...
+Uploaded image.part.00
+Uploaded image.part.01
+Uploaded image.part.02
+Uploaded image.part.03
+Uploaded image.part.04
+Uploaded image.part.05
+.
+.
+.
+Uploading manifest ...
+Uploaded manifest.
+Bundle upload completed.
+
+# Register AMI with EC2 on the local machine. 
+ec2-register myfirstami/image.manifest.xml
+IMAGE	ami-a27d89cb
+
+# Next, in order to avoid charges, let deregister our image and
+# deleted it from S3. 
+ec2-deregister ami-a27d89cb
+
+Deleting files:
+   - image.manifest.xml
+   - image.part.00
+   - image.part.01
+   - image.part.02
+   - image.part.03
+   - image.part.04
+   - image.part.05
+.
+.
+.
+Continue [y/N]: y
+Deleted image.manifest.xml
+Deleted image.part.00
+Deleted image.part.01
+Deleted image.part.02
+Deleted image.part.03
+Deleted image.part.04
+Deleted image.part.05
+.
+.
+.
+ec2-delete-bundle complete.
+
+# Terminate my instances. 
+ec2-terminate-instances i-86419deb
+
+# Testing hadoop installation. 
+# After successfully compiled hadoop, we need to test if it works
+# correctly. 
+start-all.sh 
+
+# I get
+# Permission denied (publickey,gssapi-with-mic).
+# In this case a public rsa key need to be generated as follows. 
+ssh-keygen -t rsa
+# Then use the following command to copy the key content to the
+# authorization file.  
+cat id_rsa.pub >> authorized_keys
+
+# Then run start-all.sh again. I got JAVA_HOME not set error.
+# After setting JAVA_HOME to /opt/jdk1.6.0_22/ , I can successfully
+# run hadoop on my local system. 
+\end{verbatim}
  
 Login the master node and check how the cluster is running. You can
 use hadoop fsck / to check the status. You will find the number of
