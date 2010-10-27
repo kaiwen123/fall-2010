@@ -257,7 +257,6 @@ void BSTree::findByEid(int eid) {
   cout << "\n" << cnt << " index nodes searched. Found";
   if(node) {
     cout << " 1 record:" << endl << endl; 
-    node->getEmployeeRecord()->getValue().print();
   } else {
     cout << " 0 record:" << endl << endl;
   }
