@@ -4,7 +4,7 @@ CPP = /usr/bin/g++
 #MACROS += -DDEBUG_LIST_DELETE
 #MACROS += -DDEBUG_DELETE_TREE
 #MACROS += -DDEBUG_DELETE_BYEID
-CPPFLAGS = -O2 -fPIC -ggdb3 $(MACROS)
+CPPFLAGS = $(MACROS)
 
 LD = /usr/bin/ld
 LDFLAGS = -L/usr/lib -L/lib
