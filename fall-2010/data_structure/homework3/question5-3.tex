@@ -1,16 +1,16 @@
 \begin{figure}[H]
   \vspace{-10pt}
   \begin{center}
-    \pstree[levelsep=5ex]{\Tcircle{20} }{
+    \pstree[levelsep=5ex]{\Tcircle{25} }{
       \pstree{\Tcircle{10}}{ % level - 1
-        \Tcircle{5}
-        \Tcircle{15}
-      }
-      \pstree{\Tcircle{25}} {
-        \Tcircle{21}
-        \pstree{\Tcircle{30}} {
-          \Tn\Tcircle{40}
+        \Tcircle{5}\Tn
+        \pstree{\Tcircle{20}} {
+          \Tcircle{15}
+          \Tcircle{21}
         }
+      }
+      \Tn\pstree{\Tcircle{30}} {
+        \Tn\Tcircle{40}
       }
     }
     \caption{Rebalanced Tree After Deleting 1.\label{fig:deleterebalanced}}
