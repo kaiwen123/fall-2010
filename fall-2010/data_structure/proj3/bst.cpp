@@ -148,13 +148,19 @@ bool BSTree::deleteNode(int eid) {
   BTreeNode *node = findNode(eid);
   if(!node) return false; 	// node doesn't exist. 
   if(node->isLeafNode() && (!node->getParent())) { // root.
+#ifdef DEBUG_DELETE_BYEID
     cout << "root node deleted." << endl; 
+#endif
     delete node; setNullRoot(); size--;
     return true; 
   }
   if(node->isLeafNode()) {	  // leaf node. 
+#ifdef DEBUG_DELETE_BYEID
+    cout << "leaf node deleted." << endl;
+    cout << "The parent of this node is: " 
+	 << node->getParent()->getEid() << endl;
+#endif
     node = pickLeafNode(node); 
-    cout << "leaf node deleted." << endl; 
     delete node; size--;
     return true; 
   }

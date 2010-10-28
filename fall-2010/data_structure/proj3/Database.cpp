@@ -103,12 +103,13 @@ bool Database::emptyDatabase() {
     cout << " done!" << endl; 
   } else {return false;}
 
-  cout << "Clearing index ..." << endl;
+  cout << "Clearing index ...";
 #ifdef DEBUG_DELETE_TREE
   cout << "Before index Deletion..." << endl;
   index->inOrderTraverse(index->getRoot());
 #endif
   index->destroyTree(index->getRoot());
+  cout << " done!" << endl;
 #ifdef DEBUG_DELETE_TREE
     cout << "size of tree now is: " << index->getSize() << endl; 
     cout << "After index Deletion..." << endl;
