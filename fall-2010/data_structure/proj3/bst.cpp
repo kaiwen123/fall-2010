@@ -31,9 +31,10 @@ BTreeNode* BSTree::pickLeafNode(BTreeNode* node) {
   }
   // Now, let's pick...
   BTreeNode *pnode = node->getParent(); // parent.
+  // remove linkage with the parent node. 
   if(pnode->getLeftChild() == node) {	// left child.
     pnode->setLeftChild(NULL);
-  } else if(pnode->getRightChild() == node) {
+  } else {
     pnode->setRightChild(NULL);
   }
   node->setParent(NULL);
@@ -45,22 +46,53 @@ bool BSTree::replaceNode(BTreeNode* snode, BTreeNode* dnode) {
   if(snode->isRoot()) setRoot(dnode); // set root. 
   // dnode is from right subtree.
   if(dnode->getEid() > snode->getEid()) { 
+    // Let the destination node release its resources. 
+    // The dnode has a right child, it is guaranteed to have no left
+    // children. 
+    if(dnode->getRightChild()){
+      if((dnode->getParent()) && (dnode->getParent() != snode)) {
+	dnode->getParent()->setLeftChild(dnode->getRightChild());
+      }
+    }
+    // Setting up new connection with other nodes. 
+    // Setting children.
     dnode->setLeftChild(snode->getLeftChild());
     // Avoid replacing by itself. 
     if(snode->getRightChild() != dnode) {
       dnode->setRightChild(snode->getRightChild());
     }
-    if(!dnode->isRoot()) {
-      snode->getParent()->setRightChild(dnode);
+    // Setting parent. 
+    if(snode->getParent()) {
+      if(snode->getParent()->getRightChild() == snode) {
+	snode->getParent()->setRightChild(dnode);
+      } else {
+	snode->getParent()->setLeftChild(dnode);
+      }
+    } else {
+      setRoot(dnode);
     }
   } else {			// dnode is from left subtree. 
+    // release connection for dnode. 
+    if(dnode->getLeftChild()){
+      if((dnode->getParent()) && (dnode->getParent() != snode)) {
+	dnode->getParent()->setRightChild(dnode->getLeftChild());
+      }
+    }
+    // settting up the children.
     dnode->setRightChild(snode->getRightChild());
     // Avoid replacing by itself. 
     if(snode->getLeftChild() != dnode) {
       dnode->setLeftChild(snode->getLeftChild());
     }
-    if(!dnode->isRoot()) {
-      snode->getParent()->setLeftChild(dnode);
+    // Setting up the parent. 
+    if(snode->getParent()) {
+      if(snode->getParent()->getRightChild() == snode) {
+	snode->getParent()->setRightChild(dnode);
+      } else {
+	snode->getParent()->setLeftChild(dnode);
+      }
+    } else {
+      setRoot(dnode);
     }
   }
   return true;
@@ -116,17 +148,13 @@ bool BSTree::deleteNode(int eid) {
   BTreeNode *node = findNode(eid);
   if(!node) return false; 	// node doesn't exist. 
   if(node->isLeafNode() && (!node->getParent())) { // root.
-#ifdef DEBUG_DELETE_BYEID
     cout << "root node deleted." << endl; 
-#endif
     delete node; setNullRoot(); size--;
     return true; 
   }
   if(node->isLeafNode()) {	  // leaf node. 
     node = pickLeafNode(node); 
-#ifdef DEBUG_DELETE_BYEID
     cout << "leaf node deleted." << endl; 
-#endif
     delete node; size--;
     return true; 
   }
@@ -134,15 +162,23 @@ bool BSTree::deleteNode(int eid) {
   if(node->getRightChild()){
     BTreeNode *successor = getSmallest(node->getRightChild());
     if(successor->isLeafNode()) successor = pickLeafNode(successor);
-
 #ifdef DEBUG_DELETE_BYEID
     cout << "Before Replace: " 
 	 << "Current: " << node->getEid() 
 	 << " Replace by successor: " 
 	 << successor->getEid() << endl; 
 #endif
-
     replaceNode(node, successor);
+    // successor->setLeftChild(node->getLeftChild());
+    // if(node->getParent()) {
+    //   if(node->getParent()->getRightChild() == node) {
+    // 	node->getParent()->setRightChild(successor);
+    //   } else {
+    // 	node->getParent()->setLeftChild(successor);
+    //   }
+    // } else {
+    //   setRoot(successor);
+    // }
 
 #ifdef DEBUG_DELETE_BYEID
     cout << "After Replace: " 
@@ -155,13 +191,13 @@ bool BSTree::deleteNode(int eid) {
   }
   // finally, the third situation. 
   if(node->getLeftChild()) {
-    // predecessor.
     replaceNode(node, node->getLeftChild());
-
+    // node->getLeftChild()->setRightChild(node->getRightChild());
+    // if(node->isRoot()) setRoot(node->getLeftChild());
+    // else node->getParent()->setLeftChild(node->getLeftChild());
 #ifdef DEBUG_DELETE_BYEID
     cout << "Replace by predecessor." << endl; 
 #endif
-
     delete node; size--;
     return true;
   }
@@ -183,7 +219,6 @@ bool BSTree::deleteByEid(LinkedSortedList<Employee>* employee,
     cout << "Employee Id " << eid << " doesn't exist. " << endl; 
     return false;
   }
-
 #ifdef DEBUG_DELETE_BYEID
   cout << "Before Deleting: " << node->getEid() << endl; 
   cout << "In Order traverse: " << endl; 
@@ -191,11 +226,9 @@ bool BSTree::deleteByEid(LinkedSortedList<Employee>* employee,
   cout << "Pre Order traverse: " << endl; 
   preOrderTraverse(getRoot());
 #endif
-
   LinkedNode<Employee>* enode = node->getEmployeeRecord();
   deleteNode(eid);
   employee->deleteNode(enode);
-
 #ifdef DEBUG_DELETE_BYEID
   cout << "After Deleting: " << node->getEid() << endl; 
   cout << "In Order traverse: " << endl; 
@@ -257,6 +290,7 @@ void BSTree::findByEid(int eid) {
   cout << "\n" << cnt << " index nodes searched. Found";
   if(node) {
     cout << " 1 record:" << endl << endl; 
+    node->getEmployeeRecord()->getValue().print();
   } else {
     cout << " 0 record:" << endl << endl;
   }

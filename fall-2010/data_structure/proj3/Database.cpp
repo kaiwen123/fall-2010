@@ -111,7 +111,6 @@ bool Database::emptyDatabase() {
   index->destroyTree(index->getRoot());
 #ifdef DEBUG_DELETE_TREE
     cout << "size of tree now is: " << index->getSize() << endl; 
-    cout << index->getRoot() << endl; 
     cout << "After index Deletion..." << endl;
     index->inOrderTraverse(index->getRoot());
 #endif
