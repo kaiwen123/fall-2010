@@ -13,23 +13,27 @@
 #include <fstream>
 #include "defs.h"
 #include "HashTree.h"
-#include "DataStore.h"
+//#include "DataStore.h"
 
 using namespace std; 
 
 class DataSet {
  private: 
-  vector<GeneData> f_sets; /* Feature sets. */
-  vector<TransData> t_sets; 	/* transaction data sets. */
+  int gnum;			/* number of genes. */
+  int tnum;			/* number of transactions. */
+  vector<vector<Item> > d_sets; /* Feature sets. */
 
  public:
-  DataSet();	    /* Default constructor. */
-  DataSet(int num_f);   /* Constructor with number of features. */
-  ~DataSet(){f_sets.clear();}
+  DataSet(){}
+ DataSet(int g, int t):gnum(g),tnum(t){} /* Default constructor. */
+  ~DataSet(){}
 
   /* getters. */
-  int getNumFeatures() const {return f_sets.size();}
-  int getNumTrans() const {return t_sets.size();}
+  int getNumGenes() const {return gnum;}
+  int getNumTrans() const {return tnum;}
+
+  /* Setters. */
+
 
   /**
    * @brief Load gene data from file.
@@ -68,9 +72,9 @@ class DataSet {
 
   /**
    * @brief Insert data into gene vector. 
-   * @param f_id id number of feature. 
-   * @param f_data data to be inserted into the gene feature data set. 
-   * @param g_class class that this gene belongs to. 
+   * @param row_num row number of inserted item.
+   * @param col_num column number of inserted item.
+   * @param str item information.
    * @return true on success and false on failure. 
    */
   bool insertData(int row_num, int col_num, string str); 

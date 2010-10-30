@@ -2,13 +2,6 @@
 #include <cstdio> 		/* for sprintf() */
 #include <algorithm>		// for sort algorithm
 
-// Default constructor. 
-DataSet::DataSet() {}
-
-// Constructor with number of features. 
-DataSet::DataSet(int num_f) {
-}
-
 // Load gene data from file.  
 bool DataSet::loadFromFile(string fname) {
   fstream fdata; 
@@ -19,6 +12,8 @@ bool DataSet::loadFromFile(string fname) {
   gene_class_t d_class; 	// class of gene.
   DataSet* pDataSet = NULL; // pointer to gene data set. 
   int row = -1, col = -1; 
+  int totalrow, totalcol;
+  //vector<vector<char> > tdata; 	// temp data storage.
   cout << "Start loading data ... " << endl; 
   while(fdata) {
     if(!fdata.good()) {
@@ -26,18 +21,23 @@ bool DataSet::loadFromFile(string fname) {
     }
     getline(fdata, line, fdata.widen('\n'));
     row++;			// row count.
-    
+    vector<Item> td;
+    // Parsing row data.
     while(1) {
       int poscomma = line.find(',',0);
       if(poscomma!=string::npos) {
 	string tmp=line.substr(0, poscomma);
 	col++;
-	insertData(row, col, tmp); // Insert into dataset. 
+	td.push_back(Item(tmp[0]));
+	//insertData(row, col, tmp); // Insert into dataset. 
 	line=line.substr(poscomma+1,line.size()-poscomma).c_str();
       } else {
 	col++;
 	if(row > 0 && col > 0) {
-	  insertData(row, col, line); 
+	  td.push_back(Item(line[0]));
+	  d_sets.push_back(td);
+	  //insertData(row, col, line); 
+	  totalrow = row; totalcol = col;
 #ifdef DEBUG_DATA_LOAD
 	  cout << "load " << col 
 	       << " cols. " 
@@ -51,13 +51,21 @@ bool DataSet::loadFromFile(string fname) {
   } //while(fdata)
   fdata.close();
   int num_tissues = getNumTrans();
-  int num_genes = getNumFeatures();
+  int num_genes = getNumGenes();
 
   // Statistics. 
   cout << "Finished loading data. " << endl
-       << "Totally loaded " << row
-       << " lines and " << col
+       << "Totally loaded " << totalrow+1
+       << " lines and " << totalcol+1
        << " columns of data." << endl;
+
+  for(int i = 0; i < totalrow; i++){
+    for(int j = 0; j < totalcol+1; j++){
+      cout << d_sets[i][j] << ",";
+    }
+    cout << endl;
+  }
+  cout << d_sets[0].size() << endl; 
   
   // cout << "Please input number of genes(k) to process: ";
   // while(!(cin >> k)||(cin.get() != '\n')
@@ -105,10 +113,24 @@ bool DataSet::insertData(int row_num, int col_num, string str) {
        << " col: " << col_num
        << " content: " << str << endl;
 #endif
-  // First, create data item. 
+  // First, create data item.
+  char grp = str[0];
+  Item item(grp);
 
   // Then, insert the data item into the vector. 
+  // Store column-wise. 
+  // if(getNumGenes() < col_num+1) {
+  //   GeneData gset();
+  //   addGeneDataObj(gset);
+  // }
+  // d_sets.at(col_num).push_back(item);
 
+  // // Store row-wise.
+  // if(getNumTrans() < row_num+1) {
+  //   TransData tset();
+  //   addTransDataObj(tset);
+  // }
+  // t_sets.at(row_num).push_back(item);
 //   char buf[6]; sprintf(buf, "%d", f_id);
 //   if(f_sets.at(f_id).getFid() == "")
 //     f_sets.at(f_id).setFid("G"+string(buf));

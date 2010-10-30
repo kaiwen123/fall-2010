@@ -15,22 +15,21 @@ using namespace std;
 
 class Item {
  private: 
-  char i_class;			/* Anotated gene class value */
+  //char i_class;			/* Anotated gene class value */
   char i_group;			/* Group information 'a,b,c,d'*/
   int i_id;			/* unique item id. */
 
  public:
-  Item(); 
-  Item(char grp, char cls);
+ Item(char grp):i_group(grp){cout << "item: "<<grp << endl;}
   ~Item(){}
   
   /* getter */
-  char getClass()const{return i_class;}
+  //char getClass()const{return i_class;}
   char getGroup()const{return i_group;}
   int getId() const {return i_id;}
 
   /* setter */
-  void setClass(char c){i_class = c;}
+  //void setClass(char c){i_class = c;}
   void setGroup(char g){i_group = g;}
   void setId(int id){i_id = id;}
 

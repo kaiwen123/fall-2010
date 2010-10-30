@@ -16,22 +16,18 @@
 
 using namespace std; 
 class Itemset {
- private:    
-  string i_set;			/* item set content. */
+ private:
+  vector<Item> is_items;	/* a set of items. */
   string removeLastChar();	/* helper function for joining. */
 
  public:
   /* a ctors. */
   Itemset();
-  Itemset(string set);
   ~Itemset();
 
   /* getters. */
-  string getItemset() const {return i_set;}
-  int getLevel() const {return i_set.size();} /* which level on tree. */
 
   /* setters. */
-  void setItemset(string s) {i_set = s;}
 
   /**
    * @brief Test if this item set is joinable with another one? 
@@ -56,8 +52,8 @@ class Itemset {
    * @return output stream. 
    */
   friend ostream& operator<<(ostream& out, Itemset& set) {
-    out << set.getItemset() << endl;
-    return out; 
+    /* out << set.getItemset() << endl; */
+    /* return out; */ 
   }
 };
 
