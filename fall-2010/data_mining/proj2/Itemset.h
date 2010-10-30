@@ -13,21 +13,27 @@
 #define _ItemsetClass_ 
 #include "defs.h"
 #include "Item.h"
+#include <vector>
 
 using namespace std; 
 class Itemset {
  private:
   vector<Item> is_items;	/* a set of items. */
-  string removeLastChar();	/* helper function for joining. */
+  Item& getLastItem();		/* helper function for joining. */
 
  public:
   /* a ctors. */
   Itemset();
+  Itemset(const Itemset& set);
+  Itemset& operator=(const Itemset& set);
   ~Itemset();
 
   /* getters. */
+  int getSize() const {return is_items.size();} 
+  vector<Item> getSet()const{return is_items;}
 
   /* setters. */
+  Itemset& pushBack(Item& item); /* add item to set. */
 
   /**
    * @brief Test if this item set is joinable with another one? 
@@ -42,7 +48,7 @@ class Itemset {
    * @param set The OTHER set that is to join with *this* one. 
    * @return true on yes and false on no.
    */
-  string join(Itemset& set);
+  Itemset& join(Itemset& set);
 
   /**
    * @brief Overloading the << operator to output the content of this
@@ -51,10 +57,11 @@ class Itemset {
    * @param set Itemset object to operate on. 
    * @return output stream. 
    */
-  friend ostream& operator<<(ostream& out, Itemset& set) {
-    /* out << set.getItemset() << endl; */
-    /* return out; */ 
-  }
+  friend ostream& operator<<(ostream& out, const Itemset& set);
+  bool operator==(Itemset& set);
+  //bool operator<(Itemset& set);
+  Item& operator[](int idx){return is_items[idx];}
 };
-
+bool operator<(const Itemset& set1, const Itemset& set2);
+bool operator>(const Itemset& set1, const Itemset& set2);
 #endif //ifdef

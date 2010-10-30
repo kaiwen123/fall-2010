@@ -1,5 +1,6 @@
 CPP = /usr/bin/g++
 #MACROS += -DDEBUG_DATA_LOAD
+#MACROS += -DDEBUG_ITEM_MAP
 MACROS += -DDEBUG_ITEM
 MACROS += -DDEBUG_ITEMSET
 MACROS += -DDEBUG_HASHTREE
@@ -14,8 +15,7 @@ EXECUTABLE = AssoRuleMiner
 DOX = /usr/bin/doxygen
 DOXCONF = Doxygen
 
-SRC = main.cpp DataSet.cpp #GeneData.cpp HashTree.cpp  \
-	Item.cpp Itemset.cpp 
+SRC = main.cpp DataSet.cpp Itemset.cpp #HashTree.cpp
 
 OBJ = $(SRC:.cpp=.o)
 

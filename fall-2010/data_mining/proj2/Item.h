@@ -20,7 +20,15 @@ class Item {
   int i_id;			/* unique item id. */
 
  public:
- Item(char grp):i_group(grp){cout << "item: "<<grp << endl;}
+ Item(char grp):i_group(grp){
+#ifdef DEBUG_DATA_LOADI   
+    cout << "item: "<<grp << endl;
+#endif
+  }
+  Item(const Item& item) {
+    i_group = item.getGroup();
+    i_id = item.getId();
+  }
   ~Item(){}
   
   /* getter */
@@ -32,7 +40,13 @@ class Item {
   //void setClass(char c){i_class = c;}
   void setGroup(char g){i_group = g;}
   void setId(int id){i_id = id;}
+  Item& operator=(const Item& item){
+    if(this == &item) return *this;
 
+    i_group = item.getGroup();
+    i_id = item.getId();
+    return *this;
+  }
   /**
    * @brief Overloading comparison operators. 
    * @param item rhs Item object. 
@@ -40,6 +54,7 @@ class Item {
    * return true, otherwise return false.
    */
   bool operator==(Item& item){return getId() == item.getId();}
+  bool operator!=(Item& item){return getId() != item.getId();}
   bool operator>(Item& item){return getId() > item.getId();}
   bool operator<(Item& item){return getId() < item.getId();}
   bool operator>=(Item& item){return getId() >= item.getId();}
@@ -52,7 +67,7 @@ class Item {
    * @return output stream. 
    */
   friend ostream& operator<<(ostream& out, Item const& item) {
-    out << item.getGroup();
+    out << /* item.i_group; */item.getId();
     return out;
   } 
 };

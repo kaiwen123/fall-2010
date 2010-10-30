@@ -28,16 +28,26 @@ int main(int argc, char *argv[]) {
     return 0;
   }
   string fname; 
-  fname = string("p2entbindata.txt"); // p2entbindata.txt | p2eqbindata.txt
+  // p2entbindata.txt | p2eqbindata.txt
+  //fname = string("p2entbindata.txt"); 
+  fname = string("5d1"); 
   pDataSet->loadFromFile(fname);
 
   // Do Item mapping, which will map the gene data into uniq ids for
-  // different genes. 
-  //pDataSet->doItemMap();
+  // different genes.
+  cout << "Doing Item mapping.....";
+  pDataSet->doItemMap();
 
   // Save the mapped unique gene data into file. 
-  //fname = string("p2ItemMap.txt"); 
-  //pDataSet->saveItemMap(fname); 
+  fname = string("p2ItemMap.txt"); 
+  pDataSet->saveItemMap(fname); 
+
+  cout << "done!" << endl;
+
+  //pDataSet->printLevelOne();
+
+  pDataSet->scanLevelTwo();
+  pDataSet->printLevelTwo();
 
   // Do the APRIORI association rule mining. 
   //pDataSet->doApriori(); 
