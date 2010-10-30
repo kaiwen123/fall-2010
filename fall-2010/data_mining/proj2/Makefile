@@ -1,14 +1,11 @@
 CPP = /usr/bin/g++
-#MACROS += -DPRINT_GAIN_INFO
-#MACROS += -DDEBUG_DATA
-#MACROS += -DDEBUG_DATA_ENTROPY
-#MACROS += -DDEBUG_INFO_GAIN
-#MACROS += -DDEBUG_K_TOP
-#MACROS += -DDEBUG_DATA_SET
-#MACROS += -DDEBUG_BINS
-#MACROS += -DDEBUG_ITEM
-#MACROS += -DDEBUG_BINS_ENTROPY
-#MACROS += -DSORT_ENTROPY
+MACROS += -DDEBUG_DATA_LOAD
+MACROS += -DDEBUG_ITEM
+MACROS += -DDEBUG_ITEMSET
+MACROS += -DDEBUG_HASHTREE
+MACROS += -DDEBUG_GENEDATA
+MACROS += -DDEBUG_DATASET
+
 CPPFLAGS = -fPIC -O2 -ggdb3 $(MACROS)
 LD = /usr/bin/ld
 LDFLAGS = -L/usr/lib -L/lib
@@ -17,8 +14,9 @@ EXECUTABLE = AssoRuleMiner
 DOX = /usr/bin/doxygen
 DOXCONF = Doxygen
 
-SRC = HashTree.cpp main.cpp GeneDataSet.cpp GeneFeatureData.cpp \
-	GeneFeatureItem.cpp 
+SRC = main.cpp DataSet.cpp #GeneData.cpp HashTree.cpp  \
+	Item.cpp Itemset.cpp 
+
 OBJ = $(SRC:.cpp=.o)
 
 all: $(EXECUTABLE)

@@ -1,8 +1,18 @@
 Implementing the loader(to be debugged.) and mapper. 
 - gene_feature_t should be a char rather than string. 
 
-Implementing the apriori algorithm. 
+Oct 28. 2010 
+- Load Data
+- do mapping
+- save mapping to file. 
 
-Frequent item sets. 
+Oct 29. 2010 
+- Level one and two implementation
+- HashTree Implementation. 
 
-association rules. 
+Oct 30. 2010
+- Joining and pruning. 
+
+Oct 31. 2010
+- Test with the above implementations. 
+
