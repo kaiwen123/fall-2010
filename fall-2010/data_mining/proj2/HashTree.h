@@ -28,32 +28,103 @@
 #include <vector>
 #include "defs.h"
 #include "Itemset.h"
+#include <queue>
+#include <map>
 
 using namespace std; 
+
 class HashNode {
- private:    
-  HashNode *parent;		/* parent of node. */
+ private:
+  int level;		    /* in which level does this node lie? */
+  int hvalue;		    /* hash value, identify branch of tree. */
+  HashNode *parent;	    /* parent of node. */
   vector<HashNode*> children; 	/* children of node. */
-  vector<Itemset> freq_sets;	/* frequent itemsets. */
+  map<Itemset, int> item_sets;	/* item sets. */
 
  public:
+  HashNode();
+  ~HashNode();
   /* getters. */
   HashNode* getParent() const {return parent;}
-  vector<HashNode*> getChildren() const {return children;}
-  vector<Itemset> getFreqsets() const {return freq_sets;}
+  int getNumChildren() const {return children.size();}
+  int getNumFreqSets() const {return item_sets.size();}
+  int getNodeLevel() const {return level;}
+  int getHashValue() const {return hvalue;}
+  string getHashKey() {return itoa(level)+":"+itoa(hvalue);}
+  void visit();
+  vector<HashNode*>& getChildren() {return children;}
+  map<Itemset, int>& getFreqsets() {return item_sets;}
+
+  /* setters. */
+  void setParent(HashNode* p) {parent = p;}
+  void setNodeLevel(int l) {level = l;}
+  void setNodeHvalue(int hv) {hvalue = hv;}
+
+  bool addChild(HashNode *child);
+  bool insertFreqSet(Itemset& set){item_sets[set] = 1;}
+  bool removeFreqSet(Itemset& set);
+  bool findFreqSet(Itemset& set);
+
+  /**
+   * @brief Join item sets within the current node. 
+   * @param sets A vector of joined sets.
+   * @return true on success and false on failure.
+   */
+  bool joinSameParentSets(vector<Itemset>& sets);
 };
 
 class HashTree {
  private: 
-  int level; 
-  int num_nodes;
-  HashNode *root; 
-  //vector<> nodeindex; 		/* level node index of tree. */
+  int height; 			/* Height of tree. */
+  int num_nodes;		/* total number of nodes in tree. */
+  HashNode *root; 		/* root of tree. */
+  vector<HashNode*> kindex;	/* level k node index of tree. */
+  vector<HashNode*> k1index;	/* level k+1 node index of tree. */
 
  public:
-  int getLevel() const {return level;}
-  int getNumNodes() const {return num_nodes;}
+  HashTree();
 
+  /* getters */
+  int getHeight() const {return height;}
+  int getNumNodes() const {return num_nodes;}
+  HashNode* getRoot() {return root;}
+  vector<HashNode*>& getKindex() {return kindex;}
+  vector<HashNode*>& getK1index() {return k1index;}
+  int getKindexSize() const {return kindex.size();}
+  int getK1indexSize() const {return k1index.size();}
+
+  /* setters. */
+  void setHeight(int ht) {height = ht;}
+  void setNumNodes(int num) {num_nodes = num;}
+  void addNodeToIndex(HashNode* node){getKindex().push_back(node);}
+
+  /**
+   * @brief Insert a node into the hash tree structure. 
+   * @param parent The parent of the inserted node.
+   * @param node The node to be inserted.
+   * @return true on success and false on failure.
+   */
+  bool insertNode(HashNode *parent, HashNode *node);
+  bool insertItemset(Itemset& set);
+
+  /**
+   * @brief Do join the pruning of item sets within a level. 
+   * @param level Level of tree to work on. 
+   * @return true on success and false on failure.
+   */
+  bool doJoinGrow(int level);
+  /**
+   * @brief Traverse tree in level order, mainly for debugging
+   * purposes.
+   * @param level The level to traverse. 
+   * @return true on success and false on failure.
+   */
+  bool levelTraverse(HashNode* root);
+
+  /**
+   * @brief Print all the content of the whole tree.
+   */
+  void printTree();
 };
 
 #endif //ifdef

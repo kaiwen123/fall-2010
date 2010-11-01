@@ -14,12 +14,12 @@
 #include "defs.h"
 #include "Item.h"
 #include <vector>
+#include <assert.h>
 
 using namespace std; 
 class Itemset {
  private:
   vector<Item> is_items;	/* a set of items. */
-  Item& getLastItem();		/* helper function for joining. */
 
  public:
   /* a ctors. */
@@ -31,9 +31,13 @@ class Itemset {
   /* getters. */
   int getSize() const {return is_items.size();} 
   vector<Item> getSet()const{return is_items;}
+  Item getLastItem();		/* helper function for joining. */
+  Item getSndLastItem();	/* get second last. */
+  string calcKeyStr(int level);		/* used to calculate the key string. */
 
   /* setters. */
   Itemset& pushBack(Item& item); /* add item to set. */
+  bool clear(){is_items.clear();} /* remove all sets. */
 
   /**
    * @brief Test if this item set is joinable with another one? 
@@ -48,7 +52,7 @@ class Itemset {
    * @param set The OTHER set that is to join with *this* one. 
    * @return true on yes and false on no.
    */
-  Itemset& join(Itemset& set);
+  Itemset join(Itemset& set);
 
   /**
    * @brief Overloading the << operator to output the content of this
@@ -59,9 +63,9 @@ class Itemset {
    */
   friend ostream& operator<<(ostream& out, const Itemset& set);
   bool operator==(Itemset& set);
-  //bool operator<(Itemset& set);
   Item& operator[](int idx){return is_items[idx];}
 };
 bool operator<(const Itemset& set1, const Itemset& set2);
 bool operator>(const Itemset& set1, const Itemset& set2);
+bool isJoinable(Itemset& set1, Itemset& set2);
 #endif //ifdef

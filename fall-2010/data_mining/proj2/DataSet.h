@@ -16,39 +16,37 @@
 #include <map>
 
 using namespace std; 
-class DataSetLessThan;
 class DataSet {
  private: 
-  int gnum;			/* number of genes. */
-  int tnum;			/* number of transactions. */
+  int minSup; 			/* minimum support. */
+  float minConf;		/* minimum confidence. */
+  int gnum;			/* total number of genes. */
+  int tnum;			/* total number of transactions. */
   vector<vector<Item> > d_sets; /* Feature sets. */
   map<int, int> fst;		/* first level item sets. */
-  map<Itemset, int/* , DataSetLessThan */> snd; /* Second level item sets. */
-  /* map<string, pair<Itemset, int> > snd;	/\* Second level item sets. *\/ */
-  /* 	if(!snd[key]){ */
-  /* 	  pair<Itemset, int> cnt(set1, 1); */
-  /* 	  snd[key].second = cnt; */
-  /* 	} else { */
-  /* 	  snd[key].second++; */
-  /* 	} */
+  map<Itemset, int> snd;	/* Second level item sets. */
+  HashTree *hroot;		/* the root of hash tree. */
+
  public:
-  DataSet(){}
- DataSet(int g, int t):gnum(g),tnum(t){} /* Default constructor. */
+  DataSet();
   ~DataSet(){}
 
   /* getters. */
   int getNumGenes() const {return gnum;}
   int getNumTrans() const {return tnum;}
+  int getMinSupport() {return minSup;}
+  float getMinConf() {return minConf;}
 
   /* Setters. */
+  void setMinSupport(int sup) {minSup = sup;}
+  void setMinConf(float conf) {minConf = conf;}
   void setNumGenes(int g) {gnum = g;}
   void setNumTrans(int t) {tnum = t;}
 
   /* Scanners. */
   void scanLevelOne(int id);
-  void printLevelOne();
+  void printLevelFreqSets(int level);
   void scanLevelTwo();
-  void printLevelTwo();
 
   /**
    * @brief Load gene data from file.
@@ -111,20 +109,5 @@ class DataSet {
   void findTopkGene(int k); 
   void printInfoGain();
 };
-
-/* class DataSetLessThan { */
-/*  public: */
-/*   bool operator()(const Itemset& set1, const Itemset& set2) const { */
-/*     if(set1.getSize() != set2.getSize()) return false; */
-/*     bool result = true; */
-/*     for(int i = 0; i < set1.getSize(); i++) { */
-/*       result = result && (set1.getSet()[i] < set2.getSet()[i]); */
-/*       //cout << set1.getSet()[i] << " " << set2.getSet()[i] << endl; */
-/*       //if(set1.getSet()[i] >= set2.getSet()[i]) return false; */
-/*     } */
-/*     cout << set1 << " < " << set2 << " " << result << endl; */
-/*     return result; */
-/*   } */
-/* }; */
 
 #endif //ifdef

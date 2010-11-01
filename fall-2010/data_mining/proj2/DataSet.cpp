@@ -1,6 +1,12 @@
 #include "DataSet.h"
 #include <cstdio> 		/* for sprintf() */
 
+DataSet::DataSet(){
+  minSup = gnum = tnum = 0;
+  minConf = 0.0;
+  hroot = NULL;
+}
+
 // Load gene data from file.  
 bool DataSet::loadFromFile(string fname) {
   fstream fdata; 
@@ -59,14 +65,6 @@ bool DataSet::loadFromFile(string fname) {
        << " columns of data." << endl;
 
   cout << "Load successful ..." << endl; 
-  // cout << "Please input number of genes(k) to process: ";
-  // while(!(cin >> k)||(cin.get() != '\n')
-  // 	||!(k>=0 && k<=num_genes)) {
-  //   cin.clear(); cin >> noskipws;
-  //   cin.ignore(1000, '\n');
-  //   cout << "please enter an integer within range: ["
-  // 	 << "0, " << num_genes << "]: ";
-  // }
 }
 
 // Map gene data into unique identifiers. 
@@ -122,29 +120,28 @@ void DataSet::scanLevelTwo(){
 	} else {
 	  snd[set1]++;
 	}
+#ifdef DEBUG_LEVEL_TWO
 	cout << " key: " << set1
 	     << " count: " << snd[set1]
 	     << endl;
+#endif
       }
+    }
+  }
+  // Remove itemsets with frequency < minimum Support. 
+  map<Itemset, int>::iterator it; 
+  for(it = snd.begin(); it != snd.end(); it++) {
+    if((*it).second < getMinSupport()) {
+#ifdef DEBUG_APRIORI_PRUNE
+      cout << "Remove: " << (*it).first 
+	   << " - " << (*it).second 
+	   << " < " << getMinSupport() << endl;
+#endif
+      snd.erase((*it).first);
     }
   }
 }
 
-// Print level one item set frequencies. 
-void DataSet::printLevelOne(){
-  map<int, int>::iterator it; 
-  for(it = fst.begin(); it != fst.end(); it++) {
-    cout << (*it).first << ":" << (*it).second << endl;
-  }
-}
-
-// Print level two item set frequencies. 
-void DataSet::printLevelTwo(){
-  map<Itemset, int>::iterator it; 
-  for(it = snd.begin(); it != snd.end(); it++) {
-    cout << (*it).first << ":" << (*it).second << endl;
-  }
-}
 // Save item map into given file. 
 bool DataSet::saveItemMap(string fname) {
   ofstream fdata(fname.c_str());
@@ -163,8 +160,82 @@ bool DataSet::saveItemMap(string fname) {
 }
 
 // Do apriori association rule mining to the gene set. 
+// nindex is used to store the index of all the nodes of 
+// the hash tree.
 bool DataSet::doApriori() {
+  // Scanning for level two item sets. 
+  scanLevelTwo();
+  // First we need to build level one two for the tree.
+  // iteratively do APRIORI of other levels. 
+  hroot = new (nothrow) HashTree();
+  map<string, HashNode*> nindex; // node index of tree.
+  map<Itemset, int>::iterator it; 
+  queue<HashNode*> qapriori;	// A queue for iterative apriori.
+  HashNode *prt;		// parent of to-be-inserted node.
+  Itemset set;
+  for(it = snd.begin(); it != snd.end(); it++) {
+    set.clear();
+    Itemset iset = const_cast<Itemset&>((*it).first);
+    cout << "working for Set: " << iset << endl;	
+    for(int i = 0; i < iset.getSize(); i++) {
+      Item itm = iset[i]; set.pushBack(itm);
+      int hcode = hashfunc(itm.getId());
+      int lvl = set.getSize();
+      string nkey = set.calcKeyStr(lvl);
+      if(nindex.find(nkey) == nindex.end()) { // no node exists.
+	HashNode *node = new (nothrow) HashNode();
+	if(!node) {cerr << "Can't create node." << endl; return false;}
+	nindex.insert(pair<string, HashNode*>(nkey, node));
+	node->insertFreqSet(set);
+	node->setNodeLevel(lvl);
+	node->setNodeHvalue(hcode);
+	cout << "Create node with key: " << nkey << endl;
+#ifdef DEBUG_HASH_INSERTSET
+      cout << "insert itemset: " << set
+	   << " into node " << nindex[nkey]->getNodeLevel()
+	   << ":" << nindex[nkey]->getHashValue() << endl;
+#endif
+	if(lvl == 1) {		// level one
+	  prt = hroot->getRoot(); 	  
+	} else {		// level higher than one.
+	  string key = set.calcKeyStr(lvl-1);
+	  prt = nindex[key];
+	  qapriori.push(node); 
+	  cout << "size of queue:" << qapriori.size()<< endl;
+	}
+	hroot->insertNode(prt, node); 
+      } else {			// node already exists.
+	// if can't find set, then insert into node.
+	if(!nindex[nkey]->findFreqSet(set)){ 
+	  nindex[nkey]->insertFreqSet(set);
+#ifdef DEBUG_HASH_INSERTSET
+      cout << "insert itemset: " << set
+	   << " into node " << nindex[nkey]->getNodeLevel()
+	   << ":" << nindex[nkey]->getHashValue() << endl;
+#endif
+	} // if node exist but set not in node.
+      } // if node already exists.
+    }
+  } // for 
+  //printLevelFreqSets(2);
 
+  // Now let's iteratively do other levels of join and pruning.
+  HashNode *node;
+  vector<Itemset> sets; 	// sets after join. 
+  while(!qapriori.empty()) {
+    // get Hash tree node. 
+    node = qapriori.front(); qapriori.pop(); 
+    cout << "working for node : " << node->getHashKey() << endl;
+    // join itemsets in this node. 
+    if(node->joinSameParentSets(sets)){
+      vector<Itemset>::iterator it; 
+      for(it = sets.begin(); it != sets.end(); it++) {
+	cout << *it << " "; 
+      }
+      cout << endl;
+    }
+  }
+  hroot->levelTraverse(hroot->getRoot());
 }
 
 // Save frequent itemsets into given file.
@@ -182,52 +253,34 @@ bool DataSet::insertData(int row_num, int col_num, string str) {
   char grp = str[0];
   Item item(grp);
 
-  // Then, insert the data item into the vector. 
-  // Store column-wise. 
-  // if(getNumGenes() < col_num+1) {
-  //   GeneData gset();
-  //   addGeneDataObj(gset);
-  // }
-  // d_sets.at(col_num).push_back(item);
-
-  // // Store row-wise.
-  // if(getNumTrans() < row_num+1) {
-  //   TransData tset();
-  //   addTransDataObj(tset);
-  // }
-  // t_sets.at(row_num).push_back(item);
-//   char buf[6]; sprintf(buf, "%d", f_id);
-//   if(f_sets.at(f_id).getFid() == "")
-//     f_sets.at(f_id).setFid("G"+string(buf));
-//   //f_sets.at(f_id).insert(f_data, g_class); 
   return true; 
 } 
 
-// Overload << operator for gene_class_t. 
-// ostream& operator<<(std::ostream& out, const gene_class_t& c) {
-//   switch(c) {
-//   case positive: out << "positive"; break; 
-//   case negative: out << "negative"; break; 
-//   }
-//   return out;
-// }
+// Print data set of a certain level. 
+void DataSet::printLevelFreqSets(int level){
+  switch(level) {
+  case 1: {
+    map<int, int>::iterator it; 
+    for(it = fst.begin(); it != fst.end(); it++) {
+      cout << (*it).first << ":" << (*it).second << endl;
+    }
+  }
+  case 2: {
+    map<Itemset, int>::iterator it; 
+    for(it = snd.begin(); it != snd.end(); it++) {
+      cout << (*it).first << ":" << (*it).second << endl;
+    }
+  }
+  default: {
+    
+  }
+  }
 
-// Overloading operator <<. 
-// This operator will output everything to output stream. 
-// ostream& operator<<(ostream& out, DataSet& g) {
-//   int col_count = g.f_sets.size();
-//   for(int i = 0; i < g.getNumRows(); i++) {
-//     gene_class_t c; 
-//     for(int j=0; j<col_count-1; j++){
-//       c = g.f_sets.at(j).getFData().at(i).getClass();
-//       out << g.f_sets.at(j).getFData().at(i);
-//     }
-//     out << c << endl;
-//   }
-//   return out;
-// }
+}
 
-#define HASHSIZE 17
+////////////////////////////////////////////////////
+// Auxilliary functions.
+////////////////////////////////////////////////////
 
 int hashfunc(int value) {
   return value % HASHSIZE; 

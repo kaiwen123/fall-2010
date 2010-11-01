@@ -7,17 +7,10 @@
 #include "DataSet.h"
 
 using namespace std; 
+
 void Usage();
-// The main() function. 
-// It will load in all the data from data file. 
-// and store all the data to GeneDataSet Object, the data set object
-// uses vector to store column(gene) data. 
-// After loading in all the data, it will call the binning methods of
-// data set to do equi-width and entropy based binning. 
-// And finally, it will call methods of data set to save the binning
-// result and the bins to files according to the project requirement.
 int main(int argc, char *argv[]) {
-  if(argc != 5) {
+  if(argc != 6 || atoi(argv[3]) < 0 || atoi(argv[3]) > 1.0) {
     Usage();
     return 1;
   }
@@ -27,30 +20,32 @@ int main(int argc, char *argv[]) {
     cerr << "Can't create the GeneDataSet object." << endl;
     return 0;
   }
+  pDataSet->setMinSupport(atoi(argv[2]));
+  pDataSet->setMinConf(atoi(argv[3]));
   string fname; 
   // p2entbindata.txt | p2eqbindata.txt
-  //fname = string("p2entbindata.txt"); 
+  fname = string("p2entbindata.txt"); 
   fname = string("5d1"); 
   pDataSet->loadFromFile(fname);
 
-  // Do Item mapping, which will map the gene data into uniq ids for
-  // different genes.
+  // Do Item mapping, which will map the gene data into unique ids for
+  // different genes. And the mapping information will be saved into 
+  // the designated file. 
   cout << "Doing Item mapping.....";
   pDataSet->doItemMap();
 
-  // Save the mapped unique gene data into file. 
   fname = string("p2ItemMap.txt"); 
   pDataSet->saveItemMap(fname); 
 
   cout << "done!" << endl;
 
-  //pDataSet->printLevelOne();
-
-  pDataSet->scanLevelTwo();
-  pDataSet->printLevelTwo();
-
-  // Do the APRIORI association rule mining. 
-  //pDataSet->doApriori(); 
+  // Now start the APRIORI process. 
+  // We need to do level one and level two APRIORI mining, and then
+  // using the hash tree to do APRIORI mining of other levels. 
+  // pDataSet->printLevelFreqSets(1);
+  // pDataSet->scanLevelTwo();
+  // pDataSet->printLevelFreqSets(2);
+  pDataSet->doApriori(); 
 
   // Save Freqient item sets into file. 
   //fname = string("p2FreqItemsets.txt"); 
@@ -66,7 +61,9 @@ void Usage() {
        << "\n"
        << "datafile - The file that contains the gene data.\n" 
        << "minSup   - The minimum support for association rule.\n"
+       << "           Should be within (1,MAX).\n" 
        << "minConf  - The minimum confidence for assoc rule. \n" 
+       << "           Should be within (0.1.0]\n" 
        << "g        - The number of genes to process. \n" 
        << "k        - The number of rules to be printed. " 
        << endl;
