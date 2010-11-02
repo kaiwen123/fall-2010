@@ -77,20 +77,18 @@ class DataSet {
   bool doApriori();
 
   /**
+   * @brief Scan item sets within the whole dataset.
+   * @param set The dataset to be scanned. 
+   * @return number of occurances of itemset within the dataset.
+   */
+  int scanItemset(Itemset& set);
+
+  /**
    * @brief Save frequent itemsets into given file.
    * @param fname The name of file to save to.
    * @return true on success and false on failure. 
    */
   bool saveFreqItemSets(string fname);
-
-  /**
-   * @brief Insert data into gene vector. 
-   * @param row_num row number of inserted item.
-   * @param col_num column number of inserted item.
-   * @param str item information.
-   * @return true on success and false on failure. 
-   */
-  bool insertData(int row_num, int col_num, string str); 
 
   /**
    * @brief Overloading the << operator to output stream. 

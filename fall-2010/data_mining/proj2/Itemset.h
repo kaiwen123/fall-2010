@@ -30,7 +30,7 @@ class Itemset {
 
   /* getters. */
   int getSize() const {return is_items.size();} 
-  vector<Item> getSet()const{return is_items;}
+  vector<Item> getSet() const {return is_items;}
   Item getLastItem();		/* helper function for joining. */
   Item getSndLastItem();	/* get second last. */
   string calcKeyStr(int level);		/* used to calculate the key string. */

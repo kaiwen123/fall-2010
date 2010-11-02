@@ -1,11 +1,6 @@
 #include "HashTree.h"
 
-HashNode::HashNode():parent(NULL),hvalue(-1),level(0){
-  children.clear();
-  item_sets.clear();
-}
-
-HashNode::~HashNode(){
+HashNode::HashNode():parent(NULL),hkey("0:0"),level(0){
   children.clear();
   item_sets.clear();
 }
@@ -14,8 +9,7 @@ HashNode::~HashNode(){
 void HashNode::visit() {
   cout << "Node: " << this
        << "->" << parent
-       << " key:" << level 
-       << ":" << hvalue 
+       << " key:" << getHashKey() 
        << " children:" << getNumChildren()
        << " " << getNumFreqSets() << " freqsets: ";
   map<Itemset, int>::iterator it; 
@@ -40,11 +34,12 @@ bool HashNode::findFreqSet(Itemset& set) {
 
 // Join sets within the node.
 bool HashNode::joinSameParentSets(vector<Itemset>& set) {
+  if(getNumFreqSets() < 2) return false; // less than two sets.
   map<Itemset, int>::iterator it;
   for(it = getFreqsets().begin(); it != getFreqsets().end(); it++) {
     map<Itemset, int>::iterator iit;
     for(iit = it; iit != getFreqsets().end(); iit++) {
-      cout << (*it).first << " " << (*iit).first << endl; 
+      //cout << (*it).first << " " << (*iit).first << endl; 
       if(isJoinable(const_cast<Itemset&>((*it).first), 
 		    const_cast<Itemset&>((*iit).first))) {
 	set.push_back(const_cast<Itemset&>((*it).first).
@@ -68,13 +63,10 @@ bool HashTree::insertNode(HashNode *parent, HashNode *node) {
   parent->addChild(node);
   addNodeToIndex(node);
 #ifdef DEBUG_HASH_INSERT
-  cout << "Insert Node with key: " << node->getNodeLevel() << ":" 
-       << node->getHashValue()
+  cout << "Insert Node with key: " << node->getHashKey()
        << " level: " << node->getNodeLevel()
        << " num item sets: " << node->getNumFreqSets()
-       << " num of children: " << node->getNumChildren()
-       << " set: "
-       << endl;
+       << " num of children: " << node->getNumChildren() << endl;
 #endif
   return true; 
 }

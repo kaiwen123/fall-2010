@@ -36,21 +36,20 @@ using namespace std;
 class HashNode {
  private:
   int level;		    /* in which level does this node lie? */
-  int hvalue;		    /* hash value, identify branch of tree. */
+  string hkey;		    /* hash key string. */
   HashNode *parent;	    /* parent of node. */
   vector<HashNode*> children; 	/* children of node. */
   map<Itemset, int> item_sets;	/* item sets. */
 
  public:
   HashNode();
-  ~HashNode();
+  ~HashNode(){children.clear(); item_sets.clear();}
   /* getters. */
   HashNode* getParent() const {return parent;}
   int getNumChildren() const {return children.size();}
   int getNumFreqSets() const {return item_sets.size();}
   int getNodeLevel() const {return level;}
-  int getHashValue() const {return hvalue;}
-  string getHashKey() {return itoa(level)+":"+itoa(hvalue);}
+  string getHashKey() {return hkey;}
   void visit();
   vector<HashNode*>& getChildren() {return children;}
   map<Itemset, int>& getFreqsets() {return item_sets;}
@@ -58,7 +57,7 @@ class HashNode {
   /* setters. */
   void setParent(HashNode* p) {parent = p;}
   void setNodeLevel(int l) {level = l;}
-  void setNodeHvalue(int hv) {hvalue = hv;}
+  void setHashKey(string key) {hkey = key;}
 
   bool addChild(HashNode *child);
   bool insertFreqSet(Itemset& set){item_sets[set] = 1;}
@@ -83,6 +82,7 @@ class HashTree {
 
  public:
   HashTree();
+  ~HashTree();
 
   /* getters */
   int getHeight() const {return height;}

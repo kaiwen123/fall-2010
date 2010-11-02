@@ -10,7 +10,7 @@ Itemset& Itemset::operator=(const Itemset& set) {
 }
 
 // Destructor. 
-Itemset::~Itemset(){}
+Itemset::~Itemset(){is_items.clear();}
 
 // test if *this* itemset is joinable with another one.
 bool Itemset::isJoinable(Itemset& set) {

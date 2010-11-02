@@ -15,34 +15,35 @@ using namespace std;
 
 class Item {
  private: 
-  //char i_class;			/* Anotated gene class value */
+  int col;			/* which column does this object reside. */
   char i_group;			/* Group information 'a,b,c,d'*/
   int i_id;			/* unique item id. */
 
  public:
- Item(char grp):i_group(grp){
+ Item(char grp, int cpos):i_group(grp),col(cpos){
 #ifdef DEBUG_DATA_LOADI   
-    cout << "item: "<<grp << endl;
+    cout << "created item: "<< grp << " col: " << col << endl;
 #endif
   }
   Item(const Item& item) {
+    col = item.getColumnPos();
     i_group = item.getGroup();
     i_id = item.getId();
   }
   ~Item(){}
   
   /* getter */
-  //char getClass()const{return i_class;}
   char getGroup()const{return i_group;}
+  int getColumnPos() const {return col;}
   int getId() const {return i_id;}
 
   /* setter */
-  //void setClass(char c){i_class = c;}
   void setGroup(char g){i_group = g;}
   void setId(int id){i_id = id;}
+  void setColumnPos(int cpos) {col = cpos;}
   Item& operator=(const Item& item){
     if(this == &item) return *this;
-
+    col = item.getColumnPos();
     i_group = item.getGroup();
     i_id = item.getId();
     return *this;
@@ -54,18 +55,11 @@ class Item {
    * return true, otherwise return false.
    */
   bool operator==(Item& item){return getId() == item.getId();}
-  bool operator!=(Item& item){return getId() != item.getId();}
+  bool operator!=(Item& item){return !(*this == item);}
   bool operator>(Item& item){return getId() > item.getId();}
   bool operator<(Item& item){return getId() < item.getId();}
-  bool operator>=(Item& item){return getId() >= item.getId();}
-  bool operator<=(Item& item){return getId() <= item.getId();}
-
-  /**
-   * @brief Overloadiing the << operator. 
-   * @param out output stream. 
-   * @param item Item Object. 
-   * @return output stream. 
-   */
+  bool operator>=(Item& item){return !(*this < item);}
+  bool operator<=(Item& item){return !(*this > item);}
   friend ostream& operator<<(ostream& out, Item const& item) {
     out << /* item.i_group; */item.getId();
     return out;

@@ -25,7 +25,8 @@ int main(int argc, char *argv[]) {
   string fname; 
   // p2entbindata.txt | p2eqbindata.txt
   fname = string("p2entbindata.txt"); 
-  fname = string("5d1"); 
+  //fname = string("5d1"); 
+  fname = string("5d");
   pDataSet->loadFromFile(fname);
 
   // Do Item mapping, which will map the gene data into unique ids for
