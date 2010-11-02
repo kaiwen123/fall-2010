@@ -1,0 +1,81 @@
+//  Example Hash Functions
+//    M. Raymer, 2/2007
+//    Adapted from http://www.burtleburtle.net/bob/hash/doobs.html
+//      as of Feb. 22, 2007
+// ------------------------------------------------------------------------
+//  This file contains two "good" hash functions that you can
+//  use in your ClosedHash.cpp and/or OpenHash.cpp files (you will
+//  need to rename them for use in OpenHash.cpp).
+//  They should provide good hash performance and good probe
+//  performance using integer keys over the range 0 - 1,000,000
+//  even when the keys are not distributed evenly over this
+//  range.
+//
+//  If you can find sets or patterns of keys for which these
+//  functions do not perform well, or hash functions that
+//  outperform these in some way, I'd be interested in hearing
+//  about them in your report.
+//
+//  Remember that you will need to modulo the results of these
+//  functions by your table size to avoid overrunning your
+//  hash table!  See the lecture slides for details and
+//  example code for find and insert operations.
+//
+//  Be sure to read the comments in the code below before using!
+//-------------------------------------------------------------------------
+unsigned int ClosedHash::h(int key) const {
+  unsigned int hash = 0;      // The hash value starts at 0
+  unsigned int keyarr = key;  // A copy of the key
+
+  // We will treat the key (an integer) as an array of 4
+  // unsigned characters
+  unsigned char *keyptr = (unsigned char *) &keyarr;
+     
+  // Mix each 8-bit character into the hash
+  for (int i = 0; i < (sizeof(int)); i++) {
+
+    // This is the combining step:
+    hash += keyptr[i];
+
+    // This is the mixing step:
+    hash += (hash << 10);
+    hash ^= (hash >> 6);
+  }
+
+  // After all the bits of the key have been mixed in,
+  // ensure that they are properly distributed throughout
+  // the final hash value:
+  hash += (hash << 3);
+  hash ^= (hash >> 11);
+  hash += (hash << 15);
+
+  // This last line assumes the you have a data member 
+  // or constant in class ClosedHash called maxSize.  This
+  // is the value M (the number of buckets in the hash).  This
+  // can be a private data element or constant.
+  return hash % maxSize;
+}
+
+//  ****
+//  For comments, see h(), above!
+//  Also see the comments near the end of h2().
+//  ****
+unsigned int ClosedHash::h2(int key) const {
+  unsigned int hash = 0;
+  unsigned int keyarr = key;
+  unsigned char *keyptr = (unsigned char *) &keyarr;
+     
+  for (int i = 0; i < sizeof(int); i++) {
+    hash += keyptr[i];
+    hash += (hash << 9);
+    hash ^= (hash >> 5);
+  }
+  hash += (hash << 3);
+  hash ^= (hash >> 11);
+  hash += (hash << 15);
+
+  // The following code ensures that the value of h2(k) will be
+  // odd, which should be coprime with the size of the closed
+  // hash (32,768 == 2^15).
+  return (((hash * 2) + 1) % maxSize);
+}

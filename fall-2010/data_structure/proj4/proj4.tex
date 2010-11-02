@@ -1,0 +1,181 @@
+\documentclass{article}
+% Change "article" to "report" to get rid of page number on title page
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{algorithmic,algorithm}
+\usepackage{setspace}
+\usepackage{Tabbing}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{ulem}
+\usepackage{graphicx,float,wrapfig}
+\usepackage{pifont}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{pstricks,pst-node,pst-tree}
+\usepackage{pdftricks}
+\usepackage{subfigure}
+\usepackage{multicol}
+\usepackage{enumerate}
+
+\usepackage{listings}
+\usepackage{color}
+\usepackage{textcomp}
+\definecolor{listinggray}{gray}{0.9}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\lstset{
+	%backgroundcolor=\color{lbcolor},
+	tabsize=4,
+	rulecolor=,
+	language=c++,
+        basicstyle=\setstretch{1},
+        upquote=true,
+        aboveskip={\baselineskip},
+        columns=fixed,
+        showstringspaces=false,
+        extendedchars=true,
+        breaklines=true,
+        prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+        %frame=single,
+        showtabs=false,
+        showspaces=false,
+        showstringspaces=false,
+        identifierstyle=\ttfamily,
+        keywordstyle=\color[rgb]{0,0,1},
+        commentstyle=\color[rgb]{0.133,0.545,0.133},
+        stringstyle=\color[rgb]{0.627,0.126,0.941},
+}
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=0.5in     %
+\oddsidemargin=0.5in      %
+\textwidth=6.0in        %
+\textheight=9.0in       %
+\headsep=0.25in         %
+
+% Homework Specific Information
+\newcommand{\hmwkTitle}{Programming Assignment\ \#4}
+\newcommand{\hmwkDueDate}{Nov.\ 11th,\ 2010\ 11:55pm}
+\newcommand{\hmwkClass}{Data Structure}
+\newcommand{\hmwkClassTime}{TR\ 4:10-5:25pm}
+\newcommand{\hmwkClassInstructor}{Meilin\ Liu}
+\newcommand{\hmwkAuthorName}{Shumin\ Guo}
+\newcommand{\answer}{\textbf{\\\underline{ANSWER:}\\}}
+
+% Setup the header and footer
+\pagestyle{fancy}                                                       %
+\lhead{\hmwkAuthorName}                                                 %
+\chead{\hmwkClass\ - \hmwkTitle}  %
+\rhead{Page\ \thepage\ of\ \pageref{LastPage}}                          %
+\lfoot{\lastxmark}                                                      %
+\cfoot{}                                                                %
+\rfoot{}                          %
+\renewcommand\headrulewidth{0.4pt}                                      %
+%\renewcommand\footrulewidth{0.2pt}                                     %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make title
+\title{\textmd{\textbf{\hmwkClass\\\
+      \hmwkTitle}}\\\normalsize\small{Due\ Date:\
+    \hmwkDueDate}\\} 
+\date{\today}
+\author{\textsc{\hmwkAuthorName}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\begin{center}
+\textbf{{\Large CS 400/600 – Data Structures and Software Design} \\
+{\large Programming Assignment \#4 –Hash Table}}
+\end{center}
+
+\section*{Overview}
+The objective of this assignment will be to implement a closed-double
+hash, and submit a report that gives  discussion of the result that
+you get based on the load factor of the hash table, alpha.  
+
+\section*{Programming}
+For the programming section, you will create a closed double hash to
+index positive integer values (employee ID’s) between 1 and 999,999.
+You should create a hash of size N = 32,768 (32k) slots. 
+
+You will be provided a C++ abstract class called Hash, you should
+construct class ClosedHash as a subclass of class Hash, as follows:
+
+\begin{verbatim}
+  class ClosedHash : publich Hash { … }; 
+\end{verbatim}
+
+Your hash should use the EMPTY constant to mark empty hash buckets,
+and should use and fully support tombstones (using the TOMBSTONE
+constant) for deletions. 
+
+You will also be provided with an extensive main program for testing
+your hash implementation. The primary hash function h1(k) and the
+secondary hash function h2(k) are also given. The primary hash
+function gives the home location for a particular key. The secondary
+hash function determines the probe offset for a particular key. 
+
+\section*{Report}
+Along with your working source code (.cpp and .h files), you should
+submit a brief (< 5 pages) report describing how the closed hash
+function performed as a function of the load factor of the hash table,
+alpha. You should perform a variety of searches, and compare the
+number of nodes searched for each index.  You should address questions
+such as: 
+\begin{itemize}
+\item How does the hash perform in terms of search efficiency when the hash
+  table is (1) nearly empty (the alpha is very small, like less than
+  0.1),  (2) moderately full (alpha is around 0.5),  (3) very full
+  (alpha is larger than 0.8). 
+\item Give some intuitive comments about the performance of your hash table
+  regarding the load factor, alpha.  
+\end{itemize}
+
+Your report should be supported with data in the form of tables,
+charts, graphs, etc. 
+
+Make sure to base your report on average results over many searches,
+and not just one search. 
+
+The preferred format for your report is a Microsoft Word file named
+proj4-report.doc, included in your project 4 directory and turned in
+with your source code.  Other formats (like pdf format) may also be
+acceptable, as long as the report is clear. 
+
+\section*{Requirements}
+\begin{enumerate}
+\item Your code should follow the Code Standards handed out during the
+  first day of class.  Your code will be graded according to its
+  correctness, efficiency, organization, and readability. 
+\item Make sure that each file includes your name in the header
+  comments.
+\item Turn in all files needed to compile and execute your code
+  (\underline{including any needed files from the previous lab}) via
+  webCT. If for some reason WebCT is unavailable, submit your source
+  code by email to wlodarski.4 AT wright.edu. If you want, you can
+  also cc to the instructor Meilin Liu, whose email address is
+  meilin.liu AT wright.edu.  
+\item If there are any special instructions that I need to know about,
+  be sure to include a file named Readme.txt in your project 3
+  directory detailing them. 
+\item The grader will test your programs under the schools UNIX
+  environment, e.g., unixapps1.wright.edu. It is YOUR responsibility
+  to make your programs workable and runnable by others under school’s
+  UNIX environment. 
+\item The programming assignment is individual. You must do the
+  project by yourself. If you allow others to copy your programs or
+  answers, you will get the same punishment as those who copy yours. 
+\end{enumerate}
+
+\section*{Graduate Students}
+CS 600 students should evaluate an additional hashing method (other
+than closed double-hashing), and include these results in the final
+report (for example, you might choose to investigate the performance
+of a closed hash using pseudo-random hashing. You can also implement a
+chained hash table if you like). 
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
