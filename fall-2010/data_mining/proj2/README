@@ -2,3 +2,15 @@ Your program should be able to handle any of the two datasets provided.
 
 The file called EntropyMethodGenes.txt is useful when you want to do
 some discussion concerning the genes and the patterns. 
+
+Abbreviations: 
+CN - Create Node. 
+-> - Parent of node.
+:  - Seperator.
+II - Insert Itemset. 
+NN - New Node.
+ND - NoDe.
+VN - Visit Node. 
+NC - Number of Children.
+NFI - Number of Frequent Itemsets.
+FIS - Frequent ItemSets.

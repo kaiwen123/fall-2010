@@ -203,6 +203,7 @@ bool DataSet::doApriori() {
   for(it = snd.begin(); it != snd.end(); it++) {
     set.clear();
     Itemset iset = const_cast<Itemset&>((*it).first);
+    int cnt = (*it).second;
 #ifdef DEBUG_HASH_INSERTSET
     cout << "working for Set: " << iset << endl;	
 #endif
@@ -215,15 +216,9 @@ bool DataSet::doApriori() {
 	HashNode *node = new (nothrow) HashNode();
 	if(!node) {cerr << "Can't create node." << endl; return false;}
 	nindex.insert(pair<string, HashNode*>(nkey, node));
-	node->insertFreqSet(set);
+	node->insertFreqSet(set, cnt);
 	node->setNodeLevel(lvl);
 	node->setHashKey(nkey);
-#ifdef DEBUG_HASH_INSERTSET
-	cout << "Create node with key: " << nkey << endl;
-	cout << "insert itemset: " << set
-	     << " into node " << nindex[nkey]->getNodeLevel()
-	     << ":" << nindex[nkey]->getHashValue() << endl;
-#endif
 	if(lvl == 1) {		// level one
 	  prt = hroot->getRoot(); 	  
 	} else {		// level higher than one.
@@ -231,18 +226,25 @@ bool DataSet::doApriori() {
 	  prt = nindex[key];
 	  qapriori.push(node);
 	}
+#ifdef DEBUG_HASH_INSERTSET
+	cout << "CN " << nkey << "->" << prt->getHashKey() << endl;
+	cout << "II " << set << ":" << cnt
+	     << " NN: " << node->getHashKey() 
+	     << "->" << prt->getHashKey() << endl;
+#endif
 	hroot->insertNode(prt, node); 
       } else {			// node already exists.
 	// if can't find set, then insert into node.
 	if(!nindex[nkey]->findFreqSet(set)){ 
-	  nindex[nkey]->insertFreqSet(set);
+	  nindex[nkey]->insertFreqSet(set, cnt);
 #ifdef DEBUG_HASH_INSERTSET
-      cout << "insert itemset: " << set
-	   << " into node " << node->getHashKey() << endl;
+	  cout << "II " << set << ":" << cnt 
+	       << " ND: " << nkey << "->" 
+	       << nindex[nkey]->getParent()->getHashKey() << endl;
 #endif
 	} // if node exist but set not in node.
       } // if node already exists.
-    }
+    } // for iterate items within itemset. 
   } // for 
   //printLevelFreqSets(2);
   // Now let's iteratively do other levels of join and pruning.
@@ -266,26 +268,33 @@ bool DataSet::doApriori() {
 	  HashNode *nnode = new (nothrow) HashNode();
 	  if(!nnode) {cerr << "Can't create node." << endl; return false;}
 	  nindex.insert(pair<string, HashNode*>(key, nnode));
-	  nnode->insertFreqSet(*it);
+	  nnode->insertFreqSet(*it, cnt);
 	  nnode->setNodeLevel(it->getSize());
 	  nnode->setHashKey(key);
 	  qapriori.push(nnode);
 	  hroot->insertNode(node, nnode);
-	} else {
-	  if(!nindex[key]->findFreqSet(*it)){ 
-	    nindex[key]->insertFreqSet(*it);
 #ifdef DEBUG_HASH_INSERTSET
-	    cout << "insert itemset: " << *it
-		 << " into node " << nnode->getHashKey() << endl;
+	  cout << "CN " << key << "->" << node->getHashKey() << endl;
+	  cout << "II " << set << ":" << cnt
+	       << " NN: " << nindex[key]->getHashKey() << "->" 
+	       << node->getHashKey() << endl;
+#endif
+	} else {
+	  if(!nindex[key]->findFreqSet(*it)){
+	    nindex[key]->insertFreqSet(*it, cnt);
+#ifdef DEBUG_HASH_INSERTSET
+	    cout << "II " << *it << ":" << cnt 
+		 << " ND: " << key << "->" 
+		 << nindex[key]->getParent()->getHashKey() << endl;
 #endif
 	  } // if find set in node.
 	} // if find node.
-    	cout << *it << "-" << key << " "; 
       }	// for sets. 
-      cout << endl;
     }
   }
+#ifdef DEBUG_APRIORI_TRAVERSAL
   hroot->levelTraverse(hroot->getRoot());
+#endif
 }
 
 // Save frequent itemsets into given file.

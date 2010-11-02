@@ -43,6 +43,8 @@ class HashNode {
 
  public:
   HashNode();
+  HashNode(const HashNode& node);
+  HashNode& operator=(const HashNode& node);
   ~HashNode(){children.clear(); item_sets.clear();}
   /* getters. */
   HashNode* getParent() const {return parent;}
@@ -60,7 +62,7 @@ class HashNode {
   void setHashKey(string key) {hkey = key;}
 
   bool addChild(HashNode *child);
-  bool insertFreqSet(Itemset& set){item_sets[set] = 1;}
+  bool insertFreqSet(Itemset& set, int cnt){item_sets[set] = cnt;}
   bool removeFreqSet(Itemset& set);
   bool findFreqSet(Itemset& set);
 

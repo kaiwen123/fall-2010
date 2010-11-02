@@ -7,14 +7,15 @@ HashNode::HashNode():parent(NULL),hkey("0:0"),level(0){
 
 // Visit hash tree node.
 void HashNode::visit() {
-  cout << "Node: " << this
-       << "->" << parent
-       << " key:" << getHashKey() 
-       << " children:" << getNumChildren()
-       << " " << getNumFreqSets() << " freqsets: ";
+  // VN: visit node, NC: number of children, NF: number of frequent
+  // itemsets, FS: frequent itemsets.
+  cout << "VN " << getHashKey() << "->";
+  if(getParent()) cout << getParent()->getHashKey();
+  cout << " NC: " << getNumChildren()
+       << " NFI: " << getNumFreqSets() << " FIS: ";
   map<Itemset, int>::iterator it; 
   for(it = getFreqsets().begin(); it != getFreqsets().end(); it++) {
-    cout << (*it).first << " "; 
+    cout << (*it).first << ":" << (*it).second << " "; 
   }
   cout << endl;
 }
