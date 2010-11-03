@@ -1,5 +1,4 @@
 #include "DataSet.h"
-#include <cstdio> 		/* for sprintf() */
 
 DataSet::DataSet(){
   minSup = gnum = tnum = 0;

@@ -1,9 +1,3 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include <stdlib.h>
-#include "defs.h"
 #include "DataSet.h"
 
 using namespace std; 

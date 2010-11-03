@@ -2,6 +2,16 @@
 #define _typedef_header_
 #include <iostream>
 #include <string>
+#include <stdlib.h>
+#include <assert.h>
+#include <vector>
+#include <queue>
+#include <map>
+#include <fstream>
+#include <cstdio> 		/* for sprintf() - DataSet.cpp*/
+
+using namespace std;
+
 /* data type for gene feature */
 typedef char gene_feature_t; 
 

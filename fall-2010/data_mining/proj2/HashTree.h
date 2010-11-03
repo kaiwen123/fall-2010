@@ -25,11 +25,9 @@
 
 #ifndef _HashTreeClass_
 #define _HashTreeClass_ 
-#include <vector>
+
 #include "defs.h"
 #include "Itemset.h"
-#include <queue>
-#include <map>
 
 using namespace std; 
 

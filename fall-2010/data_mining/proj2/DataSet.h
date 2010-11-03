@@ -9,11 +9,8 @@
 
 #ifndef _DataSetClass_
 #define _DataSetClass_ 
-#include <iostream>
-#include <fstream>
 #include "defs.h"
 #include "HashTree.h"
-#include <map>
 
 using namespace std; 
 class DataSet {

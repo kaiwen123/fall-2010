@@ -13,8 +13,6 @@
 #define _ItemsetClass_ 
 #include "defs.h"
 #include "Item.h"
-#include <vector>
-#include <assert.h>
 
 using namespace std; 
 class Itemset {
