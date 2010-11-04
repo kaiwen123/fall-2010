@@ -15,12 +15,13 @@
 using namespace std; 
 class DataSet {
  private: 
+  int g, k; 			/* number of genes and rules to do. */
   int minSup; 			/* minimum support. */
   float minConf;		/* minimum confidence. */
   int gnum;			/* total number of genes. */
   int tnum;			/* total number of transactions. */
   vector<vector<Item> > d_sets; /* Feature sets. */
-  map<int, int> fst;		/* first level item sets. */
+  map<Itemset, int> fst;	/* first level item sets. */
   map<Itemset, int> snd;	/* Second level item sets. */
   HashTree *hroot;		/* the root of hash tree. */
 
@@ -33,15 +34,19 @@ class DataSet {
   int getNumTrans() const {return tnum;}
   int getMinSupport() {return minSup;}
   float getMinConf() {return minConf;}
+  int getNumGeneToProcess() const {return g;}
+  int getNumRulesToProduce() const {return k;}
 
   /* Setters. */
   void setMinSupport(int sup) {minSup = sup;}
   void setMinConf(float conf) {minConf = conf;}
   void setNumGenes(int g) {gnum = g;}
   void setNumTrans(int t) {tnum = t;}
+  void setNumGeneToProcess(int numg) {g = numg;}
+  void setNumRulesToProduce(int numr) {k = numr;}
 
   /* Scanners. */
-  void scanLevelOne(int id);
+  void scanLevelOne(Itemset set);
   void printLevelFreqSets(int level);
   void scanLevelTwo();
 

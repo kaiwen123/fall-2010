@@ -1,7 +1,7 @@
 #include "DataSet.h"
 
 DataSet::DataSet(){
-  minSup = gnum = tnum = 0;
+  g = k = minSup = gnum = tnum = 0;
   minConf = 0.0;
   hroot = NULL;
 }
@@ -37,6 +37,13 @@ bool DataSet::loadFromFile(string fname) {
 	col++;
 	td.push_back(Item(tmp[0], col)); 
 	line=line.substr(poscomma+1,line.size()-poscomma).c_str();
+	// Control number of genes to process. 
+	if(col >= getNumGeneToProcess()-1) {
+	  d_sets.push_back(td);
+	  totalrow = row; totalcol = col;
+	  col = -1;
+	  break;
+	}
       } else {			// End of line.
 	col++;
 	if(row >= 0 && col >= 0) {
@@ -48,7 +55,7 @@ bool DataSet::loadFromFile(string fname) {
 	  cout << "load " << col 
 	       << " cols. " 
 	       << " line number: " << row << endl;
-#endif
+#endif  
 	}
 	col = -1; break;
       }	// while line.
@@ -57,13 +64,12 @@ bool DataSet::loadFromFile(string fname) {
   fdata.close();
   setNumGenes(totalcol + 1);
   setNumTrans(totalrow + 1);
+
   // Statistics. 
   cout << "Finished loading data. " << endl
        << "Totally loaded " << getNumTrans()
        << " lines and " << getNumGenes()
        << " columns of data." << endl;
-
-  cout << "Load successful ..." << endl; 
 }
 
 // Map gene data into unique identifiers. 
@@ -82,7 +88,8 @@ bool DataSet::doItemMap() {
 	d_sets[j][i].setId(count + mp[grp]);
       }	// if else
       // collect first level frequent sets.
-      scanLevelOne(count + mp[grp]);
+      Itemset set; set.pushBack(d_sets[j][i]);
+      scanLevelOne(set);
 #ifdef DEBUG_ITEM_MAP
       cout << " group: " << grp << " value in gene: " << mp[grp] 
 	   << " uniq cnt: " << cnt 
@@ -94,11 +101,11 @@ bool DataSet::doItemMap() {
 }
 
 // Scan level one frequent sets.
-void DataSet::scanLevelOne(int id) {
-  if(!fst[id]) {
-    fst[id] = 1;
+void DataSet::scanLevelOne(Itemset set) {
+  if(fst.find(set) == fst.end()) {
+    fst[set] = 1;
   } else {
-    fst[id]++;
+    fst[set]++;
   }
 }
 
@@ -223,7 +230,6 @@ bool DataSet::doApriori() {
 	} else {		// level higher than one.
 	  string key = set.calcKeyStr(lvl-1);
 	  prt = nindex[key];
-	  qapriori.push(node);
 	}
 #ifdef DEBUG_HASH_INSERTSET
 	cout << "CN " << nkey << "->" << prt->getHashKey() << endl;
@@ -231,11 +237,14 @@ bool DataSet::doApriori() {
 	     << " NN: " << node->getHashKey() 
 	     << "->" << prt->getHashKey() << endl;
 #endif
+	prt->insertChildrenSet(set); // insert to children sets for joining.
+	qapriori.push(node);
 	hroot->insertNode(prt, node); 
       } else {			// node already exists.
 	// if can't find set, then insert into node.
 	if(!nindex[nkey]->findFreqSet(set)){ 
 	  nindex[nkey]->insertFreqSet(set, cnt);
+	  nindex[nkey]->getParent()->insertChildrenSet(set);
 #ifdef DEBUG_HASH_INSERTSET
 	  cout << "II " << set << ":" << cnt 
 	       << " ND: " << nkey << "->" 
@@ -245,7 +254,7 @@ bool DataSet::doApriori() {
       } // if node already exists.
     } // for iterate items within itemset. 
   } // for 
-  //printLevelFreqSets(2);
+
   // Now let's iteratively do other levels of join and pruning.
   HashNode *node;
   vector<Itemset> sets; 	// sets after join. 
@@ -263,6 +272,12 @@ bool DataSet::doApriori() {
 	int cnt = scanItemset(*it);
 	if(cnt < getMinSupport()) continue; 
 	string key = it->calcKeyStr(it->getSize());
+	string pkey = it->calcKeyStr(it->getSize()-1); 
+	if(nindex.find(pkey) == nindex.end()) {
+	  cerr << "Can't find parent of node " << key << endl;
+	  return false; 
+	}
+	prt = nindex[pkey];
 	if(nindex.find(key) == nindex.end()) {
 	  HashNode *nnode = new (nothrow) HashNode();
 	  if(!nnode) {cerr << "Can't create node." << endl; return false;}
@@ -271,16 +286,18 @@ bool DataSet::doApriori() {
 	  nnode->setNodeLevel(it->getSize());
 	  nnode->setHashKey(key);
 	  qapriori.push(nnode);
-	  hroot->insertNode(node, nnode);
+	  prt->insertChildrenSet(*it); ///
+	  hroot->insertNode(prt, nnode);
 #ifdef DEBUG_HASH_INSERTSET
 	  cout << "CN " << key << "->" << node->getHashKey() << endl;
 	  cout << "II " << set << ":" << cnt
 	       << " NN: " << nindex[key]->getHashKey() << "->" 
-	       << node->getHashKey() << endl;
+	       << prt->getHashKey() << endl;
 #endif
 	} else {
 	  if(!nindex[key]->findFreqSet(*it)){
 	    nindex[key]->insertFreqSet(*it, cnt);
+	    nindex[key]->getParent()->insertChildrenSet(*it);
 #ifdef DEBUG_HASH_INSERTSET
 	    cout << "II " << *it << ":" << cnt 
 		 << " ND: " << key << "->" 
@@ -305,7 +322,7 @@ bool DataSet::saveFreqItemSets(string fname) {
 void DataSet::printLevelFreqSets(int level){
   switch(level) {
   case 1: {
-    map<int, int>::iterator it; 
+    map<Itemset, int>::iterator it; 
     for(it = fst.begin(); it != fst.end(); it++) {
       cout << (*it).first << ":" << (*it).second << endl;
     }
@@ -320,9 +337,7 @@ void DataSet::printLevelFreqSets(int level){
     
   }
   }
-
 }
-
 ////////////////////////////////////////////////////
 // Auxilliary functions.
 ////////////////////////////////////////////////////

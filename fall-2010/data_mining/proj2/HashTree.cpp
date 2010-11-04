@@ -3,6 +3,7 @@
 HashNode::HashNode():parent(NULL),hkey("0:0"),level(0){
   children.clear();
   item_sets.clear();
+  children_sets.clear();
 }
 
 // Visit hash tree node.
@@ -28,18 +29,17 @@ bool HashNode::addChild(HashNode *child) {
   return true;
 }
 
-// Search if an item set exists in node.
-bool HashNode::findFreqSet(Itemset& set) {
-  return !(item_sets.find(set) == item_sets.end());
-}
-
 // Join sets within the node.
 bool HashNode::joinSameParentSets(vector<Itemset>& set) {
-  if(getNumFreqSets() < 2) return false; // less than two sets.
+  HashNode *parent = getParent();
+  if(!parent || getNumChildrenSets()<2) return false; 
+
+  //  if(getNumFreqSets() < 2) return false; // less than two sets.
   map<Itemset, int>::iterator it;
-  for(it = getFreqsets().begin(); it != getFreqsets().end(); it++) {
+  for(it = getChildrenSets().begin(); 
+      it != getChildrenSets().end(); it++) {
     map<Itemset, int>::iterator iit;
-    for(iit = it; iit != getFreqsets().end(); iit++) {
+    for(iit = it; iit != getChildrenSets().end(); iit++) {
       //cout << (*it).first << " " << (*iit).first << endl; 
       if(isJoinable(const_cast<Itemset&>((*it).first), 
 		    const_cast<Itemset&>((*iit).first))) {
@@ -48,6 +48,7 @@ bool HashNode::joinSameParentSets(vector<Itemset>& set) {
       }
     }
   }
+  clearChildrenSets();
   return set.size() > 0;
 }
 ////////////////////////////////////////////////////

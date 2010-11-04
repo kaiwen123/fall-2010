@@ -33,26 +33,29 @@ using namespace std;
 
 class HashNode {
  private:
-  int level;		    /* in which level does this node lie? */
-  string hkey;		    /* hash key string. */
-  HashNode *parent;	    /* parent of node. */
-  vector<HashNode*> children; 	/* children of node. */
+  int level;		      /* in which level does this node lie? */
+  string hkey;		      /* hash key string. */
+  HashNode *parent;	      /* parent of node. */
+  vector<HashNode*> children; /* children of node. */
   map<Itemset, int> item_sets;	/* item sets. */
+  map<Itemset, int> children_sets; /* sets for children of this node. */
 
  public:
   HashNode();
   HashNode(const HashNode& node);
   HashNode& operator=(const HashNode& node);
-  ~HashNode(){children.clear(); item_sets.clear();}
+  ~HashNode(){children.clear(); item_sets.clear();children_sets.clear();}
   /* getters. */
   HashNode* getParent() const {return parent;}
   int getNumChildren() const {return children.size();}
   int getNumFreqSets() const {return item_sets.size();}
+  int getNumChildrenSets() const {return children_sets.size();}
   int getNodeLevel() const {return level;}
   string getHashKey() {return hkey;}
   void visit();
   vector<HashNode*>& getChildren() {return children;}
   map<Itemset, int>& getFreqsets() {return item_sets;}
+  map<Itemset, int>& getChildrenSets() {return children_sets;}
 
   /* setters. */
   void setParent(HashNode* p) {parent = p;}
@@ -61,8 +64,12 @@ class HashNode {
 
   bool addChild(HashNode *child);
   bool insertFreqSet(Itemset& set, int cnt){item_sets[set] = cnt;}
-  bool removeFreqSet(Itemset& set);
-  bool findFreqSet(Itemset& set);
+  bool insertChildrenSet(Itemset& set) {children_sets[set] = 1;}
+  void clearChildrenSets() {children_sets.clear();}
+
+  bool findFreqSet(Itemset& set){
+    return !(item_sets.find(set) == item_sets.end()); 
+  }
 
   /**
    * @brief Join item sets within the current node. 

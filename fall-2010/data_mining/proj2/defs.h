@@ -20,7 +20,7 @@ typedef enum {positive, negative} gene_class_t;
 
 /* discretized data group */
 typedef char gene_group_t; 
-#define HASHSIZE 3
+#define HASHSIZE 5
 int hashfunc(int value);
 std::string itoa(const int &integer);
 #endif	/* end of #ifndef */

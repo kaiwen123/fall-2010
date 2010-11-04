@@ -16,6 +16,8 @@ int main(int argc, char *argv[]) {
   }
   pDataSet->setMinSupport(atoi(argv[2]));
   pDataSet->setMinConf(atoi(argv[3]));
+  pDataSet->setNumGeneToProcess(atoi(argv[4]));
+  pDataSet->setNumRulesToProduce(atoi(argv[5]));
   string fname; 
   // p2entbindata.txt | p2eqbindata.txt
   fname = string("p2entbindata.txt"); 
@@ -38,9 +40,9 @@ int main(int argc, char *argv[]) {
   // We need to do level one and level two APRIORI mining, and then
   // using the hash tree to do APRIORI mining of other levels. 
   // pDataSet->printLevelFreqSets(1);
-  // pDataSet->scanLevelTwo();
-  // pDataSet->printLevelFreqSets(2);
+
   pDataSet->doApriori(); 
+  //pDataSet->printLevelFreqSets(2);
 
   // Save Freqient item sets into file. 
   //fname = string("p2FreqItemsets.txt"); 

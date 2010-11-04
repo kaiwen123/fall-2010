@@ -33,11 +33,15 @@ bool isJoinable(Itemset& set1, Itemset& set2) {
 // Join two itemsets to generate a longer one. 
 // It will combine the first string with the last character of the
 // other string.
-//Itemset& Itemset::join(Itemset& set) {
 Itemset Itemset::join(Itemset& set) {
-  Itemset rset = *this;Item item = set.getLastItem();
-  return rset.pushBack(item);
-  //return pushBack(set.getLastItem());
+  Itemset rset;
+  if(*this < set) {
+    rset = *this; Item item = set.getLastItem();
+    return rset.pushBack(item);
+  } else {
+    rset = set; Item item = this->getLastItem();
+    return rset.pushBack(item);
+  }
 }
 
 // push an item into the set from back. 
