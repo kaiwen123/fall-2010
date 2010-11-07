@@ -19,7 +19,6 @@ protected: // Protected since children need access to these static properties.
     static const int TOMBSTONE = -2;
 
 public:
-    //virtual ~Hash();
     // Insert an integer into the hash.  Return true if successful,
     // false if there are no more slots in the hash, or the integer
     // is already found.  Store the number of collisions in the
