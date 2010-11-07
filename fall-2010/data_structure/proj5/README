@@ -1,0 +1,61 @@
+Name : Shumin Guo (UID: U00617724)
+Email: guo.18@wright.edu
+
+FILES
+
+LinkedNode.h - Declaration of Linked Node; 
+LinkedSortedList.h - Declaration of a Sorted Linked List; 
+BSTree.h - Declaration of BSTree and BTreeNode classes; 
+BSTree.cpp - Implementation of BSTree and BTreeNode classes; 
+SortedList.h - A base class for sorted list with pure virtual functions; 
+LinkedSortedList.cpp - Implementation of Linked Sorted List; 
+SortedVector.h - A vector version of the employee database with b-search; 
+SortedVector.cpp - Implementation of the SortedVector class; 
+main.cpp - A test program to test the implementation of LinkedSortedList. 
+main.vector.cpp - A test program to test the vector version.
+
+HOWTO 
+
+- Type make command in the CWD; 
+- Run ./proj3 to run the test program; 
+
+FUNCTION DESCRIPTION
+
+- According to the project requirement, I have implemented the following 
+  functions for this project. 
+  -- manually insert an Employee record by providing all employee info; 
+  -- search the database with last name as keyword; 
+  -- save the employee records to a file, which can be read in again; 
+  -- load employee records from file; 
+  -- print all the employee records to stdout (additional); 
+  -- print the total number of records of the employee list (additional);
+  -- quit.
+NOTE: In order to deal with cases when user entered last name as totally lower
+      case letters, which can potentially bring some trouble to the ordering step,
+      so I simply changed the first lower letter to upper case letter. 
+
+DOCUMENTATION
+
+- run "make doc" to make class reference(API) html files.
+
+Please note that, in order to generate API doc with the "make doc"
+command, your system needs to have doxygen and dot installed. 
+
+Due to the size of the doc files, I didn't attach them with this project sub-
+mission, if you met any problems during the processing of generating docs, 
+please reference related documents or contact me through: gsmsteve@gmail.com.
+
+GOOGLE CODE HOSTING
+
+You can check out the project code base from the google code by: 
+svn co http://fall-2010.googlecode.com/svn/fall-2010/data_structure/proj3 proj3 
+
+Note that this is only a ready only version, so you can make changes
+but can't commit any of your changes to the code base. If you really
+want to commit, let me know!
+
+COPYRIGHT NOTICE
+
+This is *FREE* code, the purpose of doing this is hoping that the
+sharing of code can help collaboration and if it is of any help to
+you, I would be very happy:). But please no commercial use! 
