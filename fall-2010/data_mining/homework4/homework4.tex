@@ -113,17 +113,101 @@ specify k, the number of clusters.
 \item Compare the COBWEB algorithm against other clustering algorithms
   such as K-means and K-mediods. \\
 \textbf{ANSWER:} \\
+COBWEB is a popular and simple method of incremental conceptual
+clustering. Its input objects are described by categorical
+attribute-value pairs. COBWEB creates a hierarchical clustering in
+the form of a classification tree. While on the other hand, K-means
+and K-mediods methods are used to cluster quantitative data based on
+distance. \\ 
+COBWEB uses a heuristic evaluation measure called category utility
+to guide construction of the tree. It incrementally incorporates
+objects into a classification tree in order to get the highest category
+utility. And a new class can be created on the fly, which is one of
+big difference between COBWEB and K-means and K-medoids methods. \\
+COBWEB provides merging and splitting of classes based on category
+utility, this allows COBWEB to be able to do bidirectional search. For
+example, a merge can undo a previous split. While for K-means and
+K-medoids methods, the clustering is usually unidirectional, which
+means the cluster of a point is determined by the distance to the
+cluster center. It might be very sensitive to the outliers in the
+data. 
 
+COBWEB has a number of limitations. First, it is based on the
+assumption that probability distributions on separate attributes are
+statistically independent of one another. This assumption is,
+however, not always true because correlation between attributes often
+exists. Moreover, the probability distribution representation of
+clusters makes it quite expensive to update and store the
+clusters. This is especially so when the attributes have a large
+number of values because the time and space complexities depend not
+only on the number of attributes, but also on the number of values for
+each attribute. Furthermore, the classification tree is not
+height-balanced for skewed input data, which may cause the time and
+space complexity to degrade dramatically. And K-means and K-medoids
+methods don't have such issues as considerations of probabilities and
+independence. It only take into consideration of distance, but this
+feature also renders them unproper for high dimensional data sets. 
 
 \item Briefly discuss how recent algorithms deal with clustering for
   large amount of data, or nonsphere shaped clusters.  \\
 \textbf{ANSWER:} \\
+Reducing the number of instances to be maintained while maintaining
+the distribution of regions/clusters.\\
+Identifying relevant subspaces where clusters possibly exist.\\
+Using summarized information to avoid  repeated data access.\\
+
+Sampling Methods.
+CLARA (Clustering LARge Applications) working on samples instead of
+the whole data.
+CLARANS (Clustering Large Applications based on RANdomized Search).
+
+Grid: STING (STatistical INformation Grid)
+Statistical parameters of higher-level cells in the grid can easily be
+computed from those of lower-level cells: \\
+Attribute-independent: count; \\ 
+Attribute-dependent: mean, standard deviation, min, max; \\
+Type of distribution: normal, uniform, exponential, or unknown
+Irrelevant cells can be removed.
+
+BIRCH using Cluster Feature (CF) and CF tree \\
+A cluster feature is a triplet (N, LS, SS) about sub-clusters of instances \\
+N - the number of instances, LS – linear sum, SS – square sum \\
+Two thresholds: branching factor (the max number of children per
+non-leaf node) and diameter threshold \\ 
+Diameter: diameter of minimal containing sphere or defined as maximum pairwise distance \\
+Two phases: \\
+Build an initial in-memory CF tree\\ 
+Apply a clustering algorithm to cluster the leaf nodes in CF tree \\
+CURE (Clustering Using REpresentitives) is another example. 
+
+Taking advantage of the property of density
+If the data is dense in a higher dimensional subspace, it should be
+dense in some lower dimensional subspaces.\\
+CLIQUE (CLustering In QUEst) \\
+With high dimensional data, there are many void subspaces.\\ 
+Using the “downward closure” property identified, we can start with
+dense lower dimensional data. \\
+CLIQUE is a density-based method that can automatically find subspaces
+of the highest dimensionality such that high-density clusters exist in
+those subspaces.
 
 \item Apply the K-means algorithm for the following 1-dimensional
   points and k=2:1,2,3,4,6,7,8,9. Use 1 and 4 as the starting
   centroids. You should compute the aggregate dissimilarity for each
   iteration. \\
 \textbf{ANSWER:} \\
+With the initial centers of 1 and 4: \\
+$\Rightarrow$: Two clusters: {1,2} And {3,4,6,7,8,9}; meanC1 = 1.5,
+meanC2 = 4.83. Aggregate dissimilarity =
+$0^2+1^2+1^2+0+2^2+3^2+4^2+5^2 = 56$. \\
+$\Rightarrow$: Clusters: {1,2,3} And {4,6,7,8,9}; meanC1=2,
+meanC2=6.8. Aggregate dissimilarity =
+$2.75+0.689+1.369+4.71+27.43=36.95$. \\
+$\Rightarrow$: Clusters: {1,2,3,4} And {6,7,8,9}; meanC1=2.5,
+meanC2=7.5. Aggregate dissimilarity = 6+6.96=12.96. \\
+$\Rightarrow$: Clusters: {1,2,3,4} and {6,7,8,9}. There is no change
+compared with the last iteration, so we will end here. And the
+Aggregate dissimilarity = 5+5 = 10. 
 
 \item Apply the K-medoids algorithm for the following 1-dimensional
   points and k=2:1,2,3,4,6,7,8,9. Use 1 and 4 as the starting medoids.
@@ -132,6 +216,19 @@ specify k, the number of clusters.
   the work using the smallest number of iterations. You should compute
   the aggregate dissimilarity for each iteration.\\ 
 \textbf{ANSWER:} \\
+With the initial centers of 1 and 4: \\
+$\Rightarrow$: Clusters {1,2} and {3,4,6,7,8,9}; Aggregate
+dissimilarity = 1+55= 56. \\
+$\Rightarrow$ Replace 1 by 2: AggDis = 56. (good)\\
+$\Rightarrow$ Replace 1 by 3: AggDis = 59. \\
+$\Rightarrow$ Replace 1 by $6|7|8|9$: AggDis is large. \\
+$\Rightarrow$ Replace 4 by $2|3$: AggDis is large. \\
+$\Rightarrow$ Replace 4 by 6: AggDis = 20. Medoids: 2, 6.\\
+$\Rightarrow$ Replace 4 by 7: AggDis = 12. Medoids: 2, 7.\\
+$\Rightarrow$ Replace 4 by 8: AggDis = 12. Medoids: 2, 8.\\
+$\Rightarrow$ Replace 2 by 3: AggDis = 12. Medoids: 2, 8.\\
+
+So, the final medoids are 2, 6 with aggregate dissimilarity 12. 
 
 \item Apply the bottom-up hierarchical algorithm for the following
   1-dimensional points and k=2:1,2,3,4,6,7,8,9.\\
