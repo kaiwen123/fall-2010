@@ -12,8 +12,8 @@ void HashNode::visit() {
   // itemsets, FS: frequent itemsets.
   cout << "VN " << getHashKey() << "->";
   if(getParent()) cout << getParent()->getHashKey();
-  cout << " NC: " << getNumChildren()
-       << " NFI: " << getNumFreqSets() << " FIS: ";
+  cout << " NC:" << getNumChildren()
+       << " NFI:" << getNumFreqSets() << " FIS:";
   map<Itemset, int>::iterator it; 
   for(it = getFreqsets().begin(); it != getFreqsets().end(); it++) {
     cout << (*it).first << ":" << (*it).second << " "; 
@@ -51,6 +51,16 @@ bool HashNode::joinSameParentSets(vector<Itemset>& set) {
   clearChildrenSets();
   return set.size() > 0;
 }
+
+// output all the frequent itemsets to ostream. 
+ostream& operator<<(ostream& out, HashNode& node) {
+  map<Itemset, int>::iterator it;
+  for(it = node.getFreqsets().begin(); it != node.getFreqsets().end(); it++) {
+    out << (*it).first << ":" << (*it).second << endl;
+  }
+  return out;
+}
+
 ////////////////////////////////////////////////////
 // Hash tree implementation. 
 ////////////////////////////////////////////////////
@@ -63,7 +73,6 @@ HashTree::HashTree():height(0),num_nodes(0) {
 bool HashTree::insertNode(HashNode *parent, HashNode *node) {
   node->setParent(parent);
   parent->addChild(node);
-  addNodeToIndex(node);
 #ifdef DEBUG_HASH_INSERT
   cout << "Insert Node with key: " << node->getHashKey()
        << " level: " << node->getNodeLevel()
@@ -71,30 +80,6 @@ bool HashTree::insertNode(HashNode *parent, HashNode *node) {
        << " num of children: " << node->getNumChildren() << endl;
 #endif
   return true; 
-}
-
-// insert an itemset into one node of the tree. 
-bool HashTree::insertItemset(Itemset& set) {
-  // First, find out where we should insert the itemset to.
-
-  // Second, insert.
-  return true;
-}
-
-// Join and grow the tree to a higher level.
-// This function will traverse all the nodes of a given level. 
-// And itemsets within each node will be tested to see if they
-// are joinable, and produce the joined itemsets. 
-// After each join, a scan will be done to get the support of an
-// itemset. If the itemset has higher support than given, then grow
-// the tree to a higher level and insert the itemset into the newly
-// added node. 
-bool HashTree::doJoinGrow(int level) {
-  // traverse all nodes. 
-  for(int i = 0; i < getKindexSize(); i++) {
-
-  } // for.
-  return true;
 }
 
 // Traverse the hash tree in level order. 
@@ -119,7 +104,3 @@ bool HashTree::levelTraverse(HashNode* root) {
   return true;
 }
 
-// Print all the content of the hash tree. 
-void HashTree::printTree() {
-
-}

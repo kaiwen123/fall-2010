@@ -64,6 +64,7 @@ bool DataSet::loadFromFile(string fname) {
   fdata.close();
   setNumGenes(totalcol + 1);
   setNumTrans(totalrow + 1);
+  if(g > getNumGenes()) setNumGeneToProcess(getNumGenes());
 
   // Statistics. 
   cout << "Finished loading data. " << endl
@@ -185,7 +186,10 @@ bool DataSet::saveItemMap(string fname) {
   }
   for(int i = 0; i < getNumTrans(); i++){
     for(int j = 0; j < getNumGenes(); j++){
-      fdata << d_sets[i][j] << ",";    
+      fdata << d_sets[i][j];
+      if(j < getNumGenes()-1) {
+	fdata << ",";    
+      }
     }
     fdata << endl; 
   }
@@ -254,7 +258,7 @@ bool DataSet::doApriori() {
       } // if node already exists.
     } // for iterate items within itemset. 
   } // for 
-
+  fst.clear(); snd.clear();	// clear all the content for 1 & 2.
   // Now let's iteratively do other levels of join and pruning.
   HashNode *node;
   vector<Itemset> sets; 	// sets after join. 
@@ -315,7 +319,31 @@ bool DataSet::doApriori() {
 
 // Save frequent itemsets into given file.
 bool DataSet::saveFreqItemSets(string fname) {
-
+  ofstream fdata(fname.c_str());
+  // Check if open file successful.
+  if(!fdata) {
+   cerr << "Error opening file to save map data" << endl; 
+   return false;
+  }
+  // level order traverse.
+  if(!hroot->getRoot()) return false;
+  queue<HashNode*> q;
+  HashNode* curnode = hroot->getRoot(); 	// current node. 
+  q.push(curnode);
+  while(q.size() > 0 && curnode) {
+    curnode = q.front(); 
+    vector<HashNode*>::iterator it;
+    for(it = curnode->getChildren().begin(); 
+	it != curnode->getChildren().end(); it++) {
+      if(*it) {
+	q.push(*it);
+      }
+    }
+    q.pop();
+    fdata << *curnode;
+  }
+  fdata.close();
+  return true;
 }
 
 // Print data set of a certain level. 

@@ -207,19 +207,19 @@ Gain(S, age) $ =
 Gain(S, salary) $ = 
 0.99403-\frac{2}{11}Entropy(S_{High})-\frac{6}{11}Entropy(S_{Medium})-
 \frac{3}{11}Entropy(S_{Low}) \\
-= 0.99403 - 0.182\times 0 - 0.5455\times 0 - 0.273\times 0 \\
-= 0.99403 $. \\
+= 0.99403 - 0.182\times 0 - 0.5455\times 1 - 0.273\times 0 \\
+= 0.4485 $. \\
 
-Clearly, from the above calculated result, we will choose salary as
+Clearly, from the above calculated result, we will choose age as
 the first level of tree. And we can get the tree structure as shown in
 Figure \ref{fig:id3-1}.
 \begin{figure}[H]
   \vspace{-10pt}
   \begin{center}
-    \pstree[levelsep=10ex]{\Toval{salary}}{
-      \Toval{senior}\tlput{High}
-      \Toval{TBD}\tvput{Medium}
-      \Toval{junior}\trput{Low}
+    \pstree[levelsep=10ex]{\Toval{age}}{
+      \Toval{senior}\tlput{41-50}
+      \Toval{TBD}\tvput{31-40}
+      \Toval{junior}\trput{21-30}
     }
     \caption{First Level Tree Using ID3 Method.\label{fig:id3-1}}
     \vspace{-10pt}
@@ -227,11 +227,11 @@ Figure \ref{fig:id3-1}.
 \end{figure}
 
 After the first level of tree building, we can determine for
-senior$\Leftrightarrow$High and junior$\Leftrightarrow$Low. But for
-Medium level salary, it can not be determined using the given data, so
+senior$\Leftrightarrow$41-50 and junior$\Leftrightarrow$21-30. But for
+age group 31-40, it can not be determined using the given data, so
 we need to do another step with the similar method as used
-above. Please see the reference table for this step at Figure
-\ref{fig:medium} The calculations are show as below.\\
+above. Please see the reference table for this step at Table
+\ref{tbl:medium} The calculations are show as below.\\
 
 \begin{table}[H]
   \begin{center}
@@ -239,54 +239,49 @@ above. Please see the reference table for this step at Figure
       \hline {\it department} & {\it status}&{\it age}&{\it salary} \\
       \hline 
       sales & senior & 31-40 & Medium \\
-      systems & junior & 21-30 & Medium \\
-      systems & junior & 21-30 & Medium \\
+      sales & junior & 31-40 & Low \\
+      systems & senior & 31-40 & High \\
       marketing & senior & 31-40 & Medium \\
       marketing & junior & 31-40 & Medium \\
-      secretary & senior & 41-50 & Medium \\
       \hline
     \end{tabular}
-    \caption{Medium Salary reference table.\label{tbl:medium}}
+    \caption{Age 31-40 reference table.\label{tbl:medium}}
   \end{center}
   \vspace{-10pt}
 \end{table}
 
-Gain($S_{salary}$,department)$ = 1.0 - \frac{1}{6}\times 0 -
-\frac{1}{3}\times 0 - \frac{1}{3}\times 1 - \frac{1}{6}\times 0 \\
-= 1.0 - 0 - 0 - 0.333 - 0 \\
-= 0.667$. \\
+Gain($S_{age}$,department)$ = 1.0 - \frac{2}{5}\times 1 -
+\frac{1}{5}\times 0 - \frac{2}{5}\times 1 \\
+= 1.0 - 0.4 - 0 - 0.4\\
+= 0.20$. \\
 
-Gain($S_{salary}$,age)$ 
-= 1.0-\frac{1}{3}\times 0-\frac{1}{2}\times 0.91829-\frac{1}{6}\times 0\\
-= 1.0 - 0 - 0.45915 - 0\\
-= 0.54085$. \\
+Gain($S_{age}$,salary)$ 
+= 1.0-\frac{1}{5}\times 0-\frac{1}{5}\times 0 -\frac{3}{5}\times 0.9183\\
+= 1.0 - 0 - 0 - 0.5510\\
+= 0.4490$. \\
 
-From the above calculation, we will select {\it department} as the
+From the above calculation, we will select {\it salary} as the
 attribute for next level decision tree construction. And we can get
 the following tree as show in Figure \ref{fig:id3-2}.\\
 
 \begin{figure}[H]
   \vspace{-10pt}
   \begin{center}
-    \pstree[levelsep=10ex]{\Toval{salary}}{
-      \Toval{senior}\tlput{High}
-      \pstree{\Toval{department}\tvput{Medium}} {
-        \Toval{senior}\tlput{sales}
-        \Toval{junior}\tlput{junior}
-        \Toval{TBD}\tvput{marketing}
-        \Toval{senior}\trput{secretary}
+    \pstree[levelsep=10ex]{\Toval{age}}{
+      \Toval{senior}\tlput{41-50}
+      \pstree{\Toval{salary}\tvput{31-40}} {
+        \Toval{junior}\tlput{Low}
+        \Toval{senior}\tvput{Medium}
+        \Toval{senior}\trput{High}
       }
-      \Toval{junior}\trput{Low}
+      \Toval{junior}\trput{21-30}
     }
     \caption{Second Level Tree Using ID3 Method.\label{fig:id3-2}}
     \vspace{-10pt}
   \end{center}
 \end{figure}
 
-After the second level decision tree building, we still have one point
-that is not determined, and also with the given information, it is
-easy to see that we can't make the decision. So, Figure
-\ref{fig:id3-2} is the final result of the decision tree building. 
+Figure \ref{fig:id3-2} is the final result of the decision tree building. 
 
 \item[(b)] Given an instance with the values systems, senior, and
   21-30 for the attribute {\it department},{\it status}, and

@@ -77,6 +77,7 @@ class HashNode {
    * @return true on success and false on failure.
    */
   bool joinSameParentSets(vector<Itemset>& sets);
+  friend ostream& operator<<(ostream& out, HashNode& node);
 };
 
 class HashTree {
@@ -84,8 +85,6 @@ class HashTree {
   int height; 			/* Height of tree. */
   int num_nodes;		/* total number of nodes in tree. */
   HashNode *root; 		/* root of tree. */
-  vector<HashNode*> kindex;	/* level k node index of tree. */
-  vector<HashNode*> k1index;	/* level k+1 node index of tree. */
 
  public:
   HashTree();
@@ -95,15 +94,10 @@ class HashTree {
   int getHeight() const {return height;}
   int getNumNodes() const {return num_nodes;}
   HashNode* getRoot() {return root;}
-  vector<HashNode*>& getKindex() {return kindex;}
-  vector<HashNode*>& getK1index() {return k1index;}
-  int getKindexSize() const {return kindex.size();}
-  int getK1indexSize() const {return k1index.size();}
 
   /* setters. */
   void setHeight(int ht) {height = ht;}
   void setNumNodes(int num) {num_nodes = num;}
-  void addNodeToIndex(HashNode* node){getKindex().push_back(node);}
 
   /**
    * @brief Insert a node into the hash tree structure. 
@@ -112,14 +106,7 @@ class HashTree {
    * @return true on success and false on failure.
    */
   bool insertNode(HashNode *parent, HashNode *node);
-  bool insertItemset(Itemset& set);
 
-  /**
-   * @brief Do join the pruning of item sets within a level. 
-   * @param level Level of tree to work on. 
-   * @return true on success and false on failure.
-   */
-  bool doJoinGrow(int level);
   /**
    * @brief Traverse tree in level order, mainly for debugging
    * purposes.
@@ -127,11 +114,6 @@ class HashTree {
    * @return true on success and false on failure.
    */
   bool levelTraverse(HashNode* root);
-
-  /**
-   * @brief Print all the content of the whole tree.
-   */
-  void printTree();
 };
 
 #endif //ifdef

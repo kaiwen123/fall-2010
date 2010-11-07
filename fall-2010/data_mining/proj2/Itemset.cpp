@@ -76,7 +76,7 @@ ostream& operator<<(ostream& out, const Itemset& set) {
   for(int i = 0; i < set.getSize(); i++) {
     out << set.getSet()[i];
     if(i+1 < set.getSize()) {
-      cout << ","; 
+      out << ","; 
     }
   }
   return out; 

@@ -22,19 +22,20 @@ int main(int argc, char *argv[]) {
   // p2entbindata.txt | p2eqbindata.txt
   fname = string("p2entbindata.txt"); 
   fname = string("5d1"); 
-  //fname = string("5d");
+  fname = string("5d");
   pDataSet->loadFromFile(fname);
 
   // Do Item mapping, which will map the gene data into unique ids for
   // different genes. And the mapping information will be saved into 
   // the designated file. 
-  cout << "Doing Item mapping.....";
+  cout << "Doing Item mapping";
   pDataSet->doItemMap();
+  cout << " ...... done!" << endl;
 
   fname = string("p2ItemMap.txt"); 
+  cout << "Save item map to " << fname;
   pDataSet->saveItemMap(fname); 
-
-  cout << "done!" << endl;
+  cout << " ...... done!" << endl;
 
   // Now start the APRIORI process. 
   // We need to do level one and level two APRIORI mining, and then
@@ -45,13 +46,16 @@ int main(int argc, char *argv[]) {
   //pDataSet->printLevelFreqSets(2);
 
   // Save Freqient item sets into file. 
-  //fname = string("p2FreqItemsets.txt"); 
-  //pDataSet->saveFreqItemSets(fname);
+  fname = string("p2FreqItemsets.txt"); 
+  cout << "Saving frequent itemsets to " << fname; 
+  pDataSet->saveFreqItemSets(fname);
+  cout << " ...... done!" << endl;
   delete pDataSet;
 
   return 0; 
 }
 
+// Auxilliary functions .
 void Usage() {
   cout << "Usage: "
        << "./AssoRuleMiner datafile minSup minConf g k"

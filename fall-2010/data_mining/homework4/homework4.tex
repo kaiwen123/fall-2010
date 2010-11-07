@@ -1,0 +1,150 @@
+\documentclass{article}
+% Change "article" to "report" to get rid of page number on title page
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{algorithmic,algorithm}
+\usepackage{setspace}
+\usepackage{Tabbing}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{ulem}
+\usepackage{graphicx,float,wrapfig}
+\usepackage{amsfonts}
+\usepackage{pifont}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{pstricks,pst-node,pst-tree}
+
+\newcommand{\tickYes}{\checkmark}
+\newcommand{\tickNo}{\hspace{1pt}\ding{55}}
+
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=0in     %
+\oddsidemargin=0in      %
+\textwidth=6.8in        %
+\textheight=9.4in       %
+\headsep=0.25in         %
+
+% Homework Specific Information
+\newcommand{\hmwkTitle}{Homework\ \#4}
+\newcommand{\hmwkDueDate}{Nov.\ 10,\ 2010}
+\newcommand{\hmwkClass}{Data Mining}
+\newcommand{\hmwkClassTime}{MW\ 4:10-5:25pm}
+\newcommand{\hmwkClassInstructor}{Guozhu\ Dong}
+\newcommand{\hmwkAuthorName}{Shumin\ Guo}
+
+% Setup the header and footer
+\pagestyle{fancy}                                                       %
+\lhead{\hmwkAuthorName}                                                 %
+\chead{\hmwkClass\ - \hmwkTitle}  %
+\rhead{Page\ \thepage\ of\ \pageref{LastPage}}                          %
+\lfoot{\lastxmark}                                                      %
+\cfoot{}                                                                %
+\rfoot{}                          %
+\renewcommand\headrulewidth{0.4pt}                                      %
+%\renewcommand\footrulewidth{0.4pt}                                     %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make title
+\title{\textbf{\hmwkClass:\ 
+      \hmwkTitle}\\\normalsize\small{Due\ Date:\
+    \hmwkDueDate}} 
+\date{\today}
+\author{\textbf{\hmwkAuthorName}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+% \begin{spacing}{1.1}
+\maketitle
+
+\begin{enumerate}
+\item (a) Define the clustering problem, and (b) define the measure
+  commonly used to evaluate the quality of clustering results. \\
+\textbf{ANSWER:}\\ 
+Clustering is the process of grouping the data into classes or
+clusters, so that objects within a cluster have high similarity in
+comparison to one another but are very dissimilar to objects in other
+clusters. Dissimilarities are assessed based on the attribute values
+describing the objects. Often, distance measures are used.\\
+The quality of clustering is estimated using a cost function that
+measures the average dissimilarity between an object and the
+representative object of its cluster, such as square error.
+
+\item Compare the advantages and disadvantages of (a)K-means and (b)
+  K-medoids for clustering. (c) Discuss a main challenge to both
+  K-means and K-medoids algorithms.\\
+\textbf{ANSWER:} \\
+Advantage:\\
+The k-means algorithm takes the input parameter, k, and partitions a
+set of n objects into k clusters so that the resulting intracluster
+similarity is high but the intercluster similarity is low. The
+algorithm attempts to determine k partitions that minimize the
+square-error function. It works well when the clusters are compact
+clouds that are rather well separated from one another. The method is
+relatively scalable and efficient in processing large data sets
+because the computational complexity of the algorithm is $O(nkt)$, where
+n is the total number of objects, k is the number of clusters, and t
+is the number of iterations. Normally, k$\ll$n and t$\ll$n. The method often
+terminates at a local optimum. 
+
+Disadvantage:\\
+The necessity for users to specify k,
+the number of clusters in advance can be seen as a disadvantage. The
+k-means method is not suitable for discovering clusters with
+nonconvex shapes or clusters of very different size.  Moreover, it is
+sensitive to noise and outlier data points because a small number of
+such data can substantially influence the mean value.
+
+In order to reduce the sensitivity to outliers, K-medoids methods,
+instead of taking the mean value of the objects in a cluster as a
+reference point, pick actual objects to represent the clusters, using
+one representative object per cluster.
+
+The k-medoids method is more robust than k-means in the presence of
+noise and outliers, because a medoid is less influenced by outliers or
+other extreme values than a mean. However, its processing is more
+costly than the k-means method. Both methods require the user to
+specify k, the number of clusters.
+
+
+\item Compare the COBWEB algorithm against other clustering algorithms
+  such as K-means and K-mediods. \\
+\textbf{ANSWER:} \\
+
+
+\item Briefly discuss how recent algorithms deal with clustering for
+  large amount of data, or nonsphere shaped clusters.  \\
+\textbf{ANSWER:} \\
+
+\item Apply the K-means algorithm for the following 1-dimensional
+  points and k=2:1,2,3,4,6,7,8,9. Use 1 and 4 as the starting
+  centroids. You should compute the aggregate dissimilarity for each
+  iteration. \\
+\textbf{ANSWER:} \\
+
+\item Apply the K-medoids algorithm for the following 1-dimensional
+  points and k=2:1,2,3,4,6,7,8,9. Use 1 and 4 as the starting medoids.
+  To make your job easier, assume that the algorithm is smart to
+  choose the best replacement for each iteration. This will let you do
+  the work using the smallest number of iterations. You should compute
+  the aggregate dissimilarity for each iteration.\\ 
+\textbf{ANSWER:} \\
+
+\item Apply the bottom-up hierarchical algorithm for the following
+  1-dimensional points and k=2:1,2,3,4,6,7,8,9.\\
+  You should consider (a) using single linkage, and (b) complete
+  linkage.\\ 
+  For each of (a) and (b), draw the dendrogram. When there is a tie,
+  choose clusters with "smaller means" before choosing cluters with
+  larger means. \\
+\textbf{ANSWER:} \\
+
+\end{enumerate} % For whole homework. 
+
+Marks available: 10 marks for each question. 
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
