@@ -1,19 +1,14 @@
 CPP = /usr/bin/g++
-#MACROS += -DDEBUG_LIST_INSERT
-#MACROS += -DDEBUG_INDEX_SEARCH
-#MACROS += -DDEBUG_LIST_DELETE
-#MACROS += -DDEBUG_DELETE_TREE
-#MACROS += -DDEBUG_DELETE_BYEID
-CPPFLAGS = $(MACROS)
+CPPFLAGS =
 
 LD = /usr/bin/ld
 LDFLAGS = -L/usr/lib -L/lib
 RM = /bin/rm -rf
-EXE = proj3
+EXE = proj4
 DOX = /usr/bin/doxygen
 DOXCONF = Dox.txt
 
-SRC = Database.cpp bst.cpp LinkedSortedList.cpp Employee.cpp lab3.cpp 
+SRC = main.cpp ClosedHash.cpp
 OBJ = $(SRC:.cpp=.o)
 
 all: $(EXE)

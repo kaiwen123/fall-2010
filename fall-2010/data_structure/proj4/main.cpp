@@ -43,14 +43,14 @@ int randomID() {
 //-----------------------------------------------------------------
 void render_menu() {
     // Prompt the user for an action:
-    cout << "\n    -------------- MENU --------------\n"
-         << "(A) Insert random ID's into the hash\n"
-         << "(B) Delete random ID's from the hash\n"
-         << "(C) Search the hash for random IDs\n"
-         << "(D) Insert a specific ID into the hash\n"
-         << "(E) Delete a specific ID from the hash\n"
-         << "(F) Search the hash for a specific ID\n"
-         << "(Q) Quit" << endl;
+    cout << "\n    -------------- MENU --------------\n";
+    cout << "(A) Insert random ID's into the hash\n";
+    cout << "(B) Delete random ID's from the hash\n";
+    cout << "(C) Search the hash for random IDs\n";
+    cout << "(D) Insert a specific ID into the hash\n";
+    cout << "(E) Delete a specific ID from the hash\n";
+    cout << "(F) Search the hash for a specific ID\n";
+    cout << "(Q) Quit" << endl;
 }
 
 //--------------------------*
@@ -98,9 +98,9 @@ int deleteRandCountIDs(ClosedHash & par_hash, unsigned par_count, list<int> & pa
         cerr << "Unable to delete " << par_count << " records." << endl;
     }
     else if (par_count > par_listOfIDs.size()) {
-        cerr << "Unable to delete " << par_count << " records,\n"
-             << " There are only " << par_listOfIDs.size()
-             << " random IDs in the hash." << endl;
+        cerr << "Unable to delete " << par_count << " records," << endl;
+        cerr << " There are only " << par_listOfIDs.size();
+        cerr << " random IDs in the hash." << endl;
     }
 
     // Delete the first 'par_count' IDs from both the par_listOfIDs
@@ -108,11 +108,12 @@ int deleteRandCountIDs(ClosedHash & par_hash, unsigned par_count, list<int> & pa
     else {
         deleteCnt = 0;
         for (unsigned i = 0; i < par_count; i++) {
-            if (par_hash.remove(par_listOfIDs.back()))
-            deleteCnt++;
+            if (par_hash.remove(par_listOfIDs.back())) {
+                deleteCnt++;
+            }
             else {
-                cerr << "ERROR:  unable to delete ID: "
-                     << par_listOfIDs.back() << endl;
+                cerr << "ERROR:  unable to delete ID: ";
+                cerr << par_listOfIDs.back() << endl;
             }
             par_listOfIDs.pop_back();
         }
@@ -136,9 +137,9 @@ int searchHash(ClosedHash & par_hash, unsigned par_count, list<int> & par_listOf
         cerr << "Unable to perform " << par_count << " searches." << endl;
     }
     else if (par_count > par_listOfIDs.size()) {
-        cerr << "Unable to search for " << par_count << " records,\n"
-             << " There are only " << par_listOfIDs.size()
-             << " random IDs in the hash." << endl;
+        cerr << "Unable to search for " << par_count << " records," << endl;
+        cerr << " There are only " << par_listOfIDs.size();
+        cerr << " random IDs in the hash." << endl;
     }
 
     // Search for the *LAST* 'par_count' IDs in the par_listOfIDs.  Report
@@ -146,16 +147,16 @@ int searchHash(ClosedHash & par_hash, unsigned par_count, list<int> & par_listOf
     else {
         par_probes = 0;
         IDlistPosition = par_listOfIDs.end();
-        IDlistPosition--;
         for (unsigned i = 0; i < par_count; i++) {
+            IDlistPosition--;
             if (par_hash.find(*IDlistPosition, probes)) {
                 foundCnt++;
                 par_probes += probes;
             }
             else {
-                cerr << "ERROR:  unable to find ID: " << (*IDlistPosition) << endl;
+                cerr << "ERROR:  unable to find ID: ";
+                cerr << (*IDlistPosition) << endl;
             }
-            IDlistPosition--;
         }
     }
 
@@ -192,6 +193,8 @@ int main() {
     //   until the user chooses to quit.
     while (response[0] != 'Q') {
 
+        render_menu();
+
         cout << endl << "Response ==> ";
         cout.flush();
         getline(cin, response);
@@ -213,11 +216,11 @@ int main() {
 
             // Report the number of records in the hash, the number
             // of records inserted, and the number of collisions
-            cout << inserted << " records inserted.\n"
-                 << totalCollisions << " collisions during inserts.\n"
-                 << "The hash now contains " << theHash.count()
-                 << " records.\n"
-                 << "Alpha = " << theHash.alpha() << endl;
+            cout << inserted << " records inserted." << endl;
+            cout << totalCollisions << " collisions during inserts." << endl;
+            cout << "The hash now contains " << theHash.count();
+            cout << " records." << endl;
+            cout << "Alpha = " << theHash.alpha() << endl;
             break;
 
             //--------------- Delete random ID's ----------------------------
@@ -233,12 +236,12 @@ int main() {
             // Delete 'count' hash values and store the results
             deleted = deleteRandCountIDs(theHash, count, IDlist);
 
-            if (deleted < 1) {
+            if (deleted > 0) {
                 // Report results
-                cout << deleted << " records deleted.\n"
-                     << "The hash now contains " << theHash.count()
-                     << " records.\n"
-                     << "Alpha = " << theHash.alpha() << endl;
+                cout << deleted << " records deleted.\n";
+                cout << "The hash now contains " << theHash.count();
+                cout << " records.\n";
+                cout << "Alpha = " << theHash.alpha() << endl;
             } else {
                 cout << "No records were deleted." << endl;
             }
@@ -257,10 +260,10 @@ int main() {
             // Perform 'count' searches for hash values and store the results
             found = searchHash(theHash, count, IDlist, totalProbes);
 
-            if (found < 1) {
+            if (found > 0) {
                 // Report results
-                cout << count << " searches performed.\n"
-                     << totalProbes << " probes during searches." << endl;
+                cout << count << " searches performed." << endl;
+                cout << totalProbes << " probes during searches." << endl;
             }
             break;
 
@@ -275,7 +278,7 @@ int main() {
             ID = strtol(response.c_str(), NULL, 10);
 
             if (ID <= 0) {
-                cerr << "Unable to insert ID: " << ID << endl;
+                cout << "Unable to insert ID: " << ID << endl;
             }
 
             // If the ID is valid, insert it into the hash
@@ -284,15 +287,15 @@ int main() {
 
                 // Report results
                 if (success) {
-                    cout << "ID inserted, there were " << totalCollisions
-                         << " collisions.\n"
-                         << "The hash now contains " << theHash.count()
-                         << " records.\n"
-                         << "Alpha = " << theHash.alpha() << endl;
+                    cout << "ID inserted, there were " << totalCollisions;
+                    cout << " collisions." << endl;
+                    cout << "The hash now contains " << theHash.count();
+                    cout << " records." << endl;
+                    cout << "Alpha = " << theHash.alpha() << endl;
                 }
                 else {
-                    cerr << "Unable to insert ID " << ID
-                         << " (duplicate ID or out of memory)." << endl;
+                    cout << "Unable to insert ID " << ID;
+                    cout << " (duplicate ID or out of memory)." << endl;
                 }
             }
             break;
@@ -308,7 +311,7 @@ int main() {
             ID = strtol(response.c_str(), NULL, 10);
 
             if (ID <= 0) {
-                cerr << "Unable to delete ID: " << ID << endl;
+                cout << "Unable to delete ID: " << ID << endl;
             }
 
             // If valid, remove the ID
@@ -316,15 +319,14 @@ int main() {
                 success = theHash.remove(ID);
 
                 // Report results
-                if (success) {
-                    cout << "ID " << ID << " deleted." << endl;
-                else {
-                    cerr << "Unable to delete ID " << ID << endl;
-                }
+                if (success)
+                cout << "ID " << ID << " deleted." << endl;
+                else
+                cout << "Unable to delete ID " << ID << endl;
 
-                cout << "The hash now contains " << theHash.count()
-                     << " records.\n"
-                     << "Alpha = " << theHash.alpha() << endl;
+                cout << "The hash now contains " << theHash.count();
+                cout << " records." << endl;
+                cout << "Alpha = " << theHash.alpha() << endl;
             }
             break;
 
@@ -339,7 +341,7 @@ int main() {
             ID = strtol(response.c_str(), NULL, 10);
 
             if (ID <= 0) {
-                cerr << "Unable to search for ID: " << ID << endl;
+                cout << "Unable to search for ID: " << ID << endl;
             }
 
             // If valid, search for the ID
@@ -348,12 +350,12 @@ int main() {
 
                 // Report results
                 if (success) {
-                    cout << "ID found, there were " << probes
-                         << " probes." << endl;
+                    cout << "ID found, there were " << probes;
+                    cout << " probes." << endl;
                 }
                 else {
-                    cerr << "ID: " << ID
-                         << " not found." << endl;
+                    cout << "ID: " << ID;
+                    cout << " not found." << endl;
                 }
             }
             break;
@@ -361,7 +363,6 @@ int main() {
             //--------------- Quit ----------------------------
         case 'Q':
         case 'q':
-            
             break;
 
         default:
@@ -369,7 +370,6 @@ int main() {
         }
 
     }
-    
+
     return(0);
-    
 }
