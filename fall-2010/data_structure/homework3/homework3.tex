@@ -27,26 +27,26 @@
 \definecolor{listinggray}{gray}{0.9}
 \definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
 \lstset{
-	%backgroundcolor=\color{lbcolor},
-	tabsize=4,
-	rulecolor=,
-	language=c++,
-        basicstyle=\setstretch{1},
-        upquote=true,
-        aboveskip={\baselineskip},
-        columns=fixed,
-        showstringspaces=false,
-        extendedchars=true,
-        breaklines=true,
-        prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
-        %frame=single,
-        showtabs=false,
-        showspaces=false,
-        showstringspaces=false,
-        identifierstyle=\ttfamily,
-        keywordstyle=\color[rgb]{0,0,1},
-        commentstyle=\color[rgb]{0.133,0.545,0.133},
-        stringstyle=\color[rgb]{0.627,0.126,0.941},
+  % backgroundcolor=\color{lbcolor},
+  tabsize=4,
+  rulecolor=,
+  language=c++,
+  basicstyle=\setstretch{1},
+  upquote=true,
+  aboveskip={\baselineskip},
+  columns=fixed,
+  showstringspaces=false,
+  extendedchars=true,
+  breaklines=true,
+  prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+  % frame=single,
+  showtabs=false,
+  showspaces=false,
+  showstringspaces=false,
+  identifierstyle=\ttfamily,
+  keywordstyle=\color[rgb]{0,0,1},
+  commentstyle=\color[rgb]{0.133,0.545,0.133},
+  stringstyle=\color[rgb]{0.627,0.126,0.941},
 }
 % In case you need to adjust margins:
 \topmargin=-0.45in      %
@@ -110,24 +110,18 @@ Due Date: Oct. 28th, 2010, beginning of the class.}
     \vspace{-15pt}
   \end{center}
 \end{table}
-With open chaining hashing, the result is shown on Table
+With open chaining hashing, the result is shown in Figure
 \ref{tbl:chainhash} \\ 
 
-\begin{table}[H]
+\begin{figure}[H]
+  \vspace{-15pt}
   \begin{center}
-    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|} 
-      \hline Bucket(Slot)&0&1&2&3&4&5&6&7&8&9&10 \\
-      \hline 
-      \multirow{3}{*}{Content} & 22& & & &4& & 28& & &31&10 \\
-      &88& & & &15& & 17& & && \\
-      && & & &59& & & & & &  \\
-      \hline
-    \end{tabular}
+    \includegraphics[scale=0.7]{chained_hashing}
     \caption{Hash Key layout with open Chain
       Hashing. \label{tbl:chainhash}}
     \vspace{-15pt}
   \end{center}
-\end{table}
+\end{figure}
 
 \item(20 points) What is the result of question 1, assuming collisions
   are handled by linear probing.
