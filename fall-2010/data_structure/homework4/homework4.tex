@@ -74,7 +74,6 @@ Due Date: Nov. 12th, 2010, beginning of the class.}
 \item(10 points): Let G be a simple connected undirected graph (simple
   graph: no self-edges) with n vertices and m edges. Explain why
   $O(log_2(m))$ is $O(log_2(n))$. 
-
 \answer
 For a simple connected undirected graph with n vertices, the smallest
 number of edges is $m = n - 1$, and the largest number of edges is $m
@@ -130,13 +129,13 @@ at vertex 1. \fbox{1,2,3,4,6,5,7,8}
   your choice. 
 \begin{enumerate}[a.]
 \item The graph has 10,000 vertices and 20,000 edges, and it is important
-to use as little space as possible.\\
+to use as little space as possible.
 \answer For adjacency matrix, the space we need is: $n^2=10000^2=10^8\ll
 20,000$, the matrix will be very sparse. A lot of space will be
 wasted, so in this case, adjacency list structure is a better choice. 
  
 \item The graph has 10,000 vertices and 20,000,000 edges, and it is
-important to use as little space as possible. \\
+important to use as little space as possible.
 \answer For adjacency matrix, the space we need is: $n^2=10000^2=10^8$
 which is of the same order as $20,000,000$, which means the matrix is
 much denser than the last question. But still about $80\%$ of the
@@ -144,7 +143,7 @@ matrix element is 0. And the space constraint requirement also makes
 the adjacency list a better choice over adjacency matrix. 
 
 \item You need to answer the query areAdjacent() as fast as possible, no
-matter how much space you use. \\
+matter how much space you use.
 \answer The time of \textbf{areAdjacentVertices()} operation for
 adjacency list is $O(min(deg(u),deg(v)))$ as compared with $O(1)$ when
 using adjacency matrix makes adjacency matrix the better choice. 
@@ -208,7 +207,6 @@ the Prim's algorithm, you can assume start with the vertex a.
 \item (15 Points). Do heap sort on the input numbers, 10, 21, 7, 15,
   4, 25. Start by building a min-heap using \textbf{BottomUpHeap()} we
   learned in the class. Give the intermediate result for each step.  
-
 \answer Please see result at Figure \ref{fig:heap-sort}.
 
 \begin{figure}[H]
