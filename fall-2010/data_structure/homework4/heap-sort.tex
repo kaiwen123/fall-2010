@@ -1,0 +1,56 @@
+\begin{figure}[H]
+  \vspace{-15pt}
+  \begin{center}
+    \subfigure[Initial] {
+      \label{fig:rm1}
+      \pstree[levelsep=5ex]{\Tcircle{4} }{
+        \pstree{\Tcircle{10}}{
+          \Tcircle{15}
+          \Tcircle{21}
+        }
+        \pstree{\Tcircle{7}}{
+          \Tcircle{25}\Tn
+        }
+      }
+    }
+    \subfigure[Remove 4.] {
+      \label{fig:rm2}
+      \pstree[levelsep=5ex]{\Tcircle{7}}{
+        \pstree{\Tcircle{10}}{
+          \Tcircle{15}
+          \Tcircle{21}
+        }
+        \Tcircle{25}
+      }
+    }
+    \subfigure[Remove 7.] {
+      \label{fig:rm3}
+      \pstree[levelsep=5ex]{\Tcircle{10}}{
+        \pstree{\Tcircle{15}}{
+          \Tcircle{21}\Tn
+        }
+        \Tcircle{25}
+      }
+    }
+    \subfigure[Remove 10.] {
+      \label{fig:rm4}
+      \pstree[levelsep=5ex]{\Tcircle{15}}{
+        \Tcircle{21}
+        \Tcircle{25}
+      }
+    }
+    \subfigure[Remove 15.] {
+      \label{fig:rm5}
+      \pstree[levelsep=5ex]{\Tcircle{21}}{
+        \Tcircle{25}\Tn
+      }
+    }
+    \subfigure[Remove 21.] {
+      \label{fig:rm6}
+      \pstree[levelsep=5ex]{\Tcircle{25}}{
+      }
+    }
+    \caption{BST structure after insert.\label{fig:heap-sort}}
+    \vspace{-15pt}
+  \end{center}
+\end{figure}
