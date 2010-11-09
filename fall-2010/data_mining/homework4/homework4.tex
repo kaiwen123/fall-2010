@@ -37,7 +37,7 @@
 \newcommand{\hmwkAuthorName}{Shumin\ Guo}
 
 % Setup the header and footer
-\pagestyle{fancy}                                                       %
+%\pagestyle{fancy}                                                       %
 \lhead{\hmwkAuthorName}                                                 %
 \chead{\hmwkClass\ - \hmwkTitle}  %
 \rhead{Page\ \thepage\ of\ \pageref{LastPage}}                          %
@@ -52,13 +52,17 @@
 \title{\textbf{\hmwkClass:\ 
       \hmwkTitle}\\\normalsize\small{Due\ Date:\
     \hmwkDueDate}} 
-\date{\today}
 \author{\textbf{\hmwkAuthorName}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
 % \begin{spacing}{1.1}
-\maketitle
+%\maketitle
+\begin{center}
+\textbf{\textup{\LARGE Data Mining  Homework \#4}} \\
+\textsc{Shumin Guo} \\
+\small{Due Date: Nov. 12th, 2010, beginning of the class.}
+\end{center}
 
 \begin{enumerate}
 \item (a) Define the clustering problem, and (b) define the measure
@@ -77,7 +81,7 @@ representative object of its cluster, such as square error.
   K-medoids for clustering. (c) Discuss a main challenge to both
   K-means and K-medoids algorithms.\\
 \textbf{ANSWER:} \\
-Advantage:\\
+\underline{Advantage}:\\
 The k-means algorithm takes the input parameter, k, and partitions a
 set of n objects into k clusters so that the resulting intracluster
 similarity is high but the intercluster similarity is low. The
@@ -90,7 +94,7 @@ n is the total number of objects, k is the number of clusters, and t
 is the number of iterations. Normally, k$\ll$n and t$\ll$n. The method often
 terminates at a local optimum. 
 
-Disadvantage:\\
+\underline{Disadvantage}:\\
 The necessity for users to specify k,
 the number of clusters in advance can be seen as a disadvantage. The
 k-means method is not suitable for discovering clusters with
@@ -150,8 +154,8 @@ feature also renders them unproper for high dimensional data sets.
 
 \item Briefly discuss how recent algorithms deal with clustering for
   large amount of data, or nonsphere shaped clusters.  \\
-\textbf{ANSWER:} \\
-
+\textbf{ANSWER:}
+\vspace{-10pt}
 \begin{itemize}
 \item Reducing the number of instances to be maintained
   while maintaining the distribution of regions/clusters.\\
@@ -212,9 +216,24 @@ $\Rightarrow$ Replace 4 by $2|3$: AggDis is large. \\
 $\Rightarrow$ Replace 4 by 6: AggDis = 20. Medoids: 2, 6.\\
 $\Rightarrow$ Replace 4 by 7: AggDis = 12. Medoids: 2, 7.\\
 $\Rightarrow$ Replace 4 by 8: AggDis = 12. Medoids: 2, 8.\\
-$\Rightarrow$ Replace 2 by 3: AggDis = 12. Medoids: 2, 8.\\
-
-So, the final medoids are 2, 6 with aggregate dissimilarity 12. 
+$\Rightarrow$ Replace 4 by 9: AggDis is large.\\
+So, for smallest aggregate dissimilarity, the medoids can be
+combinations (See Table \ref{tbl:modoids})of 2(3) and 7(8) with
+aggregate dissimilarity as 12. 
+\begin{table}[H]
+  \begin{center}
+    \begin{tabular}{|c|c|c|} 
+      \hline Medoid1 & Medoid2 & DisAgg \\
+      \hline 2 & 7 & 12 \\
+      \hline 2 & 8 & 12 \\
+      \hline 3 & 7 & 12 \\
+      \hline 3 & 8 & 12 \\
+      \hline
+    \end{tabular}
+    \caption{Possible Modoids. \label{tbl:modoids}} 
+    \vspace{-15pt}
+  \end{center}
+\end{table}
 
 \item Apply the bottom-up hierarchical algorithm for the following
   1-dimensional points and k=2:1,2,3,4,6,7,8,9.\\
@@ -228,8 +247,10 @@ Single linkage uses nearest neighbor technique, this method define
 distance between clusters as the distance between the closest pair of
 objects, where only pairs consisting of one object from each group is
 considered. The distance $D(r,s)$ can be computed as: \\
-$D(r,s) = Min{d(i,j) : Where object i is in cluster r and object j is
- cluster s}$ \\
+
+D(r,s) = Min\{d(i,j) : Where object i is in cluster r and object j is
+ cluster s\} \\
+
 At each stage of hierarchical clustering, the clusters r and s , for
 which D(r,s) is minimum, are merged.
 
@@ -238,15 +259,37 @@ is the opposite of single linkage.  Distance between groups is now
 defined as the distance between the most distant pair of objects, one
 from each group. 
 In the complete linkage method, D(r,s) is computed as \\
-$D(r,s) = Max {d(i,j) : Where object i is in cluster r and object j is
- cluster s}$ \\
-At each stage of hierarchical clustering, the clusters r and s , for
-which D(r,s) is minimum, are merged.
 
+D(r,s) = Max\{d(i,j) : Where object i is in cluster r and object j is
+ cluster s\} \\
+
+At each stage of hierarchical clustering, the clusters r and s , for
+which D(r,s) is minimum, are merged. \\
+Please see the dendrogram for single linkage at Figure
+\ref{fig:dgram-s} and dendrogram for complete linkage at Figure
+\ref{fig:dgram-c}. 
+
+\begin{figure}[H]
+  \vspace{-10pt}
+  \begin{center}
+    \includegraphics[scale=0.6]{dgram-s}
+    \caption{Dendrogram for Single Linkage.\label{fig:dgram-s}}
+  \end{center}
+  \vspace{-20pt}
+\end{figure}
+
+\begin{figure}[H]
+  \vspace{-10pt}
+  \begin{center}
+    \includegraphics[scale=0.6]{dgram-c}
+    \caption{Dendrogram for Single Linkage.\label{fig:dgram-c}}
+  \end{center}
+  \vspace{-20pt}
+\end{figure}
 
 \end{enumerate} % For whole homework. 
 
-Marks available: 10 marks for each question. 
+\underline{Marks available: 10 marks for each question.}
 \end{document}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
