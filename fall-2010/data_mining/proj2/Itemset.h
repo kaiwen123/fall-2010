@@ -18,6 +18,7 @@ using namespace std;
 class Itemset {
  private:
   vector<Item> is_items;	/* a set of items. */
+  int count; 			/* number of occurances in datasets. */
 
  public:
   /* a ctors. */
@@ -28,6 +29,7 @@ class Itemset {
 
   /* getters. */
   int getSize() const {return is_items.size();} 
+  int getCount() const {return count;}
   vector<Item> getSet() const {return is_items;}
   Item getLastItem();		/* helper function for joining. */
   Item getSndLastItem();	/* get second last. */
@@ -36,6 +38,7 @@ class Itemset {
   /* setters. */
   Itemset& pushBack(Item& item); /* add item to set. */
   bool clear(){is_items.clear();} /* remove all sets. */
+  void setCount(int cnt) {count = cnt;}
 
   /**
    * @brief Test if this item set is joinable with another one? 
@@ -61,9 +64,17 @@ class Itemset {
    */
   friend ostream& operator<<(ostream& out, const Itemset& set);
   bool operator==(Itemset& set);
+  Itemset operator+(Itemset& set);
   Item& operator[](int idx){return is_items[idx];}
+  bool find(Item& item) {
+    for(int i = 0; i < getSize(); i++) {
+      if(getSet()[i] == item) return true; 
+    }
+    return false;
+  }
 };
 bool operator<(const Itemset& set1, const Itemset& set2);
 bool operator>(const Itemset& set1, const Itemset& set2);
 bool isJoinable(Itemset& set1, Itemset& set2);
+bool subtract(Itemset& set1, Itemset& set2);
 #endif //ifdef

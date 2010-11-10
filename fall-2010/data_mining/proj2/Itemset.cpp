@@ -1,11 +1,12 @@
 #include "Itemset.h"
 
 // Constructors. 
-Itemset::Itemset() {is_items.clear();}
-Itemset::Itemset(const Itemset& set):is_items(set.getSet()) {}
+Itemset::Itemset():count(0) {is_items.clear();}
+Itemset::Itemset(const Itemset& set):is_items(set.getSet()),count(getCount()) {}
 Itemset& Itemset::operator=(const Itemset& set) {
   if(this == &set) return *this;
   is_items = set.getSet();
+  count = set.getCount();	// count of itemset. 
   return *this;
 }
 
@@ -14,7 +15,9 @@ Itemset::~Itemset(){is_items.clear();}
 
 // test if *this* itemset is joinable with another one.
 bool Itemset::isJoinable(Itemset& set) {
+  if(getSize() == 1 || set.getSize() == 1) return false; 
   if(getSize() != set.getSize()) return false;
+  if(*this == set) return false;
   for(int i = 0; i < getSize() - 1; i++) {
     if(is_items[i] != set[i]) return false;
   }
@@ -22,6 +25,7 @@ bool Itemset::isJoinable(Itemset& set) {
 }
 
 bool isJoinable(Itemset& set1, Itemset& set2) {
+  if(set1.getSize() == 1 || set2.getSize() == 1) return false; 
   if(set1.getSize() != set2.getSize()) return false;
   if(set1 == set2) return false;
   for(int i = 0; i < set1.getSize() - 1; i++) {
@@ -46,7 +50,8 @@ Itemset Itemset::join(Itemset& set) {
 
 // push an item into the set from back. 
 Itemset& Itemset::pushBack(Item& item) {
-  is_items.push_back(item);
+  Item itm = item; 
+  is_items.push_back(itm);
   return *this;
 }
 
@@ -93,17 +98,38 @@ bool Itemset::operator==(Itemset& set) {
 
 // operator <
 bool operator<(const Itemset& set1, const Itemset& set2) {
-  if(set1.getSize() != set2.getSize()) return false;
+  //if(set1.getSize() != set2.getSize()) return false;
+  int size1 = set1.getSize(), size2 = set2.getSize();
+  if(size1 < size2) {
+#ifdef DEBUG_ITEMSET_COMPARE
+    cout << set1 << " < " << set2 << endl;
+#endif
+    return true; 
+  }
+  if(size1 > size2){
+#ifdef DEBUG_ITEMSET_COMPARE
+    cout << set1 << " > " << set2 << endl;
+#endif
+    return false;
+  }
+  
+  // When size1 == size2, compare element by element. 
   bool result = false;
-  for(int i = 0; i < set1.getSize(); i++) {
+  for(int i = 0; i < size1; i++) {
     if(set1.getSet()[i] == set2.getSet()[i]) {
       continue;
-    } else {
-      if(set1.getSet()[i] < set2.getSet()[i]) {
-	result = true; break;
-      } else {
-	result = false; break;
-      }
+    } 
+    if(set1.getSet()[i] < set2.getSet()[i]) {
+#ifdef DEBUG_ITEMSET_COMPARE
+      cout << set1 << " < " << set2 << endl;
+#endif
+      return true;
+    }
+    if(set1.getSet()[i] > set2.getSet()[i]) {
+#ifdef DEBUG_ITEMSET_COMPARE
+      cout << set1 << " > " << set2 << endl;
+#endif
+      return false;
     }
   }
   return result;
@@ -118,4 +144,28 @@ bool operator>(const Itemset& set1, const Itemset& set2) {
     cout << set1.getSet()[i] << " " << set2.getSet()[i] << endl;
   }
   return result;
+}
+
+Itemset Itemset::operator+(Itemset& set) {
+  Itemset rset = *this; 
+  for(int i = 0; i < set.getSize(); i++) {
+    Item item = set[i];
+    rset.pushBack(item);
+  }
+  return rset;
+}
+
+// Overloading operator - .
+bool subtract(Itemset& set1, Itemset& set2) {
+  if(set1.getSize() <= set2.getSize()) return false;
+  Itemset rset;
+  for(int i = 0; i < set1.getSize(); i++) {
+    Item item = set1.getSet()[i]; 
+    // Test if item is in set. 
+    if(!set2.find(item)) {
+      rset.pushBack(item);
+    }
+  }
+  set1 = rset; 
+  return true;
 }

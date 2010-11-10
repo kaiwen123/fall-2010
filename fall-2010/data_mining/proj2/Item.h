@@ -61,7 +61,7 @@ class Item {
   bool operator>=(Item& item){return !(*this < item);}
   bool operator<=(Item& item){return !(*this > item);}
   friend ostream& operator<<(ostream& out, Item const& item) {
-    out << /* item.i_group; */item.getId();
+    out << /* item.i_group << " " << */ item.getId();
     return out;
   } 
 };

@@ -1,5 +1,5 @@
 #include "HashTree.h"
-
+extern int numTrans; 
 HashNode::HashNode():parent(NULL),hkey("0:0"),level(0){
   children.clear();
   item_sets.clear();
@@ -16,7 +16,8 @@ void HashNode::visit() {
        << " NFI:" << getNumFreqSets() << " FIS:";
   map<Itemset, int>::iterator it; 
   for(it = getFreqsets().begin(); it != getFreqsets().end(); it++) {
-    cout << (*it).first << ":" << (*it).second << " "; 
+    cout << (*it).first << ":" 
+	 << (float)((*it).second)/(float)numTrans << " "; 
   }
   cout << endl;
 }
@@ -56,7 +57,8 @@ bool HashNode::joinSameParentSets(vector<Itemset>& set) {
 ostream& operator<<(ostream& out, HashNode& node) {
   map<Itemset, int>::iterator it;
   for(it = node.getFreqsets().begin(); it != node.getFreqsets().end(); it++) {
-    out << (*it).first << ":" << (*it).second << endl;
+    out << (*it).first << ":" 
+	<< (float)((*it).second)/(float)(numTrans) << endl;
   }
   return out;
 }

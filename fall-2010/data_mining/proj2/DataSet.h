@@ -11,43 +11,22 @@
 #define _DataSetClass_ 
 #include "defs.h"
 #include "HashTree.h"
+#include "AssoRule.h"
 
 using namespace std; 
 class DataSet {
  private: 
-  int g, k; 			/* number of genes and rules to do. */
-  int minSup; 			/* minimum support. */
-  float minConf;		/* minimum confidence. */
-  int gnum;			/* total number of genes. */
-  int tnum;			/* total number of transactions. */
   vector<vector<Item> > d_sets; /* Feature sets. */
-  map<Itemset, int> fst;	/* first level item sets. */
-  map<Itemset, int> snd;	/* Second level item sets. */
-  HashTree *hroot;		/* the root of hash tree. */
+  map<Itemset, int> freqsets;	/* All frequent item sets. */
+  priority_queue<AssoRule> qrules; /* Association rules. */
+  /* The size of queue should be equal or less than k. */
 
  public:
-  DataSet();
+  DataSet(){}
   ~DataSet(){}
-
-  /* getters. */
-  int getNumGenes() const {return gnum;}
-  int getNumTrans() const {return tnum;}
-  int getMinSupport() {return minSup;}
-  float getMinConf() {return minConf;}
-  int getNumGeneToProcess() const {return g;}
-  int getNumRulesToProduce() const {return k;}
-
-  /* Setters. */
-  void setMinSupport(int sup) {minSup = sup;}
-  void setMinConf(float conf) {minConf = conf;}
-  void setNumGenes(int g) {gnum = g;}
-  void setNumTrans(int t) {tnum = t;}
-  void setNumGeneToProcess(int numg) {g = numg;}
-  void setNumRulesToProduce(int numr) {k = numr;}
 
   /* Scanners. */
   void scanLevelOne(Itemset set);
-  void printLevelFreqSets(int level);
   void scanLevelTwo();
 
   /**
@@ -101,13 +80,14 @@ class DataSet {
   friend ostream& operator<<(ostream& out, DataSet& g);
 
   /**
-   * @brief Find k genes with highest information gain after the
-   * entropy based discretization.
-   * @param k the number of gene to be searched. 
-   * @return none.
+   * @brief Generate Association rule from Itemset. 
    */
-  void findTopkGene(int k); 
-  void printInfoGain();
+  bool genAssoRule();
+
+  /**
+   * @brief Print top k association rules. 
+   */
+  void printAssoRule(); 
 };
 
 #endif //ifdef

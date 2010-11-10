@@ -8,6 +8,7 @@
 #include <queue>
 #include <map>
 #include <fstream>
+#include <algorithm>		/* to use sort(). */
 #include <cstdio> 		/* for sprintf() - DataSet.cpp*/
 
 using namespace std;
@@ -23,4 +24,5 @@ typedef char gene_group_t;
 #define HASHSIZE 5
 int hashfunc(int value);
 std::string itoa(const int &integer);
+
 #endif	/* end of #ifndef */

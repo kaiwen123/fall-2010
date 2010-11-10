@@ -1,8 +1,15 @@
+#include "Itemset.h"
 #include "DataSet.h"
 
 using namespace std; 
 
+// Global variables.
+int numTrans = 0, g = 0, k = 0;
+float minSupport = 0.0;; 
+float minConf = 0.0;
+
 void Usage();
+
 int main(int argc, char *argv[]) {
   if(argc != 6 || atoi(argv[3]) < 0 || atoi(argv[3]) > 1.0) {
     Usage();
@@ -14,15 +21,23 @@ int main(int argc, char *argv[]) {
     cerr << "Can't create the GeneDataSet object." << endl;
     return 0;
   }
-  pDataSet->setMinSupport(atoi(argv[2]));
-  pDataSet->setMinConf(atoi(argv[3]));
-  pDataSet->setNumGeneToProcess(atoi(argv[4]));
-  pDataSet->setNumRulesToProduce(atoi(argv[5]));
+  minSupport = atof(argv[2]);
+  if(minSupport > 1 || minSupport <= 0) {
+    cerr << "Invalide minimum support." << endl; return 1; 
+  } 
+  if(minSupport < 0.3) {
+    cerr << "WARNING!!! Minimum support TOO SMALL...!" << endl;
+  }
+  minConf = atof(argv[3]);
+  if(minConf > 1 || minConf <= 0) {
+    cerr << "Invalide minimum confidence." << endl; return 1; 
+  }
+  g = atoi(argv[4]);
+  k = atoi(argv[5]);
+
+  // Load data from file.
   string fname; 
-  // p2entbindata.txt | p2eqbindata.txt
-  fname = string("p2entbindata.txt"); 
-  fname = string("5d1"); 
-  fname = string("5d");
+  fname = string(argv[1]);
   pDataSet->loadFromFile(fname);
 
   // Do Item mapping, which will map the gene data into unique ids for
@@ -37,21 +52,29 @@ int main(int argc, char *argv[]) {
   pDataSet->saveItemMap(fname); 
   cout << " ...... done!" << endl;
 
-  // Now start the APRIORI process. 
+  // Now start the APRIORI Algorithm. 
   // We need to do level one and level two APRIORI mining, and then
   // using the hash tree to do APRIORI mining of other levels. 
-  // pDataSet->printLevelFreqSets(1);
-
+  
+  cout << "Doing Apriori Algorithm on data set "; 
   pDataSet->doApriori(); 
-  //pDataSet->printLevelFreqSets(2);
+  cout << " ...... done!" << endl; 
 
   // Save Freqient item sets into file. 
   fname = string("p2FreqItemsets.txt"); 
   cout << "Saving frequent itemsets to " << fname; 
   pDataSet->saveFreqItemSets(fname);
   cout << " ...... done!" << endl;
-  delete pDataSet;
 
+  cout << "Generating Association rules "; 
+  pDataSet->genAssoRule();
+  cout << " ...... done!" << endl; 
+
+  cout << "\nTop " << k 
+       << " association rules ranked by sup*conf:\n\n"; 
+  pDataSet->printAssoRule();
+  
+  delete pDataSet;
   return 0; 
 }
 

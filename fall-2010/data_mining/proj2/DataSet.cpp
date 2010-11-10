@@ -1,10 +1,6 @@
 #include "DataSet.h"
-
-DataSet::DataSet(){
-  g = k = minSup = gnum = tnum = 0;
-  minConf = 0.0;
-  hroot = NULL;
-}
+extern float minSupport, minConf;
+extern int g, k, numTrans;
 
 // Load gene data from file.  
 bool DataSet::loadFromFile(string fname) {
@@ -17,7 +13,7 @@ bool DataSet::loadFromFile(string fname) {
   DataSet* pDataSet = NULL; // pointer to gene data set. 
   int row = -1, col = -1; 
   int totalrow, totalcol;
-  cout << "Start loading data ... " << endl; 
+  cout << "Start loading data ...... "; 
   while(fdata) {
     if(!fdata.good()) {
       cerr<<"Error while reading data file."<<endl; return 1;
@@ -38,7 +34,16 @@ bool DataSet::loadFromFile(string fname) {
 	td.push_back(Item(tmp[0], col)); 
 	line=line.substr(poscomma+1,line.size()-poscomma).c_str();
 	// Control number of genes to process. 
-	if(col >= getNumGeneToProcess()-1) {
+	if(col == g - 2) {	// g-1 cols done. 
+	  //cout << "col = " << col << " g = " << g << " " << line << endl;
+	  if(line.find('p',0) != string::npos) {
+	    col++; Item item('p', col);
+	    td.push_back(item); 
+	  }
+	  if(line.find('n',0) != string::npos) {
+	    col++;Item item('n', col);
+	    td.push_back(item); 
+	  }
 	  d_sets.push_back(td);
 	  totalrow = row; totalcol = col;
 	  col = -1;
@@ -62,24 +67,23 @@ bool DataSet::loadFromFile(string fname) {
     }
   } //while(fdata)
   fdata.close();
-  setNumGenes(totalcol + 1);
-  setNumTrans(totalrow + 1);
-  if(g > getNumGenes()) setNumGeneToProcess(getNumGenes());
+  numTrans = totalrow + 1; 
+  if(g > totalcol + 1) g = totalcol + 1;
 
   // Statistics. 
-  cout << "Finished loading data. " << endl
-       << "Totally loaded " << getNumTrans()
-       << " lines and " << getNumGenes()
+  cout << " done! " << endl
+       << "Totally loaded " << numTrans
+       << " lines and " << g
        << " columns of data." << endl;
 }
 
 // Map gene data into unique identifiers. 
 bool DataSet::doItemMap() {
-  int count; 
-  map<char, int> mp;		// 
-  for(int i = 0; i < getNumGenes(); i++){
+  int count = 0; 		// Initialize it!!
+  map<char, int> mp;
+  for(int i = 0; i < g; i++){
     int cnt = 0; mp.clear();
-    for(int j = 0; j < getNumTrans(); j++){
+    for(int j = 0; j < numTrans; j++){
       char grp = d_sets[j][i].getGroup();
       if(!mp.count(grp)) {
 	mp[grp] = cnt;
@@ -101,59 +105,52 @@ bool DataSet::doItemMap() {
   }// for cols.
 }
 
-// Scan level one frequent sets.
+// // Scan level one frequent sets.
 void DataSet::scanLevelOne(Itemset set) {
-  if(fst.find(set) == fst.end()) {
-    fst[set] = 1;
+  if(freqsets.find(set) == freqsets.end()) {
+    freqsets[set] = 1;
   } else {
-    fst[set]++;
+    freqsets[set]++;
   }
 }
 
 // Scan level two item sets. 
 void DataSet::scanLevelTwo(){
-  // for Item in col i and col j > i
-  // if they are joinable, then, join them and 
-  for(int i = 0; i < getNumTrans(); i++){
-    for(int j = 0; j < getNumGenes(); j++){ // col j; 
-      for(int k = j + 1; k < getNumGenes(); k++){ // col k > j;	
-	//string key = d_sets[i][j] 
-	Itemset set1, set2; // do joining.
-	set1.pushBack(d_sets[i][j]);
-	set2.pushBack(d_sets[i][k]);
-	set1 = set1.join(set2);
-	if(snd.find(set1) == snd.end()) {
-	  snd[set1] = 1;
-	} else {
-	  snd[set1]++;
-	}
-#ifdef DEBUG_LEVEL_TWO
-	cout << " key: " << set1
-	     << " count: " << snd[set1]
-	     << endl;
-#endif
-      }
+  // A new version. 
+  map<Itemset, int>::iterator itset; 
+  for(itset = freqsets.begin(); itset != freqsets.end(); itset++) {
+    float spt = (float)(*itset).second/numTrans;
+    if(spt < minSupport) {
+      freqsets.erase((*itset).first);
     }
   }
-  // Remove itemsets with frequency < minimum Support. 
-  map<Itemset, int>::iterator it; 
-  for(it = snd.begin(); it != snd.end(); it++) {
-    if((*it).second < getMinSupport()) {
-#ifdef DEBUG_APRIORI_PRUNE
-      cout << "Remove: " << (*it).first 
-	   << " - " << (*it).second 
-	   << " < " << getMinSupport() << endl;
-#endif
-      snd.erase((*it).first);
-    }
-  }
+
+  // Now, scan and get level two frequent itemsets. 
+  map<Itemset, int>::iterator itfst; 
+  for(itfst = freqsets.begin(); itfst != freqsets.end(); itfst++) {
+    map<Itemset, int>::iterator itsnd; 
+    for(itsnd = itfst; itsnd != freqsets.end(); itsnd++) {
+      Itemset set1 = (*itfst).first;
+      Itemset set2 = (*itsnd).first;
+      if(!(set1 == set2) 
+	 && (set1.getSize() == 1)
+	 && (set2.getSize() == 1)) {
+	Itemset set = set1 + set2; 
+	int count = scanItemset(set);
+	float sup = (float)count/numTrans;
+	if(sup >= minSupport) {
+	  freqsets[set] = count;
+	} // pruning check. 
+      }	// if combine two level one sets into one level two sets.
+    } // for in loop
+  } // for out loop
 }
 
 // scan itemset and get the number of occurances. 
 int DataSet::scanItemset(Itemset& set) {
   int count = 0;
   bool equal = true;
-  for(int i = 0; i < getNumTrans(); i++){
+  for(int i = 0; i < numTrans; i++){
     equal = true;
     for(int j = 0; j < set.getSize(); j++) {
       int colpos = set[j].getColumnPos();
@@ -179,16 +176,16 @@ int DataSet::scanItemset(Itemset& set) {
 // Save item map into given file. 
 bool DataSet::saveItemMap(string fname) {
   ofstream fdata(fname.c_str());
-  // Check if open file successful.
   if(!fdata) {
    cerr << "Error opening file to save map data" << endl; 
    return false;
   }
-  for(int i = 0; i < getNumTrans(); i++){
-    for(int j = 0; j < getNumGenes(); j++){
-      fdata << d_sets[i][j];
-      if(j < getNumGenes()-1) {
-	fdata << ",";    
+  for(int i = 0; i < numTrans; i++){
+    for(int j = 0; j < g; j++){
+      fdata << d_sets[i][j].getGroup() << " " 
+	    << d_sets[i][j].getId();
+      if(j < g-1) {
+	fdata << ",";
       }
     }
     fdata << endl; 
@@ -200,121 +197,36 @@ bool DataSet::saveItemMap(string fname) {
 // nindex is used to store the index of all the nodes of 
 // the hash tree.
 bool DataSet::doApriori() {
-  // Scanning for level two item sets. 
+  // Scan level one and joined it to level two. 
   scanLevelTwo();
-  // First we need to build level one two for the tree.
-  // iteratively do APRIORI of other levels. 
-  hroot = new (nothrow) HashTree();
-  map<string, HashNode*> nindex; // node index of tree.
-  map<Itemset, int>::iterator it; 
-  queue<HashNode*> qapriori;	// A queue for iterative apriori.
-  HashNode *prt;		// parent of to-be-inserted node.
-  Itemset set;
-  for(it = snd.begin(); it != snd.end(); it++) {
-    set.clear();
-    Itemset iset = const_cast<Itemset&>((*it).first);
-    int cnt = (*it).second;
-#ifdef DEBUG_HASH_INSERTSET
-    cout << "working for Set: " << iset << endl;	
+  // Now, let's do the APRIORI algorithm.
+  map<Itemset, int>::iterator it1; 
+  for(it1 = freqsets.begin(); it1 != freqsets.end(); it1++) {
+    map<Itemset, int>::iterator it2; 
+    for(it2 = it1; it2 != freqsets.end(); it2++) {
+      Itemset set1 = (*it1).first; 
+      Itemset set2 = (*it2).first;
+      bool canJoin = set1.isJoinable(set2);       
+      if(canJoin) {
+	Itemset set = set1.join(set2);
+	int count = scanItemset(set); 
+	float spt = (float)count / numTrans; 
+	if(freqsets.find(set) == freqsets.end() 
+	   && spt >= minSupport) {
+#ifdef DEBUG_APRIORI
+	  cout << set1 << ":" << (float)freqsets[set1]/numTrans
+	       << " " << set2 << ":" << (float)freqsets[set2]/numTrans
+	       << " - " << canJoin << " -> " 
+	       << set << ":" << spt << endl;
 #endif
-    for(int i = 0; i < iset.getSize(); i++) {
-      Item itm = iset[i]; set.pushBack(itm);
-      int hcode = hashfunc(itm.getId());
-      int lvl = set.getSize();
-      string nkey = set.calcKeyStr(lvl);
-      if(nindex.find(nkey) == nindex.end()) { // no node exists.
-	HashNode *node = new (nothrow) HashNode();
-	if(!node) {cerr << "Can't create node." << endl; return false;}
-	nindex.insert(pair<string, HashNode*>(nkey, node));
-	node->insertFreqSet(set, cnt);
-	node->setNodeLevel(lvl);
-	node->setHashKey(nkey);
-	if(lvl == 1) {		// level one
-	  prt = hroot->getRoot(); 	  
-	} else {		// level higher than one.
-	  string key = set.calcKeyStr(lvl-1);
-	  prt = nindex[key];
+	  freqsets[set] = count;
 	}
-#ifdef DEBUG_HASH_INSERTSET
-	cout << "CN " << nkey << "->" << prt->getHashKey() << endl;
-	cout << "II " << set << ":" << cnt
-	     << " NN: " << node->getHashKey() 
-	     << "->" << prt->getHashKey() << endl;
-#endif
-	prt->insertChildrenSet(set); // insert to children sets for joining.
-	qapriori.push(node);
-	hroot->insertNode(prt, node); 
-      } else {			// node already exists.
-	// if can't find set, then insert into node.
-	if(!nindex[nkey]->findFreqSet(set)){ 
-	  nindex[nkey]->insertFreqSet(set, cnt);
-	  nindex[nkey]->getParent()->insertChildrenSet(set);
-#ifdef DEBUG_HASH_INSERTSET
-	  cout << "II " << set << ":" << cnt 
-	       << " ND: " << nkey << "->" 
-	       << nindex[nkey]->getParent()->getHashKey() << endl;
-#endif
-	} // if node exist but set not in node.
-      } // if node already exists.
-    } // for iterate items within itemset. 
-  } // for 
-  fst.clear(); snd.clear();	// clear all the content for 1 & 2.
-  // Now let's iteratively do other levels of join and pruning.
-  HashNode *node;
-  vector<Itemset> sets; 	// sets after join. 
-  while(!qapriori.empty()) {
-    // get Hash tree node. 
-    node = qapriori.front(); qapriori.pop();
-#ifdef DEBUG_APRIORI 
-    cout << "working for node : " << node->getHashKey() << endl;
-#endif
-    // join itemsets in this node. 
-    sets.clear();
-    if(node->joinSameParentSets(sets)){
-      vector<Itemset>::iterator it; 
-      for(it = sets.begin(); it != sets.end(); it++) {
-	int cnt = scanItemset(*it);
-	if(cnt < getMinSupport()) continue; 
-	string key = it->calcKeyStr(it->getSize());
-	string pkey = it->calcKeyStr(it->getSize()-1); 
-	if(nindex.find(pkey) == nindex.end()) {
-	  cerr << "Can't find parent of node " << key << endl;
-	  return false; 
-	}
-	prt = nindex[pkey];
-	if(nindex.find(key) == nindex.end()) {
-	  HashNode *nnode = new (nothrow) HashNode();
-	  if(!nnode) {cerr << "Can't create node." << endl; return false;}
-	  nindex.insert(pair<string, HashNode*>(key, nnode));
-	  nnode->insertFreqSet(*it, cnt);
-	  nnode->setNodeLevel(it->getSize());
-	  nnode->setHashKey(key);
-	  qapriori.push(nnode);
-	  prt->insertChildrenSet(*it); ///
-	  hroot->insertNode(prt, nnode);
-#ifdef DEBUG_HASH_INSERTSET
-	  cout << "CN " << key << "->" << node->getHashKey() << endl;
-	  cout << "II " << set << ":" << cnt
-	       << " NN: " << nindex[key]->getHashKey() << "->" 
-	       << prt->getHashKey() << endl;
-#endif
-	} else {
-	  if(!nindex[key]->findFreqSet(*it)){
-	    nindex[key]->insertFreqSet(*it, cnt);
-	    nindex[key]->getParent()->insertChildrenSet(*it);
-#ifdef DEBUG_HASH_INSERTSET
-	    cout << "II " << *it << ":" << cnt 
-		 << " ND: " << key << "->" 
-		 << nindex[key]->getParent()->getHashKey() << endl;
-#endif
-	  } // if find set in node.
-	} // if find node.
-      }	// for sets. 
+      } else {
+	// continue when set1 and set2 can't join and not equal. 
+	if(!(set1 == set2)) break; 
+      }
     }
   }
-#ifdef DEBUG_APRIORI_TRAVERSAL
-  hroot->levelTraverse(hroot->getRoot());
-#endif
 }
 
 // Save frequent itemsets into given file.
@@ -325,47 +237,119 @@ bool DataSet::saveFreqItemSets(string fname) {
    cerr << "Error opening file to save map data" << endl; 
    return false;
   }
-  // level order traverse.
-  if(!hroot->getRoot()) return false;
-  queue<HashNode*> q;
-  HashNode* curnode = hroot->getRoot(); 	// current node. 
-  q.push(curnode);
-  while(q.size() > 0 && curnode) {
-    curnode = q.front(); 
-    vector<HashNode*>::iterator it;
-    for(it = curnode->getChildren().begin(); 
-	it != curnode->getChildren().end(); it++) {
-      if(*it) {
-	q.push(*it);
-      }
-    }
-    q.pop();
-    fdata << *curnode;
+  map<Itemset, int>::iterator it; 
+  for(it = freqsets.begin(); it != freqsets.end(); it++) {
+    fdata << (*it).first << ":" << (float)(*it).second/numTrans << endl; 
   }
+
   fdata.close();
   return true;
 }
 
-// Print data set of a certain level. 
-void DataSet::printLevelFreqSets(int level){
-  switch(level) {
-  case 1: {
-    map<Itemset, int>::iterator it; 
-    for(it = fst.begin(); it != fst.end(); it++) {
-      cout << (*it).first << ":" << (*it).second << endl;
+// Generate Association rules for all the frequent itemsets in the
+// hash tree. 
+bool DataSet::genAssoRule() {
+  map<Itemset, int>::iterator it; 
+  for(it = freqsets.begin(); it != freqsets.end(); it++) {
+    Itemset set = (*it).first;
+    int count = (float)(*it).second;
+    int size = set.getSize(); 
+    float support = (float)count/numTrans;
+    // For each frequent set, generating rule. 
+    if(size == 1) continue; 	// ignore those with one item. 
+
+    map<Itemset, int> mset; 	// set tree within the tree. 
+    vector<Itemset> vset; 
+    for(int i = 0; i < size; i++) {
+      Item item = set[i];
+      Itemset tset; 
+      tset.pushBack(item);
+      if(mset.find(tset) == mset.end()) {
+	mset[tset] = 1; 
+      }
+    }
+    // level two. 
+    map<Itemset, int>::iterator it1; 
+    for(it1 = mset.begin(); it1 != mset.end(); it1++) {
+      map<Itemset, int>::iterator it2; 
+      for(it2 = it1; it2 != mset.end(); it2++) {
+	Itemset set1 = (*it1).first, set2 = (*it2).first; 
+
+	// Generate level two set.
+	if(!(set1 == set2) 
+	   && (set1.getSize() == 1)
+	   && (set2.getSize() == 1)) {
+	  Itemset jset = set1 + set2;
+	  if(!(jset == set)) {
+
+#ifdef DEBUG_ASSORULE
+	    cout << "Level Two Set: " << set1 << " + " 
+	       << set2 << "<->" << jset << endl;
+#endif
+	    if(mset.find(jset) == mset.end()) {
+	      mset[jset] = 1; 
+	    }
+	    //vset.push_back(jset);
+	  } // if push to vector. 
+	} // if set1 != set2
+      }	// for inner loop 
+    } // for out loop 
+
+    // Other Levels. 
+    map<Itemset, int>::iterator it11; 
+    for(it11 = mset.begin(); it11 != mset.end(); it11++) {
+      map<Itemset, int>::iterator it21;
+      for(it21 = it11; it21 != mset.end(); it21++) {
+	Itemset set1 = (*it11).first; 
+	Itemset set2 = (*it21).first;
+	bool canJoin = set1.isJoinable(set2);       
+	if(canJoin) {
+	  Itemset jset = set1.join(set2);
+	  // Push to set. 
+	  if(mset.find(jset) == mset.end()
+	     && !(jset == set)) {
+	    mset[jset] = 1; 
+	  }
+	} else {
+	  if(!(set1 == set2)) break; 
+	}
+      }
+    }
+
+    for(it11 = mset.begin(); it11 != mset.end(); it11++) {
+      Itemset anteset = (*it11).first, conset = set; 
+      subtract(conset, anteset); 
+#ifdef DEBUG_ASSORULE
+      cout << anteset << " -> " << conset << endl;
+#endif
+      if(freqsets.find(set) != freqsets.end()
+	 && freqsets.find(anteset) != freqsets.end()
+	 && freqsets.find(conset) != freqsets.end()) {
+	float supx = (float)freqsets[anteset]/numTrans;
+	float supy = (float)freqsets[conset]/numTrans;
+	float supxy = (float)freqsets[set]/numTrans;
+	float conf = supxy / supx; 
+	if(conf >= minConf) {
+	  AssoRule rule(anteset, conset, supxy, supx);
+	  qrules.push(rule); 
+	}
+      }
     }
   }
-  case 2: {
-    map<Itemset, int>::iterator it; 
-    for(it = snd.begin(); it != snd.end(); it++) {
-      cout << (*it).first << ":" << (*it).second << endl;
+  return true; 
+}
+
+// Print association rules. 
+void DataSet::printAssoRule() {
+  for(int i = 0; i < k; i++) {
+    if(!qrules.empty())  {
+      AssoRule trule = qrules.top(); 
+      cout << trule;
+      qrules.pop();
     }
-  }
-  default: {
-    
-  }
   }
 }
+
 ////////////////////////////////////////////////////
 // Auxilliary functions.
 ////////////////////////////////////////////////////

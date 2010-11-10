@@ -2,16 +2,19 @@ CPP = /usr/bin/g++
 #MACROS += -DDEBUG_DATA_LOAD
 #MACROS += -DDEBUG_DATA_LOADI
 #MACROS += -DDEBUG_ITEM_MAP
+#MACROS += -DDEBUG_ITEMSET_COMPARE
 #MACROS += -DDEBUG_LEVEL_TWO
 #MACROS += -DDEBUG_APRIORI
+#MACROS += -DDEBUG_ASSORULE
 #MACROS += -DDEBUG_APRIORI_JOIN
 #MACROS += -DDEBUG_APRIORI_PRUNE
 #MACROS += -DDEBUG_APRIORI_SCAN
 #MACROS += -DDEBUG_HASH_INSERT
+#MACROS += -DDEBUG_ASSORULE_PRINT
 #MACROS += -DDEBUG_HASH_INSERTSET
 #MACROS += -DDEBUG_APRIORI_TRAVERSAL
 
-CPPFLAGS = -fPIC -O2 -ggdb3 $(MACROS)
+CPPFLAGS = -O2 $(MACROS)
 LD = /usr/bin/ld
 LDFLAGS = -L/usr/lib -L/lib
 RM = /bin/rm -rf
@@ -19,7 +22,7 @@ EXECUTABLE = AssoRuleMiner
 DOX = /usr/bin/doxygen
 DOXCONF = Doxygen
 
-SRC = main.cpp DataSet.cpp Itemset.cpp HashTree.cpp
+SRC = main.cpp DataSet.cpp Itemset.cpp AssoRule.cpp # HashTree.cpp
 
 OBJ = $(SRC:.cpp=.o)
 
