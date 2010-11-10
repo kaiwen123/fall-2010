@@ -22,7 +22,7 @@ EXECUTABLE = AssoRuleMiner
 DOX = /usr/bin/doxygen
 DOXCONF = Doxygen
 
-SRC = main.cpp DataSet.cpp Itemset.cpp AssoRule.cpp # HashTree.cpp
+SRC = main.cpp DataSet.cpp Itemset.cpp AssoRule.cpp 
 
 OBJ = $(SRC:.cpp=.o)
 
