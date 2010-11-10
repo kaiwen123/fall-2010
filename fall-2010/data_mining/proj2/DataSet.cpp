@@ -252,7 +252,7 @@ bool DataSet::genAssoRule() {
   map<Itemset, int>::iterator it; 
   for(it = freqsets.begin(); it != freqsets.end(); it++) {
     Itemset set = (*it).first;
-    int count = (float)(*it).second;
+    int count = (*it).second;
     int size = set.getSize(); 
     float support = (float)count/numTrans;
     // For each frequent set, generating rule. 
