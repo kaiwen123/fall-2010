@@ -35,8 +35,8 @@
 }
 % In case you need to adjust margins:
 \topmargin=-0.45in      %
-\evensidemargin=-0.2in     %
-\oddsidemargin=-.2in      %
+\evensidemargin=-0.5in     %
+\oddsidemargin=-.5in      %
 \textwidth=7.0in        %
 \textheight=9.2in       %
 \headsep=0.25in         %
@@ -63,9 +63,9 @@
 
 \begin{document}
 \begin{center}
-\textbf{\textup{\LARGE CS 400/600  Homework \#4} \\
+\textbf{\textup{\LARGE CS 400/600  Homework \#4}} \\
 \textsc{Shumin Guo} \\
-Due Date: Nov. 12th, 2010, beginning of the class.}
+\small{Due Date: Nov. 12th, 2010, beginning of the class.}
 \end{center}
 
 \textbf{Note: The first several questions are from the textbook.}
@@ -115,10 +115,18 @@ vertex are returned in the same order as they are listed in the above
 table.
 
 \begin{enumerate}[a.]
-\item Draw G. \\
-
+\item Draw G. (See Figure \ref{fig:g2}.)
+  \begin{figure}[H]
+    \vspace{-20pt}
+    \begin{center}
+      \includegraphics[scale=0.6]{q2-1}
+      \caption{Graph for G.\label{fig:g2}}
+    \end{center}
+    \vspace{-20pt}
+  \end{figure}
+  
 \item Given the sequence of vertices of G visited using a DFS traversal
-starting at vertex 1. \fbox{1,2,4,6,5,7,8,3}
+starting at vertex 1. \fbox{1,2,3,4,6,5,7,8}
 
 \item Give the sequence of vertices visited using a BFS traversal starting
 at vertex 1. \fbox{1,2,3,4,6,5,7,8}
@@ -130,37 +138,39 @@ at vertex 1. \fbox{1,2,3,4,6,5,7,8}
 \begin{enumerate}[a.]
 \item The graph has 10,000 vertices and 20,000 edges, and it is important
 to use as little space as possible.
-\answer For adjacency matrix, the space we need is: $n^2=10000^2=10^8\ll
-20,000$, the matrix will be very sparse. A lot of space will be
-wasted, so in this case, adjacency list structure is a better choice. 
+\answer As $n^2=10000^2=10^8\gg 20,000$, there will be a large
+percentage of space wasted for storage 0. So in this case, adjacency
+list structure is a better choice.
  
 \item The graph has 10,000 vertices and 20,000,000 edges, and it is
 important to use as little space as possible.
-\answer For adjacency matrix, the space we need is: $n^2=10000^2=10^8$
-which is of the same order as $20,000,000$, which means the matrix is
-much denser than the last question. But still about $80\%$ of the
-matrix element is 0. And the space constraint requirement also makes
-the adjacency list a better choice over adjacency matrix. 
+\answer As $n^2=10000^2=10^8$, which is of the same order as
+$20,000,000$. But if we store graph using adjacency matrix, still
+ $80\%$ of the matrix element is 0. This reason together with the
+space constraint requirement make the adjacency list a preferable
+choice over adjacency matrix.
 
 \item You need to answer the query areAdjacent() as fast as possible, no
 matter how much space you use.
-\answer The time of \textbf{areAdjacentVertices()} operation for
-adjacency list is $O(min(deg(u),deg(v)))$ as compared with $O(1)$ when
-using adjacency matrix makes adjacency matrix the better choice. 
+\answer The time complexity of \textbf{areAdjacentVertices()}
+operation for adjacency list $O$(min(deg(u),deg(v))) as compared
+with $O(1)$ for adjacency matrix makes adjacency matrix the better
+choice.
 
 \end{enumerate}
 
 \item (10 points). Given the following directed, weighted graph, show
   the values of the estimated distance matrix, D, at each step of
-  Dijkstra’s algorithm as it searches for the minimal-weight path from A
-  to all other vertices, \fbox{See result at Table \ref{tbl:dij_alg}}.
+  Dijkstra$^{\prime}$s algorithm as it searches for the minimal-weight
+  path from A to all other vertices, \fbox{See result at Table
+    \ref{tbl:dij_alg}}. 
  
 \begin{figure}[H]
-\begin{center}
-\includegraphics[scale=0.5]{q4-graph}
-\caption{Directed Weighted Graph For Question 4.\label{tbl:dij_alg}}
-\end{center}
-\vspace{-20pt}
+  \begin{center}
+    \includegraphics[scale=0.5]{q4-graph}
+    \caption{Directed Weighted Graph For Question 4.\label{tbl:dij_alg}}
+  \end{center}
+  \vspace{-20pt}
 \end{figure}
 
 \begin{table}[H]
@@ -175,7 +185,7 @@ using adjacency matrix makes adjacency matrix the better choice.
       \hline E&0&6&4&13&19 \\
       \hline
     \end{tabular}
-    \caption{Dijkstra’s algorithm. \label{tbl:dij_alg}} 
+    \caption{Steps for Dijkstra$^{\prime}$s algorithm. \label{tbl:dij_alg}} 
     \vspace{-15pt}
   \end{center}
 \end{table}
@@ -204,12 +214,40 @@ Please use {\it Prim's} and {\it Kruskal's} algorithms, respectively,
 to find the minimum spanning tree, and draw the MST at each step. For
 the Prim's algorithm, you can assume start with the vertex a. 
 
+Please see Figure \ref{fig:prim} for Prim's Algorithm and Figure
+\ref{fig:krus} for Kruskal's Algorithm.
+
+\begin{figure}[H]
+  \vspace{-10pt}
+  \begin{center}
+    \includegraphics[scale=0.4]{prims_algorithm}
+    \caption{Prim's Algorithm Steps.\label{fig:prim}}
+  \end{center}
+  \vspace{-20pt}
+\end{figure}
+
+\begin{figure}[ht]
+  \vspace{-10pt}
+  \begin{center}
+    \includegraphics[scale=0.4]{kruskals_algorithm}
+    \caption{Kruskal's Algorithm Steps.\label{fig:krus}}
+  \end{center}
+  \vspace{-20pt}
+\end{figure}
+
 \item (15 Points). Do heap sort on the input numbers, 10, 21, 7, 15,
   4, 25. Start by building a min-heap using \textbf{BottomUpHeap()} we
   learned in the class. Give the intermediate result for each step.  
-\answer Please see result at Figure \ref{fig:heap-sort}.
+\answer The heapsort begins by building a heap out of the data set,
+and then exchange the root(smallest item) with the last item in the
+array and remove the last item from the heap. After remove the last
+item, it reconstructs the heap and exchange the smallest item with the
+last item and do the same thing above. This is repeated until there
+is only one item left in the heap. Please see result at Figure
+\ref{fig:heap-sort}. 
 
 \begin{figure}[H]
+  \vspace{-10pt}
   \begin{center}
     \includegraphics[scale=0.8]{heapsort-steps}
     \caption{Heap Sort Steps.\label{fig:heap-sort}}
@@ -227,14 +265,11 @@ and an example that QuickSort takes $O(nlog_2(n))$.
 partition we divide the list into two nearly equal pieces, so that
 each recursive call processes a list of half the size. And
 consequently, we can make only $log_2(n)$ nested calls before we reach
-a list of size 1. This means the call tree is $O(log_2(n))$. But no
-two calls at the same level of the call tree process the same part of
-the original list; thus, each level of calls needs only  time all
-together The result is that the algorithm uses only $O(nlog_2(n))$
-time. \\
+a list of size 1. This means the height of call tree is $O(log_2(n))$. 
+And totally the algorithm uses $O(nlog_2(n))$ time. \\
 An example of this case is: \fbox{3,1,0,2,5,4,7,6}
 
-In the worst case, the two sublists have size 1 and n-1 (already
+In the worst case, the two sublists have size 0 and n-1 (already
 sorted), and the call tree becomes a linear chain of n nested
 calls (in this case, the height of quick sort tree becomes n-1). And
 the time for the sort will be $T(n)=O(n^2)$.\\ 
@@ -244,19 +279,21 @@ An example for this case is: \fbox{0,1,2,3,4,5,6,7}
   < j $, and $A[i]>A[j]$, then the pair $(i,j)$ is called an inversion of
   A. \\
   a.List all the inversions of the array $< 2, 6, 10, 9, 4>$.
-\answer All the inversions are : \fbox{$(1,4),(2,3),(2,4),(3,4)$}. \\
-
+  \fbox{$(2,5),(3,4),(3,5),(4,5)$}. \\
   b.What arrays with elements from the set $\{1,2,\ldots,n\}$ has the
   most inversions? How many does it have? 
-\answer Array $n, n-1, \ldots, 2, 1$ has the most inversions. And the
-number of inversions can be calculated as below: \\
-$n = n-1 + n-2 + \ldots + 2 + 1 = \frac{n(n-1)}{2}$.
+  \answer Array $\{n, n-1, \ldots, 2, 1\}$ has the most
+  inversions. And the number of inversions is: \\
+  \fbox{$n = n-1 + n-2 + \ldots + 2 + 1 = \frac{n(n-1)}{2}$}.
 
 \item (10 points). Which of the algorithms {\it Insertion sort, heap-sort,
   merge-sort}, and {\it quick sort} are stable? Which are in place?
-\answer Insertion sort and merge sort are stable. \\
-Insert sort, heap sort are in place sort algorithms. 
-\end{enumerate}                 %the whole doc
+  \answer 
+Insertion sort and merge sort are stable\footnote{Quick sort Can be
+  implemented as a stable sort depending on how the pivot is handled.}. \\
+Insertion sort and heap sort are in place\footnote{Merge sort can be
+  implemented as a stable sort based on stable in-place merging}.
+\end{enumerate}
 \end{document}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
