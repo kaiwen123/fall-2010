@@ -12,28 +12,25 @@
 #ifndef __Closed_Hash_h__
 #define __Closed_Hash_h__
 #include <iostream>
+#include <vector>
 #include "Hash.h"
 using namespace std;
 
 class ClosedHash : public Hash {
- protected: 
-  static const int MAX_KEY = 999999;
-  static const int NUM_SLOTS = 32768;
-
  private: 
-  unsigned int HashTable[NUM_SLOTS];
+  vector<int> HashTable;
   int cnt; 
 
  public:
-  ClosedHash();
   ClosedHash(int size);
-  virtual ~ClosedHash(){}
+  ~ClosedHash(){HashTable.clear();}
   bool insert(int newValue, int &collisions);
   bool find(int searchValue, int &probes) const;
   bool remove(int delValue);
   int count() const {return cnt;}
-  float alpha() const {return count() / NUM_SLOTS;}
-  bool full() const {return count() >= NUM_SLOTS;}
+  int size() const {return HashTable.size();}
+  float alpha() const {return (float)count() / size();}
+  bool full() const {return count() >= size();}
   bool isEmpty() {return cnt == 0;}
   unsigned int h(int key) const;
   unsigned int h2(int key) const;

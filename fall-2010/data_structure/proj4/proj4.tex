@@ -102,18 +102,16 @@ You should create a hash of size N = 32,768 (32k) slots.
 
 You will be provided a C++ abstract class called Hash, you should
 construct class ClosedHash as a subclass of class Hash, as follows:
-
 \begin{verbatim}
   class ClosedHash : publich Hash { … }; 
 \end{verbatim}
-
 Your hash should use the EMPTY constant to mark empty hash buckets,
 and should use and fully support tombstones (using the TOMBSTONE
 constant) for deletions. 
 
 You will also be provided with an extensive main program for testing
-your hash implementation. The primary hash function h1(k) and the
-secondary hash function h2(k) are also given. The primary hash
+your hash implementation. The primary hash function $h_1(k)$ and the
+secondary hash function $h_2(k)$ are also given. The primary hash
 function gives the home location for a particular key. The secondary
 hash function determines the probe offset for a particular key. 
 

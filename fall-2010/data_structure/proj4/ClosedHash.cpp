@@ -2,15 +2,11 @@
 
 // Constructor of ClosedHash class. 
 // It is responsible for initializing each slot of the HashTable array
-// to -1 and the item count in the hash table to zero. 
-ClosedHash::ClosedHash():cnt(0) {
-  for(int i = 0; i < NUM_SLOTS; i++){
-    HashTable[i] = EMPTY;
-  }
-}
-ClosedHash::ClosedHash(int size):cnt(0) {
-  for(int i = 0; i < NUM_SLOTS; i++){
-    HashTable[i] = EMPTY;
+// to EMPTY and the item count in the hash table to zero. 
+ClosedHash::ClosedHash(int size):cnt(0),Hash() {
+  for(int i = 0; i < size; i++){
+    int empty = EMPTY; 
+    HashTable.push_back(empty);
   }
 }
 // Insert an integer into the hash.  Return true if successful,
@@ -19,7 +15,7 @@ ClosedHash::ClosedHash(int size):cnt(0) {
 // variable 'collisions'.
 bool ClosedHash::insert(int newValue, int &collisions){
   collisions = 0;
-  if(count() >= NUM_SLOTS) {
+  if(count() >= size()) {
     cerr << "Hash Table Full." << endl;
     return false; 
   }
@@ -27,16 +23,17 @@ bool ClosedHash::insert(int newValue, int &collisions){
   int pidx = h2(newValue); 	// probe index; 
 
   for(int i = 0; ; i++) {
-    int nidx = (hidx + i * pidx) % NUM_SLOTS; 
+    int nidx = (hidx + i * pidx) % size(); 
     if(HashTable[nidx] == EMPTY || HashTable[nidx] == TOMBSTONE) {
       HashTable[nidx] = newValue;
+      //cout << "Inserted element " << newValue << " at " << nidx << endl; 
       cnt++;
-      break; 
+      return true; 
     } else {
       collisions++;
     }
   }
-  return true; 
+  return false; 
 }
 
 // Find an integer value in the hash.  Return true if found,
@@ -48,12 +45,14 @@ bool ClosedHash::find(int searchValue, int &probes) const{
   int pidx = h2(searchValue); 	// probe index; 
 
   for(int i = 0; ; i++) {
-    int nidx = (hidx + i * pidx) % NUM_SLOTS; 
-    if(HashTable[nidx] == searchValue) {
+    int nidx = (hidx + i * pidx) % size(); 
+    if(HashTable[nidx] == searchValue) { // get it.
       return true;
-    } else {
-      if(HashTable[nidx] == EMPTY) return false; 
+    } else { 			// probe or can't find.
       probes++;
+      if(HashTable[nidx] == EMPTY) {
+	return false; 
+      }
     }
   }
   return false;
@@ -67,11 +66,14 @@ bool ClosedHash::remove(int delValue){
   int pidx = h2(delValue); 	// probe index; 
 
   for(int i = 0; ; i++) {
-    int nidx = (hidx + i * pidx) % NUM_SLOTS; 
-    if(HashTable[nidx] == delValue) {
+    int nidx = (hidx + i * pidx) % size(); 
+    if(HashTable[nidx] == delValue) { // found and delete. 
       HashTable[nidx] = TOMBSTONE;
       cnt--;
       return true;
+    }
+    if(HashTable[nidx] == EMPTY) {
+      return false; 		// can't find value. 
     }
   }
   return false;
@@ -110,7 +112,7 @@ unsigned int ClosedHash::h(int key) const {
   // or constant in class ClosedHash called maxSize.  This
   // is the value M (the number of buckets in the hash).  This
   // can be a private data element or constant.
-  int maxSize = NUM_SLOTS;
+  int maxSize = size();
   return hash % maxSize;
 }
 
@@ -135,6 +137,6 @@ unsigned int ClosedHash::h2(int key) const {
   // The following code ensures that the value of h2(k) will be
   // odd, which should be coprime with the size of the closed
   // hash (32,768 == 2^15).
-  int maxSize = NUM_SLOTS;
+  int maxSize = size();
   return (((hash * 2) + 1) % maxSize);
 }

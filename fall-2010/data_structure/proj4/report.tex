@@ -1,0 +1,41 @@
+\documentclass{article}
+\usepackage{verbatim}
+
+\begin{document}
+\begin{center}
+\textbf{{\Large CS 400/600 – Data Structures and Software Design} \\
+{\large Programming Assignment \#4 –Hash Table}}
+\end{center}
+
+\section*{Report}
+Along with your working source code (.cpp and .h files), you should
+submit a brief ($<$ 5 pages) report describing how the closed hash
+function performed as a function of the load factor of the hash table,
+alpha. You should perform a variety of searches, and compare the
+number of nodes searched for each index.  You should address questions
+such as: 
+\begin{itemize}
+\item How does the hash perform in terms of search efficiency when the hash
+  table is (1) nearly empty (the alpha is very small, like less than
+  0.1),  (2) moderately full (alpha is around 0.5),  (3) very full
+  (alpha is larger than 0.8). 
+\item Give some intuitive comments about the performance of your hash table
+  regarding the load factor, alpha.  
+\end{itemize}
+
+Your report should be supported with data in the form of tables,
+charts, graphs, etc. 
+
+Make sure to base your report on average results over many searches,
+and not just one search. 
+
+\section*{Graduate Students}
+CS 600 students should evaluate an additional hashing method (other
+than closed double-hashing), and include these results in the final
+report (for example, you might choose to investigate the performance
+of a closed hash using pseudo-random hashing. You can also implement a
+chained hash table if you like). 
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
