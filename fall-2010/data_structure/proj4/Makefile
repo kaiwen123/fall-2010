@@ -4,18 +4,25 @@ CPPFLAGS =
 LD = /usr/bin/ld
 LDFLAGS = -L/usr/lib -L/lib
 RM = /bin/rm -rf
-EXE = proj4
+EXE = proj4.double
 DOX = /usr/bin/doxygen
 DOXCONF = Dox.txt
 
-SRC = main.cpp ClosedHash.cpp
+SRC = main.double.cpp ClosedHash.cpp
 OBJ = $(SRC:.cpp=.o)
 
-all: $(EXE)
+EXE1 = proj4.rand
+SRC1 = main.rand.cpp RandHash.cpp
+OBJ1 = $(SRC:.cpp=.o)
+
+all: $(EXE) $(EXE1)
 
 .SUFFIX: .o .cpp
 
 $(EXE): $(OBJ)
+	$(CPP) $(LDFLAGS) $^ -o $@
+
+$(EXE1): $(OBJ1)
 	$(CPP) $(LDFLAGS) $^ -o $@
 
 .o: .cpp
@@ -25,4 +32,4 @@ doc: $(DOXCONF) $(SRC)
 	@$(DOX) $<
 
 clean:
-	@$(RM) $(OBJ) $(EXE)
+	@$(RM) $(OBJ) $(EXE) $(EXE1)
