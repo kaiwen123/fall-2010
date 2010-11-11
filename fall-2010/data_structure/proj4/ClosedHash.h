@@ -13,6 +13,7 @@
 #define __Closed_Hash_h__
 #include <iostream>
 #include <vector>
+#include <fstream>
 #include "Hash.h"
 using namespace std;
 
@@ -30,7 +31,7 @@ class ClosedHash : public Hash {
   int count() const {return cnt;}
   int size() const {return HashTable.size();}
   float alpha() const {return (float)count() / size();}
-  bool full() const {return count() >= size();}
+  bool full() const {return count() == size() - 1;}
   bool isEmpty() {return cnt == 0;}
   unsigned int h(int key) const;
   unsigned int h2(int key) const;

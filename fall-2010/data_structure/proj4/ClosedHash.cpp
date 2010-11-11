@@ -11,12 +11,14 @@ ClosedHash::ClosedHash(int size):cnt(0),Hash() {
 }
 // Insert an integer into the hash.  Return true if successful,
 // false if there are no more slots in the hash, or the integer
-// is already found.  Store the number of collisions in the
+// is already found. Store the number of collisions in the
 // variable 'collisions'.
 bool ClosedHash::insert(int newValue, int &collisions){
   collisions = 0;
-  if(count() >= size()) {
-    cerr << "Hash Table Full." << endl;
+  // In order for find() to work properly, let's only insert size()-1
+  // items into the hashtable. 
+  if(full()) {
+    cerr << "ERROR! Hash Table is Full!" << endl;
     return false; 
   }
   int hidx = h(newValue); 	// home index; 

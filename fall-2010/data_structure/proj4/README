@@ -5,6 +5,10 @@ FILES
 
 ClosedHash.h, ClosedHash.cpp - Definition and implementation of the
 double closed hashing.
+RandHash.h, RandHash.cpp - Definition and implementation of the
+pseudo-random closed hashing. 
+ChainHash.h, ChainHash.cpp - Definition and implementation of the
+chained open hashing. 
 main.cpp - A test program to test the implementation of LinkedSortedList. 
 
 HOWTO 

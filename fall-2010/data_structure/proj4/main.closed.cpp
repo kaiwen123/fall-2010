@@ -73,14 +73,17 @@ int insertRands(ClosedHash & par_hash, unsigned par_count, list<int> & par_listO
   // 'par_count' ID's have been successfully inserted into
   // the hash or the hash fills.  Keep track of the total
   // number of collisions during inserts.
+  ofstream fdata("insert-collision.txt");
   while (insertedCtr < par_count && !(par_hash.full())) {
     ID = randomID();
     if (par_hash.insert(ID, collisions)) {
       par_listOfIDs.push_back(ID);
       insertedCtr++;
       par_collisions += collisions;
+      fdata << par_hash.alpha() << "\t" << collisions << endl; 
     }
   }
+  fdata.close();
 
   return insertedCtr;
 }
