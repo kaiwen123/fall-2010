@@ -43,12 +43,20 @@ bool ClosedHash::insert(int newValue, int &collisions){
 // Find an integer value in the hash.  Return true if found,
 // false if not.  Store the number of probes in the variable
 // 'probes'.
+// One possible bug here is, when I fill the hash table to be FULL,
+// then I delete some items, in this case, the hash table items are
+// either set to TOMBSTONE or filled. In such a case when I try to
+// search an not-existed item, it will crash(maybe infinite loop). 
+// My solution is to constrain the loop size to a very large
+// number. This has been commented out. Make comments if you have any
+// other work arounds. 
 bool ClosedHash::find(int searchValue, int &probes) const{
   probes = 0;
   int hidx = h(searchValue); 	// home index; 
   int pidx = h2(searchValue); 	// probe index; 
 
-  for(int i = 0; ; i++) {
+  for(int i = 0; /*i < 1000000*/; i++) {
+    //if(i < 0) return false;
     int nidx = (hidx + i * pidx) % size(); 
     if(HashTable[nidx] == searchValue) { // get it.
       return true;
