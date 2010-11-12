@@ -13,7 +13,7 @@ OBJ = $(SRC:.cpp=.o)
 
 EXE1 = proj4.rand
 SRC1 = main.rand.cpp RandHash.cpp
-OBJ1 = $(SRC:.cpp=.o)
+OBJ1 = $(SRC1:.cpp=.o)
 
 all: $(EXE) $(EXE1)
 
@@ -32,4 +32,4 @@ doc: $(DOXCONF) $(SRC)
 	@$(DOX) $<
 
 clean:
-	@$(RM) $(OBJ) $(EXE) $(EXE1)
+	@$(RM) $(OBJ) $(OBJ1) $(EXE) $(EXE1)

@@ -9,22 +9,25 @@
 // M. Raymer, 2/2007
 // D. C. Wlodarski, modified 5/2010
 // --------------------------------------------------------------
-#ifndef __Closed_Hash_h__
-#define __Closed_Hash_h__
+#ifndef __Rand_Hash_h__
+#define __Rand_Hash_h__
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <algorithm>
 #include "Hash.h"
 using namespace std;
 
-class ClosedHash : public Hash {
+class RandHash : public Hash {
  private: 
   vector<int> HashTable;
+  /* random permutation of the hash table positions */
+  vector<int> RandPosTable;
   int cnt; 
 
  public:
-  ClosedHash(int size);
-  ~ClosedHash(){HashTable.clear();}
+  RandHash(int size);
+  ~RandHash(){HashTable.clear();}
   bool insert(int newValue, int &collisions);
   bool find(int searchValue, int &probes) const;
   bool remove(int delValue);
@@ -34,7 +37,6 @@ class ClosedHash : public Hash {
   bool full() const {return count() == size() - 1;}
   bool isEmpty() {return cnt == 0;}
   unsigned int h(int key) const;
-  unsigned int h2(int key) const;
 };
 
-#endif /* __Closed_Hash_h__ */
+#endif /* __Rand_Hash_h__ */

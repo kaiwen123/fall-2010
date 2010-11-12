@@ -3,7 +3,7 @@
 //   M. Raymer, 2/2007
 //   Updated: D. C. Wlodarski, 5/2010
 // -------------------------------------------------------------------
-#include "ClosedHash.h"
+#include "RandHash.h"
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
@@ -61,7 +61,7 @@ void render_menu() {
 //  successful IDs in par_listOfIDs, and the number of collisions
 //  in par_collisions.
 //-----------------------------------------------------------------
-int insertRands(ClosedHash & par_hash, unsigned par_count, list<int> & par_listOfIDs, int & par_collisions) {
+int insertRands(RandHash & par_hash, unsigned par_count, list<int> & par_listOfIDs, int & par_collisions) {
 
   int ID;				// ID to insert/delete/find
   int collisions = 0;
@@ -93,7 +93,7 @@ int insertRands(ClosedHash & par_hash, unsigned par_count, list<int> & par_listO
 //-----------------------------------------------------------------
 // Delete the last 'count' IDs in par_listOfIDs from the hash.
 //-----------------------------------------------------------------
-int deleteRandCountIDs(ClosedHash & par_hash, unsigned par_count, list<int> & par_listOfIDs) {
+int deleteRandCountIDs(RandHash & par_hash, unsigned par_count, list<int> & par_listOfIDs) {
 
   int deleteCnt = 0;
 
@@ -131,7 +131,7 @@ int deleteRandCountIDs(ClosedHash & par_hash, unsigned par_count, list<int> & pa
 //-----------------------------------------------------------------
 // Search for the last 'count' IDs in par_listOfIDs in the hash.
 //-----------------------------------------------------------------
-int searchHash(ClosedHash & par_hash, unsigned par_count, list<int> & par_listOfIDs, int & par_probes) {
+int searchHash(RandHash & par_hash, unsigned par_count, list<int> & par_listOfIDs, int & par_probes) {
 
   list<int>::const_iterator IDlistPosition;
   int probes = 0, foundCnt = 0;
@@ -170,7 +170,7 @@ int searchHash(ClosedHash & par_hash, unsigned par_count, list<int> & par_listOf
 //---------------*
 int main() {
 
-  ClosedHash theHash(32768);
+  RandHash theHash(32768);
 
   // LOCAL VARIABLES
   string response = ""; // User's response to prompts

@@ -1,19 +1,23 @@
-#include "ClosedHash.h"
+#include "RandHash.h"
 
-// Constructor of ClosedHash class. 
+// Constructor of RandHash class. 
 // It is responsible for initializing each slot of the HashTable array
 // to EMPTY and the item count in the hash table to zero. 
-ClosedHash::ClosedHash(int size):cnt(0),Hash() {
+RandHash::RandHash(int size):cnt(0),Hash() {
   for(int i = 0; i < size; i++){
     int empty = EMPTY; 
     HashTable.push_back(empty);
+    if(i > 0) {
+      RandPosTable.push_back(i);
+    }
   }
+  random_shuffle(RandPosTable.begin(), RandPosTable.end());
 }
 // Insert an integer into the hash.  Return true if successful,
 // false if there are no more slots in the hash, or the integer
 // is already found. Store the number of collisions in the
 // variable 'collisions'.
-bool ClosedHash::insert(int newValue, int &collisions){
+bool RandHash::insert(int newValue, int &collisions){
   collisions = 0;
   // In order for find() to work properly, let's only insert size()-1
   // items into the hashtable. 
@@ -21,14 +25,19 @@ bool ClosedHash::insert(int newValue, int &collisions){
     cerr << "ERROR! Hash Table is Full!" << endl;
     return false; 
   }
+  if(find(newValue, collisions)) return false; 
+  collisions = 0;
   int hidx = h(newValue); 	// home index; 
-  int pidx = h2(newValue); 	// probe index; 
 
-  for(int i = 0; ; i++) {
-    int nidx = (hidx + i * pidx) % size(); 
+  for(int i = 0; i < size(); i++) {
+    int nidx;
+    if(i == 0) {
+      nidx = hidx % size();
+    } else {
+      nidx = (hidx + RandPosTable[i]) % size(); 
+    }
     if(HashTable[nidx] == EMPTY || HashTable[nidx] == TOMBSTONE) {
       HashTable[nidx] = newValue;
-      //cout << "Inserted element " << newValue << " at " << nidx << endl; 
       cnt++;
       return true; 
     } else {
@@ -41,13 +50,17 @@ bool ClosedHash::insert(int newValue, int &collisions){
 // Find an integer value in the hash.  Return true if found,
 // false if not.  Store the number of probes in the variable
 // 'probes'.
-bool ClosedHash::find(int searchValue, int &probes) const{
+bool RandHash::find(int searchValue, int &probes) const{
   probes = 0;
   int hidx = h(searchValue); 	// home index; 
-  int pidx = h2(searchValue); 	// probe index; 
 
-  for(int i = 0; ; i++) {
-    int nidx = (hidx + i * pidx) % size(); 
+  for(int i = 0; i < size(); i++) {
+    int nidx;
+    if(i == 0) {		// home location
+      nidx = hidx % size();
+    } else {			// probing.
+      nidx = (hidx + RandPosTable[i]) % size(); 
+    }
     if(HashTable[nidx] == searchValue) { // get it.
       return true;
     } else { 			// probe or can't find.
@@ -62,13 +75,17 @@ bool ClosedHash::find(int searchValue, int &probes) const{
 
 // Delete an integer from the hash.  Return true if successful,
 // false if unsuccessful.
-bool ClosedHash::remove(int delValue){
+bool RandHash::remove(int delValue){
   if(isEmpty()) return false;
   int hidx = h(delValue); 	// home index; 
-  int pidx = h2(delValue); 	// probe index; 
 
-  for(int i = 0; ; i++) {
-    int nidx = (hidx + i * pidx) % size(); 
+  for(int i = 0; i < size(); i++) {
+    int nidx;
+    if(i == 0) {		// home location
+      nidx = hidx % size();
+    } else {			// probing.
+      nidx = (hidx + RandPosTable[i]) % size(); 
+    }
     if(HashTable[nidx] == delValue) { // found and delete. 
       HashTable[nidx] = TOMBSTONE;
       cnt--;
@@ -84,7 +101,7 @@ bool ClosedHash::remove(int delValue){
 ////////////////////////////////////////////////////
 // Hash functions. 
 ////////////////////////////////////////////////////
-unsigned int ClosedHash::h(int key) const {
+unsigned int RandHash::h(int key) const {
   unsigned int hash = 0;      // The hash value starts at 0
   unsigned int keyarr = key;  // A copy of the key
 
@@ -111,34 +128,9 @@ unsigned int ClosedHash::h(int key) const {
   hash += (hash << 15);
 
   // This last line assumes the you have a data member 
-  // or constant in class ClosedHash called maxSize.  This
+  // or constant in class RandHash called maxSize.  This
   // is the value M (the number of buckets in the hash).  This
   // can be a private data element or constant.
   int maxSize = size();
   return hash % maxSize;
-}
-
-//  ****
-//  For comments, see h(), above!
-//  Also see the comments near the end of h2().
-//  ****
-unsigned int ClosedHash::h2(int key) const {
-  unsigned int hash = 0;
-  unsigned int keyarr = key;
-  unsigned char *keyptr = (unsigned char *) &keyarr;
-     
-  for (int i = 0; i < sizeof(int); i++) {
-    hash += keyptr[i];
-    hash += (hash << 9);
-    hash ^= (hash >> 5);
-  }
-  hash += (hash << 3);
-  hash ^= (hash >> 11);
-  hash += (hash << 15);
-
-  // The following code ensures that the value of h2(k) will be
-  // odd, which should be coprime with the size of the closed
-  // hash (32,768 == 2^15).
-  int maxSize = size();
-  return (((hash * 2) + 1) % maxSize);
 }

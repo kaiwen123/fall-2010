@@ -21,6 +21,9 @@ bool ClosedHash::insert(int newValue, int &collisions){
     cerr << "ERROR! Hash Table is Full!" << endl;
     return false; 
   }
+  if(find(newValue, collisions)) return false; 
+  collisions = 0;
+  
   int hidx = h(newValue); 	// home index; 
   int pidx = h2(newValue); 	// probe index; 
 
@@ -28,7 +31,6 @@ bool ClosedHash::insert(int newValue, int &collisions){
     int nidx = (hidx + i * pidx) % size(); 
     if(HashTable[nidx] == EMPTY || HashTable[nidx] == TOMBSTONE) {
       HashTable[nidx] = newValue;
-      //cout << "Inserted element " << newValue << " at " << nidx << endl; 
       cnt++;
       return true; 
     } else {
