@@ -80,9 +80,10 @@ number of edges is $m = n - 1$, and the largest number of edges is $m
 = \frac{n(n - 1)}{2}$. So we have the following inequation: \\
 $n - 1 \leq m \leq \frac{n(n - 1)}{2} \\
 \Rightarrow log_2(n-1) \leq log_2(m) \leq log_2(n) + log_2(n-1) - 1\\
-\Rightarrow log_2(n-1) < log_2(n) \leq log_2(m) \leq log_2(n)+log_2(n-1)-1 \leq
+\Rightarrow log_2(n-1) \leq log_2(m) \leq log_2(n)+log_2(n-1)-1 \leq
 2log_2(n) \\
-\Rightarrow log_2(n) \leq log_2(m) \leq 2log_2(n) \\ 
+\Rightarrow O(log_2(n-1)) \leq O(log_2(m)) \leq O(2log_2(n)) \\ 
+\Rightarrow O(log_2(n)) \leq O(log_2(m)) \leq O(log_2(n)) \\
 \Rightarrow O(log_2(m))=O(log_2(n))$.
 
 \item (10 points): Let G be a graph whose vertices are the integers 1
