@@ -15,7 +15,7 @@
   genes (columns) to process, and k is the number of top association
   rules to print out by standard of *sup`*`conf*. 
   
-*WARNING*: Please don't run this program with very low minSup, it
+   *WARNING*: Please don't run this program with very low minSup, it
   might consume large resources and even crash your system in the
   worst case. 
 
