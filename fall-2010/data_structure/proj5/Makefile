@@ -1,9 +1,4 @@
 CPP = /usr/bin/g++
-#MACROS += -DDEBUG_LIST_INSERT
-#MACROS += -DDEBUG_INDEX_SEARCH
-#MACROS += -DDEBUG_LIST_DELETE
-#MACROS += -DDEBUG_DELETE_TREE
-#MACROS += -DDEBUG_DELETE_BYEID
 CPPFLAGS = $(MACROS)
 
 LD = /usr/bin/ld
@@ -13,7 +8,7 @@ EXE = proj5
 DOX = /usr/bin/doxygen
 DOXCONF = Dox.txt
 
-SRC = lab5.cpp 
+SRC = lab5.cpp Graph.cpp
 OBJ = $(SRC:.cpp=.o)
 
 all: $(EXE)
