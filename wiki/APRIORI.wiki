@@ -99,7 +99,45 @@ that we need to generate with the APRIORI algorithm. Generally, it
 is a composition of a group of items. A join method is provided for
 this class. Still, an association rule generation method is provided
 to generated association rules from frequent itemsets. 
-
+{{{
+bool operator<(const Itemset& set1, const Itemset& set2) {
+  //if(set1.getSize() != set2.getSize()) return false;
+  int size1 = set1.getSize(), size2 = set2.getSize();
+  if(size1 < size2) {
+#ifdef DEBUG_ITEMSET_COMPARE
+    cout << set1 << " < " << set2 << endl;
+#endif
+    return true; 
+  }
+  if(size1 > size2){
+#ifdef DEBUG_ITEMSET_COMPARE
+    cout << set1 << " > " << set2 << endl;
+#endif
+    return false;
+  }
+  
+  // When size1 == size2, compare element by element. 
+  bool result = false;
+  for(int i = 0; i < size1; i++) {
+    if(set1.getSet()[i] == set2.getSet()[i]) {
+      continue;
+    } 
+    if(set1.getSet()[i] < set2.getSet()[i]) {
+#ifdef DEBUG_ITEMSET_COMPARE
+      cout << set1 << " < " << set2 << endl;
+#endif
+      return true;
+    }
+    if(set1.getSet()[i] > set2.getSet()[i]) {
+#ifdef DEBUG_ITEMSET_COMPARE
+      cout << set1 << " > " << set2 << endl;
+#endif
+      return false;
+    }
+  }
+  return result;
+}
+}}}
 I implemented the APRIORI using hash table, which takes constant time for insert and search in best cases. But in order to use the hash table properly for this algorithm, we need to consider the `operator<(const Itemset& set)` overloading, which is one of the most important work to do.
 
 *HashTree.h, HashTree.cpp* (deprecated)
