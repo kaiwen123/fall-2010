@@ -7,14 +7,15 @@
   `./AssoRuleMiner p2eqbindata.txt 0.8 0.3 150 3`
 
   Which means: 
+
   `./AssoRuleMiner datafile minSup minConf g k`
 
-  datafile is provided in current dir, minSup should be within (0,1],
-  minConf should also be within (0,1], gene is the total number of
+  datafile is provided in current dir, minSup should be within *(0,1]*,
+  minConf should also be within *(0,1]*, gene is the total number of
   genes (columns) to process, and k is the number of top association
-  rules to print out by standard of sup*conf. 
+  rules to print out by standard of *sup`*`conf*. 
   
-  WARNING: Please don't run this program with very low minSup, it
+  *WARNING*: Please don't run this program with very low minSup, it
   might consume large resources and even crash your system in the
   worst case. 
 
