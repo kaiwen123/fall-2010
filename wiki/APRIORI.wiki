@@ -3,9 +3,12 @@
 = HOWTO Compile and Run this program =
   Compile this project by typing "make" in the current working dir. 
   Run the program by typing: 
-  ./AssoRuleMiner p2eqbindata.txt 0.8 0.3 150 3
+
+  `./AssoRuleMiner p2eqbindata.txt 0.8 0.3 150 3`
+
   Which means: 
-  ./AssoRuleMiner datafile minSup minConf g k
+  `./AssoRuleMiner datafile minSup minConf g k`
+
   datafile is provided in current dir, minSup should be within (0,1],
   minConf should also be within (0,1], gene is the total number of
   genes (columns) to process, and k is the number of top association
