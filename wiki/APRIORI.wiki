@@ -100,7 +100,7 @@ is a composition of a group of items. A join method is provided for
 this class. Still, an association rule generation method is provided
 to generated association rules from frequent itemsets. 
 
-`
+{{{
 bool operator<(const Itemset& set1, const Itemset& set2) {
   //if(set1.getSize() != set2.getSize()) return false;
   int size1 = set1.getSize(), size2 = set2.getSize();
@@ -138,7 +138,7 @@ bool operator<(const Itemset& set1, const Itemset& set2) {
   }
   return result;
 }
-`
+}}}
 
 *HashTree.h, HashTree.cpp* (deprecated)
 Definition and implementation of the `HashNode` and `HashTree` class. HashNode class is
@@ -156,7 +156,7 @@ class. This class is responsible for loading data from file, doing Item
 mapping from discretized data to unique integer IDs, doing APRIORI
 algorithm over the mapped gene data sets, and finally save all the
 results to files or print out to screen. 
-`
+{{{
 /**
  * @file DataSet.h
  * @brief Definition of a ataSet class. 
@@ -249,8 +249,7 @@ class DataSet {
 };
 
 #endif //ifdef
-`
-
+}}}
 *AssoRule.h, AssoRule.cpp*
 Definition and implementation of the `AssoRule` class. This class represents association rules we are supposed to generate from the frequent itemsets. The format the
 output is: [anteset]-->[conset] [supxy] [supx] [conf] [supxy*conf]. 
