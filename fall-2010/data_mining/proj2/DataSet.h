@@ -10,7 +10,6 @@
 #ifndef _DataSetClass_
 #define _DataSetClass_ 
 #include "defs.h"
-#include "HashTree.h"
 #include "AssoRule.h"
 
 using namespace std; 
