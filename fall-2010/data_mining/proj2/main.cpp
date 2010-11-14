@@ -43,36 +43,37 @@ int main(int argc, char *argv[]) {
   // Do Item mapping, which will map the gene data into unique ids for
   // different genes. And the mapping information will be saved into 
   // the designated file. 
-  cout << "Doing Item mapping";
+  cout << "Doing Item mapping"; flush(cout); 
   pDataSet->doItemMap();
-  cout << " ...... done!" << endl;
+  cout << " ...... done!" << endl;flush(cout); 
 
   fname = string("p2ItemMap.txt"); 
-  cout << "Save item map to " << fname;
+  cout << "Save item map to " << fname;flush(cout); 
   pDataSet->saveItemMap(fname); 
-  cout << " ...... done!" << endl;
+  cout << " ...... done!" << endl;flush(cout); 
 
   // Now start the APRIORI Algorithm. 
   // We need to do level one and level two APRIORI mining, and then
   // using the hash tree to do APRIORI mining of other levels. 
   
-  cout << "Doing Apriori Algorithm on data set "; 
+  cout << "Doing Apriori Algorithm on data set "; flush(cout); 
   pDataSet->doApriori(); 
-  cout << " ...... done!" << endl; 
+  cout << " ...... done!" << endl; flush(cout); 
 
   // Save Freqient item sets into file. 
   fname = string("p2FreqItemsets.txt"); 
-  cout << "Saving frequent itemsets to " << fname; 
+  cout << "Saving frequent itemsets to " << fname; flush(cout); 
   pDataSet->saveFreqItemSets(fname);
-  cout << " ...... done!" << endl;
+  cout << " ...... done!" << endl;flush(cout); 
 
-  cout << "Generating Association rules "; 
+  cout << "Generating Association rules "; flush(cout); 
   pDataSet->genAssoRule();
-  cout << " ...... done!" << endl; 
+  cout << " ...... done!" << endl; flush(cout); 
 
   cout << "\nTop " << k 
-       << " association rules ranked by sup*conf:\n\n"; 
+       << " association rules ranked by sup*conf:\n\n"; flush(cout); 
   pDataSet->printAssoRule();
+  cout << "done!" << endl;
   
   delete pDataSet;
   return 0; 
