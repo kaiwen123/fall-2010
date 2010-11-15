@@ -1,0 +1,66 @@
+\documentclass{article}
+% Change "article" to "report" to get rid of page number on title page
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{setspace}
+\usepackage{Tabbing}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{graphicx,float,wrapfig}
+\topmargin=-0.45in      %
+\evensidemargin=0in     %
+\oddsidemargin=0in      %
+\textwidth=6.5in        %
+\textheight=9.0in       %
+\headsep=0.25in         %
+
+\begin{document}
+\begin{center}
+\textbf{\textup{\LARGE Cloud Computing Final Exam.}} \\
+\textsc{Shumin Guo} \\
+\small{Due Date: Nov. 21st, 2010.}
+\end{center}
+
+Some of the questions are quite open. Please try your best to give
+your answers based on your understanding. You are welcome to search
+the web to obtain sufficient background knowledge. Also try to make
+your answers concise (less than 1 page per question).   
+
+\begin{enumerate}
+\item We have discussed Mapreduce and Pig in the class. Message Passing
+Interface (MPI) is another method for parallel computing on
+distributed systems, popularly in high performance computing. Please
+discuss the advantages and disadvantages of Mapreduce, Pig, and MPI
+for solving two types of problems: aggregation style data analysis
+jobs and iterative machine learning algorithms, e.g., k-means
+clustering. (You can discuss them from different aspects such as disk
+I/O, easiness of problem solving and programming, fault tolerance,
+etc)
+
+
+\item Spamming and phishing use relatively low costs by sending emails
+that contain false information or advertisements, to take advantage of
+careless email receivers. It is challenging to protect internet users
+from spamming and phishing. One of the methods is to identify the
+spamming and phishing hosts or domains and blacklist them. However,
+cloud computing brings particular challenges to this method. Please
+use Amazon EC2 to explain why clouds make this method inefficient, and
+also give your proposal on detecting and preventing spamming/phishing
+in the cloud. 
+
+
+\item Imaging the scenario that most web services of one company are
+deployed in the same public cloud (to make it simpler, we do not
+consider multiple clouds). These web services can be non-original,
+i.e., mashup of other web services. A simple example is a 3-tier web
+application which consists of interacting database server, application
+server, and web server. Please describe the unique advantages and
+problems for hosting multi-tier web-service applications in the cloud,
+compared to the non-cloud solutions (on some aspects such as
+performance, resource provisioning, security, etc.).  
+
+\end{enumerate}
+
+\end{document}
