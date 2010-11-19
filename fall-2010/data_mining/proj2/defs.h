@@ -25,4 +25,8 @@ typedef char gene_group_t;
 int hashfunc(int value);
 std::string itoa(const int &integer);
 
+/* Global variables. */
+extern float minSupport, minConf;
+extern int g, k, numTrans;
+
 #endif	/* end of #ifndef */

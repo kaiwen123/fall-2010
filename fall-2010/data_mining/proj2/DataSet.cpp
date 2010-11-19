@@ -1,6 +1,4 @@
 #include "DataSet.h"
-extern float minSupport, minConf;
-extern int g, k, numTrans;
 
 // Load gene data from file.  
 bool DataSet::loadFromFile(string fname) {
@@ -121,7 +119,7 @@ void DataSet::scanLevelTwo(){
   for(itset = freqsets.begin(); itset != freqsets.end(); itset++) {
     float spt = (float)(*itset).second/numTrans;
     if(spt < minSupport) {
-      freqsets.erase((*itset).first);
+      freqsets.erase(itset->first);
     }
   }
 
@@ -130,8 +128,8 @@ void DataSet::scanLevelTwo(){
   for(itfst = freqsets.begin(); itfst != freqsets.end(); itfst++) {
     map<Itemset, int>::iterator itsnd; 
     for(itsnd = itfst; itsnd != freqsets.end(); itsnd++) {
-      Itemset set1 = (*itfst).first;
-      Itemset set2 = (*itsnd).first;
+      Itemset set1 = itfst->first;
+      Itemset set2 = itsnd->first;
       if(!(set1 == set2) 
 	 && (set1.getSize() == 1)
 	 && (set2.getSize() == 1)) {
@@ -204,8 +202,8 @@ bool DataSet::doApriori() {
   for(it1 = freqsets.begin(); it1 != freqsets.end(); it1++) {
     map<Itemset, int>::iterator it2; 
     for(it2 = it1; it2 != freqsets.end(); it2++) {
-      Itemset set1 = (*it1).first; 
-      Itemset set2 = (*it2).first;
+      Itemset set1 = it1->first; 
+      Itemset set2 = it2->first;
       bool canJoin = set1.isJoinable(set2);       
       if(canJoin) {
 	Itemset set = set1.join(set2);
@@ -239,7 +237,7 @@ bool DataSet::saveFreqItemSets(string fname) {
   }
   map<Itemset, int>::iterator it; 
   for(it = freqsets.begin(); it != freqsets.end(); it++) {
-    fdata << (*it).first << ":" << (float)(*it).second/numTrans << endl; 
+    fdata << it->first << ":" << (float)(*it).second/numTrans << endl; 
   }
 
   fdata.close();
@@ -251,7 +249,7 @@ bool DataSet::saveFreqItemSets(string fname) {
 bool DataSet::genAssoRule() {
   map<Itemset, int>::iterator it; 
   for(it = freqsets.begin(); it != freqsets.end(); it++) {
-    Itemset set = (*it).first;
+    Itemset set = it->first;
     int count = (*it).second;
     int size = set.getSize(); 
     float support = (float)count/numTrans;
@@ -273,7 +271,7 @@ bool DataSet::genAssoRule() {
     for(it1 = mset.begin(); it1 != mset.end(); it1++) {
       map<Itemset, int>::iterator it2; 
       for(it2 = it1; it2 != mset.end(); it2++) {
-	Itemset set1 = (*it1).first, set2 = (*it2).first; 
+	Itemset set1 = it1->first, set2 = it2->first; 
 
 	// Generate level two set.
 	if(!(set1 == set2) 
@@ -300,8 +298,8 @@ bool DataSet::genAssoRule() {
     for(it11 = mset.begin(); it11 != mset.end(); it11++) {
       map<Itemset, int>::iterator it21;
       for(it21 = it11; it21 != mset.end(); it21++) {
-	Itemset set1 = (*it11).first; 
-	Itemset set2 = (*it21).first;
+	Itemset set1 = it11->first; 
+	Itemset set2 = it21->first;
 	bool canJoin = set1.isJoinable(set2);       
 	if(canJoin) {
 	  Itemset jset = set1.join(set2);
@@ -317,7 +315,7 @@ bool DataSet::genAssoRule() {
     }
 
     for(it11 = mset.begin(); it11 != mset.end(); it11++) {
-      Itemset anteset = (*it11).first, conset = set; 
+      Itemset anteset = it11->first, conset = set; 
       subtract(conset, anteset); 
 #ifdef DEBUG_ASSORULE
       cout << anteset << " -> " << conset << endl;
