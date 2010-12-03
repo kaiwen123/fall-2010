@@ -13,19 +13,19 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
-#include "Vertex.h"
+#include "node.h"
 
 using namespace std; 
 
 class Graph {
  private:
-  vector<Vertex*> v; 		// Vertex vectors. 
+  vector<vnode> vertex;	// Vertex vectors. 
 
  public:
   Graph(){}
-  ~Graph(){v.clear();}
+  ~Graph(){vertex.clear();}
   // getters. 
-  int getNumVertices() const {return v.size();}
+  int getNumVertices() const {return vertex.size();}
 
   // Load graph structure from file to adjacency list. 
   bool loadFileToAdjList(string fname); 

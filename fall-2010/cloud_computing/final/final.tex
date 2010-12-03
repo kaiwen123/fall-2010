@@ -39,7 +39,67 @@ clustering. (You can discuss them from different aspects such as disk
 I/O, easiness of problem solving and programming, fault tolerance,
 etc)
 
+Mapreduce is designed using a controller and worker style. In this
+framework, there is a controller node called the master node which is
+responsible for data spliting, data indexing and job allocation to
+worker nodes. Worker nodes have the responsibility of storing data,
+accepting jobs from master node and report progress to master. So, in
+this sense, the smallest parallel granularity of MapReduce framework
+are jobs. And the smallest working unit are hosts(master and
+slaves). Jobs are splitted and assigned according to the location of 
+data, which are duplicated for fault tolarance purposes. And mapreduce
+is designed to work upon local Unix/Linux, HDFS and other file
+systems. Hadoop MapReduce is implemented using java and it provides
+APIs for users to design their own workflow. Still, MapReduce provides
+streaming with which programmers can utilize scripting tools to
+quickly and efficiently create a Map Reduce job. 
 
+Pig is an SQL like language, and it is an abstraction layer over the
+mapreduce framework. So in this sense, pig is nothing new but a higher
+level abstraction of mapreduce which can ease the problem solving and
+programming process, and also it will share the advantages and
+disadvantages of mapreduce.
+
+Message Passing Interface achieves parallel processing by assigning
+tasks to processes(processors). Each process will have a copy of the
+program and they communicate with each other. MPI tries to avoid
+memory-to-memory copying and allows overlap of computation and
+communication and offload to communication. And it is implemented to
+be used in a heterogeneous environment. And the assumes reliability by
+the communication subsystem. It defines interfaces that is not very
+different from existing practices and provides extension that allows
+for greater extensibility. And it is thread safe. So, from the feature
+above about MPI we can know that MPI defines a parallel communication
+framework for processes to work on a parallelizable job. The smallest
+granularity of parallization for this framework is thus
+process/processor. It is defined upon the trasnport layer. 
+
+According to the above description, it is clear that MapReduce is
+more suitable for aggregation style data analysis because data is
+distributed to different worker nodes. And jobs can be assigned to
+the local nodes which to reduce data transmission overload
+among nodes. As for MPI, data is stored in a center data repository,
+so each process has to fetch data from the local data reservior and
+then process it. Another advantage of using MapReduce and Pig is that
+it is much simpler to program as there are data loaders and collectors
+implemented in MapReduce framework. But we need to design functions to
+load data and collect data after finish when using the MPI
+framework. Also, the one pass feature of aggregation style data
+processing makes a preferrable choice. 
+
+For iterative machine learing algorithms, MPI seems much better than
+MapReduce due to the iterative and data repository feature of MPI
+framework. For MapReduce to work on such kind of algorithms, the
+overhead of the framework that the iteration brings will become very
+large. Also, as the data is splitted to different nodes, these ML
+algorithm may not even work over the MapReduce framework because of
+the reason of the division of data. 
+
+\textbf{References} \\
+http://en.wikipedia.org/wiki/Message\_Passing\_Interface \\
+http://www.redbooks.ibm.com/redbooks/pdfs/sg245380.pdf \\
+
+\newpage
 \item Spamming and phishing use relatively low costs by sending emails
 that contain false information or advertisements, to take advantage of
 careless email receivers. It is challenging to protect internet users
@@ -50,8 +110,52 @@ use Amazon EC2 to explain why clouds make this method inefficient, and
 also give your proposal on detecting and preventing spamming/phishing
 in the cloud. 
 
+In traditional systems, computers used for spamming and phishing were generally
+comprised by one or very limited number of computers. So, access
+control lists based firewalls can be used to block domains or IP
+addresses of these hosts. This method is usually very efficient
+because of the fact that the limited number of systems, so the
+attacker's ability to continue swamping large network ended. 
 
-\item Imaging the scenario that most web services of one company are
+Cloud systems rendered the blocking the IP addresses or system domains
+inefficient because of the open architecture and the dynamic feature
+of the cloud systems. With very little cost, attackers can build a
+cluster of computing units usually virtual machines to do the spamming
+and phishing attack to designated systems. And criminals can flood
+spams to victim's network at will. Also the high bandwidth and the
+co-location feature of EC2 like cloud system makes spamming more
+efficient and less costly that traditional attacking systems. Research
+say that the number of attacks within the cloud system is very
+high. So, an efficient mechanism to block spamming and its
+proliferation is very urgent task for cloud systems. 
+
+One method to deal with this system is for Cloud service providers to
+provide such services as the detection of spamming and phishing
+activities and report the suspected "black" systems to cloud users so
+that they can take action accordingly. One implementation is to scan
+and log traffics by the hypervisor such as Xen and upload the log to
+a central repository where logs can be analysed and traditional
+spamming dection methods can be used to eradicate the existence and
+spread of attacking systems. Also service providers can list the legal
+regulations along with this implementation to initiate legal procedure
+if serious consequence happen or one of cloud users break the rule. 
+
+Another method is a community black list mechanism. In this method,
+cloud users individually detect suspected users and report the suspect
+host to a community black list. And service providers such as Amazon
+can take action according to the community black list. Such as ban the
+account or even report the account to legal departments when serious
+consequences happens. Cloud users can periodically update their ACL or
+fire wall to block suspected / block listed hosts or domains.
+
+\textbf{References} \\ 
+http://mailchannels.com/blog/?p=261 \\
+http://www.cio.com/article/631814/Denial\_of\_Service\_Attacks\_Meet\_the\_Cloud\_4\_Lessons \\
+http://www.cio.com/article/612063/Data\_Compliance\_and\_Cloud\_Computing\_Collide\_Key\_Questions
+
+
+\newpage
+\item Imagine the scenario that most web services of one company are
 deployed in the same public cloud (to make it simpler, we do not
 consider multiple clouds). These web services can be non-original,
 i.e., mashup of other web services. A simple example is a 3-tier web
@@ -60,6 +164,60 @@ server, and web server. Please describe the unique advantages and
 problems for hosting multi-tier web-service applications in the cloud,
 compared to the non-cloud solutions (on some aspects such as
 performance, resource provisioning, security, etc.).  
+
+The envision of cloud computing is to provide applications in an
+efficient and on-demand fashion for less cost than would be possible
+in a traditional corporate data center. In order to achieve the
+on-demand feature, resources should be managed in a dynamic manner so
+that they can be allocated and retrieved efficiently. An intuitive
+method is to manage resources as a pool from where it can be
+dynamically managed by allocation or deallocation. The resource pool
+can provide a dedicated segment of cloud infrastructure that gives
+client guaranteed access to computing capacity. And thus the cloud
+systems should have the feature of flexibility, scalability and
+agility. In this sense, the 3-tiered web system architecture is a more
+reasonable and cost effective way to achieve this purpose. In the
+3-tier architecture, everything can be seen as a component, and can be
+managed separtely rather than as a whole system.  While,
+traditionally, web applications are deployed onto a monolothic
+system. The down side for such architecture is that it can not scale
+or the scaling will be very costly when traffic changes, which is very
+common for web applications. Such as the online social network
+providers, facebook for example, the traffic can fluctuate greatly
+within a very short time. So, it is very important for web
+applications to efficiently scale to different traffic volume. The
+dynamic feature of cloud architecture allows web based systems to
+automatically deal with unforeseen spikes in usage by enabling access
+to a pool of additional resources. In summary, 3-tiered cloud
+architecture can provide a more elastic, scalable, cost effective and
+QoS guranteed computing environment for web applications than
+non-cloud solutions. 
+
+Security and privacy related issues are always big concerns when
+customers are making decision whether to move to the cloud. Although,
+there are some new security challenges for tiered cloud architecture,
+as discussed in question 2, there are still a lot of advantages as
+compared with the non-cloud solution. Firstly, cloud computing
+services are provided such that users can management their own
+resources. They can define, set, define, and revoke user roles and
+responsibilities as needed delegating workloads amongst internal
+resources and creating controls for workflow management. Secondly,
+security mechanism can be applied in all layers of the application
+stack so that more secure environment can be guaranteed as compared to
+the non-cloud solutioin, which usually use firewall for security
+purposes. And, finally, in the cloud environment, more professional
+security technology can be used, such as vulnerability assessments,
+and penetration testing, so that attacks can be detected and resolved
+in a more professional and timely manner. On the other hand, it is no
+denying that cloud computing are still facing a lot of security and
+privacy issues, we have seen great improvements as more and more
+research people and companies and working on these issues. All of
+their efforts can make cloud a more secure utility computing platform.
+
+\textbf{References} \\
+http://my.opera.com/blu3c4t/blog/2008/11/01/a-glance-to-cloud-computing \\
+http://en.wikipedia.org/wiki/Cloud\_computing\#Architecture \\
+http://www.terremark.com/default.aspx
 
 \end{enumerate}
 

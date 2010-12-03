@@ -7,7 +7,7 @@
  */
 // $Log$
 
-#include "Graph.h"
+#include "graph.h"
 
 // Load graph structure data from file.
 bool Graph::loadFileToAdjList(string fname) {
@@ -19,24 +19,35 @@ bool Graph::loadFileToAdjList(string fname) {
     return false;
   }
   fdata >> num; cout << "Number is:" << num << endl; 
-  Vertex *pvt = NULL;		// Vertex pointer. 
   for(int i = 0; i < num; i++) { 
-    pvt = new (nothrow) Vertex(i);
-    v.push_back(pvt);
+    vnode *vn = new (nothrow) vnode(i); // Vertex node. 
+    if(!vn) {
+      cerr << "error creating vertex node. " << endl; 
+      return false;
+    }
+    // Add adjacency list.
     for(int j = 0; j < num; j++) {
       fdata >> w;
       if(w>0) {
 	cout << w;
-	Vertex *pnvt = new (nothrow) Vertex(j); 
+	enode *en = new (nothrow) enode(j, w); 
 	if(!pnvt) {
-	  cerr << "Error while creating vertex object." << endl; 
+	  cerr << "Error while creating enode object." << endl; 
 	  return false;
 	}
-	pnvt->setWeight(w);
-	pvt->setNext(pnvt); 
-	pvt = pnvt;
+	// test if first edge is set. 
+	// if it is not set then, set it pointing to first edge. 
+	// else append the node to the end of the edge(adj) list. 
+	if(!vn->firstEdge()) {	
+	  vn->setFirstEdge(en); 
+	} else {
+	  enode *pen = vn->firstEdge(); 
+	  while(pen->next()) pen = pen->next();
+	  pen->setNext(en); 
+	}
       }	// if weight > 0.
     } // for line. 
+    vertex.push_back(*vn);
     cout << endl;
   } // while fdata. 
   fdata.close();
@@ -45,16 +56,16 @@ bool Graph::loadFileToAdjList(string fname) {
 
 // Depth first traversal. 
 bool Graph::DFSTraversal(int id) {
-  cout << "Depth first traversal..." << endl;
-  visit(id);
-  Vertex *pv = v[id];
-  pv = pv->next();
-  while(pv != NULL) {
-    cout << pv->getWeight(); 
-    if(pv->next() != NULL) {cout << ",";}
-    pv = pv->next();
-  }
-  cout << endl; 
+  // cout << "Depth first traversal..." << endl;
+  // visit(id);
+  // Vertex *pv = v[id];
+  // pv = pv->next();
+  // while(pv != NULL) {
+  //   cout << pv->getWeight(); 
+  //   if(pv->next() != NULL) {cout << ",";}
+  //   pv = pv->next();
+  // }
+  // cout << endl; 
   return true; 
 }
 
@@ -72,28 +83,28 @@ bool Graph::DijSP(int id) {
 
 bool Graph::printAdjList() {
   cout << "Printing adjacency list..." << endl; 
-  for(int i = 0; i < getNumVertices(); i++) {
-    Vertex *pv = v[i];
-    //cout << pv << endl; 
-    cout << pv->getId() << "->"; 
-    pv = pv->next();
-    while(pv != NULL) {
-      cout << pv->getWeight(); 
-      if(pv->next() != NULL) {cout << ",";}
-      pv = pv->next();
-    }
-    cout << endl; 
-  }
+  // for(int i = 0; i < getNumVertices(); i++) {
+  //   Vertex *pv = v[i];
+  //   //cout << pv << endl; 
+  //   cout << pv->getId() << "->"; 
+  //   pv = pv->next();
+  //   while(pv != NULL) {
+  //     cout << pv->getWeight(); 
+  //     if(pv->next() != NULL) {cout << ",";}
+  //     pv = pv->next();
+  //   }
+  //   cout << endl; 
+  // }
   return true; 
 }
 
 // Visit a vertex within the graph given by Id. 
 bool Graph::visit(int id) {
-  if((id > getNumVertices()) || (id < 0)) {
-    cerr << "Wrong id, please check again." << endl; 
-    return false;
-  }
-  Vertex *pv = v[id];
-  pv->visit(); 
+  // if((id > getNumVertices()) || (id < 0)) {
+  //   cerr << "Wrong id, please check again." << endl; 
+  //   return false;
+  // }
+  // Vertex *pv = v[id];
+  // pv->visit(); 
   return true; 
 }

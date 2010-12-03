@@ -8,7 +8,7 @@ EXE = proj5
 DOX = /usr/bin/doxygen
 DOXCONF = Dox.txt
 
-SRC = lab5.cpp Graph.cpp
+SRC = lab5.cpp graph.cpp
 OBJ = $(SRC:.cpp=.o)
 
 all: $(EXE)

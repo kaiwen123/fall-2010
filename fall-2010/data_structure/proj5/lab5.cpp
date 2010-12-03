@@ -12,7 +12,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <fstream>
-#include "Graph.h"
+#include "graph.h"
 using namespace std;
 
 // ---------------------------------------------------------------------
@@ -20,18 +20,18 @@ using namespace std;
 //           save data to file. 
 // ---------------------------------------------------------------------
 void renderUI(char& choice); 
-bool execCmd(char choice, Graph *graph);
+bool execCmd(char choice, graph *g);
 
 int main() {
-  Graph *graph = new (nothrow) Graph();
-  if(!graph) {
+  Graph *g = new (nothrow) graph();
+  if(!g) {
     cout << "Error While creating Graph object. " << endl;
     return 1; 
   }
   char choice;			// User command choice. 
   do {
     renderUI(choice);
-  } while(execCmd(choice, graph));
+  } while(execCmd(choice, g));
   return 0;
 }
 
@@ -49,28 +49,28 @@ void renderUI(char& choice) {
 }
 
 // Execute user selected command. 
-bool execCmd(char choice, Graph *graph) {
+bool execCmd(char choice, Graph *g) {
   switch(choice) {
   case 'A':
   case 'a': {
     cout << "Loading graph data from file ......";
     string fname = "graph.txt";
-    graph->loadFileToAdjList(fname);
-    graph->printAdjList();
+    g->loadFileToAdjList(fname);
+    g->printAdjList();
     cout << "done!" << endl;
     return true;
   }
   case 'D':
   case 'd': {
     cout << "Depth First Graph Traversal. ";
-    graph->DFSTraversal(0);
+    g->DFSTraversal(0);
     cout << " done!" << endl;
     return true;
   }
   case 'B':
   case 'b': {
     cout << "Breadth First Graph Traversal. ";
-    graph->BFSTraversal(0);
+    g->BFSTraversal(0);
     cout << " done!" << endl;
     return true;
   }

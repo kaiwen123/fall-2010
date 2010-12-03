@@ -8,6 +8,7 @@ DOX = /usr/bin/doxygen
 DOXCONF = Dox.txt
 
 SRC = LinkedSortedList.cpp main.cpp
+HDRS = LinkedSortedList.h
 OBJ = $(SRC:.cpp=.o)
 
 all: $(EXECUTABLE)
@@ -16,7 +17,7 @@ all: $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJ)
 	@$(CPP) $(LDFLAGS) $^ -o $@
-
+#$(OBJ): $(HDRS)
 .o: .cpp
 	@$(CPP) -c $(CPPFLAGS) $< -o $@
 
