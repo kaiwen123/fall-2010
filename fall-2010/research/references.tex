@@ -1,0 +1,24 @@
+%% this is the bib file by simon; 
+%% Created on June 28th, 2010; 
+\documentclass[a4paper]{article}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{multibib}
+\newcites{new}{Latest References}
+\newcites{old}{Old References}
+
+\geometry{top=1.3in, bottom=1.3in, left=1.2in, right=1.2in}
+
+\begin{document}
+%%\nocite{DBLP:conf/KDD10/event_tracking}
+%%\nocite{DBLP:conf/kdd/Kleinberg02}
+\nocitenew{*}
+\nociteold{*}
+
+\bibliographystylenew{unsrt}
+\bibliographynew{new}
+
+\bibliographystyleold{unsrt}
+\bibliographyold{old}
+
+\end{document}

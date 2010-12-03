@@ -1,0 +1,368 @@
+\documentclass[12pt]{article}
+% Change "article" to "report" to get rid of page number on title page
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{setspace}
+\usepackage{Tabbing}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{titlesec}
+\usepackage{graphicx,float,wrapfig}
+\usepackage{url}
+
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=-1in     %
+\oddsidemargin=0in      %
+\textwidth=7in        %
+\textheight=9.0in       %
+\headsep=0.25in         %
+
+% Start of document. 
+\begin{document}
+\begin{center}                  % Header of file. 
+\textbf{\Large{Privacy Protection of Social Networks - A Survey}} \\ 
+\small\textsc{Shumin Guo} \\
+\today
+\end{center}
+
+\section{Introduction}
+With the advent of Web 2.0, social networks are becoming more and more
+popular, it provides people with a virtual world to keep in touch with
+friends, colleagues and relatives etc. And it is attracting more and
+more users changing the way people communicate, work and
+play. Facebook \cite{poke-facebook}, for example, has attracted more
+than 600 million users \cite{facebooksite} from its publish in
+2004. And as it grows, users both from the US and all around the
+world are joining this online community. Still there are a lot of
+other social networking sites, such as MySpace \cite{myspacesite},
+which concentrates on music and entertainment, LinkedIn which focuses
+on working professionals and Twitter \cite{twittersite}, a networking
+service that let members send out short, 140-character messages called
+tweets. These social networking sites gains great popularity in this
+social network era.
+
+The explosive growth of social networks brings new ways for people to
+communicate with each other, social network users can publish their
+personal information to utilize the services provided by social
+networks, which have made people's personal relationships more visible
+and quantifiable than ever before.  While on the other hand, they are
+risking leakage of personal and sensitive information. In fact,
+privacy incidentss has been reported over facebook
+\cite{social-networking-report-economist}. Privacy is becoming a 
+big concern when people are choosing to join in social networks.
+
+This review article tries to figure out various privacy threats of
+online social networks and methods to deal with these threats. Section
+\ref{sec:threats} introduces privacy threats of online social
+networks. Section \ref{sec:crypto} discusses cryptographic methods for
+privacy preserving social networks. Section \ref{sec:accon}
+introduces access control based based methods to control privacy of
+social networks. Secion \ref{sec:platform} disscusses specific
+privacy issues when social networks are used as an application
+platform. And Section \ref{sec:summary} will wrap up this review and
+point out possible research topics for online social network.
+
+\section{Privacy threats of online social networks\label{sec:threats}}
+\subsection{Leakage of Personal Private Information}
+Users of online social networks want to share their private
+information, either because they think that social network sites have
+developed detailed sets of privacy controls that they can trust or
+because they don't have sense of privacy protection on this online
+communication channel. Some social network sites such as Facebook
+provides options to users for them to personalize their private
+settings eight private or access only by friend or by friend's friends
+or totally public. Former research\cite{privacy-wizard} found that a lot of users
+are not aware of the privacy access configuration and just leave it as
+default, which will make their information public to everyone on the
+social network sites. The traversal and random search/access feature
+makes users' public information under privacy threat. 
+
+Another fact is that although social network sites have privacy policy
+related to users private information, they are not guaranteed to be
+conducted due to reasons such as advertising. For example, in 2007
+facebook breached users privacy information by tracking users purchase
+activaties and send alert messages to their friends without
+acknowledgement from user \cite{social-networking-report-economist}.
+
+%Social networks can be used on businesses. And a lot of small
+%businesses become bigger. 
+
+The huge audience of social networks are natural resources for online
+social network providers. For example, marketing via social networks
+try to do targeted advertising to users by analyzing their character
+from their online activities and profile information. Some of users
+information is even sold to third parties for unpredicted use.  In
+this sense, the social networking business model is paradoxic to the
+privacy protection of social network users, which makes it hard for
+private policies to be strictly conducted.
+
+Besides of serving as communication platform, social network sites,
+especially facebook and myspace are platforms for various social
+application to run on such as multiplayer games. This kind of
+scenarios brings possible leakage of private information, as social
+identify is required to in order to use these social
+applications. Users need to authorize applications to access their
+sensitive information which might be abused by third party application
+developers.
+
+\subsection{Attacks on Social Network Users}
+\textbf{Spamming and Phishing\cite{spamming-phishing-privacy}} \\
+Spamming and phishing messages with malicious URL links or attachments
+can be send to social network users. When users clicked the malicious
+URL or download/execute the attachment, malicious programs or websites
+can steal users personal information or do harm to users'
+computer. But with the protection of security softwares and users'
+awareness of the harm of suspected message, the success rate of this
+blind spamming and phishing attack is usually low.
+
+On the other hand, attackers are usually interested in obtaining the
+sensitive personal information to do more targeted attack such as
+phishing or spaming\cite{context-aware-spam}. 
+
+\textbf{Identity Threft Attacks}\\
+\cite{identity-theft-attack} discusses identity theft attacks. Friend
+requests are send to users of social network in the hope to establish
+friendship with the victim, then the attacker will be able to access
+the sensitive information provided by victims.
+
+Still, a more advanced, cross site attack can be initiated. Such
+attacks use the feature that one person may have two identities and
+thus friends on different social network sites. If he has registered
+on the first social network while not on the second one, his identity
+can be forged to make friend requests usually with large possibility
+of success. Experiments shows that it is easy to do automatic crawling
+and identity theft attack on the major social network sites.
+
+\textbf{De-Anonymization Attacks}\\
+In order to keep private of sensitive personal information, social
+network users can control who can access their sensitive information
+while keeping themselves anonimized within the social
+network. \cite{group-deanonymize-attack} proposes an attack model which
+uses group information to De-Anonymize users from social network. By
+obtaining the group membership information of a particular user, it is
+usually sufficient to uniquely identify the identity of this user.
+
+In the group information based deanonymization attack, web browsing
+history information is utilized to obtain group information of a
+certain user. Experiments show that little effort is needed to do
+De-Anonymization attacks, so it has the potential to affect millions
+of social network users with group memberships.
+
+Sometimes social links can become sensitive information when social
+data are used for data mining
+purposes. \cite{user-interaction-social-link} proposes the use of
+interaction graph to impart meaning of social links by quantifying
+user interactions, and showed that interaction graph can be used as a
+better representation of user interactions of social network users.
+Similarly, \cite{neighborhood-attack} dicusses neighborhood
+attacks. The identity of a specific user can be identified by
+obtaining some knowledge about the neighbors of a targeted victim and
+the relationship among these neighbors.
+
+\cite{anony-link-attack} proposes attack on the social link. Social
+link attacks may happen when anonymized social network data are used
+for data mining or other aggregational purposes. A lot of literature
+including \cite{privacy-preserve-publishing-survey} have discussion on
+how to protect sensitive information when publishing sensitive data.
+
+\cite{privacy-sensitive-edge} discusses privacy issue of sensitive
+edges of social networks and proposes methods based on randomization
+and purtabation for privacy preservation. 
+
+\textbf{Real Life Linkage} \\
+Often times, social network activity can be linked to real life
+scenario. Minimum information is need for such kind of real life
+linkage attack if a lot of personal information is known about the
+victim. \cite{real-life-social-network} compares online social network
+and real life social network and points out the domain feature of the
+real life social network and influences of online social network to
+the real life social network. This paper also proposes that different
+types of relationships of real life social network is a good
+implication of the design of online social networks for privacy
+purposes. It also proposes that causual relationships of both online
+and real life social network is common and further confirms that the
+interaction among social network users, which is also proposed in
+\cite{user-interaction-social-link} are better implication of privacy
+concerns for online social network users. 
+
+\section{Cryptographic Privacy Protection \label{sec:crypto}}
+Cryptogrpic means can be used to protect privacy of users. User
+profiles and communication among friends are encrpted all the
+time. \cite{noyb} proposes an approach to encrpt sensitive data and
+share keys to authorize users who can access the original
+information. In order to avoid tracking of cipher data, it also
+proposes stegamogrphy to help avoid detection. Overhead might is
+introduced for key and encrpytion dictionary management. 
+
+\cite{reliable_email} introduces an authentication protocol for the
+problem of spam mails. This protocol can also be used onto protection
+of social network privacy. Authentication tokens are used in this
+protocol. Outgoing mails will be attached an authentication
+token. Mail reccipient will verify the the identity and the signature
+of the token before accepting the mail.
+
+It is clearly seen that cyptogrphic privacy protection methods can be
+used as a method for social network privacy protection, but the
+overhead is that key management can be overloaded when user has a lot
+of friends and on the other hand the utility of online social network
+are somehow compromised to private personal communication channel
+which can be done by more secure instant messaging tools such as
+Messenger. 
+
+% From Access Control perspective. 
+\section{Privacy Protection Through Access Control \label{sec:accon}}
+While the privacy issue has raised a lot of concerns among OSN users,
+current OSNs implement very basic access control models. Although easy
+to use and understand, these models lack flexibility and often times
+fail to protect the privacy of users. So, how to protect the privacy
+of OSN users have become a very interesting and hot research topic.
+
+Privacy protection of online social networks can be treated as access
+control problem, but it is more than traditional access control used
+by firewalls, in that it is more distributed and automated by user
+themselves. And the fact\cite{facebook-privacy-settings} that social
+network users are usually novice of information technology makes it
+even harder for them to understand and configure their access control
+settings. There are several research attempts to help user configure
+their sensitive information by way of access control.
+
+\cite{privacy-wizard} proposes a template for the design of social
+networking privacy wizard. In this approach, a privacy-preference
+model classifier is learned by doing active learning on the user input
+data. By utilizing the power of machine learning, little user
+interaction is need to configure their privacy preferences. Similarly,
+\cite{social-spammer-machine-learning} uses machine learning to
+identify spammers and malware disseminators. 
+
+\subsection{Challenges for Access Control Privacy Protection}
+Social Networks are built upon relations between users, so the access
+control and privacy protection models should be built based on the
+relationships among users. A lot of research proposals expressed the
+access control requirements in terms of relationship paths existing in
+the network and their depth. Also, some models support a notion of
+trust/reputation as a further parameter for access control decisions.
+
+Besides, the enforcement of relationship-based access control poses
+interesting issues regarding privacy protection. A further issue is
+the architecture on the support of access control. Unlike traditional
+access control models such as rule based access control, the
+centralized access control are no longer a suitable or efficient model
+for OSNs. A decentralized privacy-aware access control mechanism
+should be devised to enforce not only relationship-based access
+control but also ensure the relationship privacy. 
+
+According to a relationship-based access control model, access control
+policies are specified in terms of relationships existing in the
+OSN. Additionally, the depth of the relationship path is an important
+parameter for some access control decisions, since users are usually
+more inclined to share their resources with users not much away from
+them. Still a further important parameter is represented by trust
+among social network nodes. 
+
+Moreover, in OSN, there exists relationship between users and
+resources. So, a relationship-based access control model should
+exploit not only the standard user to user relationships but should
+also consider the various relationships and connection between users
+and resources. 
+
+As we have discussed earlier, a centralized access control model is
+not suitable for OSNs, a decentralized model should be used, where
+each user is responsible for policy specification and enforcement. But
+the decentralized model need to verify the existence of specific paths
+within an OSN. This kind of task may be very difficult and time
+consuming in a decentralized manner. So, a further essential
+requirement of access control enforcement is to devise efficient and
+scalable implementation strategies.
+
+On the other hand, the relationship-based access control also poses
+threats to the relationships which are in general sensitive
+information. As the relationship-based access control may require
+disclosure of personal relationships. So, another requirement for
+relationship-based access control model is to ensure that relationship
+privacy is not breached during access control. Also, relationships may
+have an associated trust value that must be protected during access
+control. So, there will be a requirement to protect the relationship
+trust level.
+
+Also, the decentralized enforcement of access control should have some
+mechanism to help a user to precisely estimate the other users's trust
+level. And such mechanism should also preserve user privacy when
+performing trust computation. 
+
+\subsection{Some Review of Access Control Literature.}
+In current available literatures, various access control models have
+been proposed, such as access rule based model, client-based access
+control model, ACL model, multi-level access control,
+challenge-response-based model etc. 
+
+Also, there are proposals on distance based access control, in which
+requestors are divided into adjacent zones, and different zones have
+different rules or policies for access control. 
+A lot of literature also proposed cryptographic methods which are used
+for relationship certificate exchange, attestation and so on. And there
+are also a formalized access control model proposed in the literature,
+in which the authers proposed several types of access control
+policies, resources access control, search policy, tranversal policies
+and communication policies. And recent research on semantic web also
+provides opportunities for access control research.
+
+But, it is important to know that most of the research related to
+privacy in OSNs have focused on privacy-preserving techniques to mine
+social network data, only a few provide solutions for privacy aware
+access control. Among these privacy aware access control models, some
+are policy based, while others consider trust protection. 
+
+\section{Social Networks as Platform \label{sec:platform}}
+Social networking sites can not only serve as a communication
+platform, it can be used as a platform for third party applications. A
+third party can use the published social API to develop their own
+application. For example third parties can use the API of Facebook to
+develop social games and other useful and interesting
+applications. The social platform on the one hand brings vitality to
+the social network, while on the other hand privacy threats are also
+emerging. So privacy protection methods for this scenario are in
+urgent requirement as more and more social application are developed
+and more and more users joining the social cloud
+platform. xBook\cite{xbook-social-platform} proposes methods to deal
+with this issue. 
+
+\section{Conclusion \label{sec:summary}}
+In this survey, we discussed privacy threats of online social network
+users, pointing out possible ways that information can be leaked to
+malicious users and possible social attacks based on these sensitive
+information. And we classify current attempts for online social
+network privacy protection to two types: cyptographic and access
+control, pointing out that the former methods brings overload to the
+social network users and providers. The access control based access
+control methods can utilize the power of machine learning techniques
+to automate the configurations of privacy preferences. And initial
+attempts show that this is better method for online social network
+privacy protection. While on the other hand, access control of social
+network is unlike the traditional access control systems. It is more
+automatic, distributed and need more precise tunning to the content. 
+
+Research in online social network privacy related area is still in its
+infancy, there are a lot of issues to be explored. One is the design
+of a satisfactory solution to relationship privacy protection during
+path discovery. Another research direction is related to policy
+administration. Due to the large size of social network and relations,
+it is important to devise techniques and tools that can help user
+evaluate the risk of unauthorized flows of information that the
+specification of a policy or itsupdate may cause.
+
+With the development of online social networks, privacy protection is
+becoming one major concern. While on the other hand, social network
+providers are usually reluctant to enforce strict privacy protection
+policies because of business concerns, which undermines privacy
+protection greatly. So, it might be advisable that social network
+platforms are revised to allow third party as sensitive data
+hoster. And on the other hand legal procedures can be used for the
+enforcement of privacy protection for online social network users. 
+
+\bibliographystyle{unsrt}
+\bibliography{review}
+
+\end{document}
