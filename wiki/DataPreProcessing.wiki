@@ -18,7 +18,7 @@ Note: the processing of testing all the splits is computational extensive, so it
 
 = Project README = 
 *FILES*
-`
+{{{
 - main.cpp
 Main project file to test the implementation.
 - GeneFeatureItem.{h, cpp}
@@ -35,7 +35,7 @@ File used to define some macros.
 This file.
 - Makefile
 The project management file.
-`
+}}}
 *HOWTO*
 
 Simply type make in the current working directory, which will generate
