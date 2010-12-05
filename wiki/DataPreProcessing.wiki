@@ -51,3 +51,37 @@ Check the result in the current working directory.
 This is more complied with the OOP design mechanism.
 
 = Project Execution Sample Results =
+Data preprocessing - Sample output: four bins for equi-width and two bins for entropy
+
+*ewidth.bins*
+{{{
+G0: [-inf,3719.1)4, [3719.1,7438.2)38, [7438.2,11157.3)12, [11157.3,+inf)8, 
+G1: [-inf,2538.07)8, [2538.07,5076.14)26, [5076.14,7614.21)20, [7614.21,+inf)8, 
+G2: [-inf,2151.26)8, [2151.26,4302.52)30, [4302.52,6453.78)17, [6453.78,+inf)7, 
+G3: [-inf,2812.17)17, [2812.17,5624.34)35, [5624.34,8436.51)7, [8436.51,+inf)3, 
+G4: [-inf,2023.47)21, [2023.47,4046.94)30, [4046.94,6070.41)10, [6070.41,+inf)1,
+}}}
+*ewidth.data*
+{{{
+c,c,b,b,a,negative
+c,c,c,b,a,positive
+b,c,c,b,a,negative
+b,d,c,b,a,positive
+a,b,b,b,b,negative
+}}}
+*entropy.bins*
+{{{
+G248: [-inf,1765.18)44, [1765.18,+inf)18, 
+G492: [-inf,387.243)37, [387.243,+inf)25, 
+G764: [-inf,935.204)50, [935.204,+inf)12, 
+G1670: [-inf,62.7375)14, [62.7375,+inf)48, 
+G1771: [-inf,87.71)33, [87.71,+inf)29,
+}}}
+*entropy.data*
+{{{
+a,b,a,b,b,negative
+b,b,b,a,a,positive
+a,a,a,b,a,negative
+a,b,a,a,a,positive
+a,a,a,b,b,negative
+}}}
