@@ -1,0 +1,20 @@
+#summary Preparing data for data mining - data binning and discretization using equal-width binning and entropy based binning methods.
+#labels datamining,pre-processing,equi-widthbinning,datadiscretization,entropy,informationsplit,informationgain,onepassdataprocessing
+
+= Introduction =
+Usually, data from experiments are not suitable for doing data mining tasks. Because the raw data may contain out-of-range-values, impossible data combination or missing value etc. Analyzing data without being carefully screened can produce misleading resules. Thus, the raw data needs to pre-processed before doing data mining. And often-times, this step can take considerable amount of processing time. 
+
+Data pre-processing includes cleaning, normalization, transformation, feature selection and extraction etc. The product of data pre-processing is the final training data set. 
+
+In my project one, we do data transformation and/or normalization by means of equal-width binning and entropy based binning. 
+
+= Equi-Width Binning =
+Equi-Width binning is the process of discretizing (continuous) feature data by dividing the data into a number of equal width value. For example, we have values 0 1 2 10 12 5 20 22 8 and we want to discretize it to 4 equally separated width data. Then the width of bin will be (20 - 0) / 4 = 5, and we have bins (-, 5], (5, 10], (10, 15], (15, +). And the discretized data is : a a a b c a d d b. 
+
+= Entropy Based Data Binning = 
+Entropy based data binning tries to split the (continuous) data into discretized data so that maximum information gain can be achieved. Information gain can be achieved by calculating subtracting information split from the original information entropy. E.g. 
+G(info_gain) = E(original) - S(split). In this project we need to try all the possible split and find the one with the highest information gain. 
+Note: the processing of testing all the splits is computational extensive, so it is advisable to sort the feature(gain) data first and do one pass processing. 
+
+
+= Project Execution Sample Results =
