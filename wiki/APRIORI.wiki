@@ -254,7 +254,6 @@ class DataSet {
 Definition and implementation of the `AssoRule` class. This class represents association rules we are supposed to generate from the frequent itemsets. The format the
 output is: [anteset]-->[conset] [supxy] [supx] [conf] [supxy*conf]. 
 
-=  =
 = Abbreviations of HashTree output (deprecated):=
   To output the content of hashtree(level order tree traversal), you need to
   open a switch in Makefile, which is "MACROS += -DDEBUG_APRIORI_TRAVERSAL".
