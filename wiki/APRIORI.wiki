@@ -286,10 +286,10 @@ tedious to build this structure and that fact that I need to keep track of vario
 kinds of points make it bug prone. After several attempts, I find a rule of the 
 hash tree grown process. Instead of considering the hash tree structure, let's make 
 it simpler by viewing the hash tree building process by growing a vector, each time 
-we test if two itemsets are combinable, if they are, then we combine them and put
-the newly generated item set(usually frequent itemset after prune) at the end of the 
-vector. And to put it more easily, it is the level order traversal of the hash tree
-structure. So, let's imagine, if we can design a structure which can clearly describe
+we test if two itemsets are combinable, if they are, then we combine them and put 
+the newly generated item set(usually frequent itemset after prune) at the end of the  
+vector. And to put it more easily, it is the level order traversal of the hash tree 
+structure. So, let's imagine, if we can design a structure which can clearly describe 
  what we disscussed above, it will be a good candidate of the hash tree alternative. 
 Hash table can be one of the most promising candidate in that the values in the hash 
 table can be ordered according to a comparison function. That means, if we can design 
