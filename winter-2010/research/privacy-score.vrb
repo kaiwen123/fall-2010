@@ -1,0 +1,13 @@
+\frametitle {Definition of the Privacy Score}
+  Intuitively, the privacy score should be monotonically increasing with
+  both sensitivity and visibility. So, this paper defines privacy
+  score of user $j$ for item $i$ as \textsc{Pr}$(i,j)=\beta_i\times
+  V(i,j)$, and by summing up all the item privacy for user $j$, we get
+  the privacy score for user $j$ as
+  \[\textsc{Pr}(j)=\sum_{i=1}^{n}\textsc{Pr}(i,j)=\sum_{i=1}^n\beta_i\times V(i,j). \]
+ In this definition, $V(i,j)$ represents the visibility of item $i$
+ for user $j$, and it can be calculated by
+   \[V(i,j)=P_{ij}\times 1 + (1-P_{ij})\times 0 = P_{ij}\]
+   where \[P_{ij} = Prob\{\textbf{R}(i,j)=1\}.\]
+ So, in order to calculate the privacy score $\textsc{Pr}(j)$, we need
+ to estimate sensitivity $\beta_i$ and visibility $V(i,j)$.

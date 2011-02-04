@@ -1,0 +1,63 @@
+\documentclass[16pt]{report}
+% Change "article" to "report" to get rid of page number on title page
+
+% In case you need to adjust margins:
+% \topmargin=-0.45in      %
+% \evensidemargin=-1in     %
+% \oddsidemargin=0in      %
+% \textwidth=5in        %
+% \textheight=9.0in       %
+% \headsep=0.25in         %
+
+\begin{document}
+\textbf{\Large{Ranking Uncertain Data in Distributed Environments.}} \\ 
+
+% Problem descriptions.  
+\textbf{Problem description}
+
+Collecting data from energy sensitive networks has been a challenging
+problem. Previous research have showed that the data transmission power
+constitutes most of the power consumed by network nodes. This paper is
+trying to design an effective protocol to rank uncertain data in
+energy sensitive distributed environment with the goal to reduce of
+volume of data that is transmitted over the network nodes.
+
+\textbf{Contributions}
+
+% Contributions and methods proposed in this paper. 
+After detailed analysis of queries, this paper identified two key
+factors, global knowledge and decomposable computation, for effcient
+in-network query processing. By utilizing these two factors, three
+algorithms, global knowledge based (GKB), Partial Knowledge Based
+(PKB) and hybrid for rank query processing are proposed over the tree
+network topology environment. Global knowledge can be aggregated by
+in-network computing, and partial knowledge is used to prune obsolete
+objects, and hybrid method combines these two which thus can have a
+better performance. 
+
+\textbf{Defects of this paper} 
+
+In this paper, extensive explanation about the proposed
+methods/protocols are given. But the experiment methods and
+configurations are not very properly explained. Also, this paper does
+not consider the distribution of data which might also be a possible
+factor for protocol performance. And also the topology should also be
+specific as far as the results are concerned. 
+
+There are several typos in this paper. For example, $r_7 = 7$ of the
+$PW$ example, as there is no value 7 in the previous table. Another
+typo is the formula $\sum_{j=1}^{t_i}p_{i,j} = 1$, it is not clear
+what $t_i$ means here, should it be $|r_i|$, which is the number of
+records. 
+
+Also, several notations are missed in table one(Notations and Descriptions):
+$t_i$ which appears several times in paper's algorithm description
+part "let $V_i \leftarrow t_i$.
+
+% Final rating score. 
+\textbf{Final Rating}
+
+Based on the major contributions and other technique factors, I give
+this paper of score of 4 over 5. 
+
+\end{document} 
