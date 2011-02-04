@@ -35,7 +35,7 @@
       \item Multi-party collaborative privacy control. 
       \item ...}
       \end{itemize}
-    \item What is the privacy risk level? }
+    \item How to evaluate the risk level? }
     \end{itemize}
   \end{block}
 \end{frame}
@@ -53,16 +53,10 @@
 \begin{frame}%[fragile] % Notice the [fragile] option %
   \frametitle{General Observations and Intuitions}
   \begin{itemize}
-    \item Different profile items(e.g. name, age, address etc.) can
-      contribute differently to the privacy score calculation. \\
-      - We call this difference sensitivity. \\
-      - This property usually depends on the item itself. E.g. some
-      items are inherently more sensitive than others. 
-    \item It is common that the more people who can see user's online
-      information, the higher risk user will have. Thus, we can use
-      the scope of information visibility as a factor for privacy
-      score calculation. \\
-      - We call this factor visibility in the privacy score model. 
+    \LARGE{
+    \item Different profile items have different contribution to
+      privacy score. 
+    \item The visibility of information can affect the privacy score.}
   \end{itemize}
 \end{frame}
 
@@ -92,37 +86,40 @@
 % IRT model description.
 \begin{frame}[fragile]
   \frametitle{The Item Response Theory(IRT) Model}
-  \[\LARGE{P_{ij}=\frac{1}{1+e^{-\alpha_i(\theta_j-\beta_i)}}}\]
+\Huge{
+  \[P_{ij}=\frac{1}{1+e^{-\alpha_i(\theta_j-\beta_i)}}\]
+}
 \end{frame}
 
 % IRT based Privacy score model. 
-\begin{frame}
-  \frametitle{IRT based Privacy Score model.}
-  We can use IRT to model the privacy score estimation. But we need to
-  reinterpret the IRT model as follows. \\ 
-  \begin{enumerate}
-    \item Examinee mapped to a user and question mapped to profile
-      item. 
-    \item The ability of examinee $\theta_j$ corresponses to attitude of
-      user $j$. 
-    \item The difficulty $\beta_i$ corresponses to
-      \textit{sensitivity} of of profile item $i$. 
-    \item Question discrimination parameter $\alpha_i$ is ignored, and
-      it can be used to adjust the analysis of items and users. 
-  \end{enumerate}
-\end{frame}
+% \begin{frame}
+%   \frametitle{IRT based Privacy Score model.}
+%   We can use IRT to model the privacy score estimation. But we need to
+%   reinterpret the IRT model as follows. \\ 
+%   \begin{enumerate}
+%     \item Examinee mapped to a user and question mapped to profile
+%       item. 
+%     \item The ability of examinee $\theta_j$ corresponses to attitude of
+%       user $j$. 
+%     \item The difficulty $\beta_i$ corresponses to
+%       \textit{sensitivity} of of profile item $i$. 
+%     \item Question discrimination parameter $\alpha_i$ is ignored, and
+%       it can be used to adjust the analysis of items and users. 
+%   \end{enumerate}
+% \end{frame}
 
 % privacy score definition.
 \begin{frame}[fragile]
   \frametitle{Definition of the Privacy Score}
-  Intuitively, the privacy score should be monotonically increasing with
-  both sensitivity and visibility. So, this paper defines privacy
-  score of user $j$ for item $i$ as \textsc{Pr}$(i,j)=\beta_i\times
-  V(i,j)$, and by summing up all the item privacy for user $j$, we get
-  the privacy score for user $j$ as
+ % Intuitively, the privacy score should be monotonically increasing with
+ % both sensitivity and visibility. So, this paper defines privacy
+ % score of user $j$ for item $i$ as \textsc{Pr}$(i,j)=\beta_i\times
+ % V(i,j)$, and by summing up all the item privacy for user $j$, we get
+ % the privacy score for user $j$ as
+  \[\textsc{Pr}(i,j)=\beta_i\times V(i,j)\]
   \[\textsc{Pr}(j)=\sum_{i=1}^{n}\textsc{Pr}(i,j)=\sum_{i=1}^n\beta_i\times V(i,j). \]
- In this definition, $V(i,j)$ represents the visibility of item $i$
- for user $j$, and it can be calculated by
+% In this definition, $V(i,j)$ represents the visibility of item $i$
+% for user $j$, and it can be calculated by
    \[V(i,j)=P_{ij}\times 1 + (1-P_{ij})\times 0 = P_{ij}\]
    where \[P_{ij} = Prob\{\textbf{R}(i,j)=1\}.\]
  So, in order to calculate the privacy score $\textsc{Pr}(j)$, we need
