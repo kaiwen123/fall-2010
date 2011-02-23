@@ -30,26 +30,22 @@
 \end{center}
 
 \begin{abstract} 
-% background of social networking privacy. 
-The development of social networks are attracting more and more
+% background of WBSN privacy. 
+The development of web based social networks(WBSN) are attracting more and more
 users and are now among the most popular sites on the
-web\cite{top-500-sites}.  These large social network sites provides a
+web\cite{top-500-sites}.  These large WBSNs provide a
 basis for maintaining social relationships, for finding users with
 similar interests and for locating content and knowledge that has been
 contributed or endorsed by other users\cite{measure-analyze-SN}.
 And these sites also provides business opportunities for a 
 variety of business entities, revolutionizing traditional business
 model. While on the other hand, privacy has become a big concern for
-these online social networks. 
-
-\engordnumber{3}
-
-$3^{rd}$
+these WBSNs. 
 
 % What is this paper about? 
 This paper is an overview of current research on the privacy of social
 networks. We analyzed various factor that can cause privacy breach
-and discussed current privacy research attempts for social networks
+and discussed current privacy research attempts for WBSN
 privacy protection. We also discussed the difficulties for social
 network privacy research. And some interesting privacy related
 research problems are listed. 
@@ -338,6 +334,7 @@ content from OSN still needs to be figured out.
 % Social attacks. 
 In addition to spamming and phishing, malicious third parties can use
 various other attack methods to get users' private information. 
+
 % identity threft attacks. 
 \textbf{Identity Threft Attacks}
 
@@ -368,7 +365,7 @@ Social network providers hosts large amount of sensitive data from
 OSNs users. The sensitive data providers a good source both for the
 research and for the business, so there is a require that data be
 analyzed by social network providers itself or unknown third
-parties. Literatures on privacy preserving data publishing
+parties. Past work on privacy preserving data publishing
 \cite{ppdp-survey} have proposed several methods to deal with this
 issue. But for concern of simplicity, current data publishing of
 social network data usually use the anonymization method to shield
@@ -421,7 +418,32 @@ relatively mature PPDP methods.
 
 \textbf{Sybil Attack} 
 
-To be added. 
+In large scale peer-to-peer systems, redundancy can be used to combat
+scurity threats from malious remote systems, but John et
+al. \cite{sybil-attack} show that the identity of these systems can
+be forged to undermine this redundancy, which is called Sybil
+attack. And they also show that Sybil attacks can always be possible
+for a system without a trustable centralized authority. 
+
+Social network are composed of independent users forming a large
+peer-to-peer system, and it is usually problematic \cite{sybilguard} to
+implement a centralized authority in such a system. Even worse, it is a
+rapidly growing dynamic system. So, these features make social
+networks infectious to Sybil attacks. In social networks, malicious
+users can obtain multiple fake identities and pretend to be multiple
+nodes in the system. And by controlling the large number of user
+identities, malicious users can "vote out" honest users in
+collaborative tasks. Also attackers can solicite the sensitive
+information usign fake identities thus causing the leakage of private 
+information. Haifeng et. al\cite{sybilguard} proposed a decentralized
+protocol that limits the corruptive influence of sybil attacks based
+on human-established trust relation. This protocol bounds the number
+and size the sybil attack groups by utilizing the trust relation among
+social network users. Viswanath et al\cite{sybildefenses} uses
+community structure for sybil attacks defense. It generalized the
+Sybil attack schemes into graph partitioning algorithm, and by
+defferent parameter settings, social network users are ranked
+according to the trust relative to designated trusted nodes. 
 
 \textbf{Auxilliary Data Attacks}
 
@@ -438,84 +460,128 @@ purposes. It also proposes that causual relationships of both online
 and real life social network is common and further confirms that the
 interaction among social network users, which is also proposed in
 \cite{user-interaction-social-link} are better implication of privacy
-concerns for online social network users. 
+concerns for online social network users. \\
+\textbf{More content to be added.}
 
 % Cryptographic privacy protection methods. 
 \section{Cryptographic Privacy Protection \label{sec:crypto}}
-Cryptogrpic means can be used to protect privacy of users. User
-profiles and communication among friends are encrpted all the
-time. \cite{noyb} proposes an approach to encrpt sensitive data and
-share keys to authorize users who can access the original
-information. In order to avoid tracking of cipher data, it also
-proposes stegamogrphy to help avoid detection. Overhead might is
-introduced for key and encrpytion dictionary management. 
+Cryptogrpic means have been tried by various literature papers
+\cite{noyb},\cite{reliable_email},\cite{group-deanonymization-attack}
+for the purpose of privacy protection for privacy of social network
+users. With this method, user profiles and communications among
+friends are encrpted all the time. The access of private information
+is controlled by key management methods. 
 
-\cite{reliable_email} introduces an authentication protocol for the
-problem of spam mails. This protocol can also be used onto protection
-of social network privacy. Authentication tokens are used in this
-protocol. Outgoing mails will be attached an authentication
-token. Mail reccipient will verify the the identity and the signature
-of the token before accepting the mail.
+\textbf{Random Substitution Encryption}
 
-It is clearly seen that cyptogrphic privacy protection methods can be
-used as a method for social network privacy protection, but the
-overhead is that key management can be overloaded when user has a lot
-of friends and on the other hand the utility of online social network
-are somehow compromised to private personal communication channel
-which can be done by more secure instant messaging tools such as
-Messenger. 
+Saikat et al.\cite{noyb} proposes an pseudorandom substitution method
+to encrypt user's information. In this method, sensitive information
+is splitted into groups, and then substituted by information from
+other social network users. For example, assume social network user
+John have sensitive tuple name, age, and sex (John, 25, M). This tuple
+is first partitioned into two sub-tuples (John, 25) and (M), then
+(John, 25) is substitute with (Michael, 39) and (M) is substituted
+with (F) based on the encrypt indices. In this case, John can
+distribute his key to his friends so that they can decrypt the
+substitued information, while other users without key can't decrypt
+these encrypted data. 
 
+A dictionary is maintained for the mapping from a sequential index to
+unique atoms and the corresponding frequency. The pseudorandom
+sequence is generated by symmetric-key cipher. Data is sent via four
+channels either out-of-band or in-band, and each channel either for
+key distribution or for the transmission of residue information, or
+transmission of the online services. On the friend side, they will use
+the key from the cipher friend to decipher the atoms. 
+
+\textbf{Social Relation Based Cryptographic Method}
+
+Scott et al.\cite{reliable_email} introduce an authentication
+protocol for the problem of spam mails filtering. In this protocol,
+secret key signed authentication tokens are attached to the mail. When
+the receiver receives the mail, it will try to decide whether to
+accept the mail or not based on the relationship between the sender
+and the receiver. 
+
+If the sender is direct friend of the receiver, it will verify the
+authentication token through sender's attestation server. If the
+verification succeeds, receiver will accepts the mail. And if the
+sender and receiver are not direct friends, the receiver will try to
+determine if sender is friend of friend. This is done by asking the
+sender to check if there are any friends in the friends' list of the
+receiver. But rather than sending the list of friends, receiver utilizes a
+private set matching protocol to do the attestation process, and this
+protocol can guarantee that the sender does not learn any of the
+recipient's direct friends. 
+
+Authentication tokens can also be used to detect forged senders. This
+is done by verifying if the token is unused, the token's signature
+matches the one owned by the sender through the attestation server of
+the sender and finally, the recipient will check that the sender,
+recipient and message id match the value found in the message
+itself. If any of these conditions fails, the receiver will drop the
+message. 
+
+Amin et al. \cite{lockr} observe that the tight coupling of two roles,
+social information management and social application, of social
+network lead to challenges for privacy protection. So, they propose a
+method to decouple the social information from its
+funtionality. And similar to the method proposed by Scott et
+al.\cite{reliable_email}, social attestations are used for purpose of
+relationship setup and access control. 
+
+Similarly, Randy et al. \cite{persona} try to use cryptographic method
+to define a Attribute Based Encryption (ABE) protocol. And users use
+the encrytption key to manage the access of groups. Jinyuan et
+al. \cite{revocation-management} propose method for revocation of
+access authority from social network users in the group
+management. Carminati et al. \cite{crypto-collaborative-ac} propose a
+privacy preservation technique for access control during the
+collaborative process within social groups. 
+
+Although cyptogrphy provides an effective privacy protection
+method, how to effectively use this method, especially for the problem
+of key management within the large scale system. Consider the
+situation when a user has a large number of friends, in this case the
+overhead of authentication and attestation might be overwhelming and
+will undermine the efficiency of the information distribution of
+online social networks. 
+
+%
 % Privacy protection using Access Control methods.
-\section{Privacy Protection Through Access Control \label{sec:accon}}
-When users sign into the social network sites, they need to provide
-their personal profile information. These sensitive information are
-stored on the service providers' database and usually they have whole 
-control over these sensitive data. They can use these data for
-analytical or business purposes. And these data can also be sold to
-othere parties for similar or unpredicated application. Various
+%
+\section{Privacy Protection using Access Control Methods \label{sec:accon}}
+Social networks allow users to publish personal data When users sign
+into the social network sites, they need to provide their personal
+profile information. These sensitive information are stored on the
+social network service providers' database and usually they have whole
+control of these sensitive data. They can use these data for
+analytical or business purposes. And the data can also be sold to
+othere parties for similar or unpredicated applications. Various
 privacy preserving data publishing methods have been proposed
-\cite{ppdp-survey}. And from social network
-users' perspective, they need to define access control policies that
-only enable legitimate users to view their profile and posts, and
-remove the adversaries from doing so. So, a precise and efficient access
-control protocol becomes the core of user privacy control. In this
-paper we will focus on the privacy control from social network users'
-perspective and summarize and evaluate different access control
-protols, study the challenges of privacy control over social
-networks. 
+\cite{ppdp-survey}. And from social network users' perspective, they
+need to define access control policies that only enable legitimate
+users to view their profile and posts, and prohibit adversaries from
+doing so. So, a precise and efficient access control protocol becomes
+the core of user privacy control. In this paper we will focus on the
+privacy control from social network users' perspective and summarize
+and evaluate different access control protols, and study the
+challenges of privacy control over social networks.
 
-For example, some social network sites such as Facebook provides
-options to personalize private settings to be private, access only by
-friend, by friend's friends or totally public. Former
-research\cite{privacy-wizard} found that a lot of users are not aware
-of the privacy access configuration and just leave it as default,
-which will make their information public to everyone on the OSNs. In
-this section, we are going to discuss threats that might cause the
-leakage of private information.
+Social network sites such as Facebook provides options to users to
+personalize their private settings to be different levels from among
+private, friend, friend's friends and totally public. While on the
+other hand, user's understanding about the implication of these
+settings and the ease of these settings are also important factors to
+user's settings. In fact, a lot of users are not aware of the privacy
+access configuration and just leave it as default
+\cite{privacy-wizard}\cite{imagined-facebook-privacy}\cite{privacy-from-audience},
+and thus undermined these privacy control settings. So, how to
+effectively let users configure their privacy with minimum interaction
+has become one of the research issue related to the privacy control
+mechanisms.
 
-While the privacy issue has raised a lot of concerns among OSN users,
-current OSNs implement very basic access control models. Although easy
-to use and understand, these models lack flexibility and often times
-fail to protect the privacy of users. So, how to protect the privacy
-of OSN users have become a very interesting and hot research topic.
-
-Privacy protection of online social networks can be treated as access
-control problem, but it is more than traditional access control used
-by firewalls, in that it is more distributed and automated by user
-themselves. And the fact\cite{facebook-privacy-settings} that social
-network users are usually novice of information technology makes it
-even harder for them to understand and configure their access control
-settings. There are several research attempts to help user configure
-their sensitive information by way of access control.
-
-\cite{privacy-wizard} proposes a template for the design of social
-networking privacy wizard. In this approach, a privacy-preference
-model classifier is learned by doing active learning on the user input
-data. By utilizing the power of machine learning, little user
-interaction is need to configure their privacy preferences. Similarly,
-\cite{social-spammer-machine-learning} uses machine learning to
-identify spammers and malware disseminators. 
-
+% To be purified. 
 \subsection{Challenges for Access Control Privacy Protection}
 Social Networks are built upon relations between users, so the access
 control and privacy protection models should be built based on the
@@ -529,9 +595,9 @@ interesting issues regarding privacy protection. A further issue is
 the architecture on the support of access control. Unlike traditional
 access control models such as rule based access control, the
 centralized access control are no longer a suitable or efficient model
-for OSNs. A decentralized privacy-aware access control mechanism
-should be devised to enforce not only relationship-based access
-control but also ensure the relationship privacy. 
+for OSNs\cite{}. A decentralized privacy-aware access control
+mechanism should be devised to enforce not only relationship-based
+access control but also ensure the relationship privacy.
 
 According to a relationship-based access control model, access control
 policies are specified in terms of relationships existing in the
@@ -539,13 +605,13 @@ OSN. Additionally, the depth of the relationship path is an important
 parameter for some access control decisions, since users are usually
 more inclined to share their resources with users not much away from
 them. Still a further important parameter is represented by trust
-among social network nodes. 
+among social network nodes.
 
 Moreover, in OSN, there exists relationship between users and
 resources. So, a relationship-based access control model should
 exploit not only the standard user to user relationships but should
 also consider the various relationships and connection between users
-and resources. 
+and resources.
 
 As we have discussed earlier, a centralized access control model is
 not suitable for OSNs, a decentralized model should be used, where
@@ -571,11 +637,108 @@ mechanism to help a user to precisely estimate the other users's trust
 level. And such mechanism should also preserve user privacy when
 performing trust computation. 
 
-\subsection{Some Review of Access Control Literature.}
+\subsection{Access Control Methods for Online Social Networks}
+% machine learning technique for access control. 
+\textbf{Automatic Access Control with Active Machine Learning.}
+
+Lujun et al. \cite{privacy-wizard} try to use machine learning
+techniques to build a privacy preference model (privacy wizard) to
+describe the preferences of users and then use this model to
+automatically configure the privacy settings for users. By providing
+very simple user interactions, the privacy 
+wizard use active machine learning by iterarively asks users to assign
+privacy labels to specific friends. The model is designed such that
+the quality of the privacy setting classifier improves with more input
+from user and will adapt with the addition of new
+friends. Visualization technique as proposed by Mohd et
+al. \cite{Anwar_visualizingprivacy} can also be helpful for social
+network users to understand the implication and meaning of all the
+privacy settings.
+
+\textbf{Relationship Protecting Access Control.}
+
+Sometimes, relationship protection arises when social network users
+want to keep private their relationship with other users. And as in fact,
+relationship among users can lead to privacy 
+breach\cite{private-relationship} \cite{SN-private-relation}. So, this
+leads the question of how to protect relationship within the
+enforcement of access control. Carminati et al.\cite{crypto-collaborative-ac}
+propose a relationship protecting access control method based on the
+collaboration of nodes in the network. By utilizing the collaboration
+among social network users, a path is provided to the owner
+proving that the resource requestor has sufficient relationships
+required to access to the resource. 
+
+\textbf{Trust and Relationship Level Based Access Control.}
+
+Carminati et al. \cite{enforce-access-control} propose a
+semidecentralized access control protocol. It takes the
+depth and types of user relationships as well as the level of trust
+into consideration. Different from the traditional access control
+systems, the verification whether an access is authorized
+is done by the information requesting user, who must provide evidence
+to the information owner that he/she satisfies the requirements
+experessed by the owner's access control policies. Specifically, the
+information requestor must provide the information owner with a proof
+showing the existence of the required relationship, and the
+relationships have the required depth and trust level. A proof of the
+direct or indirect relationship of a given type between user A and
+user B is generated and certified by through a set of certificates
+confirming the existence of the path of that type between them. The
+proof of trust level provided by resource requestor can be problematic
+when resource requestor intentionally hide malicious path which has
+low level of trust between these two users. In order to deal with this
+problem a central Certificate Server is needed. This server is used to
+store all the relationship certificates. In this case, when the
+requestor needs to prove to the resource owner the existence of a
+given relationship, as well as the depth and trust, the certificate
+server can be used to discover the set of certificate paths
+corresponding to all the shortest paths referring to the required
+relationship. Then, the resource requestor use this signed certificate
+paths from the certificate server to generate the proof. And then send
+to the resource owner to verify the validity of the proof. 
+
+By introducing the Certificate Server, the certificate management can
+be more efficiently done than by individual social network users. And it
+is scalable to the size of the social network. So by seperating the
+management of certificates and certificate path discovery between the
+Certificate Server and resource requestors, a trade off between
+efficiency and security requirements. 
+
+% Collaborative control. 
+\textbf{Collaborative Access Control.}
+
+Sometimes, contents produced on the social network can have multiple
+related owners. For example, a picture of Alice and Bob. When Alice
+upload the picture to her social network site, and make privacy
+preference settings, Bob may agree or disagree with this setting. How
+to protect the privacy under this co-ownership scenario is a 
+challenging problem, because in this case, several users are involved
+in a collaborative access control process. Thomas et
+al. \cite{unfriendly} try to formalize this conflict and show that lack
+of collaborative access control of co-ownership resources can lead to
+privacy breach. For example, a user's personal attribute can be
+predicted based on the contents of the user's friend. Squicciarini et
+al. \cite{collective_privacy} propose a method to deal with such 
+problem. By associating a value $v_i(g)$ with user $i$'s privacy
+settings $g$, the collaborative value is defined by summing up the values
+of all the co-owners of this resource, which is defined as:
+$\sum_{i=1}^nv_i(g)$. By maximizing the social value, an optimal
+privacy setting can be achieved with the help of maximization likelihood
+estimation method. 
+
+Carminati et al. \cite{crypto-collaborative-ac} proposed a
+collaboration method between the resource requestor and resource
+owner. The resource requestor try to gain access to resources by
+providing the resource owner proof of certified access rules to the
+resource owner. 
+
+\subsection{Other Access Control Based Privacy Protection}
+\textbf{\underline{This part is to be enriched.}}
+
 In current available literatures, various access control models have
-been proposed, such as access rule based model, client-based access
-control model, ACL model, multi-level access control,
-challenge-response-based model etc. 
+been proposed, such as ACL model, multi-level access control,
+challenge-response-based model etc.
 
 Also, there are proposals on distance based access control, in which
 requestors are divided into adjacent zones, and different zones have
@@ -596,23 +759,51 @@ are policy based, while others consider trust protection.
 
 \section{Social Networks as Platform \label{sec:platform}}
 Social networking sites can not only serve as a communication
-platform, it can be used as a platform for third party applications. A
+platform, it can be used as a platform for third party
+applications. For example, gaming via social network is expected to be
+a billion-dollar business on year 2011 \cite{billion-dollar-social-gaming}. Reports
+\cite{zynga} said that Zynga, one of the most famous social gaming
+provider, CityVille game already have 3 million daily active users. A
 third party can use the published social API to develop their own
-application. For example third parties can use the API of Facebook to
-develop social games and other useful and interesting
-applications. The social platform on the one hand brings vitality to
-the social network, while on the other hand privacy threats are also
-emerging. So privacy protection methods for this scenario are in
-urgent requirement as more and more social application are developed
-and more and more users joining the social cloud
-platform. xBook\cite{xbook-social-platform} proposes methods to deal
-with this issue. 
+applications. Sensitive information accessed by third party
+applications and be out of control by information owners. So how to
+protect privacy for this scenario are in urgent need with increasing
+number of applications and users joining the social cloud
+platform. Past work by Kapil et al. \cite{xbook-social-platform} and
+Adrienne et al. \cite{privacy-social-platform} propose methods to deal
+with this problem. 
 
-% example social networking as a platform. 
-Social gaming is expected to be a billion-dollar business on year 2011
-\cite{billion-dollar-social-gaming}. Reports \cite{zynga} said that
-Zynga's, one of the most famous social gaming provider, CityVille game
-already have 3 million daily active users. 
+% xbook - redesigning the social network platform. 
+Kapil et al. propose a framework for building privacy preserving
+social network applications that retains the functionality offered by
+current social networks. An information flow model is used in this
+framework such that information received by untrusted third party can
+be controlled. And thus leaking of private personal infromation can be
+prevented. This work identifies three potential ways of private
+information leakage. (1) Social applications may share information
+with any other party, such as advertisers, malicious users etc.. (2)
+Application can pass information from one application user to another
+user, which might break restrictions that only authorized users can
+view user's profile. (3) The application can recreate the social graph
+of all users by connecting common friends in this graph. In order to
+prevent these three possible private information leakage, this
+framework breaks applications into components. And by enforcing
+mediation of all communication with the external entities and between
+communications between two components, (1) and (2) can be
+prevented. (3) can be prevented by making sure that a component can
+only have an anonymized view of all its user's data. 
+
+%  
+\textbf{More contents to be added.}
+
+\section{Anonymizing Social Network\label{sec:anony}}
+Smriti et al.\cite{dynamic-social-network} proposes the question of
+privacy protection when publishing dynamic social network data. An
+anonymization method, is proposed. It makes use of link prediction
+algorithms to model the evolution of the social network, and use the
+predicted graph to perform group based anonymization. 
+
+\section{Formalizing Privacy Protection for Social Networks.}
 
 % Conclusions of this paper. 
 \section{Conclusion \label{sec:summary}}
@@ -649,6 +840,6 @@ hoster. And on the other hand legal procedures can be used for the
 enforcement of privacy protection for online social network users. 
 
 \bibliographystyle{unsrt}
-\bibliography{review}
+\bibliography{survey}
 
 \end{document}
