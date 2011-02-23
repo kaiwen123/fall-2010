@@ -1,0 +1,53 @@
+\documentclass{article}
+
+\usepackage[latin1]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+\begin{document}
+\pagestyle{empty}
+
+
+% Define block styles
+\tikzstyle{decision} = [diamond, draw, fill=blue!20, 
+    text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+    text width=5em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em]
+    
+\begin{tikzpicture}[node distance = 2cm, auto]
+
+    % Experiment workflow; 
+    \node [block] (init) {Experiment Start};
+    \node [block, below of=init] (gp) {Generate Parameters};
+    \node [block, below of=gp] (gq) {Generate Query};
+    \node [block, below of=gq] (tq) {Transform Query}; 
+    \node [block, below of=gp, right of=tq] (td) {Transform Data};
+    \node [block, below of=td] (qo) {Query Original Data}; 
+    \node [block, below of=td, right of=qo] (qt) {Query Transformed Data}; 
+    \node [block, below of=td, right of=qt] (qv) {Verification Query};
+    \node [block, below of=qt] (ft) {Filtering the Results}
+
+    % Draw edges
+    \path [line] (init) -- (gp);
+    \path [line] (gp) -| (gq);
+    \path [line] (gp) -| (td);
+    \path [line] (gq) -- (tq);
+    \path [line] (td) |- (qo);
+    \path [line] (tq) |- (qo);
+    \path [line] (td) -- (qt);
+    \path [line] (tq) -- (qt);
+    \path [line] (tq) |- (qv);
+    \path [line] (qt) -- (ft);
+%    \path [line] (decide) -| node [near start] {yes} (update);
+ %   \path [line] (update) |- (identify);
+    % \path [line] (decide) -- node {no}(stop);
+    % \path [line,dashed] (expert) -- (init);
+    % \path [line,dashed] (system) -- (init);
+    % \path [line,dashed] (system) |- (evaluate);
+
+\end{tikzpicture}
+
+
+\end{document}

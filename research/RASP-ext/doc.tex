@@ -1,0 +1,227 @@
+\documentclass{article}
+
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathrsfs}
+\usepackage{geometry}
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{textcomp}
+\usepackage{setspace}
+\usepackage{palatino}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+
+\geometry{top=1.3in, bottom=1.3in, left=1.2in, right=1.2in}
+
+\renewcommand{\lstlistlistingname}{Code Listings}
+\renewcommand{\lstlistingname}{Code Listing}
+\definecolor{gray}{gray}{0.5}
+\definecolor{green}{rgb}{0,0.5,0}
+\lstset{
+language=python,
+basicstyle=\ttfamily\scriptsize\setstretch{1},
+stringstyle=\color{red},
+showstringspaces=false,
+alsoletter={1234567890},
+otherkeywords={\ , \}, \{},
+keywordstyle=\color{blue},
+emph={access,and,break,class,continue,def,del,elif ,else,%
+except,exec,finally,for,from,global,if,import,in,i s,%
+lambda,not,or,pass,print,raise,return,try,while},
+emphstyle=\color{black}\bfseries,
+emph={[2]True, False, None, self},
+emphstyle=[2]\color{green},
+emph={[3]from, import, as},
+emphstyle=[3]\color{blue},
+upquote=true,
+morecomment=[s]{"""}{"""},
+commentstyle=\color{gray}\slshape,
+emph={[4]1, 2, 3, 4, 5, 6, 7, 8, 9, 0},
+emphstyle=[4]\color{blue},
+emph={[5]sys, numpy, os, cvxmod, cvxopt, random},
+emphstyle=[5]\color{green},
+literate=*{:}{{\textcolor{blue}:}}{1}%
+{=}{{\textcolor{blue}=}}{1}%
+{-}{{\textcolor{blue}-}}{1}%
+{+}{{\textcolor{blue}+}}{1}%
+{*}{{\textcolor{blue}*}}{1}%
+{!}{{\textcolor{blue}!}}{1}%
+{(}{{\textcolor{blue}(}}{1}%
+{)}{{\textcolor{blue})}}{1}%
+{[}{{\textcolor{blue}[}}{1}%
+{]}{{\textcolor{blue}]}}{1}%
+{<}{{\textcolor{blue}<}}{1}%
+{>}{{\textcolor{blue}>}}{1},%
+framexleftmargin=1mm, framextopmargin=1mm, frame=shadowbox, rulesepcolor=\color{gray}}
+% Configuring hyperref package; 
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat’s bookmarks
+    pdftoolbar=true,        % show Acrobat’s toolbar?
+    pdfmenubar=true,        % show Acrobat’s menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={My title},    % title
+    pdfauthor={Author},     % author
+    pdfsubject={Subject},   % subject of the document
+    pdfcreator={Creator},   % creator of the document
+    pdfproducer={Producer}, % producer of the document
+    pdfkeywords={keywords}, % list of keywords
+    pdfnewwindow=true,      % links in new window
+    colorlinks=false,       % false: boxed links; true: colored links
+    linkcolor=gray,          % color of internal links
+    citecolor=green,        % color of links to bibliography
+    filecolor=magenta,      % color of file links
+    urlcolor=cyan           % color of external links
+    linktoc=all             % link in table of contents
+}
+% table of contents setups. 
+\makeatletter
+\renewcommand\l@section[2]{%
+  \ifnum \c@tocdepth >\z@
+    \addpenalty\@secpenalty
+    \addvspace{1.0em \@plus\p@}%
+    \setlength\@tempdima{1.5em}%
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode \bfseries
+      \advance\leftskip\@tempdima
+      \hskip -\leftskip
+      #1\nobreak\ 
+      \leaders\hbox{$\m@th\mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}
+     \hfil \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+    \endgroup
+  \fi}
+\makeatother
+
+\begin{document}
+\tableofcontents
+\newpage
+
+\section{Objective of Experiment}
+This experiment is used to test the performance privacy preserving
+outsouring algorithm. \\
+We compare the query time of original data as compared with
+transformed data with varying data size and vary dimensions. \\
+For purpose of efficiency, we utilized the RTree structure to store
+and spatial data. 
+
+\section{Experiment Design}
+\subsection{Experiments}
+\lstinputlisting{experiments}
+
+\subsection{Workflow of Experiment}
+Work flow control script:
+\lstinputlisting[language=bash]{doit.sh}
+%\includepdf{flowchart.pdf}      % TO BE ADDED
+
+\subsection{Data Structures}
+\lstinputlisting{README}
+
+\section{Random Parameter Generator}
+In order to generate random queries and transform data and queries, we
+need parameters $A$ and $v$.  
+A is a random matrix with dimension $(k+2)*(k+2)$, and A is
+inversable. And $v\in(0,1]$. \\ 
+The code is listed below: \\
+\lstinputlisting{generatp.py}
+
+\section{Random Query Generator}
+\lstinputlisting[language=python]{generatq.py}
+
+Format of the random query matrix:\\
+\begin{equation}
+\begin{pmatrix}
+$$(S_{11},E_{11}) & (S_{12},E_{12}) & \dots & (S_{1k},E_{1k}) \\
+(S_{21},E_{21}) & (S_{22},E_{22}) & \dots & (S_{2k},E_{2k}) \\
+\hdotsfor[2]{4} \\
+(S_{n1},E_{n1}) & (S_{n2},E_{n2}) & \dots & (S_{nk},E_{nk})$$
+\end{pmatrix}
+\end{equation}
+Here, $S_{ij}$ is the start of the query element and $E_{ij}$ is the 
+end of the query element, with $i\in[1,m]$ and $j\in[1,n]$.\\
+In the end, I need to write the generated random query matrix to a
+file for further usage. \\
+For ease of generation and use, I used another format to generate this
+random matrix. I use matrix S and matrix E to store the start and end
+elements respectively. 
+Below is the code: 
+\lstinputlisting{generatq.py}
+\section{Query Convertor}
+\lstinputlisting{transq.py}
+
+\section{Data Convertor}
+\lstinputlisting{transd.py}
+
+%\section{Data Analyzer}
+\section{Linear Scan Verification}
+\lstinputlisting{linearVerify.py}
+
+\section{Data Filtering}
+In order to remove data that fall into the result set because of
+error, we need to do some filtering to the result according to the
+following rule: 
+\begin{equation}
+y^{T}[(A^{-1})^Twv^TA^{-1}]y <= 0
+\label{eq:filter}
+\end{equation}
+In this step, three files are needed: 
+\begin{enumerate}
+\item The parameter file which provides A; 
+\item The original query file to construct w; 
+\item The transformed data file, which contains the queried results; 
+\end{enumerate}
+For each line of the original query file, we do the calculation of
+\ref{eq:filter}, if it complies with rule, then passed the filtering
+and output the item id into the result file.\\
+
+Code for query result filtering:
+\lstinputlisting{filtering.py}
+\subsection{Dilemma of filtering and an alternative}
+While the filtering.py seems reasonable and works well, we need to
+compare filtering process with the RTree querying process which is
+implemented in C/C++, this makes it urgent for us to migrate the
+matrix code within python to the one in C/C++. I have been trying
+to use matrix libraries into my code. 
+There are different kind of matrix libraries out there in C/C++. And
+the performance of these libraries varies significantly. Some of them
+are pretty simple to use, while others use the complex C++ class
+hierarchy which makes it not a simple task to utilize within just a
+few days. I have tryied to use newmat10 library, but scared away but
+the complexity. But luckily, I decided to program my own matrix
+multiplication library. Actually, my code is just a specific
+implementation of the matrix multiplication problem. 
+Below are the steps that I implemented this: 
+Steps of evaluation: 
+\begin{enumerate}
+1: (A^(-1))^T * w = a (kx1)
+2: v^T * (A^(-1)) = b (1xk)
+3: a * b = c (kxk)
+4: y^T * c = d (1xk)
+5: result = d * y (1x1)
+
+\section{Conclusion}
+This section is a conclusion of this experiment. 
+
+\section{Best Practices}
+\begin{enumerate}
+\item Make sure to use the \textbf{file.close()} method if the same file are
+  accessed more than once, and an alternative way is to close the file
+  and open it again, but this method will be a little more costly. 
+\item For purpose of verification and debuging, try to break the
+  whole system into modules, and verify these modules one by one and
+  combine them together using scripting languages, such as bash etc.,
+  and automate the experiment process. 
+\item Data should be properly stored, such as into files through
+  redirection or directly write it into files with bash scripts. 
+\item There are differences between c++ and python as far as the
+  running speed is concerned. So, it is reasonable to use the same
+  code if the running efficiency are considered experiment parameter.
+\end{enumerate}
+
+\newpage
+\lstlistoflistings
+
+\end{document}

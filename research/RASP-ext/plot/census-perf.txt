@@ -1,0 +1,6 @@
+amount of data		5 workers		10 workers		15 workers
+25M					494				302				182			
+50M					794				468				367
+75M					1180			621				516
+100M				1499			829				589
+125M				1832			968				726

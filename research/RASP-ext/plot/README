@@ -1,0 +1,37 @@
+Data column meanings; 
+1, size
+2, original rtree query time; 
+3, standard error of #2;
+4, original rtree query result; 
+5, standard error of #4; 
+6, original rtree #blocks; 
+7, standard error of #6;
+
+8, original exhaustive query time; 
+9, standard error of #8;
+10, original exhaustive query result; 
+11, standard error of #10; 
+12, original exhaustive #blocks; 
+13, standard error of #12; 
+
+14, transformed rtree query time; 
+15, standard error of #14;
+16, transformed rtree query result; 
+17, standard error of #16; 
+18, transformed rtree #blocks; 
+19, standard error of #18;
+20, transformed exhaustive query time; 
+21, standard error of #20;
+22, transformed exhaustive query result; 
+23, standard error of #22; 
+24, transformed exhaustive #blocks; 
+25, standard error of #24; 
+
+26, transformed filter query time; 
+27, standard error of #14;
+28, transformed filter query result; 
+29, standard error of #16; 
+30, transformed filter #blocks from step one; 
+31, standard error of #18;
+
+Sample: 
