@@ -1,3 +1,4 @@
+This project contains program for the RASP protocol, especially, this one is implemented with the c-to-python extension using swig.
 Data file:
 
 example:
