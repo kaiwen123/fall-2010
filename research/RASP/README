@@ -1,0 +1,26 @@
+Data file:
+
+example:
+1 0 5 0.301369863014 0.301369863014 0.0 0.0 0.0443018975564 0.0443018975564 
+0.0 0.0 0.8 0.8
+fields:
+1: "insert" tag
+2: record id
+3: # of dimensions
+4- : for each pair: lower upper
+
+Range file:
+total d pairs where d is the number of dimensions
+each pair: lower upper
+
+file naming:
+for data file, e.g., adult.k10.d5, adult is the data set name, k10 means 
+10k records, d5 means 5 dimensions
+
+How to work. 
+For simulated data, just user command "make simu" to do simulated data 
+experiment, if you want to change the setting of the experiment, just change
+the file named scheduler-simu.sh
+
+For adult/norm data experiment, just put the data into the current directory 
+and then type command "make adult" / "make norm"
