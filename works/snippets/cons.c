@@ -1,21 +1,21 @@
 /**
  *  Program to split a integer into the addition of several
  *  consecutive numbers. 
-    Copyright (C) 2010 Simon Guo.
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see
-    <http://www.gnu.org/licenses/>.
+ *  Copyright (C) 2010 Simon Guo.
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see
+ *  <http://www.gnu.org/licenses/>.
  */
 
 #include <iostream>
@@ -44,14 +44,16 @@ bool ispow(int x) {
   return true;
 }
 
-/* By convention, odd numbers can be splited into addition of two
-   consecutive numbers. But for even numbers, we need to consider
-   situations according to rules.
-   Firstly, if number can be divided by odd number, and the divisor is
-   odd number. Secondly, if number can be divided by even number with
-   residue 0.5. Also, if number is negative or if the number is power
-   of 2, it can not be represented as addition of consecutive
-   numbers. */
+/**
+ * By convention, odd numbers can be splited into addition of two
+ * consecutive numbers. But for even numbers, we need to consider
+ * situations according to rules.
+ * Firstly, if number can be divided by odd number, and the divisor is
+ * odd number. Secondly, if number can be divided by even number with
+ * residue 0.5. Also, if number is negative or if the number is power
+ * of 2, it can not be represented as addition of consecutive
+ * numbers. 
+ */
 void testcons(int x) {
   if(x <= 0) return;
   /* odd number. */
