@@ -35,24 +35,32 @@ typedef unsigned long long ULL;
  
 class PermutationSignature {
 public:
-vector <int> reconstruct(string signature) {
-  int len = signature.size(); 
-  vector<int> permut;
-  // fill initial value; 
-  for(int i = 1; i <= len+1; i++) {
-    permut.push_back(i); 
-  }
-
-  int tmp; 
-  for(int i = 0; i < len; i++) {
-    if('D' == signature[i]) {
-      tmp = permut[i]; 
-      permut[i] = permut[i+1];
-      permut[i+1] = tmp; 
+  vector <int> reconstruct(string signature) {
+    int len = signature.size(); 
+    vector<int> permut;
+    for(int i = 1; i <= len+1; i++) {
+      permut.push_back(i); 
     }
+    permutation(permut, signature, len); 
+    return permut; 
   }
-  return permut; 
-}
+  
+  bool permutation(vector<int>& nums, string sign, int len) {
+    // test case "DD" fails, because I didn't consider the cases when 
+    // the next permutation will affect the previous permutations. 
+    // so, in the rectified version, i used incursive algorithm.
+    int tmp;
+    for(int i = 0; i < len; i++) {
+      if (('I' == sign[i] && nums[i+1] < nums[i]) || 
+	('D' == sign[i] && nums[i+1] > nums[i])) {
+	tmp = nums[i]; 
+	nums[i] = nums[i+1];
+	nums[i+1] = tmp;
+	permutation(nums, sign, len - 1);
+      }
+    }
+    return true;
+  }
 
 // BEGIN CUT HERE
 	public:
