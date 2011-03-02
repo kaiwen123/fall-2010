@@ -35,21 +35,91 @@ typedef unsigned long long ULL;
  
 class MakeSquare {
 public:
+
+  // This is a really hard problem for me currently, 
+  // I hope someday i can program such a problem very easily. 
+
 int minChanges(string S) {
-  int len = S.size(), half; 
+  int len = S.size(); 
   int numchanges = 0; 
-  int start = -1, end = len; 
-  // first half is 0 --- half-1 inclusive. 
-  // second half is half --- len-1 inclusive. 
-  if(0 == len % 2) half = len / 2; // half string position. 
-  else half = len / 2 + 1; 
-  for(int i = 0; i < half; i++) {
-    if((S[i] != S[i+half]) && (start == -1))start = i; 
-    if((S[half-1-i] != S[len-1-i]) && (end == len))end = half - 1 - i;
+
+  // First, find the best split for the string. The goal is to get the
+  // minimum difference for the two halves. 
+  int first = 0, second = 1; 
+  int bestsplit = 0, diff = 10000; 
+  int len1, len2;
+  string str1, str2; 
+  if(len == 1) return 1; 	// simply add the same char to the end. 
+  for(second = 1; second < len; second++) {
+    str1 = S.substr(first, second - first); 
+    str2 = S.substr(second, len - second); 
+    int splitdiff = getDiff(str1, str2); // difference for current split.
+    // test if current split is a better one. 
+    if(diff > splitdiff) {
+      diff = splitdiff; 
+      bestsplit = second;
+    }
+    if(0 == diff) break; 
   }
-  cout << " start = " << start << " end = " << end << endl; 
-  return 1; 
+
+  if(0 == diff) return 0;	 // two halves are the same.
+  str1 = S.substr(first, bestsplit); 
+  str2 = S.substr(bestsplit, len - str1.size()); 
+  // cout << "Init: " << str1 << " "  << str2 << endl; 
+
+  // Second, compare char by char for the two halves and try to add,
+  // delete and change chars to make a decision on each different
+  // char.
+  int diffdeladd, diffchange; 
+  len1 = str1.size(); len2 = str2.size();
+  for(int i = 0; i < (len1 >= len2 ? len1 : len2); i++) {
+    if(0 == getDiff(str1, str2)) break; // equal.
+    if((0 == str1.size()) || (0 == str2.size())) {
+      numchanges += str1.size() + str2.size(); 
+      break;
+    } 
+
+    if(str1[0] == str2[0]) {
+      str1 = str1.substr(1, str1.size()); 
+      str2 = str2.substr(1, str2.size());
+    } else {
+      // test add/del;
+      // add one char in str1 is equivalent to delete one char from str2. 
+      int diffdeladd1 = getDiff(str1, str2.substr(1, str2.size()-1)); 
+      int diffdeladd2 = getDiff(str1.substr(1, str1.size()-1), str2);
+      diffdeladd = diffdeladd1 < diffdeladd2 ? diffdeladd1 : diffdeladd2; 
+
+      // test change; 
+      diffchange = getDiff(str1.substr(1,str1.size()-1), str2.substr(1,str2.size()-1)); 
+
+      if(diffdeladd < diffchange) {
+	if(diffdeladd1 <= diffdeladd2) {
+	  str2 = str2.substr(1, str2.size()-1);
+	} else {
+	  str1 = str1.substr(1, str1.size()-1);
+	}
+      } else {
+	str1 = str1.substr(1, str1.size() - 1);
+	str2 = str2.substr(1, str2.size() - 1);
+      }
+      numchanges++;
+    }
+    cout << str1 << " " << str2 << " " <<  numchanges << endl; 
+  }
+  return numchanges; 
 }
+
+  // get the number of different chars of two strings. 
+  int getDiff(string str1, string str2) {
+    int retval = 0; 
+    int len1 = str1.size(), len2 = str2.size(); 
+    int lendiff = abs(len1 - len2); 
+    for(int i = 0; i < (len1 < len2 ? len1 : len2); i++) {
+      if(str1[i] != str2[i]) retval++; 
+    }
+    retval += lendiff; 
+    return retval; 
+  }
 
 // BEGIN CUT HERE
 	public:
@@ -61,7 +131,7 @@ int minChanges(string S) {
 	void test_case_1() { string Arg0 = "abcdeabce"; int Arg1 = 1; verify_case(1, Arg1, minChanges(Arg0)); }
 	void test_case_2() { string Arg0 = "abcdeabxde"; int Arg1 = 1; verify_case(2, Arg1, minChanges(Arg0)); }
 	void test_case_3() { string Arg0 = "aabcaabc"; int Arg1 = 0; verify_case(3, Arg1, minChanges(Arg0)); }
-	void test_case_4() { string Arg0 = "aaaaabaaaaabaaaaa"; int Arg1 = 2; verify_case(4, Arg1, minChanges(Arg0)); }
+	void test_case_4() { string Arg0 = "qetuoadgjlzcbmqwertyuiopasdfghjklzxcvbnm"; int Arg1 = 2; verify_case(4, Arg1, minChanges(Arg0)); }
 
 // END CUT HERE
 
