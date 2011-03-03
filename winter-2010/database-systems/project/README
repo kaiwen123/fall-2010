@@ -1,0 +1,10 @@
+This project is used to implement a database system for food ordering,
+which can be used by bars, restaurants and etc. 
+
+1, Database design and implementation (MySQL); 
+
+2, Basic Database operations (insert, delete, alter, select etc.); 
+
+3, Transaction implementation; 
+
+4, System test. 
