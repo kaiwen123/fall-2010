@@ -40,7 +40,7 @@ public:
   // I hope someday i can program such a problem very easily. 
 
 int minChanges(string S) {
-  int len = S.size(); 
+  int len = S.size(); ls
   int numchanges = 0; 
 
   // First, find the best split for the string. The goal is to get the
