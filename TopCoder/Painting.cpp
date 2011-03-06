@@ -35,56 +35,28 @@ typedef unsigned long long ULL;
  
 class Painting {
 public:
-int largestBrush(vector <string> picture) {
-  int size = 50; 		// size to return; 
-  int rows = picture.size(), cols = picture[0].size(); 
-  for(int i = 0; i < rows; i++) {
-    int sizerow = 0;
-    for(int j = 0; j < cols; j++) {
-      // test smallest row width. 
-      if('B' == picture[i][j]) {
-	if(0 == j) {
-	  sizerow = 1; 	  
-	} else {
-	  if('B' == picture[i][j-1]) {
-	    sizerow++; 
-	  } else {
-	    if((sizerow < size) && (sizerow > 0)) size = sizerow; 
-	    sizerow = 1; 
-	  }
-	}
-      } else {
-	if((sizerow < size) && (sizerow > 0)) size = sizerow; 
-      }
+  struct point {
+    int x; 
+    int y; 
+    bool operator<(point &rhs) {
+      
     }
-    //cout << sizerow << endl; 
-    if((sizerow < size) && (sizerow > 0)) size = sizerow; 
+  };
+int largestBrush(vector <string> picture) {
+  int size = 1; 		// size to return; 
+  int rows = picture.size(), cols = picture[0].size(); 
+
+  int maxpaint = min(rows, cols); 
+  map<point, int> brush_size; 	// the largest brush size for each
+				// black point. 
+  // we need to test from 2 to ~ to see if any one of the 'B' point
+  // can be painted with the paint size n. 
+  for(int i = 0; i < rows; i++)  {
+    for(int j = 0; j < cols; j++) {
+      
+    }
   }
 
-  // test col width. 
-  for(int i = 0; i < cols; i++) {
-    int sizecol = 0; 
-    for(int j = 0; j < rows; j++) { 
-      //cout << picture[j][i] << " " ;     
-      if('B' == picture[j][i]) {
-	if(0 == j) {
-	  sizecol = 1; 	  
-	} else {
-	  if('B' == picture[j-1][i]) {
-	    sizecol++; 
-	  } else {
-	    if((sizecol < size) && (sizecol > 0)) size = sizecol; 
-	    sizecol = 1; 
-	  }
-	}
-      } else {
-	if((sizecol < size) && (sizecol > 0)) size = sizecol; 
-      }
-    }
-    //cout << sizecol << endl; 
-    if((sizecol < size) && (sizecol > 0)) size = sizecol; 
-  }
- 
   return size; 
 }
 
