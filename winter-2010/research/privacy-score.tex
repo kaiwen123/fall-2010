@@ -10,7 +10,7 @@
 % 
 \title[Online Social Network Privacy]{A Framework for Computing the
   Privacy Scores of Users in Online Social Networks}
-\author{Kun Liu}
+%\author{Kun Liu}
 
 \date{\today}
 \begin{document}
@@ -111,39 +111,48 @@
 % privacy score definition.
 \begin{frame}[fragile]
   \frametitle{Definition of the Privacy Score}
- % Intuitively, the privacy score should be monotonically increasing with
- % both sensitivity and visibility. So, this paper defines privacy
- % score of user $j$ for item $i$ as \textsc{Pr}$(i,j)=\beta_i\times
- % V(i,j)$, and by summing up all the item privacy for user $j$, we get
- % the privacy score for user $j$ as
-  \[\textsc{Pr}(i,j)=\beta_i\times V(i,j)\]
-  \[\textsc{Pr}(j)=\sum_{i=1}^{n}\textsc{Pr}(i,j)=\sum_{i=1}^n\beta_i\times V(i,j). \]
-% In this definition, $V(i,j)$ represents the visibility of item $i$
-% for user $j$, and it can be calculated by
-   \[V(i,j)=P_{ij}\times 1 + (1-P_{ij})\times 0 = P_{ij}\]
-   where \[P_{ij} = Prob\{\textbf{R}(i,j)=1\}.\]
- So, in order to calculate the privacy score $\textsc{Pr}(j)$, we need
- to estimate sensitivity $\beta_i$ and visibility $V(i,j)$.
+  % Intuitively, the privacy score should be monotonically increasing with
+  % both sensitivity and visibility. So, this paper defines privacy
+  % score of user $j$ for item $i$ as \textsc{Pr}$(i,j)=\beta_i\times
+  % V(i,j)$, and by summing up all the item privacy for user $j$, we get
+  % the privacy score for user $j$ as
+\begin{align}
+  \textsc{Pr}(i,j)=\beta_i\times V(i,j) \\
+  \textsc{Pr}(j)=\sum_{i=1}^{n}\textsc{Pr}(i,j)=\sum_{i=1}^n\beta_i\times
+  V(i,j). \\
+  V(i,j)=P_{ij}\times 1 + (1-P_{ij})\times 0 = P_{ij}
+\end{align}
+  where \[P_{ij} = Prob\{\textbf{R}(i,j)=1\}.\]
+  \Large{\textbf{GOAL:} $\beta_i$ and $V(i,j)$}.
 \end{frame}
 
 % Estimating sensitivity with MLE. 
 \begin{frame}
   \frametitle{\large{Estimating sensitivity $\xi_i=(\alpha_i,\beta_i)$ when
       $\overrightarrow{\theta}=(\theta_1,\dots,\theta_N)$ is known.}}
-  \begin{block}
-      {Use Maximum Likelihood Estimation(MLE).}
-      \[\xi_i^{MLE}=\underset{\xi}{\operatorname{\arg\max}}
-      {\prod_{j=1}^NP_{ij}^{R(i,j)}(1-P_{ij})^{1-R(i,j)}}\]
-      Partition social network users $\{1,\dots,N\}$ into $K$
-      non-overlapping groups $\{F_1,\ldots,F_K\}$ s.t. $\cup_{g=1}^KF_g=\{1,\ldots,N\}$. \\ 
-      We can derive log-likelihood function as : 
-      \[\xi_i^{MLE}=\underset{\xi}{\operatorname{\arg\max}}
-      {\sum_{g=1}^K[r_{ig}logP_i(\theta_g)+(f_g-r_{ig})log(1-P_i(\theta_g))]}\]
-      $K$ is the total number of groups; \\
-      $r_{ig}$ is the number of users in group $g$ who set item $i$ to one; \\
-      $\theta_g$ is the attitude of group $g$ and \\
-      $f_g=|F_g|$ is total number of users within group $F_g$.
-  \end{block}
+      \Large{Use Maximum Likelihood Estimation(MLE).}
+      \large{
+        % \begin{eqnarray}
+        %   10xy^2+15x^2y-5xy & = & 5\left(2xy^2+3x^2y-xy\right) \nonumber \\
+        %   & = & 5x\left(2y^2+3xy-y\right) \nonumber \\
+        %   & = & 5xy\left(2y+3x-1\right)
+        % \end{eqnarray}
+        \begin{eqnarray}
+          \xi_i^{MLE}&=&\underset{\xi}{\operatorname{\arg\max}}
+          {\prod_{j=1}^NP_{ij}^{R(i,j)}(1-P_{ij})^{1-R(i,j)}}
+          \nonumber \\
+          &=& \underset{\xi}{\operatorname{\arg\max}}
+          {\sum_{j=1}^NR(i,j) log(P_{ij})+(1-R(i,j))log(1-P_{ij})}
+          \nonumber \\
+          &=&\underset{\xi}{\operatorname{\arg\max}}
+          {\sum_{g=1}^K[r_{ig}logP_i(\theta_g)+(f_g-r_{ig})log(1-P_i(\theta_g))]}
+        \end{eqnarray}
+        }
+      % By Partitioning social network users $\{1,\dots,N\}$ into $K$
+      % non-overlapping groups $\{F_1,\ldots,F_K\}$ s.t. $\cup_{g=1}^KF_g=\{1,\ldots,N\}$. \\ 
+      % We can derive log-likelihood function as : 
+      % \[\xi_i^{MLE}=\underset{\xi}{\operatorname{\arg\max}}
+      % {\sum_{g=1}^K[r_{ig}logP_i(\theta_g)+(f_g-r_{ig})log(1-P_i(\theta_g))]}\]
 \end{frame}
 
 % Estimating sensitivity with EM method.
@@ -152,16 +161,15 @@
       $\overrightarrow{\theta}=(\theta_1,\dots,\theta_N)$ is unknown.}}
   \begin{block}
       {Use Expectation Maximization (EM) method.}
-      \textbf{E-Step:} compute $E[f_g]$ and $E[r_{ig}]$ as follows:
+      \textbf{E-Step:} Compute $E[f_g]$ and $E[r_{ig}]$ as follows:
+
       \[E[f_g]=\overline{f_g}=\sum_{j=1}^NP(\theta_g|R^j,\overrightarrow{\xi})\] 
       \[E[r_{ig}]=\overline{r_{ig}}=\sum_{j=1}^NP(\theta_g|R^j,\overrightarrow{\xi}\times R(i,j)).\]
-      $P(\theta_g|R^j,\overrightarrow{\xi})$ denote the posterior probability
-      distribution of a user's attitude. 
+      %$P(\theta_g|R^j,\overrightarrow{\xi})$ denote the posterior probability
+      %distribution of a user's attitude. 
 
-      \textbf{M-Step:}
-      With the values of $\overline{f_g}$ and $\overline{r_{ig}}$, we can
-      compute a new estimate of $\overrightarrow{\xi}$ with the Newtown-Raphson
-      item-parameters estimation procedure. 
+      \textbf{M-Step:} Estimate $\overrightarrow{\xi}$ with the values
+      of $\overline{f_g}$ and $\overline{r_{ig}}$.
   \end{block}
 \end{frame}
 
@@ -181,25 +189,19 @@
 
 % 
 \begin{frame}
-  \frametitle{IRT-Based Computation of visibility}
-  {$V(i,j)=P_{ij}=Prob\{R(i,j)=1\}$}
-  \begin{itemize}
-  \item If $\overrightarrow{\theta}, \overrightarrow{\alpha},
-    \overrightarrow{\beta}$. Visibility can be calculated using IRT
-    probability formula. 
-  \item If parameters are not given, they can be estimated using MLE/EM method,
-    and similarly, $\overrightarrow{\theta}$ can be estimated with MLE method
-    as follows: 
-    \[\overrightarrow{\theta^{MLE}}=\underset{\xi}{\operatorname{\arg\max}}
-      {\sum_{i=1}^n[R(i,j)logP_{ij}+(1-R(i,j))log(1-P_{ij})]}\]
-    \end{itemize}
+  \frametitle{Computation of Visibility}
+  Estimating $\overrightarrow{\theta}$ by:
+  \[\overrightarrow{\theta^{MLE}}=\underset{\xi}{\operatorname{\arg\max}}
+  {\sum_{i=1}^n[R(i,j)logP_{ij}+(1-R(i,j))log(1-P_{ij})]}\]
+  And then, 
+  \[V(i,j)=P_{ij}=Prob\{R(i,j)=1\}=\frac{1}{1+e^{-\alpha_i(\theta_j-\beta_i)}}\]
 \end{frame}
 
-\begin{frame}
-  \frametitle{Polytomous Privacy score computation}
-  The above dichotomous privacy model can be easily promoted to the one with
-  multiple privacy settings. (Omitted currently)
-\end{frame}
+% \begin{frame}
+%   \frametitle{Polytomous Privacy score computation}
+%   The above dichotomous privacy model can be easily promoted to the one with
+%   multiple privacy settings. (Omitted currently)
+% \end{frame}
 
 % 
 \begin{frame}
@@ -208,14 +210,14 @@
 
   \textbf{Naive computation of Sensitivity:}
   \[\beta_i=\frac{N-|R_i|}{N}\] 
-  $|R_i|$ is the number of users who set item $i$ as visible. or 
-  \[\beta_{ik}^*=\frac{N-\sum_{j=1}^NI_{R(i,j)\leq k}}{N}\] for polychotomous case. 
+  $|R_i|$ is the number of users who set item $i$ as visible. %or 
+  %\[\beta_{ik}^*=\frac{N-\sum_{j=1}^NI_{R(i,j)\leq k}}{N}\] for polychotomous case. 
 
   \textbf{Naive computation of Visibility:}
-  \[P_{ij}=\frac{|R_i|}{N}\times \frac{|R^j|}{n}\] and 
-  \[P_{ijk}=\frac{\sum_{j=1}^NI_{(R(i,j)=k)}}{N}\times
-  \frac{\sum_{i=1}^nI_{R(i,j)=k}}{n}\]
-  for polychotomous case. 
+  \[P_{ij}=\frac{|R_i|}{N}\times \frac{|R^j|}{n}\]% and 
+  % \[P_{ijk}=\frac{\sum_{j=1}^NI_{(R(i,j)=k)}}{N}\times
+  % \frac{\sum_{i=1}^nI_{R(i,j)=k}}{n}\]
+  % for polychotomous case. 
 \end{frame}
 
 \begin{frame}
