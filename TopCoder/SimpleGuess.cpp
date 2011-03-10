@@ -33,10 +33,24 @@ typedef pair<int,int> PII;
 typedef long long LL;
 typedef unsigned long long ULL;
  
-class CssRules {
+class SimpleGuess {
 public:
-int getMinimalCssRuleCount(vector <string> xthml) {
-    
+int getMaximum(vector <int> hints) {
+  int x, y, a, b, multi, maxmulti = 0; 
+  int len = hints.size(); 
+  for(int i = 0; i < len-1; i++) {
+    for(int j = i+1; j < len; j++) {
+      a = hints[i]; b = hints[j];
+      x = (a + b) / 2; 
+      y = abs(a - b) / 2; 
+      if(((x + y == a) && (abs(x - y) == b)) ||
+	 ((x + y == b) && (abs(x - y) == a))){
+	multi = x * y; 
+	if(maxmulti < multi) maxmulti = multi; 
+      }
+    }
+  }
+  return maxmulti; 
 }
 
 // BEGIN CUT HERE
@@ -45,27 +59,11 @@ int getMinimalCssRuleCount(vector <string> xthml) {
 	private:
 	template <typename T> string print_array(const vector<T> &V) { ostringstream os; os << "{ "; for (typename vector<T>::const_iterator iter = V.begin(); iter != V.end(); ++iter) os << '\"' << *iter << "\","; os << " }"; return os.str(); }
 	void verify_case(int Case, const int &Expected, const int &Received) { cerr << "Test Case #" << Case << "..."; if (Expected == Received) cerr << "PASSED" << endl; else { cerr << "FAILED" << endl; cerr << "\tExpected: \"" << Expected << '\"' << endl; cerr << "\tReceived: \"" << Received << '\"' << endl; } }
-	void test_case_0() { string Arr0[] = {"<b id='x' style='color:red'></b>"}; vector <string> Arg0(Arr0, Arr0 + (sizeof(Arr0) / sizeof(Arr0[0]))); int Arg1 = 1; verify_case(0, Arg1, getMinimalCssRuleCount(Arg0)); }
-	void test_case_1() { string Arr0[] = {"<b id='x' style='color:red'>","<b id='y' style='color:red'>",
- "<b id='z' style='color:red'>","</b></b></b>"}
-; vector <string> Arg0(Arr0, Arr0 + (sizeof(Arr0) / sizeof(Arr0[0]))); int Arg1 = 2; verify_case(1, Arg1, getMinimalCssRuleCount(Arg0)); }
-	void test_case_2() { string Arr0[] = {"<b id='x' style='color:red'>",
-"<b id='y' style='color:red'>",
-"<b id='w' style='color:red'>",
-"</b>",
-"</b>",
-"<u id='z' style='color:red'>",
-"</u>",
-"</b>"}; vector <string> Arg0(Arr0, Arr0 + (sizeof(Arr0) / sizeof(Arr0[0]))); int Arg1 = 3; verify_case(2, Arg1, getMinimalCssRuleCount(Arg0)); }
-	void test_case_3() { string Arr0[] = {"<b id='x' style='color:red'>",
-"<i id='y' style='color:black'>",
-"<u id='w' style='color:white'>",
-"</u>",
-"</i>",
-"<u id='z' style='color:yellow'>",
-"</u>",
-"</b>"}; vector <string> Arg0(Arr0, Arr0 + (sizeof(Arr0) / sizeof(Arr0[0]))); int Arg1 = 4; verify_case(3, Arg1, getMinimalCssRuleCount(Arg0)); }
-	void test_case_4() { string Arr0[] = {"<b id='x' style='col", "or:red'></b>", "<b id=", "'xx' style='color", ":red'></b>"}; vector <string> Arg0(Arr0, Arr0 + (sizeof(Arr0) / sizeof(Arr0[0]))); int Arg1 = 2; verify_case(4, Arg1, getMinimalCssRuleCount(Arg0)); }
+	void test_case_0() { int Arr0[] = { 1, 4, 5 }; vector <int> Arg0(Arr0, Arr0 + (sizeof(Arr0) / sizeof(Arr0[0]))); int Arg1 = 6; verify_case(0, Arg1, getMaximum(Arg0)); }
+	void test_case_1() { int Arr0[] = { 1, 4, 5, 8 }; vector <int> Arg0(Arr0, Arr0 + (sizeof(Arr0) / sizeof(Arr0[0]))); int Arg1 = 12; verify_case(1, Arg1, getMaximum(Arg0)); }
+	void test_case_2() { int Arr0[] = { 9, 8, 7, 6, 5, 4, 3, 2, 1 }; vector <int> Arg0(Arr0, Arr0 + (sizeof(Arr0) / sizeof(Arr0[0]))); int Arg1 = 20; verify_case(2, Arg1, getMaximum(Arg0)); }
+	void test_case_3() { int Arr0[] = { 2, 100 }; vector <int> Arg0(Arr0, Arr0 + (sizeof(Arr0) / sizeof(Arr0[0]))); int Arg1 = 2499; verify_case(3, Arg1, getMaximum(Arg0)); }
+	void test_case_4() { int Arr0[] = { 50, 58, 47, 57, 40 }; vector <int> Arg0(Arr0, Arr0 + (sizeof(Arr0) / sizeof(Arr0[0]))); int Arg1 = 441; verify_case(4, Arg1, getMaximum(Arg0)); }
 
 // END CUT HERE
 
@@ -73,7 +71,7 @@ int getMinimalCssRuleCount(vector <string> xthml) {
  
 // BEGIN CUT HERE
 int main() {
-    CssRules ___test;
+    SimpleGuess ___test;
     ___test.run_test(-1);
 }
 // END CUT HERE
