@@ -80,7 +80,6 @@ int determineUsage(vector <int> distance, vector <int> height) {
 	for(int j = 0; j < numtrees; j++) {
 	  if((j != p1) && (j != p2)) {
 	    float y = k * xaxis[j] + intersect; 
-	    //cout << p1 << " " << p2 << " " << k << " " << y << " " << yaxis[j] << endl; 
 	    if((y > (float)yaxis[j]) || (y < -0.01)) {
 	      ok = false; break; 
 	    } else if (y < (float)yaxis[j]) {
