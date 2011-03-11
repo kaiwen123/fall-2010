@@ -1,4 +1,4 @@
-RM = /bin/rm
+RM = /bin/rm -v
 CPP = /usr/bin/g++
 CPPFLAGS = -O2 $(MACROS) -Wall
 LD = /usr/bin/ld
@@ -21,4 +21,4 @@ $(EXECUTABLE): $(OBJ)
 	$(CPP) -c $(CPPFLAGS) $< -o $@
 
 clean:
-	@$(RM) $(OBJ) $(EXECUTABLE)
+	@$(RM) $(OBJ) $(EXECUTABLE) *~
