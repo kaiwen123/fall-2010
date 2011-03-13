@@ -26,7 +26,7 @@ CAddress VARCHAR(100) DEFAULT NULL,
 CAge INT DEFAULT 0, 
 CPhone VARCHAR(100) DEFAULT NULL,
 PRIMARY KEY (CID)
-);
+)ENGINE=INNODB;
 
 -- FID the food id; 
 -- FName the descriptive name of the food; 
@@ -38,7 +38,7 @@ FName VARCHAR(20) NOT NULL,
 FCategory VARCHAR(100) DEFAULT "American", 
 FUcalorie INT DEFAULT 0,
 PRIMARY KEY (FName)
-); 
+)ENGINE=INNODB; 
 
 -- OID The order id.
 -- OCID the customer ID; 
@@ -56,4 +56,4 @@ FOREIGN KEY (OCID) REFERENCES Customer(CID)
 	ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY (OFName) REFERENCES Food(FName)
 	ON DELETE CASCADE ON UPDATE CASCADE
-);
+)ENGINE=INNODB;
