@@ -33,15 +33,28 @@ int main(void) {
     do {
       getCmd(choice);
       switch(toLower(choice)) {
-      case 'i': { insertRecord(conn); break;}
-      case 'd': { deleteRecord(conn); break;}
-      case 'r': { retrieveRecord(conn); break;}
+      case 'i': { insertRecord(conn); break;} // insert record. 
+      case 'd': { deleteOrder(conn); break;} // delete order record. 
+      case 'm': { modifyOrder(conn); break;}  // modify order record. 
+      case 'r': { retrieveRecord(conn); break;} // retrieve record.
       case 'q': exit(0); 
       default: break; 
       }
     } while(1);
+    conn->close(); 
+    delete res; 
+    delete stmt; 
+    delete conn; 
+  } catch (std::runtime_error &e) {
+    cout << "ERROR: runtime_error in " << __FILE__;
+    cout << " (" << __func__ << ") on line " << __LINE__ << endl;
+    cout << "ERROR: " << e.what() << endl;
+    return EXIT_FAILURE;
+  }
+}
 
-    // Execute SQL statement and print result.
+
+   // Execute SQL statement and print result.
     // stmt = conn->createStatement(); 
     // stmt->execute("DELETE FROM Food;"); cout << "Old records deleted. " << endl; 
     // for(int i = 100; i < 200; i++){
@@ -59,14 +72,3 @@ int main(void) {
     // 	   << res->getString(3) << " "
     // 	   << res->getInt(4) << endl; 
     // }
-    delete res; 
-    delete stmt; 
-    delete conn; 
-  } catch(sql::SQLException &e) {
-    cout << "# ERR: SQLException in " << __FILE__;
-    cout << "(" << __FUNCTION__ << ") on line " << __LINE__ << endl;
-    cout << "# ERR: " << e.what();
-    cout << " (MySQL error code: " << e.getErrorCode();
-    cout << ", SQLState: " << e.getSQLState() << " )" << endl;
-  }
-}
