@@ -1,0 +1,62 @@
+\documentclass[12pt]{article}
+% Change "article" to "report" to get rid of page number on title page
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{setspace}
+\usepackage{Tabbing}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{titlesec}
+\usepackage{graphicx,float,wrapfig}
+\usepackage{url}
+
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=-1in     %
+\oddsidemargin=0in      %
+\textwidth=7in        %
+\textheight=9.0in       %
+\headsep=0.25in         %
+
+% Start of document. 
+\begin{document}
+\begin{center}                  % Header of file. 
+\textbf{Privacy-Preserving K-Means clustering over vertically
+  partitioned data - Review} \\ 
+\small\textsc{Shumin Guo} \\
+\end{center}
+% problem identification 
+\section*{Problem Description}
+
+K-means clustering over vertically partitioned data among multiple
+parties brings challenges for privacy protection. This paper proposes
+a privacy protection protocol under this scenario. 
+
+\section*{Contribution of this paper}
+This paper proposes a privacy protection method by disguising the site
+component(attribute values) with random values, and using permuted
+distance comparison result for purpose of communication among
+different parties.  
+
+By utilizing secure circuit evaluation method, distance comparison
+result is calculated without disclosing anything else. 
+
+And in the proposed protocol, three parties are explicitely selected as
+special parties, one party $P_1$ is responsible for generating perturbation
+and permutation matrix, another party $P_2$ is used for final distance
+comparison with the third party $P_r$ which is responsible for
+computing the distance of all parties except $P_2$ and do distance
+comparison with $P_2$. By doing this, all the parties will not be able
+to have all the information about another party so that privacy can be
+protected. 
+
+% weakness description. 
+\section*{Weaknesses of this paper}
+No experimental results are given by this paper. 
+
+The K-means clustering accuracy is not discussed. 
+ 
+ 
+\end{document} 

@@ -1,0 +1,64 @@
+\documentclass[12pt]{article}
+% Change "article" to "report" to get rid of page number on title page
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{setspace}
+\usepackage{Tabbing}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{titlesec}
+\usepackage{graphicx,float,wrapfig}
+\usepackage{url}
+
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=-1in     %
+\oddsidemargin=0in      %
+\textwidth=7in        %
+\textheight=9.0in       %
+\headsep=0.25in         %
+
+% Start of document. 
+\begin{document}
+\begin{center}                  % Header of file. 
+\textbf{Privacy Wizard for Social Networking Sites - Review} \\ 
+\small\textsc{Shumin Guo} \\
+\end{center}
+% problem identification 
+\section*{Problem Description}
+Privacy of online social networks are becoming great concerns for
+average people. And how to help them effectively define their privacy
+settings is one of the urgent questions yet to be answered. This paper
+is trying deal with this question by designing a privacy wizard which
+by utilizing active learning method to incrementally define a model as
+a classifier for privacy setting applications. 
+
+\section*{Contribution of this paper}
+This paper is one of the earliest attempts for privacy setting from
+user's perspective. One of the main contribution is that it clearly
+defines the challenges of privacy settings for average users. And an
+automatic privacy setting wizard was designed. The wizard implements
+the privacy-preference model by learning a classifier. It requires
+very simple user interaction, and the classifier model improves with
+more user input. And newly added friends can be adapted
+gracefully. Another contribution of this paper is that it describes a
+set of visualization and modification tools for advanced users which
+can brings explicite meaning of privacy settings for these users.
+
+The privacy wizard builds a model based on two kinds of information,
+friends and user's profile settings. By letting user's tagging privacy
+settings of part of his/her friends, the wizard learns a privacy
+protection model. And by further using the structure of the social
+graph, the wizard can achive a higher accuracy. 
+
+% weakness description. 
+\section*{Weaknesses of this paper}
+This paper defines a wizard to actively learn a privacy setting
+preference model. But it failed to consider contents, such as wall
+posts which are dynamically generated. And although the social
+structure are considered, it doesn't consider structures such as
+friend of friend privacy settings which has embarked on facebook. 
+ 
+\end{document} 

@@ -1,0 +1,69 @@
+\documentclass[12pt]{article}
+% Change "article" to "report" to get rid of page number on title page
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{setspace}
+\usepackage{Tabbing}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{titlesec}
+\usepackage{graphicx,float,wrapfig}
+\usepackage{url}
+
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=-1in     %
+\oddsidemargin=0in      %
+\textwidth=7in        %
+\textheight=9.0in       %
+\headsep=0.25in         %
+
+% Start of document. 
+\begin{document}
+\begin{center}                  % Header of file. 
+\textbf{\LARGE{Privacy Preserving Computing Project Proposal}} \\ 
+\small\textsc{Shumin Guo} \\
+\end{center}
+
+% problem identification 
+\section*{Study about Addtive and Multiplicative Data Perturbation}
+\subsection*{Basic Tasks}
+\begin{enumerate}
+\item Simulate the addtive perturbation method with regard to decision
+  tree classification applications. 
+\item Study the distance preservation property of rotation
+  perturbation and random perturbation methods.
+\item Simulate the application of multiplicative perturbation methods
+  w.r.t. k-means clustering algorithm. 
+\end{enumerate}
+
+\textbf{Estimated Time: } one week. (02/07/2011 - 02/13/2011)
+
+\subsection*{A Little More Detailed Study}
+\begin{enumerate}
+\item Study factors that are related to the performance of the addtive
+  perturbation method - correlation among attributes. 
+\item Study the correlation between privacy and utility for both
+  addtive and multiplicative perturbation methods. 
+\end{enumerate}
+
+\textbf{Estimated Time: } two weeks. (02/14/2011 - 02/27/2011)
+
+\subsection*{Study on attacks}
+\begin{enumerate}
+\item Study ICA method for data reconstructruction from perturbed
+  data. 
+\item Study attacks on random rotation perturbation. 
+  - Naive estimation reconstructruction. \\
+  - ICA based attack  \\ 
+  - Distance inference attack.
+\item Study why geometric perturbation can combat attacks addressed by
+  previous one. 
+\item Study ICA\_based attack about the random perturbation method. 
+\end{enumerate}
+
+\textbf{Estimated Time: } two weeks. (02/28/2011 - 03/12/2011)
+
+\end{document} 
