@@ -1,0 +1,347 @@
+%% this is the bib file by simon; 
+%% Created on June 28th, 2010; 
+\documentclass[a4paper]{article}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\geometry{top=1.3in, bottom=1.3in, left=1.2in, right=1.2in}
+
+% Start of doc. 
+\begin{document}
+
+\begin{center}
+\textbf{\LARGE{Surviving the Large Data Era.} \\ 
+Shumin Guo \\
+\today}
+\end{center}
+
+\section{Introduction to A Data Intensive World\label{sec:intro}}
+
+\section{Requirement for Data Intensive
+  Computation \label{sec:relatedwork}}
+\subsection{Scalling to large data size} 
+
+\subsection{Resilient to failures}
+
+\subsection{Being able to handle distributed environment}
+
+\subsection{Balancing Load Distribution}  
+
+\section{Database Systems for Handling Large Data \label{sec:redefine}}
+In computing, NoSQL (Not Only SQL) is a term used to designate
+database management systems that differ from classic relational
+database management systems (RDBMSes) in some way. These data stores
+may not require fixed table schemas, and usually avoid join operations
+and typically scale horizontally. Academics and papers typically refer
+to these databases as structured storage, a term that
+would include classic relational databases as a subset.
+
+Typical modern relational databases have shown poor performance on
+certain data-intensive applications, including indexing a large number
+of documents, serving pages on high-traffic websites, and delivering
+streaming media.[7] Typical RDBMS implementations are tuned either for
+small but frequent read/write transactions or for large batch
+transactions with rare write accesses. NoSQL on the other hand,
+services heavy read/write workloads.[7] Real-world NoSQL deployments
+include Digg's 3 TB for green badges (markers that indicate stories
+upvoted by others in a social network),[8] Facebook's 50 TB for inbox
+search, and eBay's 2 PB overall data.
+
+\subsection{Cassandra} 
+Cassandra\cite{cassandra} is a distributed storage system for managing very
+large amounts of structured data spread out across many
+commodity servers, while providing highly available service
+with no single point of failure. Cassandra aims to run on top
+of an infrastructure of hundreds of nodes (possibly spread
+across different data centers). At this scale, small and large
+components fail continuously. The way Cassandra manages
+the persistent state in the face of these failures drives
+the reliability and scalability of the software systems relying
+on this service. While in many ways Cassandra resembles
+a database and shares many design and implementation
+strategies therewith, Cassandra does not support a full relational
+data model; instead, it provides clients with a simple
+data model that supports dynamic control over data layout
+and format. Cassandra system was designed to run on
+cheap commodity hardware and handle high write throughput
+while not sacrificing read efficiency.
+
+Facebook\cite{facebooksite} runs the largest social networking
+platform that serves hundreds of millions users at peak times using
+tens of thousands of servers located in many data centers around
+the world. There are strict operational requirements on
+Facebook's platform in terms of performance, reliability and
+efficiency, and to support continuous growth the platform
+needs to be highly scalable. Dealing with failures in an
+infrastructure comprised of thousands of components is our
+standard mode of operation; there are always a small but
+significant number of server and network components that
+are failing at any given time. As such, the software systems
+need to be constructed in a manner that treats failures as the
+norm rather than the exception. To meet the reliability and
+scalability needs described above Facebook has developed
+Cassandra.
+
+At Facebook this meant the system was required to handle a very high
+write throughput, billions of writes per day, and also scale with the
+number of users. Since users are served from data centers that are
+geographically distributed, being able to replicate data across data
+centers was key to keep search latencies down. Cassandra is now deployed
+as the backend storage system for multiple services within
+Facebook.
+
+\subsection{Bigtable}
+With the arriaval web2.0, much more data is produced by online
+computer systems, which is usually calculated in petabytes. This poses
+a great challenge to those traditional database 
+systems which are not very efficient for handling such large size
+data. And this problem must be even more urgent in google, as it's core
+business model is based on data. Either it be crawed
+webpage data, web access log data or large volumes of picture and
+streaming content data, the size is huge. All the requirements
+promoted the design and implementation of the google's data hosting
+system - Bigtable\cite{bigtable:google}. 
+
+Bigtable is used to store structured data. And in many ways it
+resembles a database system, and shared many implementation strategies
+with databases. But it also has a lot of new features compared
+with traditional databases. It is designed to run on commodity
+machines and can scale to petabytes of data and thousands of
+machines. It provides clients with a simple data model that supports
+dynamic control over data layout and format, and allows clients to
+reason about the locality properties of the data represented in the
+underlying storage. So, clients can control the locality of their data
+through carefully choose their data schemas. Also, clients can use
+Bigtable parameter to dynamically control whether to serve data in 
+memory or from disk. 
+
+Unlike the flat table structure of traditional data model, Bigtable
+uses a very simple data model that not only considers the underlying
+structure of data, but also tracks different versions of data. This is
+a unique requirement for web page data as it changes over
+time. To make it simple, bigtable is just like a map. The key/index of
+this map is generated from strings of rows, columns and timestamps
+of data. And the data of this map is uninterpreted bytes no matter
+what type of data it is represented in the application. Bigtable
+maintains data in lexicograhic order by row key, and the row range for
+a table is dynamically partitioned. Each row range is a tablet, which
+is the unit of distribution and load balancing. Usually, the row keys
+are the URLs associated with the data content. Columns are properties
+with the row content, such as anchor pointing to the content, or the
+content itself. And the columns are usually grouped into column
+families, and a column family can contain multiple family
+qualifiers. Such as anchor is a family, and a URL address can be a
+qualifier of this column family. This feature brings a lot of
+benefits when accessing the contents of table. But as we can easily
+infer that data in Bigtable is very sparse. Bigtable API provides some
+other features of data manipulation such as row based transaction and
+execution of client-supplied scripts in the address space of the
+server. These features make Bigtable a full-fledged data storage
+choice. 
+
+Bigtable depends on a cluster management system for scheduling jobs,
+managing resources on shared machines, dealing with machine failures,
+and monitoring machine status. The Google SSTable file format is used
+internally to store Bigtable data. An SSTable provides a persistent,
+ordered and immutable map from keys to values, and internally, it
+contains a sequence of blocks along with a block index to locate
+blocks. The index will be loaded into memory when SSTable is
+opened. And a binary search method can be used to search the Sorted
+String Table, and thus greatly impoved the performace by eliminating
+I/O operations. Bigtable relies on a highly-available and persistent
+distributed lock service named Chubby. Chubby provides a namespace
+that consists of directories and small files like UNIX file
+system. And each directory and file can be used as a lock, and reads
+from and writes to a file are atomic. Chubby service greatly
+simplified the management of locks within a file system and this
+centralized lock management brings a lot of benefits as compared with
+the ad-hoc mode lock management. Still, Chubby's serving as a
+namespace of files make its no need to provide dedicated name server.
+
+Bigtable has three major components: a library linked
+into every client, one master server, and many tablet servers. Tablet
+servers can be dynamically added from a cluster to accormmodate
+changes in workloads. At times of data transfer, clients communicate
+directly with tablet servers for reads and writes. This makes the
+master server lightly loaded. And this communication schema can
+improve the availability and throughput of the whole system. 
+
+Bigtable uses a three-level hierarchy to store tablet location
+information. Chubby contains the location of the root tablet, the root
+tablet contains the location of all tablets in a special METADATA
+table. And each METADATA table contains the location of a set of user
+tablets. Each tablet is assigned to one tablet server at a time. The
+master will keep track of the set of live tablet servers, and the
+assignment of unassignment of current tablets. And the master
+periordically checks with tablet servers for the status of its locks
+so that it can keep the timely status of all the tablet servers and
+tablet assignments. When a master server is started, it will first get
+a unique master lock on Chubby, then it will poll the status of tablet
+servers that are alive and finally it will communicate with these
+servers to find tablets that thses servers are serving.  Bigtable uses
+memtable to aggregate the log and commit information to reduce I/O
+operations. For read and write operations, a tablet server need to
+contact with Chubby to check the well-formedness of tablet and
+authorization information. 
+
+Besides the basic functionality of data storage and serving, there are
+a few refinements to the Bigtable system. Clients can use locality
+groups to group data with high correlation, and clients can choose
+whether to use comppression to the data. The row name based clustering
+makes a very good compression ratio possible, and even higher for
+multiple versions of same data in Bigtable. 
+
+In summary, the novel data model, the Chubby lock service and the
+dynamic management of tablet servers and tablets can help Bigtable
+achive the design goal of wide applicability, scalability, high
+performance and high availability. And the successful application of
+Bigtable to various production storage is the biggest proof of its
+succss. And the consideration of client experience makes it one of
+good choice of cloud data hosting. 
+
+\subsection{HyperTable}
+
+\subsection{Dynamo}
+Reliability at massive scale is one of the biggest challenges we face
+at Amazon.com, one of the largest e-commerce operations in the world;
+even the slightest outage has significant financial consequences and
+impacts customer trust. The Amazon.com platform, which provides
+services for many web sites worldwide, is implemented on top of an
+infrastructure of tens of thousands of servers and network components
+located in many datacenters around the world. At this scale, small and
+large components fail continuously and the way persistent state is
+managed in the face of these failures drives the reliability and
+scalability of the software systems. 
+
+highly decentralized, loosely coupled, service
+oriented architecture consisting of hundreds of services. In this
+environment there is a particular need for storage technologies
+that are always available. 
+
+Dealing with failures in an infrastructure comprised of millions of
+components is our standard mode of operation; there are always a
+small but significant number of server and network components
+that are failing at any given time. As such Amazon’s software
+systems need to be constructed in a manner that treats failure
+handling as the normal case without impacting availability or
+performance.
+
+Dynamo is used to manage the state of services that have very
+high reliability requirements and need tight control over the
+tradeoffs between availability, consistency, cost-effectiveness and
+performance. 
+
+Dynamo is targeted mainly at applications that need an “always
+writeable” data store where no updates are rejected due to failures or
+concurrent writes. And Dynamo is built for an
+infrastructure within a single administrative domain where all
+nodes are assumed to be trusted
+And applications that use
+Dynamo do not require support for hierarchical namespaces (a
+norm in many file systems) or complex relational schema
+(supported by traditional databases). And finally, it is built for
+latency sensitive applications that require at least 99.9\% of read
+and write operations to be performed within a few hundred
+milliseconds.
+
+The main advantage of Dynamo is that its client applications can
+tune the values of some parameters to achieve their desired levels of
+performance, availability and durability. 
+
+\subsection{HBase}
+HBase is an Apache open source project whose goal is to provide
+Bigtable-like storage for the Hadoop Distributed Computing
+Environment. Just as Google's Bigtable leverages the distributed data
+storage provided by the Google Distributed File System (GFS), HBase
+provides Bigtable-like capabilities on top of the Hadoop Distributed
+File System (HDFS). 
+
+Data is logically organized into tables, rows and columns. An
+iterator-like interface is available for scanning through a row range
+and, of course, there is the ability to retrieve a column value for a
+specific row key. Any particular column may have multiple versions for
+the same row key. 
+
+HBase uses a data model very similar to that of Bigtable. Applications
+store data rows in labeled tables. A data row has a sortable row key
+and an arbitrary number of columns. The table is stored sparsely, so
+that rows in the same table can have widely varying numbers of
+columns. 
+
+A column name has the form "<family>:<label>" where <family> and
+<label> can be arbitrary byte arrays. A table enforces its set of
+<family>s (called "column families"). Adjusting the set of families is
+done by performing administrative operations on the table. However,
+new <label>s can be used in any write operation without pre-announcing
+it. HBase stores column families physically close on disk, so the
+items in a given column family should have roughly the same read/write
+characteristics and contain similar data. 
+
+Only a single row at a time may be locked by default. Row writes are
+always atomic, but it is also possible to lock a single row and
+perform both read and write operations on that row atomically. 
+
+An extension was added recently to allow multi-row locking, but this
+is not the default behavior and must be explicitly enabled. 
+
+Conceptually a table may be thought of a collection of rows that are
+located by a row key (and optional timestamp) and where any column may
+not have a value for a particular row key (sparse). 
+
+Although at a conceptual level, tables may be viewed as a sparse set
+of rows, physically they are stored on a per-column family basis. This
+is an important consideration for schema and application designers to
+keep in mind. 
+
+To an application, a table appears to be a list of tuples sorted by
+row key ascending, column name ascending and timestamp
+descending. Physically, tables are broken up into row ranges called
+regions (equivalent Bigtable term is tablet). Each row range contains
+rows from start-key (inclusive) to end-key (exclusive). A set of
+regions, sorted appropriately, forms an entire table. Unlike Bigtable
+which identifies a row range by the table name and end-key, HBase
+identifies a row range by the table name and start-key. 
+
+\subsubsection{Architecture and Implementation}
+There are three major components of the HBase architecture:
+
+The H!BaseMaster (analogous to the Bigtable master server)
+
+The H!BaseMaster is responsible for assigning regions to
+H!RegionServers. The first region to be assigned is the ROOT region
+which locates all the META regions to be assigned. Each META region
+maps a number of user regions which comprise the multiple tables that
+a particular HBase instance serves. Once all the META regions have
+been assigned, the master will then assign user regions to the
+H!RegionServers, attempting to balance the number of regions served by
+each H!RegionServer. 
+
+The H!RegionServer (analogous to the Bigtable tablet server)
+The H!RegionServer is responsible for handling client read and write
+requests. It communicates with the H!BaseMaster to get a list of
+regions to serve and to tell the master that it is alive. Region
+assignments and other instructions from the master "piggy back" on the
+heart beat messages. 
+ 
+The HBase client, defined by org.apache.hadoop.hbase.client.HTable 
+The HBase client is responsible for finding H!RegionServers that are
+serving the particular row range of interest. On instantiation, the
+HBase client communicates with the H!BaseMaster to find the location
+of the ROOT region. This is the only communication between the client
+and the master. 
+
+\section{Distributed File Systems.}
+
+\subsection{GFS and HDFS} 
+
+\subsection{Simple Storage System (S3)}
+
+
+\section{Cloud Computing}
+
+\section{Data Analysis Framework - MapReduce}
+
+% Bibliograhpy settings. 
+\bibliographystyle{unsrt}
+\bibliography{report}
+
+\end{document}
