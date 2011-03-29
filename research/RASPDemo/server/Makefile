@@ -12,9 +12,11 @@ DOX = /usr/bin/doxygen
 
 # Macros and variables. 
 #MACROS += -DDEBUG_ALL
+#MACROS += -DDEBUG_PARSING_DATA
 #MACROS += -DDEBUG_INSERT_DATA
+MACROS += -DDEBUG_QUERY_DATA
 INCLUDES = -I/usr/local/include/spatialindex
-CPPFLAGS = -O2 -fPIC $(MACROS) $(INCLUDES) #-Wall
+CPPFLAGS = -O2 -fPIC -ggdb3 $(MACROS) $(INCLUDES) #-Wall
 LDFLAGS = -L/usr/lib -L/lib -lspatialindex
 
 # Source files. 
@@ -39,13 +41,13 @@ $(EXECUTABLE): $(OBJ)
 
 # Rules to build the wrapper library.
 $(WRAPPERLIB):$(WRAPPEROBJ)
-	$(CPP) -shared -lpython2.6 $(LDFLAGS) $^ -o $@
+	$(CPP) -shared -lpython2.7 $(LDFLAGS) $^ -o $@
 
 wrapper_wrap.cxx:wrapper.i
 	swig -c++ -python $<
 
 wrapper_wrap.o: wrapper_wrap.cxx
-	$(CPP) -I/usr/include/python2.6 -c $(CPPFLAGS) $< -o $@
+	$(CPP) -I/usr/include/python2.7 -c $(CPPFLAGS) $< -o $@
 
 doc: $(DOXCONF) $(SRC)
 	@$(DOX) $<

@@ -1,16 +1,15 @@
 #!/usr/bin/env python
-# a simple TCP client
+# Socket Client
  
 from socket import *
-from time import time
-from time import sleep
+from time import time, sleep
 import sys
 BUFSIZE = 4096
  
 class CmdLine:
     def __init__(s,host):
         s.__HOST = host
-        s.__PORT = 10001
+        s.__PORT = 21567
         s.__ADDR = (s.__HOST,s.__PORT)
         s.__sock = None
  
@@ -30,8 +29,9 @@ if __name__ == '__main__':
     conn.makeConnection()
     d = open("data")
     for line in d:
-        #print "local: ", line 
+        #print "Sending to server: ", line 
         conn.sendCmd(line)
+    	conn.getResults()
 
-    conn.getResults()
     conn.sendCmd('BYE')
+    d.close()

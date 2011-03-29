@@ -26,7 +26,6 @@
 #include <gsl/gsl_blas.h>
 #include <SpatialIndex.h>
 #include <string> 
-#include <queue>		// queue to store data. 
 #include <stdlib.h>
 #include <iostream>
 
@@ -113,9 +112,11 @@ class DataStore{
    * @param plow The lower boundary of the query. 
    * @param dim The dimension of the query. 
    * @param id of the data to be inserted. 
+   * @param dstr string of data.
    * @return result in string format (Need to be defined.).
    */
-  bool insertData(double *phigh, double *plow, int dim, int id); 
+  bool insertData(double *phigh, double *plow, int dim, 
+		  int id, string dstr); 
 
   /**
    * @brief Do data query to this store. 
@@ -126,20 +127,6 @@ class DataStore{
    */
   string queryData(double *phigh, double *plow, int dim); 
 
-  /**
-   * @brief Clean everything within the store. 
-   * @param none. 
-   * @return void. 
-   */
-  //bool dumpData(); 
-
-  /**
-   * @brief Clean everything within the store. 
-   * @param none. 
-   * @return void. 
-   */
-  //void purgeStore();
- 
   /**
    * @brief Flush data onto disk file.
    * So the memory cache will be all purged.

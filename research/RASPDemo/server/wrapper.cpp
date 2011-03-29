@@ -15,5 +15,7 @@ string insertData(string data) {
 
 // Query data from data store. 
 string queryData(string data) {
+  string result = server->doQuery(data);
+  cout << "Result in wrapper.cpp " << result << endl; 
   return server->doQuery(data);
 }

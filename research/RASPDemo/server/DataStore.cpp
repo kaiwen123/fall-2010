@@ -20,7 +20,7 @@ void StoreVisitor::visitData(const IData& d){
   size_t len = 0;
   d.getData(len, &data);
   string preresult = reinterpret_cast<char*>(data);
-#ifdef DEBUG_QUERYD_DATA
+#ifdef DEBUG_QUERY_DATA
   cout << "Pre-Query Result: " << preresult << endl;
 #endif
   if(validate(preresult)) {	// passed validation.
@@ -30,7 +30,9 @@ void StoreVisitor::visitData(const IData& d){
 
 // Validation implementation. 
 bool StoreVisitor::validate(const string& s) {
+#ifdef DEBUG_QUERYD_DATA
   cout << "TODO: Now, validating the result......" << endl;
+#endif
   // get the validation key. 
 
   // do the validation.
@@ -75,23 +77,27 @@ DataStore::DataStore(int dim):dim_(dim){
 DataStore::~DataStore() {cout << "Destroying data store." << endl;}
 
 // Insert data into spatial index. 
-bool DataStore::insertData(double *phigh, double *plow, int dim, int id) {
+// dstr is the string representation of the data. 
+bool DataStore::insertData(double *phigh, double *plow, int dim, int
+			   id, string dstr) {
 #ifdef DEBUG_INSERT_DATA
   cout << "Inserting data ... " 
+       << dstr 
        << __FILE__ << ":" 
        << __LINE__ << endl; 
 #endif
   Region r = Region(plow, phigh, dim); 
-  string data("DATA");
-  index_->insertData(data.size() + 1,				
-  		   reinterpret_cast<const byte*>(data.c_str()),
+  index_->insertData(dstr.size() + 1,				
+  		   reinterpret_cast<const byte*>(dstr.c_str()),
   		   r, id);
   return index_->isIndexValid();
 }
 
 // Query data within this store. 
 string DataStore::queryData(double *phigh, double *plow, int dim) {
+#ifdef DEBUG_QUERYD_DATA
   cout << "Do the querying...." << endl;
+#endif
   Region r = Region(plow, phigh, dim);
   index_->intersectsWithQuery(r, visitor);
   return visitor.getQueryResult(); 

@@ -41,7 +41,6 @@ string DataServer::doInsert(string dinsert) {
   // if exists, do the insert directly. 
   // if not, create store before insert.
   if(exists(dim)) {
-    //cout << "Store exists. ..." << endl;
     DataStore* store = stores[dim];
     double phigh[dim], plow[dim];
     
@@ -51,9 +50,16 @@ string DataServer::doInsert(string dinsert) {
       data.pop_front();
       phigh[i] = data.front();
       data.pop_front();
+#ifdef DEBUG_INSERT_DATA
+      cout << plow[i] << " " << phigh[i] << endl;
+#endif
       i++;
     }
-    store->insertData(phigh, plow, dim, id); // test .
+#ifdef DEBUG_INSERT_DATA
+    cout << "using Data Store " << store 
+	 << " with dimension: " << dim << endl;
+#endif
+    store->insertData(phigh, plow, dim, id, dinsert);
   } else {
     DataStore* store = new (nothrow) DataStore(dim);
     if(!store) {
@@ -62,8 +68,10 @@ string DataServer::doInsert(string dinsert) {
     }
     stores[dim] = store;
   }
+  char tmp[20];
+  sprintf(tmp, "Data %d With Dimension %d", id, dim);
   // result response to the server. 
-  return "Insert SUCCESS";
+  return "Upload " + string(tmp) + " SUCCESSFUL!";
 }
 
 // check if store already exist.
@@ -80,7 +88,7 @@ string DataServer::doQuery(string query) {
   int id = data.front(); data.pop_front();
   int dim = data.front(); data.pop_front();
 
-#ifdef DEBUG_QUERY_DATA
+#ifdef DEBUG_PARSING_DATA
   cout << "Operation Code: " << op
        << " Data Id: " << id
        << " Dimension: " << dim << " ->AT: " 
@@ -88,7 +96,6 @@ string DataServer::doQuery(string query) {
        << __LINE__ << endl; 
 #endif
 
-  cout << "HELLO KITTY..." << endl;
   if(exists(dim)) {
     DataStore* store = stores[dim];
     double phigh[dim], plow[dim]; 
@@ -115,12 +122,16 @@ bool DataServer::parseParam(string param, list<double>& data) {
   data.clear();
   do {
     pos = param.find_first_of(" ");
-    if(param =="" || param == " " || pos <= 0) break;
+    if(param =="" || param == " ") break;
     t_dat = strtod(param.substr(0, pos).c_str(), p);
     param = param.substr(pos+1, param.size()-pos).c_str();
-    //cout << "param is: " << param << endl;
+#ifdef DEBUG_PARSING_DATA
+    cout << "Parsing: " << t_dat 
+	 << "\tstring: " << param
+	 << endl;
+#endif
     data.push_back(t_dat);
-  } while(1);
+  } while(pos > 0);
   return true;
 }
 
