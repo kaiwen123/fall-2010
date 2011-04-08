@@ -1,7 +1,7 @@
 import mechanize, re
 from BeautifulSoup import BeautifulSoup, NavigableString, UnicodeDammit
 
-def getWallPosts(filename):
+def extractWallPosts(filename):
     ''' Get wall posts for the friends starting from
     friend_id. '''
     wallposts = ''
