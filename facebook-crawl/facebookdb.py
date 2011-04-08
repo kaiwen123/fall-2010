@@ -1,5 +1,6 @@
 import re, mechanize, time, Queue, codecs, sys, logging
 from BeautifulSoup import BeautifulSoup, NavigableString, UnicodeDammit
+from frendlist_extractor import , profile_extractor, 
           
 class crawler:
     ''' This the facebook crawler class. It will download facebook pages 
@@ -30,16 +31,15 @@ class crawler:
 
     def login(self):
         ''' Log onto facebook with a facebook account. '''
-        self.browser.set_handle_equiv(False)
-        self.browser.set_handle_robots(False)
-        self.browser._factory.is_html = True
         self.browser.open('https://login.facebook.com/login.php')
-        self.browser._factory.is_html = True
         self.browser.select_form(nr=0)
         self.browser['email'] = 'gsmsteve@gmail.com' # 'gsm1011@163.com' #'gsmsteve@gmail.com'
         self.browser['pass'] = 'Gsm1011!' # 'changeme123' # 'Gsm1011!'
         response = self.browser.submit() 
-        print "Logged into facebook ...... "
+        if response != None:
+            print "Logged into facebook ...... "
+        else:
+            print 'Facebook login failed ...... '
         return response 
 
     def getProfileLink(self, friend_id):
