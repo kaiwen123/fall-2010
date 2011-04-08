@@ -11,10 +11,7 @@ class crawler:
         self.social_graph = codecs.open('social_graph.txt', 'a', encoding='utf-8')
         self.__PRINT_FRIEND_GRAPH__ = 0 # for debuggin purpose. 
         self.browser = mechanize.Browser()
-        self.browser.addheaders = [('User-Agent', 'Mozilla/5.0 (X11; U; Linux x86_64; en-US)'+ \
-                                        'AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.634.0'+ \
-                                        'Safari/534.16', 'Referer', 'http://www.facebook.com')]
-        
+        self.browser.addheaders = [('User-Agent', 'Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.16) Gecko/20110322 Fedora/3.6.16-1.fc14 Firefox/3.6.16')]
         self.browser.set_handle_equiv(True)
         self.browser.set_handle_redirect(True)
         self.browser.set_handle_refresh(False)
@@ -33,7 +30,6 @@ class crawler:
 
     def login(self):
         ''' Log onto facebook with a facebook account. '''
-        self.browser = mechanize.Browser() 
         self.browser.set_handle_equiv(False)
         self.browser.set_handle_robots(False)
         self.browser._factory.is_html = True
@@ -223,7 +219,7 @@ class crawler:
         # ==================================================
         # Arts and entertainments. 
         profile_arts = profiles.find('div',{'id':'pagelet_arts_and_entertainment'})
-            arts_entertain = 'Arts and Entertainments - '
+        arts_entertain = 'Arts and Entertainments - '
         if profile_arts == None:
             arts_entertain += 'private.'
         else: 
