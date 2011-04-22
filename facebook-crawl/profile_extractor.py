@@ -1,13 +1,48 @@
-import mechanize 
-from BeautifulSoup import BeautifulSoup, NavigableString, UnicodeDammit
+import mechanize, sys
+from BeautifulSoup import BeautifulSoup, NavigableString, UnicodeDammit, Tag
 
-def extractProfile(filename):
+def extractProfile(page):
+    ''' extract the profiles of a user. ''' 
+    # print 'Extracting profile ... ... '
     extract_content = False
-    profile_soup = BeautifulSoup(''.join(open(filename).read()))
+    DEBUG = False
+    page = ''.join(open(page,'r').read())
+    profile_soup = BeautifulSoup(page)
+    profile_contents = ''
+    content_sep = '\t'
+    # profile_soup = BeautifulSoup(''.join(open(page).read()))
+    # print profile_soup
+    # Personal information like location, hometown. 
+    profile_bylines = profile_soup.find('div',{'class':'fbProfileByline'})
+    byline_profile = 'PROFILE:'
+    if profile_bylines != None: 
+        bylines = profile_bylines.findAll('span',{'class':'fbProfileBylineFragment'})
+        if len(bylines) == 0:
+            byline_profile += 'N/A'
+        for byline in bylines: 
+            byline_contents = byline.contents
+            for byline_content in byline_contents:
+                if isinstance(byline_content, NavigableString):
+                    byline_profile += unicode(byline_content)
+                if isinstance(byline_content, Tag):
+                    soup = BeautifulSoup(unicode(byline_content))
+                    byline_link = soup.find('a')
+                    if byline_link != None:
+                        if byline_link.string != None:
+                            byline_profile += unicode(byline_link.string)
+            byline_profile += '|'
+    else:
+        byline_profile += 'N/A'
+
+    profile_contents += byline_profile + content_sep
+    if DEBUG:
+        print byline_profile
+
     profiles = profile_soup.find('div',{'id':'pagelet_main_column_personal'})
+    #print profiles 
+    if profiles == None: return profile_contents + 'failed'
     profiles = BeautifulSoup(str(profiles))
     profile_eduwork = profiles.find('div',{'id':'pagelet_eduwork'})
-
     experience = 'edu_work:'
     if profile_eduwork == None:
         experience += 'N/A,'
@@ -38,7 +73,8 @@ def extractProfile(filename):
                             if body != '':
                                 experience += body + ','
                     experience += ';'
-    #print experience 
+    if DEBUG:
+        print experience 
 
     profile_phil = profiles.find('div',{'id':'pagelet_philosophy'})
     philosophy = 'philosophy:'
@@ -71,7 +107,8 @@ def extractProfile(filename):
                             if body != '':
                                 philosophy += body + ','
                     philosophy += ';'
-    #print philosophy
+    if DEBUG:
+        print philosophy
 
     profile_arts = profiles.find('div',{'id':'pagelet_arts_and_entertainment'})
     arts_entertain = 'arts_entertain:'
@@ -96,7 +133,8 @@ def extractProfile(filename):
                 for exp_title in exp_titles:
                     arts_entertain += ' ' + exp_title.string
                     arts_entertain += ','
-    #print arts_entertain
+    if DEBUG:
+        print arts_entertain
 
     profile_activity = profiles.find('div',{'id':'pagelet_activities_and_interests'})
     activities = 'act_interests:'
@@ -104,39 +142,47 @@ def extractProfile(filename):
         activities += 'N/A,'
     else:
         activity = profile_activity.find('div',{'class':'phs'})
-        acts = activity.findAll('th',{'class':'label'})
-        for act in acts:
-            try:        # to avoid the empty contents.
-                label = act.string
-                if label.string != None: 
-                    if extract_content == False: 
-                        activities += label + ','
-                        continue
-                    else: 
-                        activities += label + ':'
-            except:
-                break
-            exp_titles = act.nextSibling.findAll('div', {'class':'experienceTitle'})
-            for exp_title in exp_titles:
-                activities += ' ' + exp_title.a.span.string
-                exp_info = exp_title.nextSibling.findAll('span')
-                for info in exp_info:
-                    activities += ' ' + info.string + ','
-                exp_body = exp_title.nextSibling.nextSibling
-                if exp_body != None: 
-                    for body in exp_body.contents:
-                        if body != '':
-                            activities += body + ','
-                    activities += ', '
-            activities += '; '
-            
-            exp_titles = act.nextSibling.findAll('div', {'class':'mediaRowWrapper '})
-            for exp_title in exp_titles:
-                exps = exp_title.findAll('div', {'class':'mediaPageName'})
-                for exp in exps:
-                    activities += exp.string + ', '
-
-    #print activities
+        if activity == None: 
+            activities += 'N/A,'
+        else:
+            acts = activity.findAll('th',{'class':'label'})
+            for act in acts:
+                try:        # to avoid the empty contents.
+                    label = act.string
+                    if label.string != None: 
+                        if extract_content == False: 
+                            activities += label + ','
+                            continue
+                        else: 
+                            activities += label + ':'
+                except:
+                    break
+                exp_titles = act.nextSibling.findAll('div', {'class':'experienceTitle'})
+                for exp_title in exp_titles:
+                    activities += ' ' + exp_title.a.span.string
+                    exp_info = exp_title.nextSibling.findAll('span')
+                    for info in exp_info:
+                        activities += ' ' + info.string + ','
+                    exp_body = exp_title.nextSibling.nextSibling
+                    if exp_body != None: 
+                        for body in exp_body.contents:
+                            if body != '':
+                                activities += body + ','
+                        activities += ', '
+                
+                exp_titles = act.nextSibling.findAll('div', {'class':'mediaRowWrapper '})
+                for exp_title in exp_titles:
+                    exps = exp_title.findAll('div', {'class':'mediaPageName'})
+                    for exp in exps:
+                        activities += exp.string + ', '
+                
+                act_lists = act.nextSibling.findAll('a')
+                for act_list in act_lists: 
+                    if act_list.string != None:
+                        activities += ' ' + act_list.string + ','
+                activities += '; '
+    if DEBUG:
+        print activities
 
     profile_basic = profiles.find('div',{'id':'pagelet_basic'})
     basicinformation = 'basic_info:' 
@@ -144,7 +190,9 @@ def extractProfile(filename):
         basicinformation += 'N/A,'
     else:
         basicinfo = profile_basic.find('h4')
-        if basicinfo != None:
+        if basicinfo == None:
+            basicinformation += 'N/A,'
+        else:
             section = basicinfo.string 
             basicinfo = profile_basic.find('div',{'class':'phs'})
             basics = basicinfo.findAll('th',{'class':'label'})
@@ -158,51 +206,55 @@ def extractProfile(filename):
                     if unicode(content).find('<') == -1: # remove tags like <br/>
                         basicinformation += unicode(content)
                     basicinformation += '; '
-    #print basicinformation
+    if DEBUG:
+        print basicinformation
 
     profile_contact = profiles.find('div',{'id':'pagelet_contact'})
     contacts = 'contact:'
     if profile_contact == None:
         contacts += 'N/A,'
+    elif str(profile_contact.string) is None:
+        contacts += 'N/A,'
     else:
         contact = profile_contact.find('div',{'class':'phs'})
-        conts = contact.findAll('th',{'class':'label'})
-        for cont in conts:
-            label = cont.string
-            if extract_content == False: 
-                contacts += label + ','
-                continue
-            else:
-                contacts += label + ':'
-            if label.find('Screen') != -1: # screen name.
-                screen_names = cont.nextSibling.findAll('li')
-                for screen_name in screen_names:
-                    contacts += str(screen_name.contents[0])
-                    contacts += screen_name.span.string + ','
-            if label.find('Website') != -1: # Websites. 
-                websites = cont.nextSibling.findAll('a')
-                for website in websites:
-                    contacts += website['href'] + ', ' 
-            if label.find('Email') != -1: # Email. 
-                emails = cont.nextSibling.findAll('li')
-                for email in emails: 
-                    contacts += email.string + ', ' 
-            if label.find('Phone') != -1: # Phone.
-                phones = cont.nextSibling.findAll('li')
-                for phone in phones:
-                    contacts += str(phone.contents[0]) + '(' + phone.span.string + '), '
-            if label.find('Facebook') != -1: # Facebook. 
-                facebook = cont.nextSibling.a.string
-                contacts += facebook + ', ' 
-            if label.find('Address') != -1: # Address. 
-                addresses = cont.nextSibling.findAll('li')
-                for address in addresses: 
-                    contacts += address.string + ', '
+        if contact == None: 
+            contacts += 'N/A,'
+        else:
+            conts = contact.findAll('th',{'class':'label'})
+            for cont in conts:
+                label = cont.string
+                if extract_content == False: 
+                    contacts += label + ','
+                    continue
+                else:
+                    contacts += label + ':'
+                if label.find('Screen') != -1: # screen name.
+                    screen_names = cont.nextSibling.findAll('li')
+                    for screen_name in screen_names:
+                        contacts += str(screen_name.contents[0])
+                        contacts += screen_name.span.string + ','
+                if label.find('Website') != -1: # Websites. 
+                    websites = cont.nextSibling.findAll('a')
+                    for website in websites:
+                        contacts += website['href'] + ', ' 
+                if label.find('Email') != -1: # Email. 
+                    emails = cont.nextSibling.findAll('li')
+                    for email in emails: 
+                        contacts += email.string + ', ' 
+                if label.find('Phone') != -1: # Phone.
+                    phones = cont.nextSibling.findAll('li')
+                    for phone in phones:
+                        contacts += str(phone.contents[0]) + '(' + phone.span.string + '), '
+                if label.find('Facebook') != -1: # Facebook. 
+                    facebook = cont.nextSibling.a.string
+                    contacts += facebook + ', ' 
+                if label.find('Address') != -1: # Address. 
+                    addresses = cont.nextSibling.findAll('li')
+                    for address in addresses: 
+                        contacts += address.string + ', '
+    if DEBUG:
+        print contacts
 
-    #print contacts
-
-    profile_contents = ''
-    content_sep = '\t'
     if extract_content == False:
         profile_contents += experience[0:len(experience)-1] + content_sep
         profile_contents += philosophy[0:len(philosophy)-1] + content_sep
@@ -218,13 +270,16 @@ def extractProfile(filename):
         profile_contents += basicinformation + content_sep
         profile_contents += contacts + content_sep
         
-    print profile_contents 
-    #print 
+    if DEBUG == True:
+        print profile_contents 
+        print 
+    return profile_contents
 
 
 if __name__ == '__main__':
     print "Extract profile"
-    extractProfile('profile1.html')
-    extractProfile('profile2.html')
-    extractProfile('profile3.html')
-    extractProfile('profile4.html')
+    print extractProfile(sys.argv[1])
+    # extractProfile('profile1.html')
+    # extractProfile('profile2.html')
+    # extractProfile('profile3.html')
+    # extractProfile('profile4.html')

@@ -1,3 +1,133 @@
+                # recent_event += str(content)
+            continue
+            reg_link_start = re.compile(r'<.*[^>].*>')
+            reg_link_end = re.compile('</a>') 
+            reg_span_start = re.compile('<span*">') 
+            reg_span_end = re.compile(r'span')
+            reg_space = re.compile(r'\s+')
+
+            print '+++++++', recent_event
+            regex = re.compile(r"(?i)<\/?\w+((\s+\w+(\s*=\s*(?:\".*?\"|'.*?'|[^'\">\s]+))?)+\s*|\s*)\/?>")
+            regex.sub('', recent_event)
+            reg_link_start.sub('', recent_event)
+            reg_link_end.sub('', recent_event)
+            reg_span_start.sub('', recent_event)
+            reg_span_end.sub('', recent_event)
+
+            print '=======', recent_event
+            continue 
+
+            if event_type.has_key('class'):
+                event_img_class = str(event_type['class']) # event type from the small icon.                 
+            else:
+                event_img_class = 'N/A'
+
+            # Friendship connection event. 
+            if event_img_class.find(friend_event) > 0: 
+                print 'Friendship event.....'
+                passiveName_block = act_title.find('span')
+                if passiveName_block != None:
+                    passiveName = passiveName_block.string
+                    #print passiveName
+                
+                otherNames = act_title.findAll('a')
+
+                if len(otherNames) == 1: 
+                    print passiveName, 'is now friends with', otherNames[0].string
+                    wallposts += passiveName + ' is now friends with ' + otherNames[0].string
+                elif len(otherNames) == 2:
+                    print passiveName + ' are now friends with ', 
+                    wallposts += passiveName + ' are now friends with '
+                    othername1 = otherNames[0].string
+                    print othername1 + ',',
+                    twomore = otherNames[1].find('span',{'class':'uiTooltipText'}) 
+                    if twomore == None: 
+                        othername2 = otherNames[1].string
+                    else:
+                        # clean the unwanted contents. 
+                        othername2 = str(twomore).replace('<br />', ', ')                        
+                        othername2 = othername2.replace('<span class="uiTooltipText">', '')
+                        othername2 = othername2.replace('</span>', '')
+                            
+                    print othername2
+                wallposts += '\n'
+                
+            # like event. 
+            elif event_img_class.find(like_event) > 0:
+                print 'Like event.....'
+                passiveName_block = act_title.find('span')
+                if passiveName_block != None:
+                    passiveName = passiveName_block.string
+                print passiveName + ' likes ',
+                wallposts += passiveName + ' likes '
+                entities = act_title.findAll('a')
+                # you may like on thing, two things or more than two things. 
+                if len(entities) == 1: 
+                    page1 = entities[0].string
+                    print page1, 
+                    wallposts += page1
+                if len(entities) == 2:
+                    page1 = entities[0].string
+                    print page1 + ',', 
+                    wallposts += page1
+                    twomore = entities[1].find('span',{'class':'uiTooltipText'}) 
+                    if twomore == None:
+                        page2 = entities[1].string
+                    else:
+                        page2 = str(twomore).replace('<br />', ', ')
+                        page2 = page2.replace('<span class="uiTooltipText">', '')
+                        page2 = page2.replace('</span>', '')
+                    print page2 
+
+                wallposts += '\n'
+    
+            elif event_img_class.find(comment_event) > 0:
+                print 'Comment event.....'
+                comment_contents = act_title.contents
+                comment_text = str(comment_contents[0]).replace('&quot;','"')
+                comment_entity = act_title.findAll('a')
+                if len(comment_entity) == 2: 
+                    print comment_text, comment_entity[0].string+'\'s', comment_entity[1].string
+
+                # print comment_text + comment_entity[0].string + '\'s' + unicode(comment_entity[1].string) + '.'
+                # wallposts += comment_text + comment_entity[0].string + '\'s' + comment_entity[1].string + '.'
+                # wallposts += '\n'
+            elif event_img_class.find(status) > 0: 
+                print 'Status change event......'
+                who = act_title.span.string
+                do = str(act_title.contents[1])
+                what = act_title.a.string
+                print who, do, what
+                
+            elif event_img_class.find('sp_bhj0aj sx_332bda') > 0: 
+                print 'profile picture change event......'
+                who = act_title.span.string
+                dowhat = str(act_title.contents[1])
+                print who, dowhat
+
+            elif event_img_class.find('sp_a2jb2c sx_e0a377') > 0: 
+                print 'locale change event......'
+                who = act_title.span.string 
+                do = str(act_title.contents[1])
+                what = act_title.a.string
+                print who, do, what
+
+            else: 
+                print 'unidentified event. ', event_type
+
+            if event_type_user != None: 
+                # none facebook related events. such as playing game. .
+                print 'not facebook related events......'
+                who = act_title.span.string
+                do = str(act_title.contents[1])
+                what = act_title.a.string
+                print who, do, what
+
+        print
+        print 
+ 
+
+
     def buildSocialGraph(self, fromfriend):
         ''' Extract all the friends of a friend and put the profile link to the global 
         link repository. '''

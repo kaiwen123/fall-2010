@@ -1,7 +1,7 @@
-import re, mechanize, time, Queue, codecs, sys, logging
+import re, mechanize, time, Queue, codecs, sys, logging, random
 from BeautifulSoup import BeautifulSoup, NavigableString, UnicodeDammit
 # import related modules. 
-from frendlist_extractor import buildSocialGraph
+from friendlist_extractor import buildSocialGraph, testVisibleItems
 from profile_extractor import extractProfile
 from wallpost_extractor import extractWallPosts
           
@@ -13,19 +13,15 @@ class crawler:
         ''' Initilize the crawler. ''' 
         self.CRAWLE_COUNT = 10000 # how many users to crawl? 
         self.social_graph = codecs.open('social_graph.txt', 'a', encoding='utf-8')
-        self.__PRINT_FRIEND_GRAPH__ = 0 # for debuggin purpose. 
+        self.__PRINT_FRIEND_GRAPH__ = 0 # for debug in purpose. 
         self.browser = mechanize.Browser()
-        self.browser.addheaders = [('User-Agent', 'Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.16) Gecko/20110322 Fedora/3.6.16-1.fc14 Firefox/3.6.16')]
-        self.browser.set_handle_equiv(True)
+        self.browser.addheaders = [('User-Agent', 'Googlebot')]#Googlebot
+        self.browser.set_handle_equiv(False)
         self.browser.set_handle_redirect(True)
-        self.browser.set_handle_refresh(False)
-        self.browser.set_handle_gzip(False)
-        self.browser.set_debug_redirects(True)
         self.browser.set_handle_robots(False)
         self.browser._factory.is_html = True
         self.linkqueue = Queue.Queue() 
-        initialFeedId = 'shumin.guo' # '100000458708905' if you don't have name, use id instead. 
-        self.linkqueue.put(initialFeedId)
+        self.initialFeedId = 'shumin.guo' # username or id. 
         self.friendlinks = {initialFeedId:'Initial'}
         self.logger = logging.getLogger("mechanize_redirects")
         self.logger.addHandler(logging.StreamHandler(sys.stdout))
@@ -34,10 +30,13 @@ class crawler:
 
     def login(self):
         ''' Log onto facebook with a facebook account. '''
+        self.browser.set_handle_equiv(False)
+        self.browser.set_handle_robots(False)
         self.browser.open('https://login.facebook.com/login.php')
+        self.browser._factory.is_html = True
         self.browser.select_form(nr=0)
-        self.browser['email'] = 'gsmsteve@gmail.com' # 'gsm1011@163.com' #'gsmsteve@gmail.com'
-        self.browser['pass'] = 'Gsm1011!' # 'changeme123' # 'Gsm1011!'
+        self.browser['email'] = 'gsmsteve@gmail.com' # change to your facebook email. 
+        self.browser['pass'] = 'Gsm1011!' # change to your facebook password. 
         response = self.browser.submit() 
         if response != None:
             print "Logged into facebook ...... "
@@ -45,18 +44,34 @@ class crawler:
             print 'Facebook login failed ...... '
         return response 
 
-    def getProfileLink(self, friend_id):
+    def getLink(self, friend_id, id_type):
         ''' Return the profile link of a friend according to the friend id. ''' 
 
         if self.friendlinks.has_key(friend_id): 
             if re.compile('\D').findall(friend_id) == []: # feed id is numerical.
-                profileurl = 'http://www.facebook.com/profile.php?id=' + friend_id
-            else:
-                profileurl = 'http://www.facebook.com/' + friend_id # feed id is alphabetical.
+                profileurl = 'http://www.facebook.com/profile.php?id=' + friend_id + '&sk=' + id_type
+            else:               # feed id is alphabetical.
+                profileurl = 'http://www.facebook.com/' + friend_id + '?sk=' + id_type
             return profileurl
         else:
             return ''
 
+    def getFriendCount(self):
+        ''' How many friends does a user have? '''
+        friend_count = self.browser.find_link(text_regex=re.compile('Friends ([0-9]+)'), nr=2)
+        fcount = ''
+        if friend_count == None: 
+            fcount = 'friendcount:N/A\t'
+        else:
+            friends_link = friend_count.find('span',{'class':'fcg'})
+            print friends_link, friend_count
+            counttext = friends_link.a.string 
+            idx1 = counttext.find('(')
+            idx2 = counttext.find(')')
+            count = counttext[idx1+1:idx2]
+            fcount = 'friendcount:'+count + '\t'
+        
+        return fcount 
 
     def loadSocialGraph(self, file_name):
         ''' Load the social graph from a given file. '''
@@ -65,52 +80,74 @@ class crawler:
             # current user and source user. 
             cur_user = line.split(" ")[0]
             src_user = line.split(" ")[1]
-            print "Loaded friend", cur_user, "from friend", src_user
+            print "Loaded", cur_user, "from friend", src_user
             if not self.friendlinks.has_key(cur_user):
                 self.linkqueue.put(cur_user)
                 self.friendlinks[cur_user] = src_user 
-        
+
     def doCrawl(self):
         # The following block is commented because I just want to read in the social graph 
         # and then do the crawling, if you want to build a new social graph, please uncomment this block. 
         ''' This is the scheduler of the crawler. 
         It first builds a friend list to be crawled, and then crawle the 
         profiles, wallposts etc. The crawling can be multi-threaded. ''' 
+        doBuildGraph = False
+        doVisibilityTest = True
+        doGetProfile = True
+        doGetWallposts = True
         self.loadSocialGraph('social_graph.txt') 
+        if self.linkqueue.qsize() == 0: 
+            self.linkqueue.put(self.initialFeedId)
         self.login()
+        user_profiles = codecs.open('user_profiles.txt','a', encoding='utf-8')
+        user_wallposts = codecs.open('user_wallposts.txt','a', encoding='utf-8')
         # First step: build the social graph. 
-        '''while self.linkqueue.qsize() > 0:
-            if len(self.friendlinks) >= self.CRAWLE_COUNT:
+        while self.linkqueue.qsize() > 0:
+            if len(self.friendlinks) - self.linkqueue.qsize() >= self.CRAWLE_COUNT:
                 break
             friend = self.linkqueue.get()
             print "Crawling user :", friend, ", TODO: ", self.linkqueue.qsize(), " TOTAL: ", len(self.friendlinks) 
+            
+            # First, get current user profile. 
+            if doGetProfile == True:
+                url = self.getLink(friend, 'info')
+                profilepage = ''.join(self.browser.open(url).read())
+                profiles = extractProfile(profilepage)
+                if profiles == None or profiles == 'failed': 
+                    profilepage = ''.join(self.browser.open(url).read())
+                    profiles = extractProfile(profilepage)
+                    
+            # Second, Test left column item visibility. 
+            if doVisibilityTest == True: 
+                url = self.getLink(friend, 'friends')
+                listpage = ''.join(self.browser.open(url).read())
+                visibility = testVisibleItems(listpage)
+                resultstr = friend + '\t' + visibility + '\t' + profiles
+                user_profiles.write(unicode(resultstr) + '\n')
+                user_profiles.flush()
 
-            # try two times. 
-            if not self.buildSocialGraph(friend): 
-                time.sleep(5)
-                self.buildSocialGraph(friend)
-            # Extract the profiles of user. 
-            profiles = self.getFriendProfiles(friend)
-            resultstr = "{" + friend + "}{" + profiles + "}"
-            print resultstr
-        self.social_graph.close() '''
+            # Build social graph to crawl more users. 
+            if doBuildGraph == True:
+                if not buildSocialGraph(friend, listpage, self.linkqueue, \
+                                            self.friendlinks, self.social_graph): 
+                    time.sleep(5)
+                    buildSocialGraph(friend, listpage, self.linkqueue, \
+                                         self.friendlinks, self.social_graph)
 
-        # Second step: Crawl the facebook user profiles. 
-        user_profiles = codecs.open('user_profiles.txt','a', encoding='utf-8')
-        for friend in self.friendlinks.keys():
-            profiles = self.getFriendProfiles(friend)
-            resultstr = "{" + friend + "}{" + profiles + "}"
-            user_profiles.write(unicode(resultstr) + '\n')
-            user_profiles.flush()
+            # Third, Crawl the wall post of current user. 
+            if doGetWallposts == True:
+                url = self.getLink(friend, 'wall')
+                response = self.browser.open(url)
+                # TODO: how to get wallposts as many as we can??? 
+                wallpage = ''.join(response.read())
+                wallposts = extractWallPosts(wallpage)
+                user_wallposts.write(unicode(wallposts))
+                user_wallposts.flush()
+
         user_profiles.close() 
-
-        # Third step: Crawl the facebook user wallposts.  
-        user_wallposts = codecs.open('user_wallposts.txt','a', encoding='utf-8')
-        for friend in self.friendlinks.keys():
-            wallposts = self.getWallPosts(friend)
-            wallposts.write(unicode(wallposts))
-            wallposts.flush()
         user_wallposts.close()
+        self.social_graph.close() 
+        return 
             
 if __name__ == "__main__":
     fbcrawler = crawler() 
