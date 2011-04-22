@@ -35,8 +35,8 @@ class crawler:
         self.browser.open('https://login.facebook.com/login.php')
         self.browser._factory.is_html = True
         self.browser.select_form(nr=0)
-        self.browser['email'] = 'gsmsteve@gmail.com' # change to your facebook email. 
-        self.browser['pass'] = 'Gsm1011!' # change to your facebook password. 
+        self.browser['email'] = 'gsm1011@163.com' # change to your facebook email. 
+        self.browser['pass'] = 'changeme123' # change to your facebook password. 
         response = self.browser.submit() 
         if response != None:
             print "Logged into facebook ...... "
