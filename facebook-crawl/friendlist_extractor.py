@@ -101,7 +101,7 @@ def testVisibleItems(page):
     # friendsoup = BeautifulSoup(''.join(open(page).read()))
     friendsoup = BeautifulSoup(page)
     friends = friendsoup.html.body.findAll(name='div')
-    friends1 = BeautifulSoup(''.join(unicode(friends)))
+    friends1 = BeautifulSoup(''.join(str(friends)))
     friend_div = friends1.find(name='div',attrs={'id':'pagelet_left_column'})
 
     # Test if items are visible?
