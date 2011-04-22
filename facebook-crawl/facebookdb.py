@@ -161,7 +161,6 @@ if __name__ == "__main__":
     if len(sys.argv) != 4:
         print 'USAGE: python', sys.argv[0], 'email password userid'
     else:
-        print sys.argv, len(sys.argv), sys.argv[0], sys.argv[1], sys.argv[2], sys.argv[3]
         fbcrawler = crawler(sys.argv[1], sys.argv[2], sys.argv[3]) 
         fbcrawler.doCrawl()
 
