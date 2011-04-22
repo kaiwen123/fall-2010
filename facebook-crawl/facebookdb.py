@@ -9,7 +9,7 @@ class crawler:
     ''' This the facebook crawler class. It will download facebook pages 
     and parse the source html file and output the desired information. ''' 
 
-    def __init__(self):
+    def __init__(self, useremail, passwd, userid):
         ''' Initilize the crawler. ''' 
         self.CRAWLE_COUNT = 10000 # how many users to crawl? 
         self.social_graph = codecs.open('social_graph.txt', 'a', encoding='utf-8')
@@ -21,7 +21,9 @@ class crawler:
         self.browser.set_handle_robots(False)
         self.browser._factory.is_html = True
         self.linkqueue = Queue.Queue() 
-        self.initialFeedId = 'shumin.guo' # username or id. 
+        self.initialFeedId = userid # username or id. 
+        self.useremail = useremail
+        self.passwd = passwd
         self.friendlinks = {self.initialFeedId:'Initial'}
         self.logger = logging.getLogger("mechanize_redirects")
         self.logger.addHandler(logging.StreamHandler(sys.stdout))
@@ -35,8 +37,8 @@ class crawler:
         self.browser.open('https://login.facebook.com/login.php')
         self.browser._factory.is_html = True
         self.browser.select_form(nr=0)
-        self.browser['email'] = 'gsm1011@163.com' # change to your facebook email. 
-        self.browser['pass'] = 'changeme123' # change to your facebook password. 
+        self.browser['email'] = self.useremail # change to your facebook email. 
+        self.browser['pass'] = self.passwd # change to your facebook password. 
         response = self.browser.submit() 
         if response != None:
             print "Logged into facebook ...... "
@@ -156,7 +158,11 @@ class crawler:
         return 
             
 if __name__ == "__main__":
-    fbcrawler = crawler() 
-    fbcrawler.doCrawl()
+    if len(sys.argv) != 4:
+        print 'USAGE: python', sys.argv[0], 'email password userid'
+    else:
+        print sys.argv, len(sys.argv), sys.argv[0], sys.argv[1], sys.argv[2], sys.argv[3]
+        fbcrawler = crawler(sys.argv[1], sys.argv[2], sys.argv[3]) 
+        fbcrawler.doCrawl()
 
     # TODO. Debug to crawl the content of the profile page. 
