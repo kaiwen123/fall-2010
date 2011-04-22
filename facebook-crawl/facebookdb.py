@@ -67,12 +67,14 @@ class crawler:
             count = 'N/A'
             if friends_link != None:
                 counttext = friends_link.a.string 
-                idx1 = counttext.find('(')
-                idx2 = counttext.find(')')
-                if idx1 >= 0 and idx2 >= 2: 
-                    count = counttext[idx1+1:idx2]
-                    if count == '':
-                        count = 'N/A'
+                # there might be other people other than friends. 
+                if counttext.find('Friends (') >= 0:
+                    idx1 = counttext.find('(')
+                    idx2 = counttext.find(')')
+                    if idx1 >= 0 and idx2 >= 2: 
+                        count = counttext[idx1+1:idx2]
+                        if count == '':
+                            count = 'N/A'
             fcount = 'friendcount:'+count + '\t'
         
         return fcount 
