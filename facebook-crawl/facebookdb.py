@@ -22,7 +22,7 @@ class crawler:
         self.browser._factory.is_html = True
         self.linkqueue = Queue.Queue() 
         self.initialFeedId = 'shumin.guo' # username or id. 
-        self.friendlinks = {initialFeedId:'Initial'}
+        self.friendlinks = {self.initialFeedId:'Initial'}
         self.logger = logging.getLogger("mechanize_redirects")
         self.logger.addHandler(logging.StreamHandler(sys.stdout))
         self.logger.setLevel(logging.INFO)
