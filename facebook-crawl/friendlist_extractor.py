@@ -100,22 +100,19 @@ def testVisibleItems(page):
     ''' test which items are visible? (wall, info, photo, notes and
     friends)'''  
     DEBUG = False
-    try:
-        # friendsoup = BeautifulSoup(''.join(open(page).read()))
-        friendsoup = BeautifulSoup(page)
-        friends = friendsoup.html.body.findAll(name='div')
-        friends1 = BeautifulSoup(''.join(str(friends)))
-        friend_div = friends1.find(name='div',attrs={'id':'pagelet_left_column'})
+    # friendsoup = BeautifulSoup(''.join(open(page).read()))
+    friendsoup = BeautifulSoup(page)
+    friends = friendsoup.html.body.findAll(name='div')
+    friends1 = BeautifulSoup(''.join(str(friends)))
+    friend_div = friends1.find(name='div',attrs={'id':'pagelet_left_column'})
 
-        # Test if items are visible?
-        wall = friend_div.find('li',{'id':'navItem_wall'})
-        info = friend_div.find('li',{'id':'navItem_info'})
-        photos = friend_div.find('li',{'id':'navItem_photos'})
-        notes = friend_div.find('li',{'id':'navItem_notes'})
-        friends = friend_div.find('li',{'id':'navItem_friends'})
-        questions = friend_div.find('li',{'id':'navItem_questions'})
-    except:
-        return ''
+    # Test if items are visible?
+    wall = friend_div.find('li',{'id':'navItem_wall'})
+    info = friend_div.find('li',{'id':'navItem_info'})
+    photos = friend_div.find('li',{'id':'navItem_photos'})
+    notes = friend_div.find('li',{'id':'navItem_notes'})
+    friends = friend_div.find('li',{'id':'navItem_friends'})
+    questions = friend_div.find('li',{'id':'navItem_questions'})
 
     # How many friends does this user have ?
     friend_count = friend_div.find('div',{'id':'pagelet_relationships'})
