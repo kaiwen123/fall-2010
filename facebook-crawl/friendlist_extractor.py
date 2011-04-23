@@ -1,4 +1,4 @@
-import mechanize,re 
+import mechanize,re, codecs
 from BeautifulSoup import BeautifulSoup, NavigableString, UnicodeDammit
 
 def buildSocialGraph(fromfriend, page, linkqueue=None, \
