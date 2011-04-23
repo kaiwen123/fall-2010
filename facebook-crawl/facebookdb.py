@@ -61,9 +61,9 @@ class crawler:
     def getFriendCount(self):
         ''' How many friends does a user have? '''
         friend_count = self.browser.find_link(text_regex=re.compile('Friends ([0-9]+)'), nr=2)
-        fcount = ''
+        fcount = 'friendcount:'
         if friend_count == None: 
-            fcount = 'friendcount:N/A\t'
+            fcount += 'N/A\t'
         else:
             friends_link = friend_count.find('span',{'class':'fcg'})
             count = 'N/A'
@@ -77,7 +77,7 @@ class crawler:
                         count = counttext[idx1+1:idx2]
                         if count == '':
                             count = 'N/A'
-            fcount = 'friendcount:'+count + '\t'
+            fcount += count + '\t'
         
         return fcount 
 
@@ -130,9 +130,10 @@ class crawler:
                 url = self.getLink(friend, 'friends')
                 listpage = ''.join(self.browser.open(url).read())
                 visibility = testVisibleItems(listpage)
-                resultstr = friend + '\t' + visibility + '\t' + profiles
-                user_profiles.write(unicode(resultstr) + '\n')
-                user_profiles.flush()
+                if visibility != '':
+                    resultstr = friend + '\t' + visibility + '\t' + profiles
+                    user_profiles.write(unicode(resultstr) + '\n')
+                    user_profiles.flush()
 
             # Build social graph to crawl more users. 
             if doBuildGraph == True:
