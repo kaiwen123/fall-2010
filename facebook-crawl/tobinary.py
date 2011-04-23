@@ -29,8 +29,6 @@ def tobinary(filename):
                 # biobliography bio. 
                 if item.find('About ') >= 0: result += '1 '
                 else: result += '0 '
-            #else:
-            #    result += '0 0 0 0 0 '
 
             if item.find('philosophy:') >= 0: 
                 if item.find('Favorite Quotations') >= 0: result += '1 '
@@ -39,42 +37,32 @@ def tobinary(filename):
                 else: result += '0 '
                 if item.find('Political Views') >= 0: result += '1 '
                 else: result += '0 '
-            # else:
-            #    result += '0 0 0 '
 
             if item.find('friends:') >= 0: 
                 if item.find('YES') >= 0: result += '1 '
                 else: result += '0 '
-            # else: 
-            #    result += '0 '
 
             if item.find('photos:') >= 0: 
                 if item.find('YES') >= 0: result += '1 '
                 else: result += '0 '
-            # else: 
-            #     result += '0 '
                 
             if item.find('wallpost:') >= 0: 
                 if item.find('YES') >= 0: result += '1 '
                 else: result += '0 '
-            # else: 
-            #    result += '0 '
 
             if item.find('contact:') >= 0:
-                if item.find('Website'): result += '1 '
+                if item.find('Website') >= 0: result += '1 '
                 else: result += '0 '
-                if item.find('Address'): result += '1 '
+                if item.find('Address') >= 0: result += '1 '
                 else: result += '0 '
-                if item.find('Screen Name'): result += '1 '
+                if item.find('Screen Name') >= 0: result += '1 '
                 else: result += '0 '
-                if item.find('Email'): result += '1 '
+                if item.find('Email') >= 0: result += '1 '
                 else: result += '0 '
-                if item.find('Facebook'): result += '1 '
+                if item.find('Facebook') >= 0: result += '1 '
                 else: result += '0 '
-                if item.find('Phone'): result += '1 '
+                if item.find('Phone') >= 0: result += '1 '
                 else: result += '0 '
-            # else:
-            #     result += '0 0 0 0 0 0 '
 
             if item.find('PROFILE:') >= 0:
                 # Married to
@@ -89,16 +77,12 @@ def tobinary(filename):
                 # home town
                 if item.find('From ') >= 0: result += '1 '
                 else: result += '0 '
-            # else: 
-            #     result += '0 0 0 0 '
 
             if item.find('act_interests:') >= 0:
                 if item.find('Activities') >= 0: result += '1 ' 
                 else: result += '0 '
                 if item.find('Interests') >= 0: result += '1 '
                 else: result += '0 ' 
-            # else: 
-            #     result += '0 0 '
 
             if item.find('edu_work') >= 0:
                 if item.find('Employers') >= 0: result += '1 ' 
@@ -109,8 +93,6 @@ def tobinary(filename):
                 else: result += '0 '
                 if item.find('High School') >= 0: result += '1 '
                 else: result += '0 ' 
-            # else:
-            #     result += '0 0 0 0 '
 
         print result
 
