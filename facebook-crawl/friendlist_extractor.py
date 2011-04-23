@@ -96,7 +96,7 @@ def buildSocialGraph(fromfriend, page, linkqueue=None, \
             if DEBUG == True:
                 print friend_id, friend_name, friend_link
     except: 
-        social_graph_log = open('social_graph.log')
+        social_graph_log = open('social_graph.log', 'a')
         social_graph_log.write('Error while building friend list for user ' + fromfriend)
         social_graph_log.close()
         return False
