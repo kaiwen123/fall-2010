@@ -9,10 +9,10 @@ def buildSocialGraph(fromfriend, page, linkqueue=None, \
     friend_dict - the dictionary to unique the friend list. 
     ''' 
     DEBUG = False
-    friendsoup = BeautifulSoup(unicode(page))
+    friendsoup = BeautifulSoup(page)
     # friendsoup = BeautifulSoup(''.join(open(filename).read()))
     friends = friendsoup.html.body.findAll(name='div')
-    friends1 = BeautifulSoup(''.join(unicode(friends)))
+    friends1 = BeautifulSoup(''.join(str(friends)))
     friend_div = friends1.find(name='div',attrs={'id':'pagelet_main_column_personal'})
     # print friend_div
     if friend_div == None: return False # friend list not public. 

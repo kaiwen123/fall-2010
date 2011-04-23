@@ -136,11 +136,8 @@ class crawler:
 
             # Build social graph to crawl more users. 
             if doBuildGraph == True:
-                if not buildSocialGraph(friend, listpage, self.linkqueue, \
-                                            self.friendlinks, self.social_graph): 
-                    time.sleep(5)
-                    buildSocialGraph(friend, listpage, self.linkqueue, \
-                                         self.friendlinks, self.social_graph)
+                buildSocialGraph(friend, listpage, self.linkqueue, \
+                                self.friendlinks, self.social_graph)
 
             # Third, Crawl the wall post of current user. 
             if doGetWallposts == True:
