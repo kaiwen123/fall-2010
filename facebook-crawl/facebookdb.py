@@ -102,7 +102,7 @@ class crawler:
         doBuildGraph = False
         doVisibilityTest = True
         doGetProfile = True
-        doGetWallposts = True
+        doGetWallposts = False
         self.loadSocialGraph('social_graph.txt') 
         if self.linkqueue.qsize() == 0: 
             self.linkqueue.put(self.initialFeedId)
