@@ -36,7 +36,7 @@ class crawler:
         self.browser.set_handle_robots(False)
         self.browser.open('https://login.facebook.com/login.php')
         self.browser._factory.is_html = True
-	try:
+        try:
             self.browser.select_form(nr=0)
             self.browser['email'] = self.useremail # change to your facebook email. 
             self.browser['pass'] = self.passwd # change to your facebook password. 
