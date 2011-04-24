@@ -129,6 +129,7 @@ class crawler:
                         profilepage = ''.join(self.browser.open(url).read())
                         profiles = extractProfile(profilepage)
                 except:
+                    self.linkqueue.put(friend)
                     self.login()
                     continue
                     
@@ -143,13 +144,15 @@ class crawler:
                         user_profiles.write(unicode(resultstr) + '\n')
                         user_profiles.flush()
                 except:
+                    self.linkqueue.put(friend)                    
                     self.login()
                     continue
 
             # Build social graph to crawl more users. 
             if doBuildGraph == True:
-                buildSocialGraph(friend, listpage, self.linkqueue, \
-                                self.friendlinks, self.social_graph)
+                if len(self.friendlinks) <= self.CRAWLE_COUNT: 
+                    buildSocialGraph(friend, listpage, self.linkqueue, \
+                                         self.friendlinks, self.social_graph)
 
             # Third, Crawl the wall post of current user. 
             if doGetWallposts == True:
@@ -162,6 +165,7 @@ class crawler:
                     user_wallposts.write(unicode(wallposts))
                     user_wallposts.flush()
                 except:
+                    self.linkqueue.put(friend)
                     self.login() 
                     continue 
 
