@@ -102,7 +102,7 @@ class crawler:
         ''' This is the scheduler of the crawler. 
         It first builds a friend list to be crawled, and then crawle the 
         profiles, wallposts etc. The crawling can be multi-threaded. ''' 
-        doBuildGraph = False
+        doBuildGraph = True 
         doVisibilityTest = True
         doGetProfile = True
         doGetWallposts = False
