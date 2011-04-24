@@ -36,9 +36,12 @@ class crawler:
         self.browser.set_handle_robots(False)
         self.browser.open('https://login.facebook.com/login.php')
         self.browser._factory.is_html = True
-        self.browser.select_form(nr=0)
-        self.browser['email'] = self.useremail # change to your facebook email. 
-        self.browser['pass'] = self.passwd # change to your facebook password. 
+	try:
+            self.browser.select_form(nr=0)
+            self.browser['email'] = self.useremail # change to your facebook email. 
+            self.browser['pass'] = self.passwd # change to your facebook password. 
+        except:
+            pass
         response = self.browser.submit() 
         if response != None:
             print "Logged into facebook ...... "
@@ -99,7 +102,7 @@ class crawler:
         ''' This is the scheduler of the crawler. 
         It first builds a friend list to be crawled, and then crawle the 
         profiles, wallposts etc. The crawling can be multi-threaded. ''' 
-        doBuildGraph = True 
+        doBuildGraph = False
         doVisibilityTest = True
         doGetProfile = True
         doGetWallposts = False
@@ -118,22 +121,30 @@ class crawler:
             
             # First, get current user profile. 
             if doGetProfile == True:
-                url = self.getLink(friend, 'info')
-                profilepage = ''.join(self.browser.open(url).read())
-                profiles = extractProfile(profilepage)
-                if profiles == None or profiles == 'failed': 
+		try:
+                    url = self.getLink(friend, 'info')
                     profilepage = ''.join(self.browser.open(url).read())
                     profiles = extractProfile(profilepage)
+                    if profiles == None or profiles == 'failed': 
+                        profilepage = ''.join(self.browser.open(url).read())
+                        profiles = extractProfile(profilepage)
+                except:
+                    self.login()
+                    continue
                     
             # Second, Test left column item visibility. 
             if doVisibilityTest == True: 
-                url = self.getLink(friend, 'friends')
-                listpage = ''.join(self.browser.open(url).read())
-                visibility = testVisibleItems(listpage)
-                if visibility != '':
-                    resultstr = friend + '\t' + visibility + '\t' + profiles
-                    user_profiles.write(unicode(resultstr) + '\n')
-                    user_profiles.flush()
+                try: 
+                    url = self.getLink(friend, 'friends')
+                    listpage = ''.join(self.browser.open(url).read())
+                    visibility = testVisibleItems(listpage)
+                    if visibility != '':
+                        resultstr = friend + '\t' + visibility + '\t' + profiles
+                        user_profiles.write(unicode(resultstr) + '\n')
+                        user_profiles.flush()
+                except:
+                    self.login()
+                    continue
 
             # Build social graph to crawl more users. 
             if doBuildGraph == True:
@@ -142,13 +153,17 @@ class crawler:
 
             # Third, Crawl the wall post of current user. 
             if doGetWallposts == True:
-                url = self.getLink(friend, 'wall')
-                response = self.browser.open(url)
-                # TODO: how to get wallposts as many as we can??? 
-                wallpage = ''.join(response.read())
-                wallposts = extractWallPosts(wallpage)
-                user_wallposts.write(unicode(wallposts))
-                user_wallposts.flush()
+                try: 
+                    url = self.getLink(friend, 'wall')
+                    response = self.browser.open(url)
+                    # TODO: how to get wallposts as many as we can??? 
+                    wallpage = ''.join(response.read())
+                    wallposts = extractWallPosts(wallpage)
+                    user_wallposts.write(unicode(wallposts))
+                    user_wallposts.flush()
+                except:
+                    self.login() 
+                    continue 
 
         user_profiles.close() 
         user_wallposts.close()
