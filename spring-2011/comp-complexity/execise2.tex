@@ -1,0 +1,138 @@
+\documentclass{article}
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{algorithmic,algorithm}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{ulem}
+\usepackage{graphicx,float,wrapfig}
+\usepackage{pifont}
+\usepackage{hyperref}
+\usepackage{pstricks,pst-node,pst-tree}
+\usepackage{pdftricks}
+\usepackage{subfigure}
+\usepackage{multicol}
+\usepackage{enumerate}
+\usepackage{pifont}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{color}
+%\usepackage{mathabx}
+\usepackage{ulsy}
+\usepackage{textcomp}
+\newcommand{\tickYes}{\checkmark}
+\newcommand{\tickNo}{\hspace{1pt}\ding{55}}
+
+\definecolor{listinggray}{gray}{0.9}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+
+\lstset{
+	%backgroundcolor=\color{lbcolor},
+	tabsize=4,
+	rulecolor=,
+	language=c++,
+        basicstyle=\setstretch{1},
+        upquote=true,
+        aboveskip={\baselineskip},
+        columns=fixed,
+        showstringspaces=false,
+        extendedchars=true,
+        breaklines=true,
+        prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+        %frame=single,
+        showtabs=false,
+        showspaces=false,
+        showstringspaces=false,
+        identifierstyle=\ttfamily,
+        keywordstyle=\color[rgb]{0,0,1},
+        commentstyle=\color[rgb]{0.133,0.545,0.133},
+        stringstyle=\color[rgb]{0.627,0.126,0.941},
+}
+
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=0in     %
+\oddsidemargin=0in      %
+\textwidth=7.0in        %
+\textheight=9.2in       %
+\headsep=0.25in         %
+
+\renewcommand\headrulewidth{0.4pt}                                      %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\begin{center}
+\textbf{\Huge{CS 740 Execise Set 2}}\\
+\textsc{Shumin Guo}
+\end{center}
+
+\begin{enumerate}
+  \setcounter{enumi}{3}
+\LARGE{\item Show: If $\lim\limits_{\substack{n \to
+      \infty}}\frac{f(n)}{g(n)} = c$, with $0<c<\infty$, then $f\in
+  \Theta(g)$ and $g\in \Theta(f)$.} 
+
+\large{
+\begin{align*}
+  & \lim_{x \to \infty}\frac{f(n)}{g(n)} = c \\
+  & \Rightarrow \lim_{x \to \infty}\frac{f(n)}{g(n)} = \frac{c.g(n)}{g(n)}  \\
+  & \Rightarrow \lim_{x \to \infty}\frac{f(n)-c.g(n)}{g(n)} = 0 \\
+  & \Rightarrow f(n)-c.g(n) \in O(g(n)),~[1.11(1)] \\
+  & \Rightarrow \exists~ C~ and~ n_0~ s.t.~ f(n)-c.g(n)\le C.g(n)~for~all~
+  n\ge n_0 \\
+  & \Rightarrow f(n) \le (c+C).g(n)~ for~ all~ n\ge n_0
+\end{align*}
+
+Let $C^{\prime} = (c+C)$, we have $f(n) \le C^{\prime}.g(n)$ for all
+$n\ge n_0$. 
+
+$\therefore$ we have $f\in O(g)$. 
+
+Similarly, 
+\begin{align*}
+  & \lim_{n \to \infty}\frac{f(n)}{g(n)} = c,~where~ c\in (0,\infty) \\
+  & \Rightarrow \lim_{n \to \infty}\frac{g(n)}{f(n)} = 
+  \frac{1}{c},[\frac{1}{c}\in (0, \infty)]. \\
+  & \Rightarrow \lim_{n\to \infty}\frac{c.g(n)}{c.f(n)} =
+  \frac{f(n)}{c.f(n)} \\
+  & \Rightarrow \lim_{n\to \infty}\frac{c.g(n)-f(n)}{c.f(n)} = 0 \\
+  & \Rightarrow c.g(n)-f(n)\in O(c.f(n))~ [1.11(1)]\\ 
+  & \Rightarrow \exists C~and~n_0~ s.t.~ c.g(n)-f(n)\le
+  C.cf(n)~ for~ all~ n\ge n_0. \\
+  & \Rightarrow c.g(n) \le f(n) + C.c.f(n)~ for~ all~ n\ge n_0.  \\ 
+  & \Rightarrow g(n) \le \frac{1}{c}(1+C.c).f(n)~ for~ all~
+  n\ge n_0 \\
+  & \Rightarrow Let~ C^{\prime} = \frac{1}{c}(1+C.c),~ we~
+  have~ g(n) \le C^{\prime}f(n)~ for~ all~ n\ge n_0. \\
+  & \Rightarrow g(n)\in O(f(n)).  \\
+  & \Rightarrow f\in \Theta(g)~ and~ g\in \Theta(f)~ (1.5). 
+\end{align*}
+
+% According to the definition of $\Theta$-notation, we have $f\in
+% \Theta(g)$ and $g\in \Theta(f)$.
+}
+
+% \LARGE{\item Show: If $\lim_{n \to \infty}\frac{f(n)}{g(n)}=\infty$,
+%   then $f\notin O(g)$ and $g\in O(f)$.}
+
+% \large{
+% \[\lim_{n\to \infty}\frac{f(n)}{g(n)} = \infty
+% \Rightarrow \lim_{n\to \infty}\frac{g(n)}{f(n)} = 0\] 
+% According to Theorem 1.11(1), we have $g\in O(f)$. 
+
+% Let's assume $f\in O(g)$, then $\exists C$ and $n_0$, s.t. $f(n)\le
+% C.g(n)$ for all $n\ge n_0$. 
+
+% $\Rightarrow \frac{f(n)}{g(n)}\le C$ for all $n\ge n_0$. 
+
+% \[\therefore \lim_{n\to \infty}\frac{f(n)}{g(n)}\le C
+% \Rightarrow \lim_{n\to \infty}\frac{g(n)}{f(n)}\le \frac{1}{C} \neq 0 \blitzb
+% \]
+% }
+
+\end{enumerate}
+\end{document}
