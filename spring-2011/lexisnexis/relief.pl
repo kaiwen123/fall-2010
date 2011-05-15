@@ -6,20 +6,19 @@
 # @param NoSample Number of samples.
 # @param Threshold difference threshold.
 # @return T Selection features ranked by weight.
-use strict; 			# enforce good programming rules. 
-if ($#ARGV != 4){
-    print 'Usage: \n';
-    print 'perl relief.pl D N NoSample Threshold';
+# use strict; 			# enforce good programming rules. 
+if ($#ARGV+1 != 3){
+    print "Usage: \n";
+    print "perl relief.pl D NoSample Threshold\n";
     exit;
-} else {
-    print "@ARGV"
 }
 
 # Variable initilization. 
-%datasetfreq = {};	      # global feature/word frequency.
-%dataset = {};		      # dataset token freq per data item/line.
-%datalabel = {};	      # text class/label.
-%W = {};		      # feature weight. 
+# Pay attention to the initialization of hashes. 
+%datasetfreq = ();	      # global feature/word frequency.
+%dataset = ();		      # dataset token freq per data item/line.
+%datalabel = ();	      # text class/label.
+%W = ();		      # feature weight. 
 @T = ();		      # selected features. 
 
 # load in data from file. 
@@ -29,21 +28,21 @@ if ($#ARGV != 4){
 # word each line. 
 open(INPUT, "$ARGV[0]");
 $count = 0;
+print %datasetfreq . "\n";
 while(<INPUT>){
-    print $_;
+    chomp;
     @tokens = split(/ /, $_);
     $datalabel{$count} = pop(@tokens);
     
     # calc word frequencies.
-    %wordfreq = {};
     for(my $i = 0; $i < $#tokens; $i++) {
 	# freq table for current line. 
-	if(exists $wordfreq{$tokens[$i]}) {
-	    $wordfreq{$tokens[$i]}++;
+	if(exists $dataset{$count}{$tokens[$i]}) {
+	    $dataset{$count}{$tokens[$i]}++;
 	} else {
-	    $wordfreq{$tokens[$i]} = 1;
+	    $dataset{$count}{$tokens[$i]} = 1;
 	}
-
+	
 	# a global word frequency table. 
 	if (exists $datasetfreq{$tokens[$i]}) {
 	    $datasetfreq{$tokens[$i]}++; 
@@ -51,8 +50,6 @@ while(<INPUT>){
 	    $datasetfreq{$tokens[$i]} = 1;
 	}
     }
-    $dataset{$count} = %wordfreq; 
-
     $count++;
 }
 
@@ -66,17 +63,17 @@ for my $key (keys %datasetfreq) {
 #
 # First generate $NoSample number of random numbers. 
 @randsel = ();
-$NoSample = $ARGV[2];	# Nosample. 
-for(my $i = 0; $i < $NoSample; $i++) {
+$NoSample = "$ARGV[1]";	# Nosample. 
+for(my $i = 0; $i < $NoSample-1; $i++) {
     my $sel = int(rand($#dataset));
     push(@randsel, $sel);
 }
 
 # Second, update the value of feature weight according to: 
 # Wj = Wj - diff(xj,nearHit)^2 + diff(xj,nearMissj)^2. 
-for $sel (@randsel) {
-    $nearHitkey = &nearHit(\%dataset, \%datalabel, $sel);
-    $nearMisskey = &nearMiss(\%dataset, \%datalabel, $sel);
+for $randsel (@randsel) {
+    $nearHitkey = &nearHit(\%dataset, \%datalabel, $randsel);
+    $nearMisskey = &nearMiss(\%dataset, \%datalabel, $randsel);
     # 
     # update the weight for each feature.
     # It updates the weights of the features that are initialized to
@@ -87,26 +84,23 @@ for $sel (@randsel) {
     # 
     my $dkey = 0; 
     for my $feature (keys %W) {
-	my $diff1 = diff(\%dataset, $feature, $dkey, $nearMisskey); 
-	my $diff2 = diff(\%dataset, $feature, $dkey, $nearHitkey);
+	my $diff1 = &diff(\%dataset, $feature, $dkey, $nearMisskey); 
+	my $diff2 = &diff(\%dataset, $feature, $dkey, $nearHitkey);
 	my $diff = $diff1 * $diff1 - $diff2 * $diff2; 
-	$W{$feature} += $diff; 	
+	$W{$feature} += $diff;
 	$dkey++;
     }
 }
 
 # Select features according to the input threshold. 
 # And return.
-$threshold = $ARGV[3];
+$threshold = $ARGV[2];
 for $feature (keys %W) {
     if($W{$feature} >= $threshold) {
 	push(@T, $feature); 
-	print "$features is selected with weight $W{$feature}.\n";
+	print "$feature is selected with weight $W{$feature}.\n";
     }
 }
-
-print "@T";
-
 
 # ============================================================
 # 
@@ -122,6 +116,7 @@ print "@T";
 # @param dataset, datalabel references and randomly selected key. 
 # @return The selected data key meeting the nearHit rule. 
 sub nearHit {
+    print "near hit. \n";
     # $dsref - reference to the dataset reference. 
     # $dlref - reference to the dataset label. 
     # $dkey - Key of the randomly selected data item. 
@@ -132,7 +127,7 @@ sub nearHit {
     for my $key (keys %{$dsref}) {
 	my $class1 = ${$dlref}{$key}; 
 	if ($class == $class1) {
-	    $distance = &distance($dsref, $dkey, $key);
+	    my $distance = &distance($dsref, $dkey, $key);
 	    if ($mindistance > $distance) {
 		$mindistance = $distance; 
 		$retkey = $key; 
@@ -148,6 +143,7 @@ sub nearHit {
 # @param dataset, datalabel references and randomly selected key. 
 # @return The selected data key meeting the nearMiss rule. 
 sub nearMiss {
+    print "near miss. \n";
     # $dsref - reference to the dataset reference. 
     # $dlref - reference to the dataset label. 
     # $dkey - Key of the randomly selected data item. 
@@ -158,7 +154,7 @@ sub nearMiss {
     for my $key (keys %{$dsref}) {
 	my $class1 = ${$dlref}{$key}; 
 	if ($class != $class1) {
-	    $distance = &distance($dsref, $dkey, $key);
+	    my $distance = &distance($dsref, $dkey, $key);
 	    if ($mindistance > $distance) {
 		$mindistance = $distance; 
 		$retkey = $key; 
@@ -174,7 +170,7 @@ sub nearMiss {
 # @param $key1 key of data item 1; 
 # @param $key2 key of data item 2;
 sub distance {
-    print "calculating distance @_"; 
+    print "calculating distance @_\n"; 
     my ($dsref, $key1, $key2) = $_[0], $_[1], $_[2]; 
     my (%data1, %data2) = ${$dsref}{$key1}, ${$dsref}{$key2};
     $distance = 0.0; 
@@ -191,12 +187,12 @@ sub distance {
 	    $distance += $data2{$key} * $data2{$key}; 
 	}	
     }
-    return $distance;
+    return sqrt($distance);
 }
 
 
 # @brief Calculate the difference of two data items, it is calculated
-# according to following rule. 
+# according to following rule. Relief-F.
 # diff(f, E1, E2) = 0 if value(f, E1) == value(f, E2); 
 # diff(f, E1, E2) = 1 if value(f, E1) != value(f, E2);
 # 
@@ -210,9 +206,12 @@ sub distance {
 # @return difference of two data item on $feature. 
 sub diff {
     my ($dsref, $feature, $dkey, $nearkey) = @_;
-    if (${$dsref}{$dkey}{$feature} == ${$dsref}{$nearkey}{$feature}) {
-	return 1; 
-    } else {
-	return 0; 
-    }
+
+    return ${$dsref}{$dkey}{$feature} - ${$dsref}{$nearkey}{$feature};
+    # below is the diff algorithm for Relief-F.
+    # if (${$dsref}{$dkey}{$feature} == ${$dsref}{$nearkey}{$feature}) {
+    # 	return 1; 
+    # } else {
+    # 	return 0; 
+    # }
 }
