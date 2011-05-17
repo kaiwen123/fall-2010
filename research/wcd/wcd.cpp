@@ -1,4 +1,6 @@
 #include "wcd.h"
+#include <iostream>
+#include <fstream>
 #include <boost/foreach.hpp>
 #include <boost/tokenizer.hpp>
 
@@ -22,7 +24,8 @@ WCD::WCD(string fname, int cap, int fo, int level){
 // @return true on success and false on failure. 
 bool WCD::phase1() {
   cout << "starting phase one...." << endl; 
-  ifstream ftrans(transfile.c_str());
+  ifstream ftrans;
+  ftrans.open(transfile.c_str(), ifstream::in);
   if(!ftrans) {
     cerr << "Error opening file to save map data" << endl;
     return false;
@@ -33,7 +36,7 @@ bool WCD::phase1() {
     string line;
     getline(ftrans, line); 
     char_separator<char> sep(" ");
-    tokenizer<char_separator<char>> tokens(line, sep);
+    tokenizer<char_separator<char> > tokens(line, sep);
     BOOST_FOREACH(string t, tokens) {
       cout << t << "." << endl;
       itemset.insert(t);	// 
@@ -59,14 +62,16 @@ bool WCD::phase1() {
 // @return true on success and false on failure. 
 bool WCD::phase2(int iter) {
   cout << "Staring phase two..." << endl; 
-  ifstream ftrans(transfile.c_str());
+  ifstream ftrans; 
+  ftrans.open(transfile.c_str(), ifstream::in);
+  map<string, int> trans;
   for(int i = 0; i < iter; i++) {
     int cnt = 0; 		// trans line number;
     while(ftrans) {
       string line;
       getline(ftrans, line); 
       char_separator<char> sep(" ");
-      tokenizer<char_separator<char>> tokens(line, sep);
+      tokenizer<char_separator<char> > tokens(line, sep);
       BOOST_FOREACH(string t, tokens) {
 	cout << t << "." << endl;
 	itemset.insert(t);	// 
@@ -77,7 +82,7 @@ bool WCD::phase2(int iter) {
 	}
       }
       // adjust trans to achieve highest ewcd. 
-      members[cnt] = adjust_trans(trans);
+      members[cnt] = adjust_trans(trans, cnt);
     }
     cnt++;
   }
@@ -89,25 +94,33 @@ bool WCD::phase2(int iter) {
 // @param trans the trans to be operated on. 
 // @return the membership of the inserted trans. 
 int WCD::insert_trans(map<string, int> &trans) {
-  return tree->insert(trans); // mem is membership. 
+  return tree->insert_trans(trans);
 }
 
 // @brief adjust the membership of a trans in the cluster. 
 // @param trans the transaction to work over. 
+// @param tid the id/line number of the transaction in dataset.
 // @return the cluster id that this trans belongs to. 
-int WCD::adjust_trans(map<string, int> &trans) {
-  return tree->adjust(trans); 
+int WCD::adjust_trans(map<string, int> &trans, int tid) {
+  int oldeid = members[tid]; 
+  // test the trans over entries. 1 means remove trans from entry 
+  // first and then test adding entry to all other clusters and 
+  // choose the one with highest EWCD gain. 
+  int neweid = tree->test_trans(trans, 1, oldeid);
+  return tree->adjust_trans(trans, oldeid, neweid); 
 }
 
 // @brief print labeled transactions. 
 // @param None
 // @return none. 
 void WCD::tprint() {
-  ifstream ftrans(transfile.c_str());
+  ifstream ftrans;
+  ftrans.open(transfile.c_str(), ifstream::in);
+  int cnt = 0; 
   while(ftrans) {
     string line;
     getline(ftrans, line); 
-    cout << memebers[i] << " " << line << endl; 
+    cout << members[cnt++] << " " << line << endl; 
   }
 }
 

@@ -1,17 +1,16 @@
-#include "cluster.h"
+#include "entry.h"
 
-
-Entry::Entry(int id):cid(id),sk(0),nk(0),wcd(0.0),sk2(0.0) {
-  isLeaf = true; 
-  cout << "Entry " << cid << " created..." << endl; 
+Entry::Entry(int id):eid(id),sk(0),nk(0),wcd(0.0),sk2(0.0) {
+  leaf = true; 
+  cout << "Entry " << eid << " created..." << endl; 
 }
 
 // @brief add a transaction to a cluster. The summry
 // information will be updated. 
 // @param trans the transaction to insert into Entry. 
-// @return true on success, false on failure. 
-bool Entry::add_trans(map<string, int>& trans) {
-  cout << "Adding trans to cluster " << cid << endl; 
+// @return the eid of the current entry. 
+int Entry::add_trans(map<string, int>& trans) {
+  cout << "Adding trans to cluster " << eid << endl; 
   map<string, int>::iterator it = trans.begin(); 
   while(it != trans.end()) {
     string t = it->first; 
@@ -21,20 +20,20 @@ bool Entry::add_trans(map<string, int>& trans) {
     } else {
       items[t] += cnt; 
     }
-    sk2 += 2 * items[t] + 1；
+    sk2 += 2 * items[t] + 1;
     it++;
   }
   sk += trans.size();
   nk++; 
   wcd = sk2 / sk;
-  return true; 
+  return eid;
 }
 
 // @brief remove trans from cluster. 
 // @param trans The trans to remove from cluster. 
-// @return true on success false on failure. 
-bool Entry::remove_trans(map<string, int>& trans) {
-  cout << "removing trans from cluster " << cid << endl; 
+// @return the eid of current entry. 
+int Entry::remove_trans(map<string, int>& trans) {
+  cout << "removing trans from cluster " << eid << endl; 
   map<string, int>::iterator it = trans.begin(); 
   while(it != trans.end()) {
     string t = it->first; 
@@ -44,22 +43,22 @@ bool Entry::remove_trans(map<string, int>& trans) {
     } else {
       items[t] += cnt; 
     }
-    sk2 -= 2 * items[t] + 1；
+    sk2 -= 2 * items[t] + 1;
     it++;
   }
   sk -= trans.size();
   nk--; 
   if (sk > 0) wcd = sk2 / sk;
   else wcd = 0.0; 
-  return true;  
+  return eid;
 }
 
 // @brief test the addition and removal of trans. 
 // @param type add(0) / remove(1)
 // @param trans the transaction to test. 
 // @return delta wcd on the addition or removal of trans.
-float Entry::test_trans(int type, map<string, int>& trans) {
-  ssk2 = 0.0; 
+float Entry::test_trans(map<string, int>& trans, int type) {
+  float ssk2 = 0.0; 
   map<string, int>::iterator it = trans.begin(); 
   while(it != trans.end()) {
     string t = it->first; 
@@ -83,7 +82,7 @@ float Entry::test_trans(int type, map<string, int>& trans) {
 }
 
 // split of clusters.
-Entry* Entry::split(Entry& c) {
+Entry* Entry::split() {
   Entry *cl = new Entry(1); 
   return cl;
 }

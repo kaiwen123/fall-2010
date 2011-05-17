@@ -17,23 +17,21 @@ class WCD {
  public:
   WCD(string fname, int cap, int fo, int level);
   bool phase1(); 
-  bool phase2();
+  bool phase2(int iter);
 
   /* get operations. */
   inline string getTransFile() {return transfile;}
 
-  /* add transaction into cluster. 
-   * test all the clusters and insert or remove from cluster to
-   * achieve the largest EWCD. 
-   */
-  bool insert_trans(map<string, int>& trans); 
-  bool remove_trans(map<string, int>& trans); 
+  // transaction operations.
+  int insert_trans(map<string, int>& trans); 
+  int adjust_trans(map<string, int>& trans, int tid); 
+  //int test_trans(map<string, int>& trans, int type, int member);
 
   /* output */
   void tprint();		/* print labeled transaction */
   void pprint(); 
-  inline ostream& operator<<(ostream& out, WCD& wcd) {
-    out << "wcd: " << wcd.getCapacity() << endl; 
+  friend ostream& operator<<(ostream& out, WCD& wcd) {
+    out << "wcd: " << wcd.transfile << endl; 
     return out; 
   }
 }; 

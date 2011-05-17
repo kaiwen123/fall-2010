@@ -1,31 +1,28 @@
 CPP = /usr/bin/g++
-#MACROS += -DDEBUG_DATA_LOAD
-#MACROS += -DDEBUG_DATA_LOADI
-#MACROS += -DDEBUG_ITEM_MAP
-#MACROS += -DDEBUG_ITEMSET_COMPARE
-#MACROS += -DDEBUG_LEVEL_TWO
-#MACROS += -DDEBUG_APRIORI
-#MACROS += -DDEBUG_ASSORULE
-#MACROS += -DDEBUG_APRIORI_JOIN
-#MACROS += -DDEBUG_APRIORI_PRUNE
-#MACROS += -DDEBUG_APRIORI_SCAN
-#MACROS += -DDEBUG_HASH_INSERT
-#MACROS += -DDEBUG_ASSORULE_PRINT
-#MACROS += -DDEBUG_HASH_INSERTSET
-#MACROS += -DDEBUG_APRIORI_TRAVERSAL
 
-CPPFLAGS = -O2 $(MACROS)
+# Debugging options. 
+MACROS += -DDEBUG_ALL
+MACROS += -DDEBUG_CFTREE
+MACROS += -DDEBUG_ENTRY
+MACROS += -DDEBUG_WCD
+
+MACROS += -DDEBUG_WCD_TEST
+MACROS += -DDEBUG_WCD_INSERT
+
+# Flags and compilation variables. 
+CPPFLAGS = -O2 # $(MACROS)
 LD = /usr/bin/ld
 LDFLAGS = -L/usr/lib -L/lib
 RM = /bin/rm -rf
-EXECUTABLE = AssoRuleMiner
+EXECUTABLE = ewcd
 DOX = /usr/bin/doxygen
 DOXCONF = Doxygen
 
-SRC = main.cpp DataSet.cpp Itemset.cpp AssoRule.cpp 
+SRC = main.cpp wcd.cpp cftree.cpp entry.cpp 
 
 OBJ = $(SRC:.cpp=.o)
 
+# Dependencies and operations. 
 all: $(EXECUTABLE)
 
 .SUFFIX: .o .cpp
