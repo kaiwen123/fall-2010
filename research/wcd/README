@@ -1,0 +1,118 @@
+Installation:
+==============================
+There is no need to install this program. 
+
+Compilation Instructioins
+==============================
+Type 'make' on the command line to compile the program. 
+
+How to run this program
+==============================
+Run this program by ./wcd <trans_file> <capacity> <fanout> <maxlevel>
+
+
+Technical details of the ewcd algorithm. 
+==============================
+Classes Description. 
+--------------------
+Entry is the clusters with summary information. 
+Ctree is a tree structure to host the structured entries. 
+wcd is the top level class to control the clustering of datasets. 
+
+two phases for data clustering. 
+-------------------------------
+Phase one will assign all the transactions to the clusters that can
+achieve the maximum EWCD. 
+
+Phase two is an adjustment process, which fetches each transaction
+from the dataset and test over all the clusters/entries and insert
+into the one that can achieve the highest EWCD. 
+
+Processes: 
+----------
+1, Initialization, parameters for initialization include capacity,
+index node fan out and max level of tree. 
+      capacity: the largest number of transactions a leaf node can
+      host. 
+      fanout: the largest number of children nodes an index node can
+      host. 
+      maxlevel: the maximum height/level of the clustering tree
+      structure. 
+2, Insert trans into cluster/entry, which can maxmize EWCD. The
+insertion can lead to the split of of entries. 
+
+3, remove trans from cluster/entry. 
+
+4, test the effects of trans on EWCD, which tests the transaction over
+all the leaf node clusters. 
+
+Algorithm Pseudo-code: 
+
+Phase1: 
+-------
+for all trans in dataset:	
+    for all existing clusters
+    	test the effect of EWCD for trans.
+	create new cluster and test over this cluster on the EWCD.
+	select one cluster that can maximize the EWCD. ->clutser_m
+	
+	if cluster_m is full 
+	   split the cluster
+	   	 insert trans into new cluster
+else 
+	insert transaction into cluster_m
+
+
+Phase2:
+------- 
+for all trans in dataset: 
+    for all existing clusters 
+    	remove this trans from existing cluster, and record EWCD
+	change. 
+		test the effect for EWCD by adding trans to all other
+		exiting clusters. 
+		select one cluster that maximize EWCD -> cluster_m
+		if cluster_m is full 
+		   create new cluster and insert this trans into this
+		   newly created cluster. 
+		   else 
+		   	insert cluster_m into 
+
+
+Split of node should be called from tree. 
+split: 
+The initial split node is always a leaf node, and its split can 
+cause the ancester nodes to split too, this process causes the grow
+of the cftree. 
+
+Notes: 
+The split of a leaf node is not actually a real split, it only 
+creates a new node as the node that is nearest to its wcd increment. 
+
+
+The split algorithm pseudo-code: 
+--------------------------------
+Input: a sibling node. // defines where to put the node? 
+Output: the newly create leaf node. 
+1, create a new entry leaf node. 
+2, assign the parent of the new node to be the same as the input 
+   sibling node. 
+3, check the fanout of the parent node.
+   go up until to the root node, 
+      // root split. 
+      if node is root node and it need split. 
+      	 create a new node and a new root. 
+	 set up the attributes of root node and the two nodes. 
+	 the parent node of the two nodes becomes root. 
+	 and assign the two nodes as the children nodes. 
+	 assign half of children of the previous node to the new node.
+	 
+      If the current node has an overflow, then 
+      	 create a new node and evenly distribute its children between
+   	 the old parent node and the new nonleaf node. 
+	 the two nonleaf node have the same parent as the node before
+	 split. 
+      else 
+       	 stop, and split is over. 
+   TODO: consider the maximum height of the tree.
+4, return true on success and false on failure. 
