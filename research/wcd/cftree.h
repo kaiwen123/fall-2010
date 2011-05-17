@@ -18,7 +18,7 @@ class Cftree {
   int g_sk;			/* total item occurance count. */
 
   // tree elements. 
-  Entry* root;			/* root of the tree. */
+  Entry* cfroot;		/* root of the tree. */
   map<int, Entry*> allentries; 	/* hash table of all entries. */
 
  public:

@@ -4,6 +4,7 @@ Entry::Entry(int id):eid(id),sk(0),nk(0),wcd(0.0),sk2(0.0) {
   leaf = true; 
   cout << "Entry " << eid << " created..." << endl; 
 }
+Entry::~Entry() {}
 
 // @brief add a transaction to a cluster. The summry
 // information will be updated. 

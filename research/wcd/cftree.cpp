@@ -17,7 +17,25 @@ Cftree::Cftree(int cap, int fo, int level) {
   maxtrans = cap;
   fanout = fo; 
   maxlevel = level; 
+
   // Initialize the tree with two entries on level 2.   
+  Entry* root = new Entry(allentries.size() + 1); 
+  allentries[root->getEid()] = root;
+  Entry* entry1 = new Entry(allentries.size() + 1);
+  allentries[entry1->getEid()] = entry1;
+  Entry* entry2 = new Entry(allentries.size() + 1);
+  allentries[entry1->getEid()] = entry2; 
+
+  // set parent, children and leaf property. 
+  root->unsetLeaf(); 
+  root->setParent(NULL);
+  entry1->setParent(root);
+  entry1->setLeaf();
+  entry2->setParent(root); 
+  entry2->setLeaf();
+  
+  // set root pointer.
+  cfroot = root; 
 }
 
 Cftree::~Cftree() {
@@ -57,20 +75,23 @@ bool Cftree::split(Entry* en) {
     cerr << "Only a leaf node can init split.." << endl; 
     return false; 
   }
-  int eid = allentries.size() + 1;
-  Entry *newen = new Entry(eid);
+  Entry *newen = new Entry(allentries.size() + 1);
   newen->setLeaf(); 
   newen->setParent(en->getParent());
+  // insert the new entry into the global table. 
+  allentries[newen->getEid()] = newen; 
   
   // go up until to the root of tree to check if the parent node 
   // also needs split or not.
   Entry *p = en->getParent();		// tmp node to parent.
   int childcnt = en->getChildCount(); 
   while(true) {
-    if (p->isOverFlow(p->getEid())) {
+    if (isOverFlow(p->getEid())) {
       if (p->isRoot()) {	// overflowed root. 
 	Entry* newroot = new Entry(allentries.size() + 1);
+	allentries[newroot->getEid()] = newroot;
 	Entry* newentry = new Entry(allentries.size() + 1); 
+	allentries[newentry->getEid()] = newentry; 
 	
 	// setup parent and leaf property.
 	newroot->setParent(NULL); newroot->unsetLeaf(); 
@@ -98,6 +119,9 @@ bool Cftree::split(Entry* en) {
 	}
       } else {			// overflowed nonroot. 
 	Entry* newentry = new Entry(allentries.size() + 1);
+	// add to table.
+	allentries[newentry->getEid()] = newentry;
+
 	newentry->setParent(en->getParent());
 	newentry->unsetLeaf();
 	// partition entries evenly to two nodes. 
