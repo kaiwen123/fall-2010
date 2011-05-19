@@ -1,52 +1,54 @@
 #ifndef _CFTree_H_
 #define _CFTree_H_
 #include "entry.h"
+#include "cfnode.h"
 #include <iostream>
 #include <vector>
 
 using namespace std; 
 
-class Cftree {
+class CFTree {
  private: 
-  // Entry and tree structure parameters.
-  int maxtrans; 		/* maxnum of trans for leaf node. */
-  int fanout;			/* maxnum of children for nonleaf nodes. */
-  int maxlevel; 		/* the maximum height of cftree. */
+  // Node and tree structure parameters.
+  int fanout;			/* max children for index nodes. */
+  int maxlevel; 		/* max height of cftree. */
+  int maxentry;			/* max number of entries in leaf. */
+  int level;			/* current level of tree. */
 
   // summary about overall transactions.
   int g_nk; 			/* total transaction count. */
   int g_sk;			/* total item occurance count. */
 
   // tree elements. 
-  Entry* cfroot;		/* root of the tree. */
-  map<int, Entry*> allentries; 	/* hash table of all entries. */
+  CFNode* cfroot;		/* root of the tree. */
 
  public:
-  Cftree(int cap, int fo, int level);
-  ~Cftree(); 
-  
+  CFTree(int fo, int maxentries, int level);
+  CFTree(CFNode* node); 
+  ~CFTree(); 
+
   // getters
-  inline int getLeafMaxTrans() {return maxtrans;}
-  inline int getFanout() {return fanout;} 
-  inline int getMaxlevel() {return maxlevel;}
-  inline int getGNk() {return g_nk;}
-  inline int getGSk() {return g_sk;}
-  
-  // get operation for nodes/entries. 
-  Entry* getNodeParent(int eid); 
-  map<int, Entry*>& getNodeChildren(int eid);
-  int getChildCount(int eid);
-  bool isOverFlow(int eid); 
+  int getFanout() {return fanout;} 
+  int getMaxlevel() {return maxlevel;}
+  int getMaxEntry() {return maxentry;}
+  int getGNk() {return g_nk;}
+  int getGSk() {return g_sk;}
+  CFNode* getRoot() {return cfroot;}
   
   // Operations related to the wcd algorithm. 
   int insert_trans(map<string, int>& trans);
-  int adjust_trans(map<string, int>& trans, int oldeid, int neweid);
-  int test_trans(map<string, int>& trans, int type, int member = -1);
-  void traverse(Entry* c);
+  int adjust_trans(map<string, int>& trans, int eid);
+  CFTree* choose_subtree(map<string, int>& trans, vector<CFNode*>& node);
+  void traverse(CFNode* root);
+  CFNode* findEntry(int eid);
 
   // tree operations. 
-  Entry* getEntryById(int eid) {return allentries[eid];}
-  bool split(Entry* en); 
+  bool isOverFlow(CFNode* node);
+  bool split(CFNode* node); 
+
+  // output. 
+  void pprint(); 
+  friend ostream& operator<<(ostream& out, CFTree& cftree);
 };
 
 #endif

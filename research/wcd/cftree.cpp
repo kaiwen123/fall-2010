@@ -4,137 +4,97 @@
 // @func constructor. 
 // @func insert_trans - transaction insertion. 
 // @func adjust_trans - adjustment of transactions.
-// @func test_trans - find the best entry to insert trans into. 
+// @func choose_subtree - find the best entry to insert trans into. 
 // @func print, output etc. 
 // ------------------------------------------------------------
 // 
-// @brief Cftree Constructor and distructor.
-// @param cap maxtrans in leaf node.
+// @brief CFTree Constructor and distructor.
 // @param fo fanout of nonleaf node. 
 // @param level maximum level of tree structure. 
 // @return None, constructor no return.
-Cftree::Cftree(int cap, int fo, int level) {
-  maxtrans = cap;
+CFTree::CFTree(int fo, int maxentries, int level) {
   fanout = fo; 
+  maxentry = maxentries; 
   maxlevel = level; 
+  level = 1; 			// only one root node. 
 
   // Initialize the tree with two entries on level 2.   
-  Entry* root = new Entry(allentries.size() + 1); 
-  allentries[root->getEid()] = root;
-  Entry* entry1 = new Entry(allentries.size() + 1);
-  allentries[entry1->getEid()] = entry1;
-  Entry* entry2 = new Entry(allentries.size() + 1);
-  allentries[entry1->getEid()] = entry2; 
+  CFNode* root = new CFNode(); 
 
-  // set parent, children and leaf property. 
-  root->unsetLeaf(); 
-  root->setParent(NULL);
-  entry1->setParent(root);
-  entry1->setLeaf();
-  entry2->setParent(root); 
-  entry2->setLeaf();
-  
   // set root pointer.
   cfroot = root; 
 }
 
-Cftree::~Cftree() {
-  // destruct all entries in the tree; 
-  map<int, Entry*>::iterator it = allentries.begin();
-  while(it != allentries.end()) {
-    cout << "Deleting entry " << it->first << endl;
-    delete it->second;
-    it++;
-  }
+CFTree::CFTree(CFNode* node) {
+  fanout = 3; 
+  maxentry = 10; 
+  maxlevel = 5; 
+  level = 1; 
+  cfroot = node; 
 }
+CFTree::~CFTree() {}
 
-// @brief Insert a transaction into entry. 
+// @brief Insert a transaction into entry. The insertion process
+// will traverse the whole clustering tree till to the leaf entries.
+// for each node, it tries to determine which child branch to go to. 
 // @param trans the transaction to insert into. 
-// @return entry id into which the transaction was inserted.
-int Cftree::insert_trans(map<string, int>& trans) {
-  // find the one to maximize eid. 
-  Entry* maxc = getEntryById(test_trans(trans, 0)); 
-  
-  // check the num of trans of the maxc entry.
-  if (maxc->getNk() >= maxtrans) {
-    // split of node comes here.
-    // how do we distribute the contents in the current entry. 
-    // 
-    Entry *ent = maxc->split();
-  }
-  maxc->add_trans(trans);
-  return maxc->getEid(); 
+// @return entry id where the trans was inserted into.
+int CFTree::insert_trans(map<string, int>& trans) {
+  // start from the root node. 
+  CFNode* maxn = cfroot; 	// best node to insert into. 
+  CFTree* subtree; 
+  while(1) {
+    int eid = maxn->add_trans(trans);
+    // if current node is leaf, insert the membership to members.
+    if (maxn->isLeaf()) {
+      // if node is overflow, split it and redistribute the entries. 
+      if(maxn->isLeafOverflow(maxentry)) {
+	split(maxn);
+      } 
+      return eid; 
+    }
+    // if not leaf node, insert to subtree recursively. 
+    subtree = choose_subtree(trans, maxn->getChildren());
+    subtree->insert_trans(trans);
+  }  
 }
 
 // @brief split a leaf node. 
 // @param en the node that are supposed to have the same parent as 
 // the newly generated node. 
 // @return true on success and false on failure. 
-bool Cftree::split(Entry* en) {
-  if (!en->isLeaf()) {
-    cerr << "Only a leaf node can init split.." << endl; 
+bool CFTree::split(CFNode* node) {
+  if(!node->isLeaf()) {
+    cerr << "split can only be initiated by leaf node. " << endl; 
     return false; 
   }
-  Entry *newen = new Entry(allentries.size() + 1);
-  newen->setLeaf(); 
-  newen->setParent(en->getParent());
-  // insert the new entry into the global table. 
-  allentries[newen->getEid()] = newen; 
-  
+
   // go up until to the root of tree to check if the parent node 
   // also needs split or not.
-  Entry *p = en->getParent();		// tmp node to parent.
-  int childcnt = en->getChildCount(); 
+  CFNode *p = node; // tmp node to parent.
   while(true) {
-    if (isOverFlow(p->getEid())) {
+    if (isOverFlow(p)) {
       if (p->isRoot()) {	// overflowed root. 
-	Entry* newroot = new Entry(allentries.size() + 1);
-	allentries[newroot->getEid()] = newroot;
-	Entry* newentry = new Entry(allentries.size() + 1); 
-	allentries[newentry->getEid()] = newentry; 
+	CFNode* newroot = new CFNode(); 
+	CFNode* newnode = new CFNode(); 
 	
-	// setup parent and leaf property.
-	newroot->setParent(NULL); newroot->unsetLeaf(); 
-	newentry->setParent(newroot); newentry->unsetLeaf(); 
+	// setup parent.
+	newroot->setParent(NULL);
+	p->setParent(newroot);
+	newnode->setParent(newroot);
 	
-	// assign children of previous node to the new nodes. 
-	newroot->insertChild(en); 
-	newroot->insertChild(newentry);
-	
-	// partition half of children to new entry. 
-	// currently this is done randomly. 
-	// may need to consider the ewcd metric over all the entries,
-	// so that we can partition according to similarity of
-	// clusters.
-	// TODO:
-	map<int, Entry*>::iterator it = en->getChildren().begin();
-	int cnt = 0; 
-	while(1) {
-	  newentry->insertChild(it->second); 
-	  en->eraseChild(it->first); 
-	  cnt++; it++;
-	  if (cnt >= childcnt / 2) {
-	    break; 
-	  }
-	}
+	// setup child nodes and reassign entries. 
+	p->partition(newnode);
+	newroot->addChild(p); 
+	newroot->addChild(newnode);
       } else {			// overflowed nonroot. 
-	Entry* newentry = new Entry(allentries.size() + 1);
-	// add to table.
-	allentries[newentry->getEid()] = newentry;
+	CFNode* newnode = new CFNode(); 
+	// parent and child relation. mutual. 
+	newnode->setParent(p->getParent());
+	p->getParent()->addChild(newnode);
 
-	newentry->setParent(en->getParent());
-	newentry->unsetLeaf();
 	// partition entries evenly to two nodes. 
-	map<int, Entry*>::iterator it = en->getChildren().begin();
-	int cnt = 0; 
-	while(1) {
-	  newentry->insertChild(it->second);
-	  en->eraseChild(it->first);
-	  cnt++; it++;
-	  if (cnt >= childcnt / 2) {
-	    break; 
-	  }
-	}
+	p->partition(newnode); 
       }
     } else {
       // no overflow anymore, stop here. 
@@ -145,130 +105,109 @@ bool Cftree::split(Entry* en) {
   return true; 
 }
 
-// @brief change a transaction from one entry to another.
-// @param the tranaction to be removed. 
-// @param eid the id of entry to remove from. 
-// @return the new entry id where the trans was adjusted to. 
-int Cftree::adjust_trans(map<string, int>& trans, int oldeid, int neweid) {
-  if (oldeid == neweid) {
-    return false;
-  } 
-  Entry* olden = allentries[oldeid];
-  Entry* newen = allentries[neweid];
-  // adjust now.
-  if (olden && newen) {
-    olden->remove_trans(trans);
-    newen->add_trans(trans);
+// @brief test if a node is overflow or not. 
+bool CFTree::isOverFlow(CFNode* node) {
+  if (node->isLeaf()) {
+    return node->isLeafOverflow(maxentry);
   } else {
-    cerr << "Entry id error." << endl; 
+    return node->isIndexOverflow(fanout); 
   }
-  return newen->getEid(); 
 }
 
-// @brief test and find the entry to achieve maximum EWCD. 
+// @brief adjust the membership of a transaction. 
+// @param the transaction to be adjusted.
+// @return the new entry id where the trans was adjusted to. 
+int CFTree::adjust_trans(map<string, int>& trans, int eid) {
+  // find the leaf node where this entry reside in. 
+  CFNode* node = findEntry(eid); 
+
+  // for all the entries in the leaf node, choose the one that
+  // can achieve highest ewcd metric and adjust accordingly.
+  float maxv = -1;
+  float v;
+  int  id; 
+  map<int, Entry*>::iterator it = node->getEntries().begin(); 
+  while(it++ != node->getEntries().end()) {
+    if (eid == (it->second)->getEid()) {
+      // the same entry, test removal. 
+      v = (it->second)->test_trans(trans, 1);
+      if (v > maxv) {
+	maxv = v;
+	id = eid; 
+      }
+    } else {
+      // different entry. 
+      v = (it->second)->test_trans(trans, 0);
+      if (v > maxv) {
+	maxv = v;
+	id = (it->second)->getEid(); 
+      }      
+    }
+  }
+  // do adjustment. 
+  node->getEntryById(eid)->remove_trans(trans); 
+  node->getEntryById(id)->add_trans(trans); 
+  return eid; 
+}
+
+// @brief Find where an entry with eid resides. 
+CFNode* CFTree::findEntry(int eid) {
+  CFNode* node = getRoot(); 
+  while(1) {
+    
+  }
+}
+
+// @brief choose the subtree to achieve maximum EWCD. 
+// if current node is leaf node, we compare the ewcd increment 
+// over all the entries with creating a new entry. 
 // @param trans the trans to test. 
-// @param type add(0) / remove(1) / remove then add(2).
-// @param eid the entry id where this trans reside in. 
-// @return the entry id where insertion of trans can achieve. 
-int Cftree::test_trans(map<string, int>& trans, int type, int member) {
-  Entry *maxc;		// entry that can achive largest ewcd.
+// @param the children of current entry.
+// @return the entry pointer where maximum EWCD is achived. 
+CFTree* CFTree::choose_subtree(map<string, int>& trans, vector<CFNode*>& children) {
+  CFNode *maxn;			// entry that can achive largest ewcd.
   float maxv = -1.0;		// maximum ewcd. 
   float v = 0.0; 		// temp
 
-  map<int, Entry *>::iterator it = allentries.begin();
-  if(0 == type) {			// addition. 
-    while(it != allentries.end()) {
-      if(((*it).second)->isLeaf()) {
-	v = (it->second)->test_trans(trans, 0);
-	if(maxv < v) {
-	  maxv = v;
-	  maxc = it->second;
-	}
+  vector<CFNode*>::iterator it = children.begin();
+  while(it++ != children.end()) {
+    if((*it)->isLeaf()) {
+      v = (*it)->test_trans(trans);
+      if(maxv < v) {
+	maxv = v;
+	maxn = *it;
       }
-      it++; 
     }
-  } else if(1 == type) {			// removal and then addition. 
-    if (member == -1) {
-      cerr << "please provide the entry id to remove from! " << endl; 
-      return -1; 
-    }
-    v = getEntryById(member)->test_trans(trans, 1); 
-    // current entry is the best choice. 
-    if (v > maxv) { 
-      maxv = v; 
-      maxc = getEntryById(member); 
-    }
-    // test all the other entries. 
-    while(it != allentries.end()) {
-      if(((it->second)->isLeaf()) && ((it->second)->getEid() != member)) {
-	v = (it->second)->test_trans(trans, 0); 
-	if(maxv < v) {
-	  maxv = v; 
-	  maxc = it->second; 
-	}
-      }
-      it++; 
-    }
-  } else {
-    cerr << "Wrong test_trans type, please choose from 0 and 1. " << endl; 
-    return -1; 
   }
-  return maxc->getEid();
+  // todo.
+  return new CFTree(maxn);
 }
 
-// @brief get parent pointer of a node. 
-// @param eid the entry id of the entry. 
-// @return the parent entry of current entry with eid. 
-// if entry does not exit, return NULL. 
-Entry* Cftree::getNodeParent(int eid) {
-  if (allentries.find(eid) != allentries.end()) {
-    return allentries[eid]->getParent(); 
-  } else {
-    return NULL; 
-  }
+// @brief traverse the tree and print out the summary info for each 
+// entry. 
+void CFTree::pprint() {
+  cout << *this << endl; 
 }
 
-// @brief get children of a node. 
-// @param the entry id of the entry to operate on. 
-// @return reference to the children map of this entry. 
-// in case if the entry doesn't exist, return NULL.
-map<int, Entry*>& Cftree::getNodeChildren(int eid) {
-  if (allentries.find(eid) != allentries.end()) {
-    return allentries[eid]->getChildren();
-  } else {
-    cerr << "can't get entry with eid " << eid << endl; 
-  }
-}
+// @brief overloading operator<<. do a 
+// preorder traversal of the tree. 
+// @param out, the output stream. 
+// @param cftree, the reference to the CFTree. 
+// @return the output stream reference. 
+ostream& operator<<(ostream& out, CFTree& cftree) {
+  CFNode* node = cftree.getRoot(); 
 
-// @brief get count of children for current node. 
-// @param eid the entry id to operate on.
-// @return number of children if entry exists. 
-// -1 in case entry with eid doesn't exist.
-int Cftree::getChildCount(int eid) {
-  if (allentries.find(eid) != allentries.end()) {
-    return allentries[eid]->getChildCount();
-  } else {
-    return -1; 
-  }
-}
-
-// @brief If the nonleaf node already contains the maximum 
-// number of child nodes. Or if the leaf node already contains 
-// maximum number of transactions. 
-// @param eid of the entry to operate on. 
-// @return true if the node is already full. 
-// false otherwise. 
-bool Cftree::isOverFlow(int eid) {
-  if (allentries.find(eid) == allentries.end()) {
-    cerr << "Node with eid " << eid << " does not exist." << endl; 
-    return false; 
-  } 
-
-  // different for leaf node and nonleaf node. 
-  Entry* en = allentries[eid]; 
-  if (en->isLeaf()) {		// leaf node. 
-    return (en->getNk() >= maxtrans); 
-  } else {			// nonleaf node. 
-    return (en->getChildCount() >= fanout); 
+  // visit current node first. 
+  // if current node is leaf node, then output and return, 
+  // else, print current node, and then visit all the child
+  // nodes. 
+  out << *node << endl; 
+  if(node->isLeaf()) { return out; }
+  else {
+    vector<CFNode*>::iterator it = node->getChildren().begin(); 
+    while(it++ != node->getChildren().end()) {
+      CFTree* subtree = new CFTree(*it); 
+      out << *subtree;
+    } 
   }
 }

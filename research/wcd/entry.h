@@ -2,6 +2,7 @@
 #define _Entry_H_
 #include <string>
 #include <iostream>
+#include <vector>
 #include <map>
 
 using namespace std; 
@@ -17,48 +18,29 @@ class Entry {
   bool leaf; 			/* if this entry is a leaf node. */
   map<string, int> items; 	/* items summary in this entry. */
   
-  // pointers for the cftree structure. 
-  Entry* parent; 		/* parent of current entry. */
-  map<int, Entry*> children; /* vector of all children for current entry. */
-
+  static int e_counter; 	/* for generating globally unique eid. */
  public:
-  Entry(int id);
+  Entry();
   ~Entry();
 
   // getters for class. 
-  inline bool isLeaf() {return leaf;}
-  inline int getEid() {return eid;}
-  inline int getSk() {return sk;}
-  inline int getNk() {return nk;}
-  inline float getWcd() {return wcd;}
-  inline int getSk2() {return sk2;}
-  Entry* getParent() {return parent;}
-  bool isRoot() {return NULL == parent;}
-  map<int, Entry*>& getChildren() {return children;}
-  int getChildCount() {return children.size();}
+  bool isLeaf() {return leaf;}
+  int getEid() {return eid;}
+  int getSk() {return sk;}
+  int getNk() {return nk;}
+  float getWcd() {return wcd;}
+  int getSk2() {return sk2;}
+  int generateId() {return e_counter++;}
 
-  // setters .
-  void setLeaf(){leaf = true;}
-  void unsetLeaf() {leaf = false;}
-  void setParent(Entry* en) {parent = en;}
-  void insertChild(Entry* child) {children[child->getEid()] = child;}
-  void eraseChild(int eid) {children.erase(eid);}
-  
   // core operations over the entry/cluster.
-  Entry* split();
   int add_trans(map<string, int>& trans);
   int remove_trans(map<string, int>& trans);
   float test_trans(map<string, int>& trans, int type);
-  bool rand_init();
 
   // print and output operations.
-  friend ostream& operator<<(ostream& out, Entry& en) {
-    out << "Entry summary: " << endl;
-    out << en.getEid() << ":" << "sk = " << en.getSk() << " " 
-	<< "nk = " << en.getNk() << " " 
-	<< "wcd = " << en.getWcd() << endl;
-    return out; 
-  }
+  bool operator<(Entry* en){return (wcd < en->getWcd()); }
+  friend ostream& operator<<(ostream& out, Entry& en);
+  void pprint(); 
 };
 
 

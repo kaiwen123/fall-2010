@@ -18,7 +18,7 @@ EXECUTABLE = ewcd
 DOX = /usr/bin/doxygen
 DOXCONF = Doxygen
 
-SRC = main.cpp wcd.cpp cftree.cpp entry.cpp 
+SRC = main.cpp wcd.cpp cftree.cpp cfnode.cpp entry.cpp 
 
 OBJ = $(SRC:.cpp=.o)
 

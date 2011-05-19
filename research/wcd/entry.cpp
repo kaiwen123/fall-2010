@@ -1,15 +1,18 @@
 #include "entry.h"
 
-Entry::Entry(int id):eid(id),sk(0),nk(0),wcd(0.0),sk2(0.0) {
-  leaf = true; 
+// @brief constructor of Entry class, which initializes 
+// summary variables and generate a globally unique id. 
+Entry::Entry():sk(0),nk(0),wcd(0.0),sk2(0.0) {
   cout << "Entry " << eid << " created..." << endl; 
+  eid = generateId(); 
 }
+
 Entry::~Entry() {}
 
 // @brief add a transaction to a cluster. The summry
 // information will be updated. 
 // @param trans the transaction to insert into Entry. 
-// @return the eid of the current entry. 
+// @return *this* entry id. 
 int Entry::add_trans(map<string, int>& trans) {
   cout << "Adding trans to cluster " << eid << endl; 
   map<string, int>::iterator it = trans.begin(); 
@@ -27,12 +30,12 @@ int Entry::add_trans(map<string, int>& trans) {
   sk += trans.size();
   nk++; 
   wcd = sk2 / sk;
-  return eid;
+  return eid; 
 }
 
 // @brief remove trans from cluster. 
 // @param trans The trans to remove from cluster. 
-// @return the eid of current entry. 
+// @return eid of *this* entry. 
 int Entry::remove_trans(map<string, int>& trans) {
   cout << "removing trans from cluster " << eid << endl; 
   map<string, int>::iterator it = trans.begin(); 
@@ -51,7 +54,7 @@ int Entry::remove_trans(map<string, int>& trans) {
   nk--; 
   if (sk > 0) wcd = sk2 / sk;
   else wcd = 0.0; 
-  return eid;
+  return eid; 
 }
 
 // @brief test the addition and removal of trans. 
@@ -82,13 +85,20 @@ float Entry::test_trans(map<string, int>& trans, int type) {
   }
 }
 
-// split of clusters.
-Entry* Entry::split() {
-  Entry *cl = new Entry(1); 
-  return cl;
+// overloading the operator<< for output.
+ostream& operator<<(ostream& out, Entry& en) {
+  out << "Entry summary: " << endl;
+  out << en.getEid() << ":" << "sk = " << en.getSk() << " " 
+      << "nk = " << en.getNk() << " " 
+      << "wcd = " << en.getWcd() << endl;
+  map<string, int>::iterator it = items.begin();
+  while(it++ != items.end()) {
+    out << it->first << ":" << it->second << endl; 
+  }
+  return out; 
 }
 
-// randomly intialize the cluster. 
-bool Entry::rand_init() {
-
+// Another print interface.
+void Entry::pprint() {
+  cout << *this; 
 }

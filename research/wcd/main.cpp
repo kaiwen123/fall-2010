@@ -27,12 +27,12 @@ int main(int argc, const char* argv[]) {
   // paramter handling.
   if(argc != 4) { usage(); return 1; }
   string fname = argv[0]; 
-  int cap = atoi(argv[1]);
-  int fanout = atoi(argv[2]);
+  int fanout = atoi(argv[1]);
+  int maxentries = atoi(argv[2]);
   int level = atoi(argv[3]);
 
   // wcd object and phase1 and phase2 operations. 
-  WCD *wcd = new WCD(fname, cap, fanout, level);
+  WCD *wcd = new WCD(fname, fanout, maxentries, level);
 
   // phase one.
   wcd->phase1(); 
@@ -48,10 +48,10 @@ int main(int argc, const char* argv[]) {
 
 // Usage of the program. 
 void usage() {
-  cerr << "USAGE:\n./wcd <trans_file> <capacity> <fanout> <maxlevel>\n";
+  cerr << "USAGE:\n./wcd <trans_file> <fanout> <maxentry> <maxlevel>\n";
   cerr << "trans_file: file name of transaction.\n"
-       << "capacity  : capacity of a cluster." << endl
-       << "fanout    : maximum children nodes for nonleaf (internal) node.\n"
+       << "fanout    : max child nodes for nonleaf (internal) node.\n"
+       << "maxentries: max entries in leaf. \n"
        << "maxlevel  : maximum level of tree." << endl;
   return; 
 }

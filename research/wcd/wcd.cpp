@@ -11,10 +11,9 @@ using namespace boost;
 // @param cap the maximum number of trans a leaf entry can host.
 // @param fo the fanout of the nonleaf node.
 // @param level the maximum level of clustering tree. 
-WCD::WCD(string fname, int cap, int fo, int level){
+WCD::WCD(string fname, int fo, int maxentries, int level){
   transfile = fname; 
-  // initialize two clusters and put them onto tree. 
-  tree = new Cftree(cap, fo, level);
+  tree = new CFTree(fo, maxentries, level);
 }
 
 // @brief phase one of the wcd process, all trans will be 
@@ -39,25 +38,30 @@ bool WCD::phase1() {
     tokenizer<char_separator<char> > tokens(line, sep);
     BOOST_FOREACH(string t, tokens) {
       cout << t << "." << endl;
-      itemset.insert(t);	// 
+      if (items.find(t) != items.end()) {
+	items[t]++; 
+      } else {
+	items[t] = 1;
+      }
+      // items.insert(t);	// 
       if(trans.find(t) == trans.end()) {
 	trans[t] = 1; 
       } else {
 	trans[t]++; 
       }
     }
-    // add trans into clusters.
-    members[cnt] = insert_trans(trans);
-    cnt++; 
+    // add trans into entries.
+    members[cnt++] = tree->insert_trans(trans);
   }
   ftrans.close();
   return true; 
 }
 
 // @brief phase two of the wcd process. 
-// this is the iterative adjustment phase, it test all the 
-// transaction over all the clusters and choose the one that
+// this is the iterative membership adjustment phase, for each trans,
+// it test the ewcd increment over all the clusters and choose the one that
 // can maximize the EWCD. 
+// currently, I only adjust membership among the leaf node entries. 
 // @param iter number of adjustive iterations. 
 // @return true on success and false on failure. 
 bool WCD::phase2(int iter) {
@@ -74,7 +78,11 @@ bool WCD::phase2(int iter) {
       tokenizer<char_separator<char> > tokens(line, sep);
       BOOST_FOREACH(string t, tokens) {
 	cout << t << "." << endl;
-	itemset.insert(t);	// 
+	if (items.find(t) != items.end()) {
+	  items[t]++; 
+	} else {
+	  items[t] = 1;
+	}	
 	if(trans.find(t) == trans.end()) {
 	  trans[t] = 1; 
 	} else {
@@ -82,32 +90,11 @@ bool WCD::phase2(int iter) {
 	}
       }
       // adjust trans to achieve highest ewcd. 
-      members[cnt] = adjust_trans(trans, cnt);
+      members[cnt] = tree->adjust_trans(trans, members[cnt]);
     }
-    cnt++;
   }
   ftrans.close();
   return true; 
-}
-
-// @brief insert trans into a cluster. 
-// @param trans the trans to be operated on. 
-// @return the membership of the inserted trans. 
-int WCD::insert_trans(map<string, int> &trans) {
-  return tree->insert_trans(trans);
-}
-
-// @brief adjust the membership of a trans in the cluster. 
-// @param trans the transaction to work over. 
-// @param tid the id/line number of the transaction in dataset.
-// @return the cluster id that this trans belongs to. 
-int WCD::adjust_trans(map<string, int> &trans, int tid) {
-  int oldeid = members[tid]; 
-  // test the trans over entries. 1 means remove trans from entry 
-  // first and then test adding entry to all other clusters and 
-  // choose the one with highest EWCD gain. 
-  int neweid = tree->test_trans(trans, 1, oldeid);
-  return tree->adjust_trans(trans, oldeid, neweid); 
 }
 
 // @brief print labeled transactions. 
@@ -122,6 +109,7 @@ void WCD::tprint() {
     getline(ftrans, line); 
     cout << members[cnt++] << " " << line << endl; 
   }
+  ftrans.close();
 }
 
 // @brief print information about the WCD object. 
@@ -130,5 +118,22 @@ void WCD::tprint() {
 // @param None. 
 // @return None. 
 void WCD::pprint() {
-  cout << *this << endl; 
+  // first output the global summary table. 
+  cout << *this;
+
+  // second, output the summary table for each entry. 
+  tree->pprint(); 
+}
+
+// @brief overloading operator << to output the global freq table. 
+// @param out, the output stream reference. 
+// @param wcd, reference to a wcd object. 
+// @return reference to the output stream object. 
+ostream& operator<<(ostream& out, WCD& wcd) {
+  map<string, int>::iterator it = wcd.getItemFreqTable().begin();
+  cout << "global item frequencies: " << endl; 
+  while(it != wcd.getItemFreqTable().end()) {
+    out << it->first << " : " << it->second << endl; 
+  }  
+  return out; 
 }
