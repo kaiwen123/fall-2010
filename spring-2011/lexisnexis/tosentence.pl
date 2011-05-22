@@ -1,15 +1,17 @@
 #!/usr/bin/perl -w
+# This script is to split paragraphs into sentences.
+# We used the Lingua::EN::Sentence package for this task. 
+# 
+use Lingua::EN::Sentence qw( get_sentences add_acronyms );
 
-open (FILE, "out1") || die " Cannot find file";
-open (OUT, ">sentence") || die " Cannot find file";
+open (INPUT, "out") || die " Cannot find file";
+# open (OUT, ">sentence") || die " Cannot find file";
 
-while (<FILE>) {
-
-if ($_ =~ /(.{20}\.)/g) {
-
-print OUT $1."\n";
-
+while (<INPUT>) {
+    my $sentence = get_sentences($_); 
+    foreach $sentence (@$sentence) {
+	print $sentence . "\n\n"; 
+    }
 }
 
-
-}
+close INPUT;

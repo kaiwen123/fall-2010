@@ -7,11 +7,11 @@
 # The format of our output is a string like this:
 # LNI::citation::casename
 
-open(INPUT, "$ARGV[0]"); 
-open(OUTPUT, ">citations"); 
+#open(INPUT, "$ARGV[0]"); 
+#open(OUTPUT, ">citations"); 
 
 # main block to process the docs. 
-while(<INPUT>) {
+while(<STDIN>) {
     $lnistr = &getLNI(\$_);
     $lnistr =~ s/://g;
     # citation for representation. 
@@ -68,7 +68,7 @@ sub getLCitation {
     }
     $temp =~ s/<.*?>//g;
     $temp =~ s/<\/.*?>//g;
-    print OUTPUT $lnistr.":".$actuallni.":".$temp."\n";
+    print STDOUT $lnistr.":".$actuallni.":".$temp."\n";
     }
     return ;
 }
@@ -83,7 +83,7 @@ sub getSCitation {
 	$temp = $3;
 	$temp =~ s/<.*?>//g;
 	$temp =~ s/<\/.*?>//g;
-	print OUTPUT $lnistr.":".$token.":".$temp."\n";
+	print STDOUT $lnistr.":".$token.":".$temp."\n";
     }
     return; 
 }
