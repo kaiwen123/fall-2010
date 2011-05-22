@@ -8,32 +8,26 @@
 # LNI::citation::casename
 
 open(INPUT, "$ARGV[0]"); 
-#open(OUTPUT, ">citations"); 
-
-#$sep = "::";
+open(OUTPUT, ">citations"); 
 
 # main block to process the docs. 
 while(<INPUT>) {
     $lnistr = &getLNI(\$_);
-    $cite = &getLCitation(\$_);
-
+    $lnistr =~ s/://g;
     # citation for representation. 
-    while ($docstr =~ /<courtcase:representation>(.*?)<\/courtcase:representation>/g) {
+    if ($_ =~ /<courtcase:representation>(.*?)<\/courtcase:representation>/g) {
 	$repstr = $1; 
 	# get link citation and statutory citation. 
-
-	# get the name of the citation. 
-	print $repstr . "\n";
+	&getLCitation($repstr);
+	&getSCitation($repstr);
     }
     # citation for opinion. 
-    while ($docstr =~ /<courtcase:opinion[^>]*?>(.*)<\/courtcase:opinion>/) {
-	$opinionstr = $1; 
-	print $opinionstr . "\n";
+    if ($_ =~ /<courtcase:opinion[^>]*?>(.*)<\/courtcase:opinion>/) {
+	$opinstr = $1; 
+	# get link citation and statutory ciations. 
+	&getLCitation($opinstr);
+	&getSCitation($opinstr);
     }
-
-    print $lnistr . "\n" . $cite . "\n";
-    #$citeid = &getCitation();
-    #$citename = &getCiateName(); 
 }
 
 # @brief get LNI for an issue document. Usually, each issue doc
@@ -44,8 +38,8 @@ while(<INPUT>) {
 # doc as a string, which is bounded by <lncr:doc> and </lncr:doc>
 # @return LNI string for the input issue document. 
 sub getLNI {
-    $docref = $_[0];
-    $docstr = $$docref;
+    my $docref = $_[0];
+    my $docstr = $$docref;
     my $lnistr; 
     if ($docstr =~ '<lncr:persistentidentifier>(.*)<\/lncr:persistentidentifier>')
     {
@@ -62,8 +56,37 @@ sub getLNI {
 # @param an input string containing the citation. 
 # @return the link citation. 
 sub getLCitation {
-    $refstr = $_[0];
-    
+    my $randtemp = $_[0];
+    while ($randtemp =~ /((.{200})(<lnci:cite ID=\"([^\"]*?)\"[^>]*?normprotocol=\"lexsee\"[^>]*>(.*?)<\/lnci:cite>))/g) {
+    $timepass = $2;
+    $temp = $5;
+    if ( $timepass =~ /lni=\"([A-Z0-9-]+)\"/){ 
+	$actuallni = $1; $actuallni =~ s/-//g; 
+    }
+    else { 
+	$actuallni = "";
+    }
+    $temp =~ s/<.*?>//g;
+    $temp =~ s/<\/.*?>//g;
+    print OUTPUT $lnistr.":".$actuallni.":".$temp."\n";
+    }
+    return ;
+}
+
+# @brief function to get the statutory citations. 
+# @param string that contains the citation text. 
+# @return the formated citation string, as follows: 
+# S_(cite_num)::TokenID::Actual citations. 
+sub getSCitation {
+    while ($_  =~ /(<lnci:cite ID=\"([^\"]*?)\"[^>]*?normprotocol=\"lexstat\"[^>]*>(.*?)<\/lnci:cite>)/g) {
+	$token = $2;
+	$temp = $3;
+	$temp =~ s/<.*?>//g;
+	$temp =~ s/<\/.*?>//g;
+	print OUTPUT $lnistr.":".$token.":".$temp."\n";
+    }
+    return; 
 }
 
 close INPUT;
+close OUTPUT; 
