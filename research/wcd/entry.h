@@ -18,7 +18,7 @@ class Entry {
   bool leaf; 			/* if this entry is a leaf node. */
   map<string, int> items; 	/* items summary in this entry. */
   
-  static int e_counter; 	/* for generating globally unique eid. */
+  static int e_counter;	     /* for generating globally unique eid. */
  public:
   Entry();
   ~Entry();
@@ -30,7 +30,8 @@ class Entry {
   int getNk() {return nk;}
   float getWcd() {return wcd;}
   int getSk2() {return sk2;}
-  int generateId() {return e_counter++;}
+  static int generateId() {return e_counter++;}
+  map<string, int>& getItems() {return items;}
 
   // core operations over the entry/cluster.
   int add_trans(map<string, int>& trans);
@@ -42,6 +43,5 @@ class Entry {
   friend ostream& operator<<(ostream& out, Entry& en);
   void pprint(); 
 };
-
 
 #endif

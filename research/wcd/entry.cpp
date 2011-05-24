@@ -1,10 +1,15 @@
 #include "entry.h"
 
+// Initialize the static variable. (take care of here).
+int Entry::e_counter = 0; 
+
 // @brief constructor of Entry class, which initializes 
 // summary variables and generate a globally unique id. 
 Entry::Entry():sk(0),nk(0),wcd(0.0),sk2(0.0) {
+  static int e_counter = 0; 
   cout << "Entry " << eid << " created..." << endl; 
   eid = generateId(); 
+  //eid = Entry::generateId(); 
 }
 
 Entry::~Entry() {}
@@ -91,8 +96,8 @@ ostream& operator<<(ostream& out, Entry& en) {
   out << en.getEid() << ":" << "sk = " << en.getSk() << " " 
       << "nk = " << en.getNk() << " " 
       << "wcd = " << en.getWcd() << endl;
-  map<string, int>::iterator it = items.begin();
-  while(it++ != items.end()) {
+  map<string, int>::iterator it = en.getItems().begin();
+  while(it++ != en.getItems().end()) {
     out << it->first << ":" << it->second << endl; 
   }
   return out; 
