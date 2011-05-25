@@ -8,7 +8,7 @@
 # LNI::citation::casename
 
 #open(INPUT, "$ARGV[0]"); 
-#open(OUTPUT, ">citations"); 
+open(OUTPUT, ">citations"); 
 
 # main block to process the docs. 
 while(<STDIN>) {
@@ -57,18 +57,23 @@ sub getLNI {
 # @return the link citation. 
 sub getLCitation {
     my $randtemp = $_[0];
+    my $i = 0;
     while ($randtemp =~ /((.{200})(<lnci:cite ID=\"([^\"]*?)\"[^>]*?normprotocol=\"lexsee\"[^>]*>(.*?)<\/lnci:cite>))/g) {
-    $timepass = $2;
-    $temp = $5;
+    my $timepass = $2;
+    my $string = $3; 
+    my $id = $4;
+    my $temp = $5;
     if ( $timepass =~ /lni=\"([A-Z0-9-]+)\"/){ 
-	$actuallni = $1; $actuallni =~ s/-//g; 
+	my $actuallni = $1; $actuallni =~ s/-//g; 
     }
     else { 
 	$actuallni = "";
     }
+    $i++; 
     $temp =~ s/<.*?>//g;
     $temp =~ s/<\/.*?>//g;
-    print STDOUT $lnistr.":".$actuallni.":".$temp."\n";
+    my $citation = $lnistr.":L_".$i."::".$id."::".$actuallni."::\t".$temp."\n";
+    print OUTPUT $citation;
     }
     return ;
 }
@@ -79,14 +84,15 @@ sub getLCitation {
 # S_(cite_num)::TokenID::Actual citations. 
 sub getSCitation {
     while ($_  =~ /(<lnci:cite ID=\"([^\"]*?)\"[^>]*?normprotocol=\"lexstat\"[^>]*>(.*?)<\/lnci:cite>)/g) {
-	$token = $2;
-	$temp = $3;
+	my $token = $2;
+	my $temp = $3;
 	$temp =~ s/<.*?>//g;
 	$temp =~ s/<\/.*?>//g;
-	print STDOUT $lnistr.":".$token.":".$temp."\n";
+	my $citation = $lnistr.":S_".$j."::$token\t$temp\n";
+	print OUTPUT $citation;
     }
     return; 
 }
 
-close INPUT;
+# close INPUT;
 close OUTPUT; 
