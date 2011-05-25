@@ -4,13 +4,13 @@
 # 
 use Lingua::EN::Sentence qw( get_sentences add_acronyms );
 
-open (INPUT, "out") || die " Cannot find file";
+open (INPUT, "$ARGV[0]") || die " Cannot find file";
 # open (OUT, ">sentence") || die " Cannot find file";
 
 while (<INPUT>) {
     my $sentence = get_sentences($_); 
     foreach $sentence (@$sentence) {
-	print $sentence . "\n\n"; 
+	print $sentence . "\n"; 
     }
 }
 
