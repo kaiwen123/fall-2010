@@ -12,21 +12,21 @@ open(OUTPUT, ">citations");
 
 # main block to process the docs. 
 while(<STDIN>) {
-    $lnistr = &getLNI(\$_);
+    my $lnistr = &getLNI(\$_);
     $lnistr =~ s/://g;
     # citation for representation. 
-    if ($_ =~ /<courtcase:representation>(.*?)<\/courtcase:representation>/g) {
-	$repstr = $1; 
+    if ($_ =~ /<courtcase:representation[^>]*?>(.*?)<\/courtcase:representation>/g) {
+	my $repstr = $1; 
 	# get link citation and statutory citation. 
-	&getLCitation($repstr);
-	&getSCitation($repstr);
+	&getLCitation($repstr, $lnistr);
+	&getSCitation($repstr, $lnistr);
     }
     # citation for opinion. 
-    if ($_ =~ /<courtcase:opinion[^>]*?>(.*)<\/courtcase:opinion>/) {
-	$opinstr = $1; 
+    if ($_ =~ /<courtcase:opinion[^>]*?>(.*?)<\/courtcase:opinion>/) {
+	my $opinstr = $1; 
 	# get link citation and statutory ciations. 
-	&getLCitation($opinstr);
-	&getSCitation($opinstr);
+	&getLCitation($opinstr, $lnistr);
+	&getSCitation($opinstr, $lnistr);
     }
 }
 
@@ -56,7 +56,7 @@ sub getLNI {
 # @param an input string containing the citation. 
 # @return the link citation. 
 sub getLCitation {
-    my $randtemp = $_[0];
+    my ($randtemp, $lnistr) = @_;
     my $i = 0;
     while ($randtemp =~ /((.{200})(<lnci:cite ID=\"([^\"]*?)\"[^>]*?normprotocol=\"lexsee\"[^>]*>(.*?)<\/lnci:cite>))/g) {
     my $timepass = $2;
@@ -64,7 +64,7 @@ sub getLCitation {
     my $id = $4;
     my $temp = $5;
     if ( $timepass =~ /lni=\"([A-Z0-9-]+)\"/){ 
-	my $actuallni = $1; $actuallni =~ s/-//g; 
+	$actuallni = $1; $actuallni =~ s/-//g; 
     }
     else { 
 	$actuallni = "";
@@ -72,7 +72,7 @@ sub getLCitation {
     $i++; 
     $temp =~ s/<.*?>//g;
     $temp =~ s/<\/.*?>//g;
-    my $citation = $lnistr.":L_".$i."::".$id."::".$actuallni."::\t".$temp."\n";
+    $citation = $lnistr.":L_".$i."::".$id."::".$actuallni."::\t".$temp."\n";
     print OUTPUT $citation;
     }
     return ;
@@ -80,15 +80,20 @@ sub getLCitation {
 
 # @brief function to get the statutory citations. 
 # @param string that contains the citation text. 
+# @param $lnistr The lni string from other source. 
 # @return the formated citation string, as follows: 
 # S_(cite_num)::TokenID::Actual citations. 
 sub getSCitation {
-    while ($_  =~ /(<lnci:cite ID=\"([^\"]*?)\"[^>]*?normprotocol=\"lexstat\"[^>]*>(.*?)<\/lnci:cite>)/g) {
+    my ($citestr, $lnistr) = @_; 
+    my $j = 0; 
+    while ($citestr =~ /(<lnci:cite ID=\"([^\"]*?)\"[^>]*?normprotocol=\"lexstat\"[^>]*>(.*?)<\/lnci:cite>)/g) {
+	$j++; 
+	my $string = $1; 
 	my $token = $2;
 	my $temp = $3;
 	$temp =~ s/<.*?>//g;
 	$temp =~ s/<\/.*?>//g;
-	my $citation = $lnistr.":S_".$j."::$token\t$temp\n";
+	$citation = $lnistr.":S_".$j."::$token\t$temp\n";
 	print OUTPUT $citation;
     }
     return; 
