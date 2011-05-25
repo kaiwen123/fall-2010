@@ -72,7 +72,7 @@ sub getLCitation {
     $i++; 
     $temp =~ s/<.*?>//g;
     $temp =~ s/<\/.*?>//g;
-    $citation = $lnistr.":L_".$i."::".$id."::".$actuallni."::\t".$temp."\n";
+    $citation = $lnistr.":L_".$i."::".$id."::".$actuallni."::".$temp."\n";
     print OUTPUT $citation;
     }
     return ;
@@ -93,7 +93,7 @@ sub getSCitation {
 	my $temp = $3;
 	$temp =~ s/<.*?>//g;
 	$temp =~ s/<\/.*?>//g;
-	$citation = $lnistr.":S_".$j."::$token\t$temp\n";
+	$citation = $lnistr.":S_".$j."::".$token."::".$temp."\n";
 	print OUTPUT $citation;
     }
     return; 
