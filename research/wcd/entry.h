@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include "config.h"
 
 using namespace std; 
 
@@ -30,7 +31,6 @@ class Entry {
   int getNk() {return nk;}
   float getWcd() {return wcd;}
   int getSk2() {return sk2;}
-  static int generateId() {return e_counter++;}
   map<string, int>& getItems() {return items;}
 
   // core operations over the entry/cluster.

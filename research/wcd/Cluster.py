@@ -12,7 +12,7 @@ class Cluster:
         self.parent = 0         # the parent node of this cluster. 
 	self.children = []      # children of this node. 
         self.leaf = True        # is current node leaf node? 
-        print 'cluster initialized...'
+        print 'cluster initialized'
 
     def split(self, ctree, capacity):
         ''' Split cluster into two clusters. 
@@ -77,7 +77,7 @@ class Cluster:
                 return self.wcd - (self.sk2 - sk2)/(self.sk-len(t))
 
     def rand_init(self, iset, l):
-        print 'Initialization success...'
+        print 'Initialization success'
         random.shuffle(iset)
         items = iset[:l]
         self.add_trans(items)

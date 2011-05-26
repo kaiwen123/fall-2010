@@ -25,17 +25,18 @@ void usage();
 // 
 int main(int argc, const char* argv[]) {
   // paramter handling.
-  if(argc != 4) { usage(); return 1; }
-  string fname = argv[0]; 
-  int fanout = atoi(argv[1]);
-  int maxentries = atoi(argv[2]);
-  int level = atoi(argv[3]);
+  if(argc != 5) { usage(); return 1; }
+  string fname = argv[1]; 
+  int fanout = atoi(argv[2]);
+  int maxentries = atoi(argv[3]);
+  int level = atoi(argv[4]);
 
   // wcd object and phase1 and phase2 operations. 
   WCD *wcd = new WCD(fname, fanout, maxentries, level);
 
   // phase one.
   wcd->phase1(); 
+  return 0;
 
   // phase two.
   wcd->phase2(2);

@@ -5,11 +5,9 @@ int Entry::e_counter = 0;
 
 // @brief constructor of Entry class, which initializes 
 // summary variables and generate a globally unique id. 
-Entry::Entry():sk(0),nk(0),wcd(0.0),sk2(0.0) {
-  static int e_counter = 0; 
-  cout << "Entry " << eid << " created..." << endl; 
-  eid = generateId(); 
-  //eid = Entry::generateId(); 
+Entry::Entry():sk(0),nk(0),wcd(0.0),sk2(0.0),leaf(false) {
+  eid = Entry::e_counter++;
+  DBG_ENTRY("Entry created");
 }
 
 Entry::~Entry() {}

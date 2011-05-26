@@ -21,11 +21,6 @@ class WCD {
   // getters.
   map<string, int>& getItemFreqTable() {return items;}
 
-  // transaction operations.
-  // int insert_trans(map<string, int>& trans); 
-  // int adjust_trans(map<string, int>& trans, int tid); 
-  // int test_trans(map<string, int>& trans, int type, int member);
-
   /* output */
   void tprint();		/* print labeled transaction */
   void pprint(); 

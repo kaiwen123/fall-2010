@@ -3,8 +3,8 @@
 
 // @brief Constructor. 
 CFNode::CFNode() {
-  Entry* entry = new Entry();
-  entries[entry->getEid()] = entry;  
+  addEntry(new Entry());
+  DBG_CFNODE("CFNode created");
 }
 
 // @brief test for choosing the subtree. 

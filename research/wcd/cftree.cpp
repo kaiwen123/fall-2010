@@ -19,10 +19,9 @@ CFTree::CFTree(int fo, int maxentries, int level) {
   level = 1; 			// only one root node. 
 
   // Initialize the tree with two entries on level 2.   
-  CFNode* root = new CFNode(); 
+  cfroot = new CFNode(); 
 
-  // set root pointer.
-  cfroot = root; 
+  DBG_CFTREE("CFTree Initialized");
 }
 
 CFTree::CFTree(CFNode* node) {

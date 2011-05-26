@@ -1,5 +1,6 @@
 #ifndef _CFTree_H_
 #define _CFTree_H_
+#include "config.h"
 #include "entry.h"
 #include "cfnode.h"
 #include <iostream>

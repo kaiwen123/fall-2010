@@ -1,3 +1,4 @@
+#include "config.h"
 #include "wcd.h"
 #include <iostream>
 #include <fstream>
@@ -14,6 +15,7 @@ using namespace boost;
 WCD::WCD(string fname, int fo, int maxentries, int level){
   transfile = fname; 
   tree = new CFTree(fo, maxentries, level);
+  DBG_WCD("WCD object initialized");
 }
 
 // @brief phase one of the wcd process, all trans will be 
@@ -22,18 +24,21 @@ WCD::WCD(string fname, int fo, int maxentries, int level){
 // @param none. 
 // @return true on success and false on failure. 
 bool WCD::phase1() {
-  cout << "starting phase one...." << endl; 
-  ifstream ftrans;
+  DBG_WCD("starting phase one");
+  fstream ftrans;
   ftrans.open(transfile.c_str(), ifstream::in);
   if(!ftrans) {
     cerr << "Error opening file to save map data" << endl;
     return false;
   }
+  DBG_WCD("Opened transaction input file " + transfile + ".");
   map<string, int> trans; 
   int cnt = 0; 
   while(ftrans) {
     string line;
     getline(ftrans, line); 
+    DBG_PHASE1(line);
+    continue;
     char_separator<char> sep(" ");
     tokenizer<char_separator<char> > tokens(line, sep);
     BOOST_FOREACH(string t, tokens) {
@@ -54,6 +59,7 @@ bool WCD::phase1() {
     members[cnt++] = tree->insert_trans(trans);
   }
   ftrans.close();
+  DBG_WCD("Ending Phase one");
   return true; 
 }
 
@@ -65,7 +71,7 @@ bool WCD::phase1() {
 // @param iter number of adjustive iterations. 
 // @return true on success and false on failure. 
 bool WCD::phase2(int iter) {
-  cout << "Staring phase two..." << endl; 
+  DBG_WCD("Staring phase two");
   ifstream ftrans; 
   ftrans.open(transfile.c_str(), ifstream::in);
   map<string, int> trans;
@@ -131,7 +137,7 @@ void WCD::pprint() {
 // @return reference to the output stream object. 
 ostream& operator<<(ostream& out, WCD& wcd) {
   map<string, int>::iterator it = wcd.getItemFreqTable().begin();
-  cout << "global item frequencies: " << endl; 
+  DBG_WCD("global item frequencies: ");
   while(it != wcd.getItemFreqTable().end()) {
     out << it->first << " : " << it->second << endl; 
   }  

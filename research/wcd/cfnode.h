@@ -1,6 +1,7 @@
 #ifndef _CFNode_H_
 #define _CFNode_H_
 #include "entry.h"
+#include "config.h"
 
 using namespace std; 
 
