@@ -3,14 +3,16 @@ CPP = /usr/bin/g++
 # Debugging options. 
 MACROS += -DDEBUG_ALL
 MACROS += -DDEBUG_CFTREE
+MACROS += -DDEBUG_CFNODE
 MACROS += -DDEBUG_ENTRY
 MACROS += -DDEBUG_WCD
-
+MACROS += -DDEBUG_WCD_PHASE1
+MACROS += -DDEBUG_WCD_PHASE2
 MACROS += -DDEBUG_WCD_TEST
 MACROS += -DDEBUG_WCD_INSERT
 
 # Flags and compilation variables. 
-CPPFLAGS = -O2 # $(MACROS)
+CPPFLAGS = -O2 $(MACROS)
 LD = /usr/bin/ld
 LDFLAGS = -L/usr/lib -L/lib
 RM = /bin/rm -rf
