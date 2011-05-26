@@ -1,4 +1,5 @@
 #!/usr/bin/python 
+import sys
 # @brief This script is used to tranform facebook binary data to
 # multiple valued data. 
 # Rules:
@@ -11,42 +12,48 @@
 #+----------+---------+----------+-----------+---------+
 # Assign value according to the following: 
 # private: 0
-# friend only: 1
-# friend of friend: 2
-# everyone: 3
+# f/ff: 1 (friend/friend of friend)
+# everyone: 2
 
 # read in the data into hash table with key as the user id and value
 # as the binary item settings. 
 fuser = open(sys.argv[1])
 fnobody = open(sys.argv[2])
 
-user = {}
-nobody = {}
+userdata = {}
+nobodydata = {}
+u = []
 for user in fuser:
-    u = user.strip().split(' ')
+    [u.append(i) for i in user.strip().split(' ')]
     uid = u[0]
-    user[uid] = u[1:]
+    userdata[uid] = u[1:]
+    del u[:]
 
 for nobody in fnobody:
-    u = nobody.strip().split(' ')
+    [u.append(i) for i in nobody.strip().split(' ')]
     uid = u[0]
-    nobody[uid] = u[1:]
+    nobodydata[uid] = u[1:]
+    del u[:]
 
 # Build the multiple value data for the generated data. 
-for key in user.keys():
-    print key
-    if nobody.has_key(key):
-        binuser = user[key]
-        binnobody = nobody[key]
+for key in userdata.keys():
+    if nobodydata.has_key(key):
+        binuser = userdata[key]
+        binnobody = nobodydata[key]
         if len(binuser) == len(binnobody):
+            #print key,
             length = len(binuser)
             for i in range(length):
-                print binuser[i], binnobody[i]
+                # print binuser[i], binnobody[i]
                 bu = binuser[i]
                 bn = binnobody[i]
-                if bu and bn: print 2
-                if bu and no bn: print 1
-                if not bu and not bn: print 0
+                if bu == '1' and bn == '1': print 2,
+                if bu == '1' and bn == '0': print 1,
+                if bu == '0' and bn == '0': print 0,
+            print
         else:
             print 'binary data is of wrong format.'
             continue
+
+fuser.close()
+fnobody.close()
