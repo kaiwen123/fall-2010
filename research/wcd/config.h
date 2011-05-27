@@ -11,62 +11,58 @@
 #include <iostream> 
 using namespace std; 
 
-// Macros for debugging. 
-#ifdef DEBUG_WCD 
-#define DBG_WCD(str) do { \
+// Macros for debugging.
+#define outstr(str) do { \
 cout << str << " ---- " << __FILE__ << ":" << __LINE__ << endl; \
 } while (0)
+#define emptystr() do {} while(0)
+
+#ifdef DEBUG_WCD 
+#define DBG_WCD(str) outstr(str)
 #else
-#define DBG_WCD(str) {} while(0)
+#define DBG_WCD(str) emptystr()
 #endif
 
 #ifdef DEBUG_ENTRY
-#define DBG_ENTRY(str) do {\
-cout << str << " ---- " << __FILE__ << ":" << __LINE__ << endl; \
-} while (0)
+#define DBG_ENTRY(str) outstr(str)
 #else
-#define DBG_ENTRY(str) do {} while(0)
+#define DBG_ENTRY(str) emptystr()
 #endif
 
 #ifdef DEBUG_CFNODE
-#define DBG_CFNODE(str) do {\
-cout << str << " ---- " << __FILE__ << ":" << __LINE__ << endl; \
-} while (0)
+#define DBG_CFNODE(str) outstr(str)
 #else
-#define DBG_CFNODE(str) do {} while(0)
+#define DBG_CFNODE(str) emptystr()
+#endif
+
+#ifdef DEBUG_CFNODE_SPLIT
+#define DBG_CFNODE_SPLIT(str) outstr(str)
+#else
+#define DBG_CFNODE_SPLIT(str) emptystr()
 #endif
 
 #ifdef DEBUG_CFTREE
-#define DBG_CFTREE(str) do {\
-cout << str << " ---- " << __FILE__ << ":" << __LINE__ << endl; \
-} while (0)
+#define DBG_CFTREE(str) outstr(str)
 #else 
-#define DBG_CFTREE(str) do {} while(0)
+#define DBG_CFTREE(str) emptystr()
 #endif
 
 #ifdef DEBUG_WCD_INSERT
-#define DBG_WCD_INSERT(str) do {\
-cout << str << " ---- " << __FILE__ << ":" << __LINE__ << endl; \
-} while (0)
+#define DBG_WCD_INSERT(str) outstr(str)
 #else 
-#define DBG_WCD_INSERT(str) do {} while(0)
+#define DBG_WCD_INSERT(str) emptystr()
 #endif
 
 #ifdef DEBUG_WCD_PHASE1
-#define DBG_PHASE1(str) do {\
-cout << str << " ---- " << __FILE__ << ":" << __LINE__ << endl; \
-} while (0)
+#define DBG_PHASE1(str) outstr(str)
 #else 
-#define DBG_PHASE1(str) do {} while(0)
+#define DBG_PHASE1(str) emptystr()
 #endif
 
 #ifdef DEBUG_WCD_PHASE2
-#define DBG_PHASE2(str) do {\
-cout << str << " ---- " << __FILE__ << ":" << __LINE__ << endl; \
-} while (0)
+#define DBG_PHASE2(str) outstr(str)
 #else 
-#define DBG_PHASE2(str) do {} while(0)
+#define DBG_PHASE2(str) emptystr()
 #endif
-
 
 #endif 

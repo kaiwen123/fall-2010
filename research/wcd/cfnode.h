@@ -1,7 +1,11 @@
+/* 
+ * @file cfnode.h defining the cftree node class. 
+ * @author simon guo <gsmsteve@gmail.com>
+ * @date Thu May 26, 2011. 
+ */
 #ifndef _CFNode_H_
 #define _CFNode_H_
 #include "entry.h"
-#include "config.h"
 
 using namespace std; 
 
@@ -30,6 +34,7 @@ class CFNode {
   bool isLeafOverflow(int maxentries) {
     return (entries.size() > maxentries);
   }
+  Entry* getIndexEntry() {return entries.begin()->second;}
 
   // setters and content operations.
   void setParent(CFNode* p) {parent = p;}
@@ -40,8 +45,8 @@ class CFNode {
   bool removeEntry(Entry* en);
 
   // other funcs. 
-  bool containsEntry(Entry *en) {
-    return (NULL != getEntryById(en->getEid()));
+  bool containsEntry(int eid) {
+    return (NULL != getEntryById(eid));
   }
   int add_trans(map<string, int>& trans); 
   int remove_trans(map<string, int>& trans, int eid); 

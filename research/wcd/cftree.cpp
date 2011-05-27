@@ -39,6 +39,7 @@ CFTree::~CFTree() {}
 // @param trans the transaction to insert into. 
 // @return entry id where the trans was inserted into.
 int CFTree::insert_trans(map<string, int>& trans) {
+  DBG_CFTREE("Inserting transaction into tree.");
   // start from the root node. 
   CFNode* maxn = cfroot; 	// best node to insert into. 
   CFTree* subtree; 
@@ -48,11 +49,13 @@ int CFTree::insert_trans(map<string, int>& trans) {
     if (maxn->isLeaf()) {
       // if node is overflow, split it and redistribute the entries. 
       if(maxn->isLeafOverflow(maxentry)) {
+	DBG_CFTREE("Splitting overflowed leaf node.");
 	split(maxn);
       } 
       return eid; 
     }
     // if not leaf node, insert to subtree recursively. 
+    DBG_CFTREE("Recursively insert trans into subtrees.");
     subtree = choose_subtree(trans, maxn->getChildren());
     subtree->insert_trans(trans);
   }  
@@ -105,6 +108,8 @@ bool CFTree::split(CFNode* node) {
 }
 
 // @brief test if a node is overflow or not. 
+// @param node the node to be tested. 
+// @return true if it is overflowed and false otherwise. 
 bool CFTree::isOverFlow(CFNode* node) {
   if (node->isLeaf()) {
     return node->isLeafOverflow(maxentry);
@@ -118,7 +123,7 @@ bool CFTree::isOverFlow(CFNode* node) {
 // @return the new entry id where the trans was adjusted to. 
 int CFTree::adjust_trans(map<string, int>& trans, int eid) {
   // find the leaf node where this entry reside in. 
-  CFNode* node = findEntry(eid); 
+  CFNode* node = findEntry(getRoot(), eid); 
 
   // for all the entries in the leaf node, choose the one that
   // can achieve highest ewcd metric and adjust accordingly.
@@ -126,7 +131,7 @@ int CFTree::adjust_trans(map<string, int>& trans, int eid) {
   float v;
   int  id; 
   map<int, Entry*>::iterator it = node->getEntries().begin(); 
-  while(it++ != node->getEntries().end()) {
+  while(it != node->getEntries().end()) {
     if (eid == (it->second)->getEid()) {
       // the same entry, test removal. 
       v = (it->second)->test_trans(trans, 1);
@@ -142,6 +147,7 @@ int CFTree::adjust_trans(map<string, int>& trans, int eid) {
 	id = (it->second)->getEid(); 
       }      
     }
+    it++;
   }
   // do adjustment. 
   node->getEntryById(eid)->remove_trans(trans); 
@@ -149,12 +155,22 @@ int CFTree::adjust_trans(map<string, int>& trans, int eid) {
   return eid; 
 }
 
-// @brief Find where an entry with eid resides. 
-CFNode* CFTree::findEntry(int eid) {
-  CFNode* node = getRoot(); 
-  while(1) {
-    
+// @brief Find where an entry with eid resides. The cftree 
+// will be traversed in preorder. 
+// @param eid the id of entry to be found. 
+// @return pointer to the node that contains entry with
+// provided entry eid. 
+CFNode* CFTree::findEntry(CFNode* node, int eid) {
+  if(node->containsEntry(eid)) {
+    return node; 
   }
+  // search over all children nodes.
+  vector<CFNode*>::iterator it = node->getChildren().begin(); 
+  while(it != node->getChildren().end()) {
+    findEntry((*it), eid); 
+    it++; 
+  }
+  return NULL;
 }
 
 // @brief choose the subtree to achieve maximum EWCD. 
@@ -169,7 +185,7 @@ CFTree* CFTree::choose_subtree(map<string, int>& trans, vector<CFNode*>& childre
   float v = 0.0; 		// temp
 
   vector<CFNode*>::iterator it = children.begin();
-  while(it++ != children.end()) {
+  while(it != children.end()) {
     if((*it)->isLeaf()) {
       v = (*it)->test_trans(trans);
       if(maxv < v) {
@@ -177,13 +193,16 @@ CFTree* CFTree::choose_subtree(map<string, int>& trans, vector<CFNode*>& childre
 	maxn = *it;
       }
     }
+    it++;
   }
   // todo.
   return new CFTree(maxn);
 }
 
-// @brief traverse the tree and print out the summary info for each 
-// entry. 
+// @brief traverse the tree and print out the summary 
+// info for each entry. 
+// @param none. 
+// @return void. 
 void CFTree::pprint() {
   cout << *this << endl; 
 }
@@ -204,9 +223,10 @@ ostream& operator<<(ostream& out, CFTree& cftree) {
   if(node->isLeaf()) { return out; }
   else {
     vector<CFNode*>::iterator it = node->getChildren().begin(); 
-    while(it++ != node->getChildren().end()) {
+    while(it != node->getChildren().end()) {
       CFTree* subtree = new CFTree(*it); 
       out << *subtree;
+      it++;
     } 
   }
 }

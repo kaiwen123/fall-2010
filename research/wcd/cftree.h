@@ -1,10 +1,6 @@
 #ifndef _CFTree_H_
 #define _CFTree_H_
-#include "config.h"
-#include "entry.h"
 #include "cfnode.h"
-#include <iostream>
-#include <vector>
 
 using namespace std; 
 
@@ -41,7 +37,7 @@ class CFTree {
   int adjust_trans(map<string, int>& trans, int eid);
   CFTree* choose_subtree(map<string, int>& trans, vector<CFNode*>& node);
   void traverse(CFNode* root);
-  CFNode* findEntry(int eid);
+  CFNode* findEntry(CFNode* node, int eid);
 
   // tree operations. 
   bool isOverFlow(CFNode* node);

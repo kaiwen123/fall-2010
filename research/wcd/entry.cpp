@@ -1,6 +1,8 @@
 #include "entry.h"
 
-// Initialize the static variable. (take care of here).
+// Initialize the static variable. (pay attention here).
+// This static variable is used to keep the id of each 
+// entry unique globally. 
 int Entry::e_counter = 0; 
 
 // @brief constructor of Entry class, which initializes 
@@ -17,7 +19,7 @@ Entry::~Entry() {}
 // @param trans the transaction to insert into Entry. 
 // @return *this* entry id. 
 int Entry::add_trans(map<string, int>& trans) {
-  cout << "Adding trans to cluster " << eid << endl; 
+  DBG_ENTRY("Adding trans to entry " + itoa(eid)); 
   map<string, int>::iterator it = trans.begin(); 
   while(it != trans.end()) {
     string t = it->first; 
@@ -32,7 +34,9 @@ int Entry::add_trans(map<string, int>& trans) {
   }
   sk += trans.size();
   nk++; 
-  wcd = sk2 / sk;
+  wcd = (float)sk2 / (float)sk;
+  DBG_ENTRY(*this);
+  DBG_ENTRY("Added Transaction to entry");
   return eid; 
 }
 
@@ -55,7 +59,7 @@ int Entry::remove_trans(map<string, int>& trans) {
   }
   sk -= trans.size();
   nk--; 
-  if (sk > 0) wcd = sk2 / sk;
+  if (sk > 0) wcd = (float)sk2 / (float)sk;
   else wcd = 0.0; 
   return eid; 
 }
@@ -78,30 +82,40 @@ float Entry::test_trans(map<string, int>& trans, int type) {
     it++;
   }
   if (0 == type) {
-    return (sk2 + ssk2) / (sk + trans.size()) - wcd; 
-  } else {
+    return (float)(sk2 + ssk2) / (float)(sk + trans.size()) - wcd; 
+  } else if (1 == type) {
     if ((sk - trans.size() == 0) || (nk == 1)) {
-      return 0; 
+      return 0.0; 
     } else {
-      return wcd - (sk2 - ssk2) / (sk - trans.size());
+      return wcd - (float)(sk2 - ssk2) / (float)(sk - trans.size());
     }
+  } else {
+    cerr << "Unsupport test, only support 0/add and 1/remove test." \
+	 << endl; 
+    return -1.0;
   }
 }
 
-// overloading the operator<< for output.
+// @brief overloading the operator<< for output.
+// @param out the output stream for return. 
+// @param en reference to entry for output.
+// @return output stream. 
 ostream& operator<<(ostream& out, Entry& en) {
-  out << "Entry summary: " << endl;
-  out << en.getEid() << ":" << "sk = " << en.getSk() << " " 
-      << "nk = " << en.getNk() << " " 
-      << "wcd = " << en.getWcd() << endl;
+  out << "Entry " << en.getEid() << " summary: " 
+      << "sk=" << en.getSk() << " " 
+      << "nk=" << en.getNk() << " " 
+      << "wcd=" << en.getWcd() << endl;
   map<string, int>::iterator it = en.getItems().begin();
-  while(it++ != en.getItems().end()) {
-    out << it->first << ":" << it->second << endl; 
+  while(it != en.getItems().end()) {
+    out << it->first << ":" << it->second << " "; 
+    it++;
   }
   return out; 
 }
 
-// Another print interface.
+// @brief Another print interface.
+// @param none. 
+// @return void.
 void Entry::pprint() {
   cout << *this; 
 }

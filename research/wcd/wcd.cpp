@@ -24,7 +24,7 @@ WCD::WCD(string fname, int fo, int maxentries, int level){
 // @param none. 
 // @return true on success and false on failure. 
 bool WCD::phase1() {
-  DBG_WCD("starting phase one");
+  DBG_WCD("\n============starting phase one===========");
   fstream ftrans;
   ftrans.open(transfile.c_str(), ifstream::in);
   if(!ftrans) {
@@ -37,36 +37,48 @@ bool WCD::phase1() {
   while(ftrans) {
     string line;
     getline(ftrans, line); 
-    DBG_PHASE1(line);
-    continue;
+    if (ftrans.good()) {
+      DBG_PHASE1(line);
+    }
     char_separator<char> sep(" ");
     tokenizer<char_separator<char> > tokens(line, sep);
     BOOST_FOREACH(string t, tokens) {
-      cout << t << "." << endl;
+      DBG_PHASE1("token:" + t);
+      // global items dataset. 
       if (items.find(t) != items.end()) {
 	items[t]++; 
       } else {
 	items[t] = 1;
       }
-      // items.insert(t);	// 
+      // collect trans dataset. 
       if(trans.find(t) == trans.end()) {
 	trans[t] = 1; 
       } else {
 	trans[t]++; 
       }
     }
+
     // add trans into entries.
-    members[cnt++] = tree->insert_trans(trans);
+    if (trans.size() > 0) {
+      int mem = tree->insert_trans(trans);
+      members.push_back(mem);  // care.
+      DBG_PHASE1("Transaction " + itoa(cnt) + \
+		 " was added to entry: " + itoa(mem)); 
+      cnt++;
+    }
+    trans.clear();
+    DBG_PHASE1("\n~~~~~~~new trans~~~~~~~");
   }
+
   ftrans.close();
-  DBG_WCD("Ending Phase one");
+  DBG_WCD("\n============Ending Phase one===========");
   return true; 
 }
 
 // @brief phase two of the wcd process. 
 // this is the iterative membership adjustment phase, for each trans,
-// it test the ewcd increment over all the clusters and choose the one that
-// can maximize the EWCD. 
+// it test the ewcd increment over all the clusters and choose the one
+// that can maximize the EWCD. 
 // currently, I only adjust membership among the leaf node entries. 
 // @param iter number of adjustive iterations. 
 // @return true on success and false on failure. 
