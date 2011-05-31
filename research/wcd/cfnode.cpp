@@ -6,9 +6,14 @@
 // more entries can be added, if it is non-leaf node, this will 
 // be the only entry in this node, and this entry will contain 
 // the summary information of the subtree.
-CFNode::CFNode() {
-  addEntry(new Entry());
-  DBG_CFNODE("CFNode created");
+// CFNode::CFNode() {
+//   addEntry(new Entry());
+//   DBG_CFNODE("CFNode created");
+// }
+
+CFNode::CFNode(CFTree* rt) {
+  my_tree = rt; 
+  DBG_CFNODE("CFNode Created.");
 }
 
 // @brief wcd test for choosing the subtree. 
@@ -25,19 +30,6 @@ Entry* CFNode::getEntryById(int eid) {
   if(entries.find(eid) != entries.end()) {
     return entries[eid]; 
   } else return NULL; 
-}
-
-// @brief get summary wcd over all entries in *this* node. 
-// @param none. 
-// @return wcd the summed wcd of all entries in this node. 
-float CFNode::getSummaryWcd() {
-  float wcd = 0.0; 
-  map<int, Entry*>::iterator it = getEntries().begin(); 
-  while(it != getEntries().end()) {
-    wcd += it->second->getWcd(); 
-    it++;
-  }
-  return wcd; 
 }
 
 // @brief partition the children between *this* node
@@ -59,13 +51,14 @@ bool CFNode::partition(CFNode* node) {
     return true; 
   }
   if ((!node->isLeaf()) && (!isLeaf())) {
-    sort(children.begin(), children.end()); 
-    vector<CFNode*>::iterator it = children.begin(); 
-    int childcnt = children.size(); 
-    for(int i = 0; i < childcnt; i++, it++) {
-      node->addChild(*it);
-      removeChild(*it);
-    }
+    // TODO....
+    //    sort(children.begin(), children.end()); 
+    // vector<CFNode*>::iterator it = children.begin(); 
+    // int childcnt = children.size(); 
+    // for(int i = 0; i < childcnt; i++, it++) {
+    //   //node->addChild(*it);
+    //   removeChild(*it);
+    // }
     return true; 
   }
   // we can't partition between leaf and non-leaf nodes. 
@@ -111,11 +104,38 @@ int CFNode::add_trans(map<string, int>& trans) {
   } else {
     // If this is a non-leaf node, then add to summary of this node.
     DBG_CFNODE("Adding transaction into index node.");
-    entryid = getIndexEntry()->add_trans(trans);
+    entryid = 0;// TODO. //getEntryById(eid)->add_trans(trans);
   }
   return entryid; 
 }
 
+// @brief Get aggregated summary of node. 
+// @param none. 
+// @return pointer to entry. 
+Entry* CFNode::get_summary() {
+  map<int, Entry*>::iterator it = getEntries().begin(); 
+  Entry* en = new Entry(my_tree);
+  while(it != getEntries().end()) {
+    (*en) += *(it->second);// use overloaded += operator.
+    it++; 
+  }
+  return en; 
+}
+
+// @brief Get total transactions in this node. 
+// @param none. 
+// @return total number of transactions in *this* node.
+int CFNode::get_num_trans() {
+  int trans_cnt = 0; 
+  map<int, Entry*>::iterator it = getEntries().begin(); 
+  while(it != getEntries().end()) {
+    trans_cnt += it->second->getNk(); 
+    it++;
+  }
+  return trans_cnt;
+}
+
+// @brief Find entry by pointer
 // @brief Add an entry to the node. 
 // @param en entry pointer to add onto. 
 // @return true on success and false on failure. 
@@ -144,37 +164,27 @@ bool CFNode::removeEntry(Entry* en) {
   } 
 }
 
-// @brief remove a child from non-leaf node.
-// @param child the child node pointer to remove.
-// @return true on success and false on failure. 
-bool CFNode::removeChild(CFNode* child) {
-  int childcnt = children.size(); 
-  for(int i = 0; i < childcnt; i++) {
-    if (children[i] == child) {
-      children.erase(children.begin() + i);
-      return true;
-    }
-  }
-  return false; 
-}
-
-// @brief operator <
-// @param node the rhs comparison node. 
-// @return true if current node is smaller than lhs node. 
-bool CFNode::operator<(CFNode* node) {
-  return (getSummaryWcd() < node->getSummaryWcd());
-}
-
 // @brief operator<<.
 // @param out output stream. 
 // @param node the node for output. 
 // @return output stream.
 ostream& operator<<(ostream& out, CFNode& node) {
-  out << "level: " << node.level;
+  out << "Node:" << &node << endl;
   map<int, Entry*>::iterator it = node.getEntries().begin(); 
   while(it != node.getEntries().end()) {
     out << *(it->second); 
     it++;
   }
   return out;
+}
+// @brief print the entries in this node. 
+// @param none. 
+// @return void. 
+void CFNode::pprint() {
+  map<int, Entry*>::iterator it = getEntries().begin();
+  while (it != getEntries().end()) {
+    cout << *(it->second) << endl;
+    it++;
+  }
+  return;
 }

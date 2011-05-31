@@ -1,6 +1,7 @@
 CPP = /usr/bin/g++
 
 # Debugging options. 
+# MACROS += -DOUT_VERBOSE
 MACROS += -DDEBUG_ALL
 #MACROS += -DDEBUG_CFTREE
 MACROS += -DDEBUG_CFNODE

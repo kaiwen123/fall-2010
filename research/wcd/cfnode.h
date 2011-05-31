@@ -6,6 +6,8 @@
 #ifndef _CFNode_H_
 #define _CFNode_H_
 #include "entry.h"
+class Entry; 
+class CFTree; 
 
 using namespace std; 
 
@@ -13,38 +15,38 @@ using namespace std;
 class CFNode {
  private:
   map<int, Entry*> entries;	/* all entries in node. */
-  vector<CFNode*> children; 	/* children of node. */
-  CFNode* parent; 		/* the parent node. */
+  CFTree* my_tree; 		/* tree pointer. */
   int level;			/* level of node. */
+  int capacity; 		/* max number of entries. */
 
  public:
   CFNode(); 
+  CFNode(CFTree* root);
   ~CFNode();
+
   // getters. 
-  vector<CFNode*>& getChildren() {return children;} 
   map<int, Entry*>& getEntries() {return entries;}
   Entry* getEntryById(int eid); 
-  CFNode* getParent() {return parent;}
+  CFTree* getTree() {return my_tree;}
+  //CFNode* getParent() {return parent;}
   int getNodeLevel() {return level;}
-  bool isLeaf() {return (0 == children.size());}
-  bool isRoot() {return (NULL == parent);}
-  bool isIndexOverflow(int maxfanout) {
-    return (children.size() > maxfanout); 
+  bool isLeaf() {return (0 == level);}
+  //bool isRoot() {return (NULL == parent);}
+  bool isOverflow() {
+    return (getEntries().size() >= capacity); 
   }
-  bool isLeafOverflow(int maxentries) {
-    return (entries.size() > maxentries);
-  }
-  Entry* getIndexEntry() {return entries.begin()->second;}
 
   // setters and content operations.
-  void setParent(CFNode* p) {parent = p;}
+  //void setParent(CFNode* p) {parent = p;}
   void setLevel(int l) {level = 1;}
-  bool addChild(CFNode* c) {children.push_back(c);}
-  bool removeChild(CFNode* c); 
+  //bool addChild(CFNode* c) {children.push_back(c);}
+  //bool removeChild(CFNode* c); 
   bool addEntry(Entry* en); 
   bool removeEntry(Entry* en);
 
   // other funcs. 
+  Entry* get_summary(); // get aggregated summary of node.
+  int get_num_trans(); // how many trans in *this* node.
   bool containsEntry(int eid) {
     return (NULL != getEntryById(eid));
   }
@@ -54,7 +56,10 @@ class CFNode {
   // test trans for subtree selection. 
   float test_trans(map<string, int>& trans); 
   bool partition(CFNode* node);
-  float getSummaryWcd(); 
+  void absorb(Entry* en); 
+  
+  //float getSummaryWcd(); 
+  void pprint(); 
   bool operator<(CFNode* node);
   friend ostream& operator<<(ostream& out, CFNode& node); 
 };

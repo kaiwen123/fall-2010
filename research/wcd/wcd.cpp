@@ -137,7 +137,7 @@ void WCD::tprint() {
 // @return None. 
 void WCD::pprint() {
   // first output the global summary table. 
-  cout << *this;
+  cout << *this << endl;
 
   // second, output the summary table for each entry. 
   tree->pprint(); 
@@ -151,7 +151,8 @@ ostream& operator<<(ostream& out, WCD& wcd) {
   map<string, int>::iterator it = wcd.getItemFreqTable().begin();
   DBG_WCD("global item frequencies: ");
   while(it != wcd.getItemFreqTable().end()) {
-    out << it->first << " : " << it->second << endl; 
+    out << it->first << " : " << it->second << " "; 
+    it++;
   }  
   return out; 
 }

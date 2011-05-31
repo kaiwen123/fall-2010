@@ -11,6 +11,7 @@ class CFTree {
   int maxlevel; 		/* max height of cftree. */
   int maxentry;			/* max number of entries in leaf. */
   int level;			/* current level of tree. */
+  int uplimit;			/* max number of leaf nodes. */
 
   // summary about overall transactions.
   int g_nk; 			/* total transaction count. */
@@ -18,10 +19,10 @@ class CFTree {
 
   // tree elements. 
   CFNode* cfroot;		/* root of the tree. */
+  vector<CFNode*> allnodes;	/* all cftree nodes. */
 
  public:
   CFTree(int fo, int maxentries, int level);
-  CFTree(CFNode* node); 
   ~CFTree(); 
 
   // getters
@@ -31,21 +32,27 @@ class CFTree {
   int getGNk() {return g_nk;}
   int getGSk() {return g_sk;}
   CFNode* getRoot() {return cfroot;}
+
+  // setters.
+  int setUplimit(); // number of max total nodes.
   
   // Operations related to the wcd algorithm. 
   int insert_trans(map<string, int>& trans);
   int adjust_trans(map<string, int>& trans, int eid);
-  CFTree* choose_subtree(map<string, int>& trans, vector<CFNode*>& node);
+  CFNode* choose_subtree(map<string, int>& trans, vector<CFNode*>& node);
   void traverse(CFNode* root);
   CFNode* findEntry(CFNode* node, int eid);
 
   // tree operations. 
-  bool isOverFlow(CFNode* node);
+  // bool isOverFlow(CFNode* node);
+  bool isFull() {return allnodes.size() >= uplimit; }
   bool split(CFNode* node); 
+  CFNode* findNode(); // might be deprecated. 
+  CFNode* newNode();
 
   // output. 
   void pprint(); 
-  friend ostream& operator<<(ostream& out, CFTree& cftree);
+  friend ostream& operator<<(ostream& out, CFNode* root);
 };
 
 #endif

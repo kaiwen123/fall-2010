@@ -37,7 +37,8 @@ int main(int argc, const char* argv[]) {
   WCD *wcd = new WCD(fname, fanout, maxentries, level);
 
   // phase one.
-  wcd->phase1(); 
+  wcd->phase1();
+  wcd->pprint(); 
   return 0;
 
   // phase two.

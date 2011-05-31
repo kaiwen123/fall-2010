@@ -7,9 +7,32 @@ int Entry::e_counter = 0;
 
 // @brief constructor of Entry class, which initializes 
 // summary variables and generate a globally unique id. 
-Entry::Entry():sk(0),nk(0),wcd(0.0),sk2(0.0),leaf(false) {
+Entry::Entry():sk(0),nk(0),wcd(0.0),sk2(0.0) {
   eid = Entry::e_counter++;
+  my_tree = NULL;
+  child_ptr = NULL;
+  level = 0;
   DBG_ENTRY("Entry created");
+}
+
+// @brief contruct from tree.
+// @param root the root of tree structure. 
+Entry::Entry(CFTree* root):sk(0),nk(0),wcd(0.0),sk2(0.0) {
+  my_tree = root;
+  level = 0; 
+  my_tree = root; 
+  child_ptr = NULL;
+  DBG_ENTRY("Entry created with root.");
+}
+
+// @brief delete child node of *this* entry. 
+// @param none
+// @return void. 
+void Entry::del_child() {
+  if (child_ptr != NULL) {
+    //delete child_ptr; 
+    child_ptr = NULL;
+  }
 }
 
 Entry::~Entry() {}
@@ -101,16 +124,55 @@ float Entry::test_trans(map<string, int>& trans, int type) {
 // @param en reference to entry for output.
 // @return output stream. 
 ostream& operator<<(ostream& out, Entry& en) {
-  out << "Entry " << en.getEid() << " summary: " 
+  out << "Entry: " << en.getEid() << " summary: " 
       << "sk=" << en.getSk() << " " 
-      << "nk=" << en.getNk() << " " 
+      << "sk2=" << en.getSk2() << " " 
       << "wcd=" << en.getWcd() << endl;
+#ifdef OUT_VERBOSE
   map<string, int>::iterator it = en.getItems().begin();
   while(it != en.getItems().end()) {
     out << it->first << ":" << it->second << " "; 
     it++;
   }
+  out << endl;
+#endif
   return out; 
+}
+
+// @brief Test if two entry objects are the same. 
+// @param en rhs entry object to compare with *this*.
+bool Entry::operator==(Entry& en) {
+  if (eid != en.getEid()) return false; 
+  if (sk != en.getSk()) return false; 
+  if (nk != en.getNk()) return false; 
+  if (wcd != en.getWcd()) return false; 
+  if (sk2 != en.getSk2()) return false; 
+  if (level != en.getLevel()) return false;
+  if (my_tree != en.get_tree()) return false;
+  if (child_ptr != en.get_child()) return false; 
+  return true; 
+}
+
+// @brief Overloading the copy assignment operator. 
+// @param en the rhs operator to copy from. 
+Entry& Entry::operator=(Entry& en) {
+  eid = Entry::e_counter++; 
+  sk = en.getSk(); 
+  nk = en.getNk(); 
+  wcd = en.getWcd(); 
+  sk2 = en.getWcd();
+  my_tree = en.get_tree();
+  child_ptr = en.get_child();
+  level = en.getLevel();
+  DBG_ENTRY("New entry created by copy assignment. ");
+}
+
+Entry& Entry::operator+=(Entry& en) {
+  sk += en.getSk(); 
+  nk += en.getNk();
+  sk2 += en.getSk2() + 2 * sk * en.getSk();
+  wcd = sk2 / sk; 
+  return *this; 
 }
 
 // @brief Another print interface.
