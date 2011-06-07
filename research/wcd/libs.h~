@@ -1,0 +1,27 @@
+/* 
+ * @file libs.h This file defines utilities used for the program. 
+ * @author Simon Guo <gsmsteve@gmail.com> 
+ */
+#ifndef _LIBS_H_
+#define _LIBS_H_
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+/* usage prompt for the program. */
+void usage(); 
+
+/* function to change integer to string. */
+string itoa(int integer);
+
+/* entry test operations. */
+enum t_type {
+  ADD, 
+  REMOVE 
+};
+
+#define SPLIT 1 
+#define NONE 0 
+
+#endif
