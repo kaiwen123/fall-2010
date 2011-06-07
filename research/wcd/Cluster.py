@@ -35,11 +35,13 @@ class Cluster:
         print 'adding tran', t, 'to cluster', self.id, self.wcd
         for ti in t:
             self.items.setdefault(ti, 0)
-            # (s+1)^2 = s^2 + 2*s + 1. recursive. 
-            self.sk2 += 1+ 2*self.items[ti]
             self.items[ti] += 1
+            # (s+1)^2 = s^2 + 2*s + 1. recursive. 
+            print self.items[ti]
+            self.sk2 += 1+ 2*self.items[ti]
             
         self.sk += len(t)
+        print '==========', self.sk, self.sk2 
         self.nk +=1
         self.wcd = self.sk2 / self.sk # error. 
         # self.wcd = self.sk2 / (self.sk * self.nk)

@@ -20,21 +20,18 @@ using namespace std;
 // @param fname file that contains transactional data. 
 // @param fanout the largest number of children for each node. This
 // param causes the split of non-leaf nodes. 
-// @param maxentries the largest number of entries a leaf node can
-// host, and it causes the split of leaf nodes. 
 // @param level maximum level of cftree, this parameter along with
 // fanout can determine the total number of nodes in the cftree. 
 // @return 0 or 1. 
 int main(int argc, const char* argv[]) {
   // paramter handling.
-  if(argc != 5) { usage(); return 1; }
+  if(argc != 4) { usage(); return 1; }
   string fname = argv[1]; 
   int fanout = atoi(argv[2]);
-  int maxentries = atoi(argv[3]);
-  int level = atoi(argv[4]);
+  int level = atoi(argv[3]);
 
   // wcd object and phase1 and phase2 operations. 
-  WCD *wcd = new WCD(fname, fanout, maxentries, level);
+  WCD *wcd = new WCD(fname, fanout, level);
 
   // phase one.
   wcd->phase1();

@@ -7,9 +7,9 @@ int Entry::e_counter = 0;
 
 // @brief constructor of Entry class, which initializes 
 // summary variables and generate a globally unique id. 
-Entry::Entry():sk(0),nk(0),wcd(0.0),sk2(0.0) {
+Entry::Entry():sk(0),nk(0),wcd(0.0),sk2(0) {
   eid = Entry::e_counter++;
-  my_tree = NULL;
+  //  my_tree = NULL;
   child_ptr = NULL;
   level = 0;
   DBG_ENTRY("Entry created");
@@ -17,13 +17,13 @@ Entry::Entry():sk(0),nk(0),wcd(0.0),sk2(0.0) {
 
 // @brief contruct from tree.
 // @param root the root of tree structure. 
-Entry::Entry(CFTree* root):sk(0),nk(0),wcd(0.0),sk2(0.0) {
-  my_tree = root;
-  level = 0; 
-  my_tree = root; 
-  child_ptr = NULL;
-  DBG_ENTRY("Entry created with root.");
-}
+// Entry::Entry(CFTree* root):sk(0),nk(0),wcd(0.0),sk2(0) {
+//   eid = Entry::e_counter++;
+//   level = 0; 
+//   my_tree = root; 
+//   child_ptr = NULL;
+//   DBG_ENTRY("Entry created with root.");
+// }
 
 // @brief delete child node of *this* entry. 
 // @param none
@@ -91,7 +91,7 @@ int Entry::remove_trans(map<string, int>& trans) {
 // @param type add(0) / remove(1)
 // @param trans the transaction to test. 
 // @return delta wcd on the addition or removal of trans.
-float Entry::test_trans(map<string, int>& trans, int type) {
+float Entry::test_trans(map<string, int>& trans, t_type type) {
   float ssk2 = 0.0; 
   map<string, int>::iterator it = trans.begin(); 
   while(it != trans.end()) {
@@ -104,9 +104,9 @@ float Entry::test_trans(map<string, int>& trans, int type) {
     }
     it++;
   }
-  if (0 == type) {
+  if (ADD == type) {
     return (float)(sk2 + ssk2) / (float)(sk + trans.size()) - wcd; 
-  } else if (1 == type) {
+  } else if (REMOVE == type) {
     if ((sk - trans.size() == 0) || (nk == 1)) {
       return 0.0; 
     } else {
@@ -148,24 +148,24 @@ bool Entry::operator==(Entry& en) {
   if (wcd != en.getWcd()) return false; 
   if (sk2 != en.getSk2()) return false; 
   if (level != en.getLevel()) return false;
-  if (my_tree != en.get_tree()) return false;
+  //  if (my_tree != en.get_tree()) return false;
   if (child_ptr != en.get_child()) return false; 
   return true; 
 }
 
 // @brief Overloading the copy assignment operator. 
 // @param en the rhs operator to copy from. 
-Entry& Entry::operator=(Entry& en) {
-  eid = Entry::e_counter++; 
-  sk = en.getSk(); 
-  nk = en.getNk(); 
-  wcd = en.getWcd(); 
-  sk2 = en.getWcd();
-  my_tree = en.get_tree();
-  child_ptr = en.get_child();
-  level = en.getLevel();
-  DBG_ENTRY("New entry created by copy assignment. ");
-}
+// Entry& Entry::operator=(Entry& en) {
+//   eid = Entry::e_counter++; 
+//   sk = en.getSk(); 
+//   nk = en.getNk(); 
+//   wcd = en.getWcd(); 
+//   sk2 = en.getWcd();
+//   my_tree = en.get_tree();
+//   child_ptr = en.get_child();
+//   level = en.getLevel();
+//   DBG_ENTRY("New entry created by copy assignment. ");
+// }
 
 Entry& Entry::operator+=(Entry& en) {
   sk += en.getSk(); 

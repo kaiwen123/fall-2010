@@ -1,5 +1,11 @@
+/* 
+ * @file entry.h definition of the entry class.
+ * @author simon guo <gsmsteve@gmail.com>
+ * @date Tuesday, June 07, 2011. 
+ */
 #ifndef _Entry_H_
 #define _Entry_H_
+
 #include <string>
 #include <iostream>
 #include <vector>
@@ -8,7 +14,7 @@
 #include "libs.h"
 
 class CFNode; 
-class CFTree; 
+//class CFTree; 
 using namespace std; 
 
 class Entry {
@@ -23,13 +29,13 @@ class Entry {
   map<string, int> items; 	/* items summary in this entry. */
 
   // structure linkage in the tree. 
-  CFTree *my_tree; 
+  // CFTree *my_tree; 
   CFNode *child_ptr; 
   
   static int e_counter;	     /* for generating globally unique eid. */
  public:
   Entry();
-  Entry(CFTree* root);
+  //Entry(CFTree* root);
   ~Entry();
 
   // getters for class. 
@@ -45,19 +51,20 @@ class Entry {
   // Structure operations.
   void del_child(); // release child of of *this* entry.
   CFNode* get_child() {return child_ptr;}
-  CFTree* get_tree() {return my_tree;} 
+  //CFTree* get_tree() {return my_tree;} 
+  void set_child(CFNode* node) {child_ptr = node; }
 
   // core operations over the entry/cluster.
   int add_trans(map<string, int>& trans);
   int remove_trans(map<string, int>& trans);
-  float test_trans(map<string, int>& trans, int type);
+  float test_trans(map<string, int>& trans, t_type type);
 
   // print and output operations.
   bool operator < (Entry& en){return (getWcd() < en.getWcd()); }
   friend ostream& operator<<(ostream& out, Entry& en);
   bool operator == (Entry& en);
   Entry& operator+=(Entry& en);
-  Entry& operator=(Entry& en);
+  //Entry& operator=(Entry& en);
   void pprint(); 
 };
 

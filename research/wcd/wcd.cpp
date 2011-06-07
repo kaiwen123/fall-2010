@@ -12,9 +12,9 @@ using namespace boost;
 // @param cap the maximum number of trans a leaf entry can host.
 // @param fo the fanout of the nonleaf node.
 // @param level the maximum level of clustering tree. 
-WCD::WCD(string fname, int fo, int maxentries, int level){
+WCD::WCD(string fname, int fo, int level){
   transfile = fname; 
-  tree = new CFTree(fo, maxentries, level);
+  tree = new CFTree(fo, level);
   DBG_WCD("WCD object initialized");
 }
 
@@ -24,7 +24,7 @@ WCD::WCD(string fname, int fo, int maxentries, int level){
 // @param none. 
 // @return true on success and false on failure. 
 bool WCD::phase1() {
-  DBG_WCD("\n============starting phase one===========");
+  cout << "\n\n============starting phase one===========" << endl;
   fstream ftrans;
   ftrans.open(transfile.c_str(), ifstream::in);
   if(!ftrans) {
@@ -58,28 +58,22 @@ bool WCD::phase1() {
       }
     }
 
-    // add trans into entries.
+    // add trans into cftree.
     if (trans.size() > 0) {
-      int mem = tree->insert_trans(trans);
-      members.push_back(mem);  // care.
-      DBG_PHASE1("Transaction " + itoa(cnt) + \
-		 " was added to entry: " + itoa(mem)); 
-      cnt++;
+      tree->insert_trans(trans);
     }
     trans.clear();
     DBG_PHASE1("\n~~~~~~~new trans~~~~~~~");
   }
 
   ftrans.close();
-  DBG_WCD("\n============Ending Phase one===========");
+  cout << "\n============Ending Phase one===========" << endl;
   return true; 
 }
 
 // @brief phase two of the wcd process. 
-// this is the iterative membership adjustment phase, for each trans,
-// it test the ewcd increment over all the clusters and choose the one
-// that can maximize the EWCD. 
-// currently, I only adjust membership among the leaf node entries. 
+// This is absortion phase, which absorbs the remaining trans
+// into the tree constructed from the first phase. 
 // @param iter number of adjustive iterations. 
 // @return true on success and false on failure. 
 bool WCD::phase2(int iter) {
@@ -108,7 +102,7 @@ bool WCD::phase2(int iter) {
 	}
       }
       // adjust trans to achieve highest ewcd. 
-      members[cnt] = tree->adjust_trans(trans, members[cnt]);
+      tree->adjust_trans(trans, getMembership(cnt));
     }
   }
   ftrans.close();
@@ -125,7 +119,7 @@ void WCD::tprint() {
   while(ftrans) {
     string line;
     getline(ftrans, line); 
-    cout << members[cnt++] << " " << line << endl; 
+    cout << getMembership(cnt++) << " " << line << endl; 
   }
   ftrans.close();
 }
@@ -149,9 +143,9 @@ void WCD::pprint() {
 // @return reference to the output stream object. 
 ostream& operator<<(ostream& out, WCD& wcd) {
   map<string, int>::iterator it = wcd.getItemFreqTable().begin();
-  DBG_WCD("global item frequencies: ");
+  out << "Global item frequencies: " << endl;
   while(it != wcd.getItemFreqTable().end()) {
-    out << it->first << " : " << it->second << " "; 
+    out << it->first << ":" << it->second << ", "; 
     it++;
   }  
   return out; 

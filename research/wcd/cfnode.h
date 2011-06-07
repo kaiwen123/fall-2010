@@ -6,8 +6,12 @@
 #ifndef _CFNode_H_
 #define _CFNode_H_
 #include "entry.h"
-class Entry; 
+#include "cftree.h"
+#include "wcd.h"
+
+//class Entry; 
 class CFTree; 
+//class WCD;
 
 using namespace std; 
 
@@ -17,30 +21,25 @@ class CFNode {
   map<int, Entry*> entries;	/* all entries in node. */
   CFTree* my_tree; 		/* tree pointer. */
   int level;			/* level of node. */
-  int capacity; 		/* max number of entries. */
+  int capacity;			/* max entries in node. */
 
  public:
-  CFNode(); 
-  CFNode(CFTree* root);
+  CFNode(CFTree* tree, int cap);
   ~CFNode();
 
   // getters. 
   map<int, Entry*>& getEntries() {return entries;}
+  int getEntryCount() {return entries.size();}
   Entry* getEntryById(int eid); 
   CFTree* getTree() {return my_tree;}
-  //CFNode* getParent() {return parent;}
-  int getNodeLevel() {return level;}
+  int getLevel() {return level;}
   bool isLeaf() {return (0 == level);}
-  //bool isRoot() {return (NULL == parent);}
   bool isOverflow() {
-    return (getEntries().size() >= capacity); 
-  }
+    return (getEntries().size() > capacity); 
+  } 
 
   // setters and content operations.
-  //void setParent(CFNode* p) {parent = p;}
-  void setLevel(int l) {level = 1;}
-  //bool addChild(CFNode* c) {children.push_back(c);}
-  //bool removeChild(CFNode* c); 
+  void setLevel(int l) {level = l;}
   bool addEntry(Entry* en); 
   bool removeEntry(Entry* en);
 
@@ -50,11 +49,15 @@ class CFNode {
   bool containsEntry(int eid) {
     return (NULL != getEntryById(eid));
   }
-  int add_trans(map<string, int>& trans); 
+  Entry* newEntry(); 
+  Entry* choose_subtree(map<string, int>& trans);
+  int insert_trans(map<string, int>& trans, CFNode** child); 
   int remove_trans(map<string, int>& trans, int eid); 
 
   // test trans for subtree selection. 
   float test_trans(map<string, int>& trans); 
+
+  // node split and partitioning. 
   bool partition(CFNode* node);
   void absorb(Entry* en); 
   

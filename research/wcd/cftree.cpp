@@ -1,130 +1,93 @@
 #include "cftree.h"
 #include <queue>
-// ------------------------------------------------------------
-// @file cftree.cpp Implementation of the CFTree structure. 
-// @func constructor. 
-// @func insert_trans - transaction insertion. 
-// @func adjust_trans - adjustment of transactions.
-// @func choose_subtree - find the best entry to insert trans into. 
-// @func print, output etc. 
-// ------------------------------------------------------------
-// 
+#include <math.h>
 // @brief CFTree Constructor and distructor.
 // @param fo fanout of nonleaf node. 
 // @param level maximum level of tree structure. 
 // @return None, constructor no return.
-CFTree::CFTree(int fo, int maxentries, int level) {
-  fanout = fo; 
-  maxentry = maxentries; 
-  maxlevel = level; 
-  level = 1;
-
-  // Initialize the tree with two entries on level 2.   
-  cfroot = new CFNode(this); 
+CFTree::CFTree(int fo, int maxlvl) {
+  maxentry = fo; 
+  setUplimit(fo, maxlvl);
+  cfroot = newNode(); // root node.
+  cfroot->setLevel(0);
+  cout << uplimit << endl;
 
   DBG_CFTREE("CFTree Initialized");
 }
 
-CFTree::~CFTree() {}
+// @brief Destructor of tree. cleanup all nodes. 
+CFTree::~CFTree() {
+  vector<CFNode*>::iterator it = allnodes.begin(); 
+  while(it != allnodes.end()) {
+    if(*it) delete *it; 
+    it++;
+  }
+}
 
 // @brief Insert a transaction into entry. The insertion process
 // will traverse the whole clustering tree till to the leaf entries.
 // for each node, it tries to determine which child branch to go to. 
+// In case when the leaf node overflows and needs to be splited, it
+// will go back up from leaf until to root node to propagate the
+// split. 
 // @param trans the transaction to insert into. 
 // @return entry id where the trans was inserted into.
-int CFTree::insert_trans(map<string, int>& trans) {
+void CFTree::insert_trans(map<string, int>& trans) {
   DBG_CFTREE("Inserting transaction into tree.");
   // start from the root node. 
-  CFNode* node = getRoot(); 	// best node to insert into. 
-  while(1) {
-    int eid = node->add_trans(trans);
-    // if current node is leaf, insert the membership to members.
-    if (node->isLeaf()) {
-      // if node is overflow, split it and redistribute the entries. 
-      if(node->isOverflow()) {
-	DBG_CFTREE("Splitting overflowed leaf node.");
-	split(node);
-      } 
-      return eid; 
-    }
-    // if not leaf node, insert to subtree recursively. 
-    DBG_CFTREE("Recursively insert trans into subtrees.");
-    //node = choose_subtree(trans, node->getChildren());
-  }  
-}
+  CFNode* rootptr = getRoot(); 
+  CFNode* child; 
 
-// @brief split a leaf node. 
-// @param en the node that are supposed to have the same parent as 
-// the newly generated node. 
-// @return true on success and false on failure. 
-bool CFTree::split(CFNode* node) {
-  if(!node->isLeaf()) {
-    cerr << "split can only be initiated by leaf node. " << endl; 
-    return false; 
+  // insert trans into tree. 
+  int split_root = rootptr->insert_trans(trans, &child);
+
+  // split root if need to. 
+  if(SPLIT == split_root) {
+    CFNode* newroot = newNode(); 
+    newroot->setLevel(rootptr->getLevel() + 1);
+    child->setLevel(rootptr->getLevel());
+    cfroot = newroot; 
+
+    // first partition the old root into to nodes. 
+    rootptr->partition(child);
+    
+    // get summary from old root and new sibling 
+    // and insert them into new root. 
+    Entry* e1 = rootptr->get_summary(); 
+    Entry* e2 = child->get_summary(); 
+    e1->set_child(rootptr);
+    e2->set_child(child); 
+    newroot->addEntry(e1); 
+    newroot->addEntry(e2);
   }
-
-  // go up until to the root of tree to check if the parent node 
-  // also needs split or not.
-  CFNode *p = node; // tmp node to parent.
-  while(true) // {
-  //   if (isOverFlow(p)) {
-  //     if (p->isRoot()) {	// overflowed root. 
-  // 	DBG_CFNODE_SPLIT("Splitting leaf node.");
-  // 	CFNode* newroot = new CFNode(); 
-  // 	CFNode* newnode = new CFNode(); 
-	
-  // 	// setup parent.
-  // 	newroot->setParent(NULL);
-  // 	p->setParent(newroot);
-  // 	newnode->setParent(newroot);
-
-  // 	// assign new root.
-  // 	cfroot = newroot; 
-	
-  // 	// setup child nodes and reassign entries. 
-  // 	p->partition(newnode);
-  // 	newroot->addChild(p); 
-  // 	newroot->addChild(newnode);
-  // 	DBG_CFNODE_SPLIT("Split done at root.");
-  // 	break;			// split is done at root. 
-  //     } else {			// overflowed nonroot. 
-  // 	DBG_CFNODE_SPLIT("Splitting non-leaf node.");
-  // 	CFNode* newnode = new CFNode(); 
-  // 	// parent and child relation. mutual. 
-  // 	newnode->setParent(p->getParent());
-  // 	p->getParent()->addChild(newnode);
-
-  // 	// partition entries evenly to two nodes. 
-  // 	//p->partition(newnode); 
-  //     }
-  //   } else {
-  //     // no overflow anymore, stop here. 
-  //     DBG_CFNODE_SPLIT("Split done.");
-  //     break; 
-  //   }
-  //   p = p->getParent(); 
-  // }
-  return true; 
 }
 
 // @brief Setup total number of nodes in the tree according to
 // fanout and level.
 // @param none. 
 // @return total number of nodes as int. 
-int CFTree::setUplimit() {
+int CFTree::setUplimit(int fanout, int maxlevel) {
   // calculate total number of nodes tree can host. 
   // this should be calculated from level of tree and 
   // fanout of index nodes and max entry in leaf nodes. 
-  // TODO
-  return fanout * maxentry; 
+  int limit = (pow(fanout, maxlevel+1) - 1) / (fanout - 1);
+  DBG_CFTREE("Total number of nodes: " + itoa(limit));
+  uplimit = limit; 
+  return limit;
 }
 
 // @brief Create new node for tree. This function should
 // be used when new nodes need to be created for tree. 
+// And also, it will test if the tree is full. If the tree
+// is already full, then new node creation will fail.
 // @param none.
 // @return Pointer to the new node. 
 CFNode* CFTree::newNode() {
-  CFNode* cfnode = new CFNode(this); 
+  if(isFull()) {
+    cout << "Tree is full, new node creation failed." << endl;
+    return NULL;
+  }
+  CFNode* cfnode = new CFNode(this, getMaxEntry()); 
   allnodes.push_back(cfnode); 
   return cfnode;
 }
@@ -134,7 +97,7 @@ CFNode* CFTree::newNode() {
 // @return the new entry id where the trans was adjusted to. 
 int CFTree::adjust_trans(map<string, int>& trans, int eid) {
   // find the leaf node where this entry reside in. 
-  CFNode* node = findEntry(getRoot(), eid); 
+  CFNode* node = findEntry(eid); 
 
   // for all the entries in the leaf node, choose the one that
   // can achieve highest ewcd metric and adjust accordingly.
@@ -145,14 +108,14 @@ int CFTree::adjust_trans(map<string, int>& trans, int eid) {
   while(it != node->getEntries().end()) {
     if (eid == (it->second)->getEid()) {
       // the same entry, test removal. 
-      v = (it->second)->test_trans(trans, 1);
+      v = (it->second)->test_trans(trans, REMOVE);
       if (v > maxv) {
 	maxv = v;
 	id = eid; 
       }
     } else {
       // different entry. 
-      v = (it->second)->test_trans(trans, 0);
+      v = (it->second)->test_trans(trans, ADD);
       if (v > maxv) {
 	maxv = v;
 	id = (it->second)->getEid(); 
@@ -171,44 +134,17 @@ int CFTree::adjust_trans(map<string, int>& trans, int eid) {
 // @param eid the id of entry to be found. 
 // @return pointer to the node that contains entry with
 // provided entry eid. 
-CFNode* CFTree::findEntry(CFNode* node, int eid) {
-  if(node->containsEntry(eid)) {
-    return node; 
-  }
-  // search over all children nodes.
-  // TODO. 
-  // vector<CFNode*>::iterator it = node->getChildren().begin(); 
-  // while(it != node->getChildren().end()) {
-  //   findEntry((*it), eid); 
-  //   it++; 
-  // }
-  return NULL;
-}
-
-// @brief choose the subtree to achieve maximum EWCD. 
-// if current node is leaf node, we compare the ewcd increment 
-// over all the entries with creating a new entry. 
-// @param trans the trans to test. 
-// @param the children of current entry.
-// @return the entry pointer where maximum EWCD is achived. 
-CFNode* CFTree::choose_subtree(map<string, int>& trans, vector<CFNode*>& children) {
-  CFNode *maxn;			// entry that can achive largest ewcd.
-  float maxv = -1.0;		// maximum ewcd. 
-  float v = 0.0; 		// temp
-
-  vector<CFNode*>::iterator it = children.begin();
-  while(it != children.end()) {
-    if((*it)->isLeaf()) {
-      v = (*it)->test_trans(trans);
-      if(maxv < v) {
-	maxv = v;
-	maxn = *it;
-      }
+CFNode* CFTree::findEntry(int eid) {
+  // search over all nodes.
+  vector<CFNode*>::iterator it = allnodes.begin(); 
+  while(it != allnodes.end()) {
+    if ((*it)->containsEntry(eid)) {
+      return *it; 
     }
-    it++;
+    it++; 
   }
-  // todo.
-  return maxn;
+  cout << "Can't find entry with eid: " << eid << endl; 
+  return NULL;
 }
 
 // @brief traverse the tree and print related info 
@@ -234,31 +170,17 @@ void CFTree::traverse(CFNode* node) {
 // @return void. 
 void CFTree::pprint() {
   queue<CFNode*> nodes; 
-  // nodes.push(getRoot());
-  // while (nodes.size()>0) {
-  //   CFNode* node = nodes.front();
-  //   cout << *node << endl; 
-  //   vector<CFNode*>::iterator it = node->getChildren().begin(); 
-  //   while(it != node->getChildren().end()) {
-  //     nodes.push(*it);
-  //     it++;
-  //   }
-  //   nodes.pop();
-  // }
-}
-
-// @brief overloading operator<<. do a 
-// preorder traversal of the tree. 
-// @param out, the output stream. 
-// @param cftree, the reference to the CFTree. 
-// @return the output stream reference. 
-ostream& operator<<(ostream& out, CFNode* node) {
-  // preorder traversal of the tree. 
-  out << *node << endl; 
-  // if(node->isLeaf()) { return out; }
-  // vector<CFNode*>::iterator it = node->getChildren().begin(); 
-  // while(it != node->getChildren().end()) {
-  //   out << *it;
-  //   it++;
-  // }
+  nodes.push(getRoot());
+  while (nodes.size()>0) {
+    CFNode* node = nodes.front();
+    map<int, Entry*>::iterator it = node->getEntries().begin(); 
+    while(it != node->getEntries().end()) {
+      cout << *(it->second); 
+      CFNode* tnode = it->second->get_child(); 
+      cout << "Entry: "<< it->first << " in node: " << node << endl; 
+      it++;
+      if (NULL != tnode) nodes.push(tnode); 
+    }
+    nodes.pop();
+  }
 }

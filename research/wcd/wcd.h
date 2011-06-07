@@ -2,6 +2,8 @@
 #define _WCD_H_
 #include "cftree.h"
 
+class CFTree;
+
 using namespace std; 
 
 class WCD {
@@ -9,17 +11,18 @@ class WCD {
   // cftree params. 
   // transaction params.
   string transfile;		/* filename of trans. */
-  vector<int> members;		/* membership for each trans. */
+  // vector<int> members;		/* membership for each trans. */
   map<string, int> items;	/* all items appear in trans. */
   CFTree *tree;			/* tree to host clusters. */
 
  public:
-  WCD(string fname, int fo, int maxentry, int level);
+  WCD(string fname, int fo, int level);
   bool phase1(); 
   bool phase2(int iter);
 
   // getters.
   map<string, int>& getItemFreqTable() {return items;}
+  //void addMembership(int eid);
 
   /* output */
   void tprint();		/* print labeled transaction */
