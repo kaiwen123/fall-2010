@@ -6,15 +6,21 @@
 // more entries can be added, if it is non-leaf node, this will 
 // be the only entry in this node, and this entry will contain 
 // the summary information of the subtree.
-CFNode::CFNode(CFTree* rt, int cap) {
-  capacity = cap; 
-  my_tree = rt; 
+CFNode::CFNode() {
+  level = 0; 
+  entries.clear(); 
   DBG_CFNODE("CFNode Created.");
 }
 
 // @brief Create new entry. 
 Entry* CFNode::newEntry(){
-  return (new Entry()); 
+  Entry* en = new (std::nothrow) Entry(); 
+  if(en) {
+    return en; 
+  } else {
+    cerr << "Can't create Entry object. " << endl; 
+    return NULL; 
+  }
 }
 
 // @brief destructor for CFNode class, mainly used to delete 
@@ -43,37 +49,40 @@ Entry* CFNode::getEntryById(int eid) {
   } else return NULL; 
 }
 
-// @brief partition the children between *this* node
-// and another node if node is non-leaf node. And distribute
-// ranking the partition metric is based on ewcd metric. 
-bool CFNode::partition(CFNode* node) {
-  // if the nodes are leaf, partition all entries in 
-  // the node between current node and the param node.
-  if (node->isLeaf() && isLeaf()) {
-    // sort the entries according to the wcd.
-    // sort(getEntries().begin(), getEntries().end());
-    // give half of entries to node. 
-    int entrycount = entries.size(); 
-    map<int, Entry*>::iterator it = entries.begin(); 
-    for(int i = 0; i < entrycount / 2; i++, it++) {
-      node->addEntry(it->second); 
-      removeEntry(it->second);
+// @brief partition the entries in *this* node and move
+// raghly half of the content from *this* node to its'
+// brother node.
+// The partition should be based on the 
+// @param brother - the brother node of *this* node. 
+// @return true on success and false if error happens. 
+bool CFNode::partition(CFNode* brother) {
+  int cnt = 0; 
+  int size = entries.size();
+
+  map<int, Entry*>::iterator it;
+  for(int i = 0; i < size/2; i++) {
+    it = getEntries().begin(); 
+    int maxwcd = -1;
+    Entry *en;  
+    int v;
+    while(it != getEntries().end()) {
+      v = it->second->getWcd(); 
+      if(v > maxwcd) {
+	maxwcd = v;
+	en = it->second; 
+      }
+      it++; 
     }
-    return true; 
+    brother->addEntry(&en); 
+    removeEntry(en);
   }
-  if ((!node->isLeaf()) && (!isLeaf())) {
-    // TODO....
-    //    sort(children.begin(), children.end()); 
-    // vector<CFNode*>::iterator it = children.begin(); 
-    // int childcnt = children.size(); 
-    // for(int i = 0; i < childcnt; i++, it++) {
-    //   //node->addChild(*it);
-    //   removeChild(*it);
-    // }
-    return true; 
-  }
-  // we can't partition between leaf and non-leaf nodes. 
-  return false;
+  // sort all entries based on ewcd. // TODO has problem. 
+  // sort(entries.begin(), entries.end()); 
+
+  // partition half of entries to brother node. 
+
+  // now distribute half of entries to brother node. 
+  return true; 
 }
 
 // @brief Insert a transaction into the node. 
@@ -82,12 +91,13 @@ bool CFNode::partition(CFNode* node) {
 // @return the entry id where the trans was added into. 
 int CFNode::insert_trans(map<string, int>& trans, CFNode** child) {
   // variables for operation. 
-  CFNode *succ, *new_succ; 
+  CFNode *succ = NULL, *new_succ = NULL; 
   CFNode *brother; 
-  Entry *de, *summary; 
-  int ret; // return value, 1 for split, 0 for not split. 
+  Entry *summary; 
+  int ret = NONE; // return value, 1 for split, 0 for not split. 
+  //child = NULL;
 
-  if(isLeaf() && !my_tree->isFull()) {
+  if(isLeaf() && !isOverflow()) {
     // If this node is leaf node, then find the best entry that this
     // trans can be added into and insert it into this entry. 
     // This process involves checking the trans over all the entries
@@ -105,16 +115,16 @@ int CFNode::insert_trans(map<string, int>& trans, CFNode** child) {
       it++;
     }
     // test the ewcd by creating a new entry. 
-    Entry* newen;
+    Entry* newen = newEntry();
     v = newen->test_trans(trans, ADD);
     if (v > maxv) {
       // add trans into new entry and insert entry into this node. 
       DBG_CFNODE("Adding trans into a new entry in node.");
-      newen = newEntry(); 
       int entryid = newen->add_trans(trans);
       // add entry id to the global membership list. //TODO. 
-      addEntry(newen);
+      addEntry(&newen);
     } else {
+      delete newen; 
       // add the trans into the existing trans.
       DBG_CFNODE("Adding trans into existing entry.");
       int entryid = maxe->add_trans(trans); 
@@ -124,14 +134,17 @@ int CFNode::insert_trans(map<string, int>& trans, CFNode** child) {
     // if node is overflowed, split the node among current node 
     // and the brother node of this node. 
     if(isOverflow()) {
-      brother = my_tree->newNode(); 
-      brother->setLevel(getLevel());
-      partition(brother);	// distribute entries in *node*.
-      *child = brother; 
+      // brother = (*my_tree)->newNode();
+      CFNode *node = new CFNode();  
+      *child = node; //new CFNode(); 
+      //brother = my_tree->newNode(); 
+      //brother->setLevel(getLevel());
+      (*child)->setLevel(getLevel());
+      //partition(brother);	// distribute entries in *node*.
+      partition(*child);
+      //child = &brother; 
       ret = SPLIT;
-    } else {
-      ret = NONE; 
-    }
+    } else { ret = NONE; } 
     return ret; 
 
   } else { // none-leaf node.
@@ -141,68 +154,88 @@ int CFNode::insert_trans(map<string, int>& trans, CFNode** child) {
     
     // choose the best child node, then add the trans summary 
     // into this the root of this subtree. 
-    Entry* e = choose_subtree(trans); 
-    e->add_trans(trans); 
+    Entry* subtree;
+    choose_subtree(trans, &subtree); 
+    subtree->add_trans(trans); 
 
     // go to next level. 
-    succ = e->get_child();
+    succ = subtree->get_child();
     ret = succ->insert_trans(trans, &new_succ);
-    return ret; 
 
-    // arrange index nodes.  
+    // arrange index nodes.  // TODO, split has problem.
     if (SPLIT == ret) {
-      de = new_succ->get_summary(); 
-      addEntry(de); 
+      summary = new Entry(); 
+      new_succ->get_summary(&summary); 
+      addEntry(&summary); 
       if (isOverflow()) {
-	brother = my_tree->newNode(); 
-	brother->setLevel(getLevel());
-	partition(brother); 
-	*child = brother; 
+	*child = new CFNode();
+	//brother = my_tree->newNode(); 
+	(*child)->setLevel(getLevel());
+	//brother->setLevel(getLevel());
+	partition(*child);
+	//partition(brother); 
+	//child = &brother; 
 	ret = SPLIT; 
-      } else {
-	ret = NONE; 
-      }
-      return ret; 
-    } else {
-      return NONE; 
+      } else { ret = NONE; }
     }
+    return ret; 
   }
 }
 
+// @brief absort transaction into the constructed tree. 
+// This is the second phase of the ewcd algorithm. 
+// @param trans - transaction to be absorbed. 
+// @param child - child node for recurssion. 
+// @return bool - true / false => success/failure.
+bool CFNode::absorb_trans(map<string, int>& trans, CFNode* child) {
+  // find the best subtree. 
+
+  // insert transaction to the root of subtree(which is an entry obj).
+
+  // get the child node of subtree. 
+
+  // do recursive absorption. 
+  return true; 
+}
 // @brief choose the subtree to achieve maximum EWCD. 
 // The standard is by comparing the ewcd incrent by testing 
 // to add entry into new node. 
 // @param trans the trans to test. 
 // @return the entry pointer where maximum EWCD is achived. 
-Entry* CFNode::choose_subtree(map<string, int>& trans) {
-  Entry *maxe;			// entry that can achive largest ewcd.
-  float maxv = -1.0;		// maximum ewcd. 
+bool CFNode::choose_subtree(map<string, int>& trans, Entry **subtree) {
+  float maxv = -1000.0;		// maximum ewcd. 
   float v = 0.0; 		// temp
 
   map<int, Entry*>::iterator it = getEntries().begin();
   while(it != getEntries().end()) {
     v = it->second->test_trans(trans, ADD);
-    if(maxv < v) {
+    if(v > maxv) {
       maxv = v;
-      maxe = it->second;
+      *subtree = it->second;
     }
     it++;
   }
-  return maxe;
+  return true;
 }
 
 
 // @brief Get aggregated summary of node. 
 // @param none. 
 // @return pointer to entry. 
-Entry* CFNode::get_summary() {
+bool CFNode::get_summary(Entry** summary) {
   map<int, Entry*>::iterator it = getEntries().begin(); 
-  Entry* en = newEntry();
-  while(it != getEntries().end()) {
-    (*en) += *(it->second);// use overloaded += operator.
-    it++; 
+  //*summary = newEntry();	// BUGGY!!! .
+  try {
+    while(it != getEntries().end()) {
+      (**summary) += *(it->second);// use overloaded += operator.
+      it++; 
+    }
   }
-  return en; 
+  catch (...) {
+    DBG_CATCH("Get summary error.");
+    return false; 
+  }
+  return true; 
 }
 
 // @brief Get total transactions in this node. 
@@ -222,12 +255,15 @@ int CFNode::get_num_trans() {
 // @brief Add an entry to the node. 
 // @param en entry pointer to add onto. 
 // @return true on success and false on failure. 
-bool CFNode::addEntry(Entry* en) {
-  if(!getEntryById(en->getEid())) {
-    entries[en->getEid()] = en; 
+bool CFNode::addEntry(Entry** en) {
+  cout << "Adding entry to node." << endl; 
+  if(!getEntryById((*en)->getEid())) {
+    entries[(*en)->getEid()] = *en; 
+    //cout << "========= " << entries[en->getEid()]->getSk2() << endl;
+    DBG_CFNODE("Entry added to node.");
     return true; 
   } else {
-    cerr << "Entry with id " << en->getEid() 
+    cerr << "Entry with id " << (*en)->getEid() 
 	 << " already exists. " << endl;
     return false; 
   }

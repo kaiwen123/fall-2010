@@ -12,19 +12,20 @@ using namespace boost;
 // @param cap the maximum number of trans a leaf entry can host.
 // @param fo the fanout of the nonleaf node.
 // @param level the maximum level of clustering tree. 
-WCD::WCD(string fname, int fo, int level){
+WCD::WCD(string fname){
   transfile = fname; 
-  tree = new CFTree(fo, level);
+  tree = new CFTree();
   DBG_WCD("WCD object initialized");
 }
 
-// @brief phase one of the wcd process, all trans will be 
-// assigned to a particular cluster, and cluster label is 
-// store onto the members vector. 
+// @brief Ewcd based streaming data clustering algorithm.
+// Two phases are involved in this algorithm, the first phase 
+// is the clustering tree construction phase, and the second 
+// phase is the transaction absorption phase. 
 // @param none. 
 // @return true on success and false on failure. 
-bool WCD::phase1() {
-  cout << "\n\n============starting phase one===========" << endl;
+bool WCD::doEwcd() {
+  cout << "\n\n============starting Ewcd clustering===========" << endl;
   fstream ftrans;
   ftrans.open(transfile.c_str(), ifstream::in);
   if(!ftrans) {
@@ -38,12 +39,12 @@ bool WCD::phase1() {
     string line;
     getline(ftrans, line); 
     if (ftrans.good()) {
-      DBG_PHASE1(line);
+      DBG_WCD(line);
     }
     char_separator<char> sep(" ");
     tokenizer<char_separator<char> > tokens(line, sep);
     BOOST_FOREACH(string t, tokens) {
-      DBG_PHASE1("token:" + t);
+      DBG_WCD("token:" + t);
       // global items dataset. 
       if (items.find(t) != items.end()) {
 	items[t]++; 
@@ -60,14 +61,14 @@ bool WCD::phase1() {
 
     // add trans into cftree.
     if (trans.size() > 0) {
-      tree->insert_trans(trans);
+      tree->insert_trans(trans);// todo, trans is corrupted. 
+      trans.clear();		// ???????
     }
-    trans.clear();
-    DBG_PHASE1("\n~~~~~~~new trans~~~~~~~");
+    DBG_WCD("\n~~~~~~~new trans~~~~~~~");
   }
 
   ftrans.close();
-  cout << "\n============Ending Phase one===========" << endl;
+  cout << "\n============Ending Ewcd clustering===========" << endl;
   return true; 
 }
 
@@ -76,38 +77,38 @@ bool WCD::phase1() {
 // into the tree constructed from the first phase. 
 // @param iter number of adjustive iterations. 
 // @return true on success and false on failure. 
-bool WCD::phase2(int iter) {
-  DBG_WCD("Staring phase two");
-  ifstream ftrans; 
-  ftrans.open(transfile.c_str(), ifstream::in);
-  map<string, int> trans;
-  for(int i = 0; i < iter; i++) {
-    int cnt = 0; 		// trans line number;
-    while(ftrans) {
-      string line;
-      getline(ftrans, line); 
-      char_separator<char> sep(" ");
-      tokenizer<char_separator<char> > tokens(line, sep);
-      BOOST_FOREACH(string t, tokens) {
-	cout << t << "." << endl;
-	if (items.find(t) != items.end()) {
-	  items[t]++; 
-	} else {
-	  items[t] = 1;
-	}	
-	if(trans.find(t) == trans.end()) {
-	  trans[t] = 1; 
-	} else {
-	  trans[t]++; 
-	}
-      }
-      // adjust trans to achieve highest ewcd. 
-      tree->adjust_trans(trans, getMembership(cnt));
-    }
-  }
-  ftrans.close();
-  return true; 
-}
+// bool WCD::phase2(int iter) {
+//   DBG_WCD("Staring phase two");
+//   ifstream ftrans; 
+//   ftrans.open(transfile.c_str(), ifstream::in);
+//   map<string, int> trans;
+//   for(int i = 0; i < iter; i++) {
+//     int cnt = 0; 		// trans line number;
+//     while(ftrans) {
+//       string line;
+//       getline(ftrans, line); 
+//       char_separator<char> sep(" ");
+//       tokenizer<char_separator<char> > tokens(line, sep);
+//       BOOST_FOREACH(string t, tokens) {
+// 	cout << t << "." << endl;
+// 	if (items.find(t) != items.end()) {
+// 	  items[t]++; 
+// 	} else {
+// 	  items[t] = 1;
+// 	}	
+// 	if(trans.find(t) == trans.end()) {
+// 	  trans[t] = 1; 
+// 	} else {
+// 	  trans[t]++; 
+// 	}
+//       }
+//       // adjust trans to achieve highest ewcd. 
+//       tree->adjust_trans(trans, getMembership(cnt));
+//     }
+//   }
+//   ftrans.close();
+//   return true; 
+// }
 
 // @brief print labeled transactions. 
 // @param None

@@ -7,23 +7,15 @@ int Entry::e_counter = 0;
 
 // @brief constructor of Entry class, which initializes 
 // summary variables and generate a globally unique id. 
-Entry::Entry():sk(0),nk(0),wcd(0.0),sk2(0) {
-  eid = Entry::e_counter++;
-  //  my_tree = NULL;
+Entry::Entry() {
+  sk = 0;
+  nk = 0; 
+  wcd = 0.0; 
+  sk2 = 0; 
   child_ptr = NULL;
-  level = 0;
+  eid = Entry::e_counter++;
   DBG_ENTRY("Entry created");
 }
-
-// @brief contruct from tree.
-// @param root the root of tree structure. 
-// Entry::Entry(CFTree* root):sk(0),nk(0),wcd(0.0),sk2(0) {
-//   eid = Entry::e_counter++;
-//   level = 0; 
-//   my_tree = root; 
-//   child_ptr = NULL;
-//   DBG_ENTRY("Entry created with root.");
-// }
 
 // @brief delete child node of *this* entry. 
 // @param none
@@ -125,6 +117,7 @@ float Entry::test_trans(map<string, int>& trans, t_type type) {
 // @return output stream. 
 ostream& operator<<(ostream& out, Entry& en) {
   out << "Entry: " << en.getEid() << " summary: " 
+      << "nk=" << en.getNk() << " " 
       << "sk=" << en.getSk() << " " 
       << "sk2=" << en.getSk2() << " " 
       << "wcd=" << en.getWcd() << endl;
@@ -147,7 +140,6 @@ bool Entry::operator==(Entry& en) {
   if (nk != en.getNk()) return false; 
   if (wcd != en.getWcd()) return false; 
   if (sk2 != en.getSk2()) return false; 
-  if (level != en.getLevel()) return false;
   //  if (my_tree != en.get_tree()) return false;
   if (child_ptr != en.get_child()) return false; 
   return true; 
@@ -163,9 +155,16 @@ bool Entry::operator==(Entry& en) {
 //   sk2 = en.getWcd();
 //   my_tree = en.get_tree();
 //   child_ptr = en.get_child();
-//   level = en.getLevel();
 //   DBG_ENTRY("New entry created by copy assignment. ");
 // }
+
+// @brief overloading the operator<. 
+// @param lhs left hand side operator. 
+// @param rhs right hand side operator.
+// @return true if lhs < rhs else false.
+bool operator< (Entry lhs, Entry rhs) {
+  return (lhs.getWcd() < rhs.getWcd());
+}
 
 Entry& Entry::operator+=(Entry& en) {
   sk += en.getSk(); 

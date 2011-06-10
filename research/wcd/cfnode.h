@@ -19,39 +19,40 @@ using namespace std;
 class CFNode {
  private:
   map<int, Entry*> entries;	/* all entries in node. */
-  CFTree* my_tree; 		/* tree pointer. */
+  //CFTree* my_tree; 		/* tree pointer. */
   int level;			/* level of node. */
-  int capacity;			/* max entries in node. */
+  //int capacity;			/* max entries in node. */
 
  public:
-  CFNode(CFTree* tree, int cap);
+  CFNode();
   ~CFNode();
 
   // getters. 
   map<int, Entry*>& getEntries() {return entries;}
   int getEntryCount() {return entries.size();}
   Entry* getEntryById(int eid); 
-  CFTree* getTree() {return my_tree;}
   int getLevel() {return level;}
   bool isLeaf() {return (0 == level);}
   bool isOverflow() {
-    return (getEntries().size() > capacity); 
+    return (getEntries().size() > getDegree()); 
   } 
 
   // setters and content operations.
   void setLevel(int l) {level = l;}
-  bool addEntry(Entry* en); 
+  bool addEntry(Entry** en); 
   bool removeEntry(Entry* en);
 
   // other funcs. 
-  Entry* get_summary(); // get aggregated summary of node.
+  bool get_summary(Entry** sum); // get aggregated summary of node.
   int get_num_trans(); // how many trans in *this* node.
   bool containsEntry(int eid) {
     return (NULL != getEntryById(eid));
   }
+
   Entry* newEntry(); 
-  Entry* choose_subtree(map<string, int>& trans);
+  bool choose_subtree(map<string, int>& trans, Entry **subtree);
   int insert_trans(map<string, int>& trans, CFNode** child); 
+  bool absorb_trans(map<string, int>& trans, CFNode* child); 
   int remove_trans(map<string, int>& trans, int eid); 
 
   // test trans for subtree selection. 

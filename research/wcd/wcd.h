@@ -16,9 +16,9 @@ class WCD {
   CFTree *tree;			/* tree to host clusters. */
 
  public:
-  WCD(string fname, int fo, int level);
-  bool phase1(); 
-  bool phase2(int iter);
+  WCD(string fname);
+  bool doEwcd(); 
+  //bool phase2(int iter);
 
   // getters.
   map<string, int>& getItemFreqTable() {return items;}

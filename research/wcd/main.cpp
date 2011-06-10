@@ -31,15 +31,19 @@ int main(int argc, const char* argv[]) {
   int level = atoi(argv[3]);
 
   // wcd object and phase1 and phase2 operations. 
-  WCD *wcd = new WCD(fname, fanout, level);
+  setDegree(fanout); 
+  setMaxLevel(level); 
+  setUplimit(); 
+
+  WCD *wcd = new WCD(fname);
 
   // phase one.
-  wcd->phase1();
+  wcd->doEwcd();
   wcd->pprint(); 
   return 0;
 
   // phase two.
-  wcd->phase2(2);
+  // wcd->phase2(2);
   
   // output result. 
   wcd->pprint();

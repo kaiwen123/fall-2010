@@ -61,3 +61,25 @@ bool changeMembership(int index, int neweid) {
   members[index] = neweid; 
   return true; 
 }
+
+int getDegree() {return degree;}
+void setDegree(int dg) {degree = dg; }
+
+int getMaxLevel() {return maxlevel; }
+void setMaxLevel(int lvl) {maxlevel = lvl; }
+
+int getUplimit() {return uplimit; }
+
+// @brief Setup total number of nodes in the tree according to
+// fanout and level.
+// @param none. 
+// @return none.
+void setUplimit() {
+  // calculate total number of nodes tree can host. 
+  // this should be calculated from level of tree and 
+  // fanout of index nodes and max entry in leaf nodes. 
+  int deg = getDegree(); 
+  int maxlvl = getMaxLevel(); 
+  int limit = (pow(deg, maxlvl+1) - 1) / (deg - 1);
+  uplimit = limit; 
+}

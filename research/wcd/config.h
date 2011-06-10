@@ -17,6 +17,12 @@ cout << str << " ---- " << __FILE__ << ":" << __LINE__ << endl; \
 } while (0)
 #define emptystr() do {} while(0)
 
+#ifdef DBG_CATCH
+#define DBG_CATCH(str) outstr(str)
+#else
+#define DBG_CATCH(str) emptystr()
+#endif
+
 #ifdef DEBUG_WCD 
 #define DBG_WCD(str) outstr(str)
 #else
