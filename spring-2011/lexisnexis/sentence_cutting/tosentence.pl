@@ -26,12 +26,13 @@ while (<STDIN>) {
     s/(seq\.)/$1,/g;
     s/(cert\.)/$1,/g;
     s/(disc\.)/$1,/g;
+    s/ ([0-9]+)\. / $1, /g;
 
     # remove the numbering at the beginning of paragraph. 
     s/^[0-9]+\.//g;		# e.g: 1. The extent of ....
     s/\. ([SL]_[0-9]+)/\, $1/g;	# e.g: xxx. S_10. => xxx, S_10.
     s/\" ([SL]_[0-9]+)/", $1/g;
-    s/\. (FN_[0-9]+)/\, $1/g;
+    s/\. ([HF]N_[0-9]+)/\, $1/g;
     s/([SL]_[0-9]+[.,;!'"])/$1 /g; # e.g: S_10,Abc => S_10, Abc
     # s/([\.\"]) ([0-9]+ Am\.)/$1, $2/g; # e.g: xxx." 25 Am. Jur.
     s/([\"\.]) ([0-9]+)/$1, $2/g;
@@ -41,9 +42,7 @@ while (<STDIN>) {
 
     my $sentence = get_sentences($_); 
     foreach $sentence (@$sentence) {
-	# remove lines that only contains numbering. 
-	$sentence =~ s/  +/ /g; # multiple spaces to one space. 
-	print STDOUT "\n" . $sentence . "\n"; 
+	print "\n" . $sentence . "\n"; 
     }
 }
 
