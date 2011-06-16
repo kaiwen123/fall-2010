@@ -40,7 +40,7 @@ while(<STDIN>) {
 sub getLNI {
     my $docref = $_[0];
     my $docstr = $$docref;
-    my $lnistr; 
+    my $lnistr = ""; 
     if ($docstr =~ '<lncr:persistentidentifier>(.*)<\/lncr:persistentidentifier>')
     {
 	$lnistr = $1;
