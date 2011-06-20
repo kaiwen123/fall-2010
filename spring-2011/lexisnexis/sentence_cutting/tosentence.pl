@@ -2,15 +2,21 @@
 # @file tosentence.pl
 # @brief This script is to split paragraphs into sentences.
 # We used the Lingua::EN::Sentence package for this task. 
+# The unique difficulty for this task is to identify as many 
+# variations as possible for the input data. So, we use the
+# random sampling method to make this task sound. 
+# 
 # @author Simon Guo<shumin.guo@lexisnexis.com>
-# @revision 1.1 
+# @revision 1.0 06/15/2011, by Simon
+# - Initially created.
+# @revision 1.1 06/19/2011, by Simon
+# - Added more acronyms and sentence variations by random sampling. 
 # @comments Please update the revision log when you update
 # this file, thanks. 
 
 use Lingua::EN::Sentence qw( get_sentences add_acronyms get_EOS );
 
-# open (INPUT, "$ARGV[0]") || die " Cannot find file";
-# open (OUT, ">sentence") || die " Cannot find file";
+# the end of sentence.
 my $EOS = &get_EOS(); 		# end of sentence separator. 
 
 while (<STDIN>) {
@@ -59,5 +65,3 @@ while (<STDIN>) {
 	print "\n" . $sentence . "\n"; 
     }
 }
-
-# close INPUT;
