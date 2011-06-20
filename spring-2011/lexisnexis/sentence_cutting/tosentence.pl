@@ -20,12 +20,18 @@ use Lingua::EN::Sentence qw( get_sentences add_acronyms get_EOS );
 my $EOS = &get_EOS(); 		# end of sentence separator. 
 
 while (<STDIN>) {
+    # 
+    # ======================================================================
+    # --Preprocessing of the document.-- 
+    # This process will be used to remove all the errors that can cause the
+    # failure of the sentence cutting program. 
+    # 
     # do pre-processing to the paragraph, erase the unregular patterns.
     # add additional acronyms. 
     # ajust abbreviations. 
     add_acronyms(q/[0-9]+/, 'Sec', 'Am', 'Jur', 'App', 'No', 'Etc', 'Id'); 
     add_acronyms('orig', 'Rev', 'Civ', 'Stat', 'Ann', 'Mag', 'Op', 'Com', 'Bl'); # 06/19/2011.
-    add_acronyms('Ab', 'tit');
+    add_acronyms('Ab', 'tit', 'pen', 'supp', 'bhd', 'Indus'); # 06/20/2011.
 
     # because acronyms are capital initialized words some may not work such as seq. 
     s/(seq\.)/$1,/g;
@@ -44,8 +50,14 @@ while (<STDIN>) {
     s/([SL]_[0-9]+)\. ?([^A-Z])/$1\, $2/g; # change . to ,
 
     # Adjust headnotes and footnotes. 
+    s/(FN_[0-9]+) ([A-Z])/$1\. $2/g;
     s/\. ([HF]N_[0-9]+)/\, $1/g;   
     s/([SL]_[0-9]+[.,;!'"])/$1 /g; # e.g: S_10,Abc => S_10, Abc
+
+    # adjust marks. like .... ... etc. 
+    s/\.\.\.\.?( [^A-Z])/, $1/g; # e.g: .... by => , by
+    s/\.\.\.\.?( [A-Z])/\. $1/g; # e.g: .... By => . By
+    s/\.\.\.?\.?([^ ])/\.$1/g;	 # e.g: ..., by => ., by
 
     # adjust numbers. 
     s/^[0-9]+\. //g;		# e.g: 1. The extent of ....
@@ -60,8 +72,14 @@ while (<STDIN>) {
 
     my $sentence = get_sentences($_); 
     foreach $sentence (@$sentence) {
-	# process the sentence before print out.
+	# post-process the sentence.
 	$sentence =~ s/  +/ /g;	# remove redundant spaces. 
+	$sentence =~ s/\.\./\./g; # remove additional period mark. 
+	# If sentence doesn't contain ending mark, add one. 
+	if (($sentence =~ m/(^.*)([^\.\"\?\:])$/) && 
+	    ($sentence !~ m/PARAGRAPH_[0-9]+/)) {
+	    $sentence = $1 . $2 . "."; 
+	}
 	print "\n" . $sentence . "\n"; 
     }
 }

@@ -106,7 +106,7 @@ sub getLCitations {
 	# select CASEREFS;
 	# $| = 1;
 	print CASEREFS $citation;
-	$docstrref =~ s/\Q$string/ L_$i/;
+	$docstrref =~ s/\Q$string/ L_$i $temp/;
     }
     return $docstrref."\n";
 }
@@ -133,7 +133,7 @@ sub getSCitations {
 	# select CASEREFS;
 	# $| = 1;
 	print CASEREFS $lnistr.": S_".$j."::$token\t$temp\n";
-	$actstr =~ s/\Q$string/ S_$j/;
+	$actstr =~ s/\Q$string/ S_$j $temp/;
     }
     return $actstr;
 }
