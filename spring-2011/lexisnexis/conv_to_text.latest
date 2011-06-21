@@ -107,6 +107,7 @@ sub getLCitations {
 	# $| = 1;
 	print CASEREFS $citation;
 	$docstrref =~ s/\Q$string/ L_$i $temp/;
+	# print '==========', $temp . "\n";
     }
     return $docstrref."\n";
 }

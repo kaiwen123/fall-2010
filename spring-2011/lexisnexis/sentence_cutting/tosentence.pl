@@ -20,12 +20,16 @@ use Lingua::EN::Sentence qw( get_sentences add_acronyms get_EOS );
 my $EOS = &get_EOS(); 		# end of sentence separator. 
 
 while (<STDIN>) {
+    chomp; 
     # 
     # ======================================================================
     # --Preprocessing of the document.-- 
     # This process will be used to remove all the errors that can cause the
     # failure of the sentence cutting program. 
-    # 
+
+    # Correct errors of the input. 
+    s/([0-9a-z]+\."?)([A-Z])/$1 $2/g; # Add space between sentences. 
+
     # do pre-processing to the paragraph, erase the unregular patterns.
     # add additional acronyms. 
     # ajust abbreviations. 
@@ -42,7 +46,6 @@ while (<STDIN>) {
     # special cases.
     s/"If/" If/g;
     s/Id\.//g;			# This term is redundant?
-    s/([0-9a-z]+\."?)([A-Z])/$1 $2/g; # Add space between sentences. 
 
     # remove the numbering at the beginning of paragraph. 
     s/\. ([SL]_[0-9]+)/\, $1/g;	# e.g: xxx. S_10. => xxx, S_10.
@@ -75,6 +78,8 @@ while (<STDIN>) {
 	# post-process the sentence.
 	$sentence =~ s/  +/ /g;	# remove redundant spaces. 
 	$sentence =~ s/\.\./\./g; # remove additional period mark. 
+	$sentence =~ s/ ,/,/g;	  # remove space before ,. 
+
 	# If sentence doesn't contain ending mark, add one. 
 	if (($sentence =~ m/(^.*)([^\.\"\?\:])$/) && 
 	    ($sentence !~ m/PARAGRAPH_[0-9]+/)) {
