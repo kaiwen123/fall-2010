@@ -8,13 +8,18 @@
 #   frequently appear in the document. 
 
 while (<STDIN>) {
+    # preprocessing. 
     s/  +/ /g;
+    $boundary = "[\.\?]";
 
-    # match the boundary of sentence. 
-    if ($_ =~ m/(( [^ ]+){3})\. (([A-Z][^ ]+ ){3})/) {
-	printf "%10s . %-10s\n", $1, $3; 
-    }
-    # if ($_ =~ m/ ([^ ]+)([\.\"\?])( ?[^ ]+) /) {
-    # 	print $1 . $2 . $3 . "
+    # match the boundary of sentence, print words around sentence. 
+    # if ($_ =~ m/(( [^ ]+){3})($boundary) (([A-Z][^ ]+ ){3})/) {
+    # 	printf "%40s %s %-40s\n", $1, $3, $4; 
     # }
+
+    # match boundary, print fixed length of chars around boundary.
+    my $count = 10; 
+    if ($_ =~ m/(.{20})($boundary) ([A-Z].{19})/) {
+	printf "%20s%s %-20s\n", $1, $2, $3; 
+    }
 }

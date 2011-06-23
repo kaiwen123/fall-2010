@@ -19,23 +19,43 @@ use Lingua::EN::Sentence qw( get_sentences add_acronyms get_EOS );
 # the end of sentence.
 my $EOS = &get_EOS(); 		# end of sentence separator. 
 
-while (<STDIN>) {
-    chomp; 
-    # 
+MAINLOOP:while (<STDIN>) {
+    print $_; 
+    chomp;
     # ======================================================================
     # --Preprocessing of the document.-- 
     # This process will be used to remove all the errors that can cause the
     # failure of the sentence cutting program. 
 
-    # Correct errors of the input. 
+    # ==================================================
+    # Correct errors and abnormal forms of the input. 
+    # ==================================================
+    # rule R_0; handling citation case names, -- casename.pl 
+    # rule example: in file -> casename.example. 
+
+    # rule R_1; abbrevation handling. -- abbrev.pl 
+    # rule example: in file -> abbrev.example. 
     s/([0-9a-z]+\."?)([A-Z])/$1 $2/g; # Add space between sentences. 
 
+    # rule R_2; labels handling. -- label.pl
+    # rule example: in file -> label.example.
+    s/(\w+)\. (((FN|HN|L|S)_[0-9]+ )+)([A-Z])/$1, $2\. $5/g; # adjust "xxx. FN_10 Foo "
+    s/([\.\?]\") (((FN|HN|L|S)_[0-9]+ )+)([A-Z])/$1, $2\. $5/g; # adjust "xxx." FN_10 Foo "
+
+    s/ ([,\?\.])/$1/g;		      # remove space in front of [,?].
+
+    print $_ . "\n\n";
+
+    next MAINLOOP; 
+    # ==================================================
+    # Add acronyms within docs. 
+    # ==================================================
     # do pre-processing to the paragraph, erase the unregular patterns.
     # add additional acronyms. 
     # ajust abbreviations. 
-    add_acronyms(q/[0-9]+/, 'Sec', 'Am', 'Jur', 'App', 'No', 'Etc', 'Id'); 
-    add_acronyms('orig', 'Rev', 'Civ', 'Stat', 'Ann', 'Mag', 'Op', 'Com', 'Bl'); # 06/19/2011.
-    add_acronyms('Ab', 'tit', 'pen', 'supp', 'bhd', 'Indus'); # 06/20/2011.
+    add_acronyms('sec', 'am', 'jur', 'app', 'no', 'etc', 'id'); 
+    add_acronyms('orig', 'rev', 'civ', 'stat', 'ann', 'mag', 'op', 'com', 'bl'); # 06/19/2011.
+    add_acronyms('ab', 'tit', 'pen', 'supp', 'bhd', 'indus'); # 06/20/2011.
 
     # because acronyms are capital initialized words some may not work such as seq. 
     s/(seq\.)/$1,/g;
@@ -87,4 +107,50 @@ while (<STDIN>) {
 	}
 	print "\n" . $sentence . "\n"; 
     }
+}
+
+# //////////////////////////////////////////////////
+
+# ==================================================
+# @brief This function is used to process errors and 
+# abnormal sentence formats within the document. 
+# @category paragraph pre-processing. 
+# @param 
+# @param 
+# @return 
+# ==================================================
+sub correctError {
+
+}
+
+
+# ==================================================
+# @brief This subroutine processes acronyms. 
+# @category paragraph post-processing. 
+# @param 
+# @param 
+# @return 
+# ==================================================
+sub processAcronyms {
+
+}
+
+# ==================================================
+# @brief Process specific cases. 
+# @category paragraph pre-processing. 
+# @param
+# @return 
+# ==================================================
+sub processSpecific {
+
+}
+
+
+# ==================================================
+# @brief Adjustment of sentences.  
+# @category sentence post-processing. 
+# @return 
+# ==================================================
+sub processSentence {
+
 }

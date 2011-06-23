@@ -1,4 +1,4 @@
-#!/serve/bin/perl
+#!/usr/bin/perl
 #<cut2Sentences>
 # ================================================================
 # After CA's are reduced, now cut Text to sentences 
@@ -7,10 +7,10 @@
 # NOTE : not cut now: "...; that ...; that .." in long Sentences
 # ================================================================
 
-BEGIN {
-  $PMDir = "/nfs/citation/uzhanpy/work/projects/Buddy/networkData/bin" ;
-  push @INC, $PMDir ;
-}
+# BEGIN {
+#   $PMDir = "/nfs/citation/uzhanpy/work/projects/Buddy/networkData/bin" ;
+#   push @INC, $PMDir ;
+# }
 
 use commonTools ;
 
@@ -21,30 +21,30 @@ if ( ! $Root ) {
   exit ;
 }
 
-&getFileNames ;
+# &getFileNames ;
 
-&fileIs ( "FileText", "$DIR_TextA/$Root\_TextA.dat.trim" ) ;
-&fileIs ( "OutFileText", "$DIR_TextS/$Root\_TextS.dat" ) ;
+# &fileIs ( "FileText", "$DIR_TextA/$Root\_TextA.dat.trim" ) ;
+# &fileIs ( "OutFileText", "$DIR_TextS/$Root\_TextS.dat" ) ;
 
-&switchFileNames ;
-&ask2GoOn ;
+# &switchFileNames ;
+# &ask2GoOn ;
 
 &defineCommonITerms ;
-open ( IN, $FileText ) || die "Cannot Open <$FileText>" ;
-open ( OUT, ">$OutFileText" ) || die "Cannot Open <$OutFileText>" ;
+open ( IN, "$ARGV[0]" ) || die "Cannot Open <$FileText>" ;
+# open ( OUT, ">$ARGV[1]" ) || die "Cannot Open <$OutFileText>" ;
 
 LOOP:while (<IN>) {
-  if ( /^ *$/ || /^\$120:/  ) { 
+  if ( /^ *$/ || /^\$120:/ ) { 
     next LOOP ; 
   }
   chomp ;
   if ( /^([A-Z\d]{16}):/ ) {
     $NextThumb = $1 ;
     if ( $Thumb ) { 
-      print OUT "\n$Thumb\n" ;
+      print "\n$Thumb\n" ;
       for $s ( @Sentences ) {
         $SCt++ ;
-        print OUT "$SCt: $s\n" ;
+        print "$SCt: $s\n" ;
       }
     }
     @Sentences = () ;
@@ -57,7 +57,7 @@ LOOP:while (<IN>) {
 }
 
 close IN ;
-close OUT ;
+# close OUT ;
 
 # ==========================================================
 # Cut one paragraph to Sentences (Paragraph is in $_ ) 

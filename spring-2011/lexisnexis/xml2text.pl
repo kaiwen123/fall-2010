@@ -1,71 +1,55 @@
 #!/usr/bin/perl -w
-# @file conv_to_text. 
+# @file xml2text. 
 # @brief convert the xml input file into text format, in this process the
 # footnotes, headnotes and the citation metadata will be extracted and
 # stored onto files. 
 # @author Vinayak & Simon Guo. 
 # @revision 04/10/2011 created by Vinayak. 
 # @revision 06/16/2011 updated comments by Simon Guo. 
-
-open (FILE,$ARGV[0]);
-open (HEADOUTPUT, ">headnotetokens".$ARGV[1]);
-open (FOOTOUTPUT, ">footnotetokens".$ARGV[1]);
-open (CASEREFS, ">casereftokens".$ARGV[1]);
-# open (OUTPUT, ">paragraph".$ARGV[1]);
-# open (CURRENT, ">current".$ARGV[1]);
+# @revision 06/23/2011 added sentence cutting part by Simon Guo. 
 
 # The number of documents processed. 
 $count = 0;
 
 # ======================================================================
-# 
 # Go over all input issue documents and extract footnotes, headnotes, 
 # citation metadata and paragraph text for the input. 
-#
 # ======================================================================
-while (<FILE>) {
-# Eliminate noise and weird characters.
+MAINLOOP:while (<STDIN>) {
+    # Eliminate noise and weird characters.
     s/§/S/g;
     s/ //g;
     s/\$ /\$/g;
     s/\&amp\;/\&/g;
     
     my $lnistr = &getLNI(\$_);
-    $count++;
     
-# Owing to the size of the document space this keeps bogging, I have to always 
-# flush the buffers, whenever I am using a 
-
-# select CURRENT;
-# $| = 1;
-# $mytemp = "processing file ".$count."\n";
-# #Writes the current file being processed information to the file "current"
-# print CURRENT $mytemp;
-
     # court:representation information extraction.
     if ($_ =~ /(<courtcase:representation>)(.*?)(<\/courtcase:representation>)/) {
 	$localstring = $2;
-	getFinishedProduct($localstring, $lnistr);
+	&getFinishedProduct($localstring, $lnistr);
     }
     
-    # courtcase:opinion
+    # courtcase:opinion information extraction.
     if ($_ =~ /(<courtcase:opinion[^>]*?>)(.*)(<\/courtcase:opinion>)/) {
 	$localstring = $2;
-	getFinishedProduct($localstring, $lnistr);
+	&getFinishedProduct($localstring, $lnistr);
     }
+
+    $count++;
 }
 
 # ==================================================
 # @brief Get the LNI string from the document. This value is constant
 # throughout the document. 
-# @param Reference to the whole issue document. 
+# @param $strref Reference to the whole issue document. 
 # @return The LNI string. 
 # ==================================================
 sub getLNI {
-    my $docstrref = $_[0];
+    my $strref = $_[0];
     my $lnistr = "";
     
-    if ($$docstrref =~ '<lncr:persistentidentifier>(.*?)<\/lncr:persistentidentifier>')
+    if ($$strref =~ '<lncr:persistentidentifier>(.*?)<\/lncr:persistentidentifier>')
     {
 	$lnistr = $lnistr.$1;
 	$lnistr =~ s/\-//g;
@@ -103,11 +87,8 @@ sub getLCitations {
 	$temp =~ s/<.*?>//g;
 	$temp =~ s/<\/.*?>//g;
 	$citation = $lnistr.":L_".$i."::".$id."::".$actuallni."::\t".$temp."\n";
-	# select CASEREFS;
-	# $| = 1;
-	print CASEREFS $citation;
-	$docstrref =~ s/\Q$string/ L_$i $temp/;
-	# print '==========', $temp . "\n";
+	print "CASEREFS:" . $citation;
+	$docstrref =~ s/\Q$string/ L_$i /; # $temp/;
     }
     return $docstrref."\n";
 }
@@ -131,10 +112,8 @@ sub getSCitations {
 	my $temp = $3;
 	$temp =~ s/<.*?>//g;
 	$temp =~ s/<\/.*?>//g;
-	# select CASEREFS;
-	# $| = 1;
-	print CASEREFS $lnistr.": S_".$j."::$token\t$temp\n";
-	$actstr =~ s/\Q$string/ S_$j $temp/;
+	print "CASEREFS:" . $lnistr.": S_".$j."::$token\t$temp\n";
+	$actstr =~ s/\Q$string/ S_$j /; # $temp/;
     }
     return $actstr;
 }
@@ -150,8 +129,6 @@ sub getSCitations {
 # @param lnistr the documment unique lnistr. 
 # @return 
 # ======================================================================
-
-#FinishedProduct Sub Routine
 sub getFinishedProduct {
     my ($randtemp, $lnistr) = @_;
     my $i = 0;
@@ -161,7 +138,7 @@ sub getFinishedProduct {
     my $lcitation = "";
 
     # Look for all citations with lni's involved.
-    $lcitation = getLCitations($randtemp,$lnistr);
+    $lcitation = &getLCitations($randtemp,$lnistr);
 
     my $caheadnote = "";
     my $footnote = "";
@@ -180,7 +157,7 @@ sub getFinishedProduct {
 	    $mystring = "$lnistr:HN_$i $string\n\n";
 	    # select HEADOUTPUT;			
 	    # $| = 1;
-	    print HEADOUTPUT  $mystring;	
+	    # print HEADOUTPUT  $mystring;	
 	}
     }
     $i = 0;
@@ -205,9 +182,7 @@ sub getFinishedProduct {
 		$string =~ s/ \"(\S[^"]+) \" / \"$1\" /g ;
 		$string =~ s/ \" ([^"]+) \" / \"$1\" /g ;
 	    }
-	    # select HEADOUTPUT;
-	    # $| = 1;
-	    print HEADOUTPUT "$lnistr:CAL_HN_$i $string\n\n";
+	    print "HEADOUTPUT:" . "$lnistr:CAL_HN_$i $string\n\n";
 	}
     }
     
@@ -217,8 +192,7 @@ sub getFinishedProduct {
     }
     
     $footnote = $caheadnote;
-    # undef $caheadnote;
-    
+
     $i = 0;
     # Look for all the footnotes within the document.
     while ($footnote =~ /(<footnote>)(.*?)(<\/footnote)/g) {
@@ -237,9 +211,7 @@ sub getFinishedProduct {
 		$string =~ s/ \" ([^"]+) \" / \"$1\" /g ;
 	    }
 	    
-	    # select FOOTOUTPUT;
-	    # $| = 1;
-	    print FOOTOUTPUT $lnistr.":FN_".$i." ".$string."\n\n";
+	    print "FOOTOUTPUT:" . $lnistr.":FN_".$i." ".$string."\n\n";
 	}
     }
     
@@ -249,10 +221,9 @@ sub getFinishedProduct {
 	$footnote =~ s/(<footnote>)(.*?)(<\/footnote>)/FN_$i /;	
     }
     $actstr = $footnote;
-    # undef $footnote;
-    
+
     # Look for statutory citations
-    $actstr = getSCitations($actstr,$lnistr);
+    $actstr = &getSCitations($actstr,$lnistr);
     my $k=0;
     
     # This part does the actual paragraph extraction.
@@ -275,9 +246,6 @@ sub getFinishedProduct {
 	}
     }
 
-    # undef $temp;
-    # undef $string;
-    # undef $actstr;
     $finalstr = "\n\n\n".$lnistr."\n\n".$finalstr;
 
     # Remove double spaces and other unimportant things.
@@ -295,23 +263,7 @@ sub getFinishedProduct {
     # If a document has both courtcase:representation and courtcase:opinion parts
     # I tried to pass them both through this entire sub routine twice.
     # This part of logic avoids this LNI of document to be printed twice.
-    if ($finalstr =~ /^[\s\n\r]*[A-Z0-9]{23}:[\s\r\n]*$/) { 
-	# select OUTPUT;
-	# $| = 1;
-	# print OUTPUT "";
-	print STDOUT ""; 
-    } else {
-	# select OUTPUT;
-	# $| = 1;
-	# print OUTPUT $finalstr;
+    if ($finalstr !~ /^[\s\n\r]*[A-Z0-9]{23}:[\s\r\n]*$/) {
 	print STDOUT $finalstr; 
     }
-    # undef $finalstr;
 }
-
-# close all the opened files. 
-close FILE;
-# close OUTPUT;
-close FOOTOUTPUT;
-close HEADOUTPUT;
-close CASEREFS;

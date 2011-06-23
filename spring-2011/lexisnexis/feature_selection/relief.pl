@@ -23,13 +23,13 @@ if ($#ARGV+1 != 3){
 
 # load in data from file. 
 # This proces will build the global word frequency table. 
-# The dataset table, which is actually one sample line. 
-# And the class/label table, which is extracted from the last 
+# The dataset table, which is actually one sample line, and the
+# class/label table, which is extracted from the last  
 # word each line. 
-open(INPUT, "$ARGV[0]");
+open(INPUT, "$ARGV[0]") || die("Error opening file $ARGV[0].");
 $count = 0;
 print %datasetfreq . "\n";
-while(<INPUT>){
+MAINLOOP:while(<INPUT>){
     chomp;
     @tokens = split(/ /, $_);
     $datalabel{$count} = pop(@tokens);
@@ -103,11 +103,9 @@ for $feature (keys %W) {
 }
 
 # ============================================================
-# 
 # Subroutines and functions. 
 # In order to Achieve efficiency, we pass parameters by reference
 # for large objects such as %dataset and %datalabel.
-# 
 # ============================================================
 # 
 # @brief calculation of nearHit, nearHit is the instance having
@@ -137,18 +135,20 @@ sub nearHit {
     return $retkey;
 }
 
+# ============================================================
 # @brief calculation of nearMiss, nearMiss is the instance having
 # minimum Euclidean distance among all the instances of the different
 # classes.
 # @param dataset, datalabel references and randomly selected key. 
 # @return The selected data key meeting the nearMiss rule. 
+# ============================================================
 sub nearMiss {
     print "near miss. \n";
     # $dsref - reference to the dataset reference. 
     # $dlref - reference to the dataset label. 
     # $dkey - Key of the randomly selected data item. 
     my ($dsref, $dlref, $dkey) = $_[0], $_[1], $_[2];
-    my $mindistance = 10000.0; 	# supposed to be very large.
+    my $mindistance = 10000.0; 	# supposed to be very large initially.
     my $class = ${$dlref}{$dkey}; 
     $retkey = ''; 
     for my $key (keys %{$dsref}) {
@@ -164,11 +164,12 @@ sub nearMiss {
     return $retkey; 
 }
 
-
+# ============================================================
 # @brief calculate the Euclidean distance of two data items. 
 # @param $dsref reference to the data set. 
 # @param $key1 key of data item 1; 
 # @param $key2 key of data item 2;
+# ============================================================
 sub distance {
     print "calculating distance @_\n"; 
     my ($dsref, $key1, $key2) = $_[0], $_[1], $_[2]; 
@@ -189,7 +190,6 @@ sub distance {
     }
     return sqrt($distance);
 }
-
 
 # @brief Calculate the difference of two data items, it is calculated
 # according to following rule. Relief-F.
