@@ -5,7 +5,7 @@ def extractProfile(page):
     ''' extract the profiles of a user. ''' 
     # print 'Extracting profile ... ... '
     extract_content = False
-    DEBUG = False
+    DEBUG = True 
     # page = ''.join(open(page,'r').read())
     profile_soup = BeautifulSoup(page)
     profile_contents = ''
