@@ -7,35 +7,61 @@
 # @revision 04/10/2011 created by Vinayak. 
 # @revision 06/16/2011 updated comments by Simon Guo. 
 # @revision 06/23/2011 added sentence cutting part by Simon Guo. 
+# @revision 06/27/2011 added detailed comments. 
 
 # Counting the number of documents processed. 
 $cnt = 1;
 
 # ======================================================================
-# Go over all input issue documents and extract footnotes, headnotes, 
-# citation metadata and paragraph text for the input. 
+# @brief this is the main loop over all the legal documents. It will go 
+# over all input legal issue documents(usually, each line is a legal doc)
+# and extract footnotes, headnotes, citation metadata and paragraph text.
+# 
+# In order to use the power of distributed computing such as hadoop, I 
+# used <STDIN> as input to the program and <STDOUT> as output file. 
+# 
+# @input <STDIN>, each line of input is an issue document in xml format. 
+# @output <STDOUT>, the information we need will include footnote, headnote, 
+# citation meta-data and paragraph/sentences. When these info is printed 
+# to STDOUT, a unique identifier will be prepended to the string. They are
+# FOOTNOTES:, HEADNOTES:, CITATION. And we can process the data according 
+# to these info for the following steps. 
+# 
+# @var Global variables : 
+# $lnistr - the doc unique doc as string; 
+# $docstr - courtcase representation string; 
+# 
+# @comments Due to the large size of the input legal document, it is 
+# advisible to pass reference to function by reference rather than by 
+# value. And $lnistr is treated as a global variable such that all the 
+# functions in the script can use it.
 # ======================================================================
 MAINLOOP:while (<STDIN>) {
     # Eliminate noise and weird characters.
-    # print "Processing doc " . $cnt . " ......\n";
-    s/§/S/g;
+    s/§/S/g;			# remove special chars; 
     s/ //g;
     s/\$ /\$/g;
-    s/\&amp\;/\&/g;
+    s/\&amp\;/\&/g;		# transform ascii chars to normal form. 
+
+    # a global string variable. 
+    $docstr = ""; 
+    $lnistr = "";
 
     # get lni string for the doc. 
-    $lnistr = "";    
     &getLNI(\$_);
     
     # court:representation information extraction.
-    if (/(<courtcase:representation>)(.*?)(<\/courtcase:representation>)/) {
-	&extractText(\$2);
+    if (/<courtcase:representation>(.*?)<\/courtcase:representation>/) {
+	$docstr = $1; 
     }
 
     # court:opinion information extraction. 
-    if (/(<courtcase:opinion[^>]*?>)(.*)(<\/courtcase:opinion>)/) {
-	&extractText(\$2);
+    if (/<courtcase:opinion[^>]*?>(.*)<\/courtcase:opinion>/) {
+	$docstr .= " " . $1;
     }
+    
+    # Extract text and meta-data. 
+    &extractText();
     $cnt++;
 }
 
@@ -51,38 +77,38 @@ MAINLOOP:while (<STDIN>) {
 # @return none. 
 # ======================================================================
 sub extractText {
-    my $strref = $_[0];
+    # Look for all link citations with lni's involved.
+    &getLCitations();
 
-    # Look for all citations with lni's involved.
-    &getLCitations($strref);
-    
     # Look for CA_Headnotes if its California document.
-    &getHeadnotes($strref); 
-    
+    &getHeadnotes(); 
+
     # $footnote = $caheadnote;
-    &getFootnotes($strref);
-    
+    &getFootnotes();
+
     # Look for statutory citations.
-    &getSCitations($strref);
+    &getSCitations();
     
     # Get text from the document. 
-    &getText($strref);
+    &getText();
+
+    return;    
 }
 
 # ==================================================
 # @brief Get the LNI string from the document. This value is constant
 # throughout the document. 
-# @param $strref Reference to the issue document as a string. 
+# @param reference to the document as a xml string. 
 # @return The document LNI string. 
 # ==================================================
 sub getLNI {
-    my $strref = $_[0];
-    
-    if ($$strref =~ '<lncr:persistentidentifier>(.*?)<\/lncr:persistentidentifier>')
+    my $docref = $_[0]; 
+    if ($$docref =~ '<lncr:persistentidentifier>(.*?)<\/lncr:persistentidentifier>')
     {
 	$lnistr = $1;
 	$lnistr =~ s/\-//g;
     }
+    return;
 }
 
 # ==================================================
@@ -91,15 +117,14 @@ sub getLNI {
 # file. And the format it captures is as follows:
 # Lni-current document::L_(citation_number)::TokenID::LNI-target document:: \
 # Actual citation 
-# @param input string with citation docs; 
+# @param $docstr  which are global variables. 
 # @param lnistr which is the global variable.
 # @return Link citation strings in the input string.
 # ==================================================
 sub getLCitations {
-    my $strref = $_[0];
-    my $i = 0;
+    my $i = 1;
     
-    while ($$strref =~ /((.{200})(<lnci:cite ID=\"([^\"]*?)\"[^>]*?normprotocol=\"lexsee\"[^>]*>(.*?)<\/lnci:cite>))/g){
+    while ($docstr =~ /((.{200})(<lnci:cite ID=\"([^\"]*?)\"[^>]*?normprotocol=\"lexsee\"[^>]*>(.*?)<\/lnci:cite>))/g){
 	my $timepass = $2;
 	my $string = $3;
 	my $id = $4;
@@ -109,12 +134,12 @@ sub getLCitations {
 	    $actuallni = $1; 
 	    $actuallni =~ s/-//g; 
 	}
-	$i++;
 	$temp =~ s/<.*?>//g;
 	$temp =~ s/<\/.*?>//g;
 	$citation = $lnistr.":L_".$i."::".$id."::".$actuallni."::\t".$temp."\n";
 	print "CASEREFS:" . $citation;
-	$$strref =~ s/\Q$string/ L_$i /g; # $temp/;
+	$docstr =~ s/\Q$string/ L_$i /g; # $temp/;
+	$i++;
     }
 }
 
@@ -122,89 +147,87 @@ sub getLCitations {
 # @brief As compared with the above routine, this routine helps in finding
 # statutory citations in the document. The format it captures is as follows:
 # Lni-current document::S_(citation_number)::TokenID:: Actual citation
-# @param (document) string that contains the statutory citations.
+# @param $docstr which are global variables for each doc. 
 # @param lnistr - the document unique string. 
-# @return the statutory citation string. 
+# @return none, but will update the global $docstr. 
 # ==================================================
 sub getSCitations {
-    my $strref = $_[0];
-    my $j = 0;
+    my $i = 1;
 
-    while ($$strref  =~ /(<lnci:cite ID=\"([^\"]*?)\"[^>]*?normprotocol=\"lexstat\"[^>]*>(.*?)<\/lnci:cite>)/g)
+    while ($docstr  =~ /(<lnci:cite ID=\"([^\"]*?)\"[^>]*?normprotocol=\"lexstat\"[^>]*>(.*?)<\/lnci:cite>)/g)
     {
-	$j++;
 	my $string = $1;
 	my $token = $2;
 	my $temp = $3;
 	$temp =~ s/<.*?>//g;
 	$temp =~ s/<\/.*?>//g;
-	print "CASEREFS:" . $lnistr.": S_".$j."::$token\t$temp\n";
-	$$strref =~ s/\Q$string/ S_$j /g; # $temp/;
+	print "CASEREFS:" . $lnistr.": S_".$i."::$token\t$temp\n";
+	$docstr =~ s/\Q$string/ S_$i /g; # $temp/;
+	$i++;
     }
 }
 
 # ==================================================
 # @brief extract headnotes from document.
-# @param 
-# @return
+# @param $docstr, a global variable. 
+# @return none. 
 # ==================================================
 sub getHeadnotes {
-    my $headref = $_[0];
+    my $i = 1;
 
     # Look for HNs for all other documents.
-    while ($$headref =~ /(<casesum:headnote headnotesource=\"lexis-caselaw-editorial\">)(.*?)(<\/casesum:headnote>)/g) {
-	$temp = $2;
-	if ($temp =~ /(<text>)(.*?)(<\/text>)/) {
+    while ($docstr =~ /(<casesum:headnote headnotesource=\"lexis-caselaw-editorial\">)(.*?)(<\/casesum:headnote>)/g) {
+	if ($2 =~ /(<text>)(.*?)(<\/text>)/) {
+	    my $str = $2;
+	    $str =~ s/<.*?>//g;
+	    $str =~ s/<\/.*?>//g;
+	    $hnote = "$lnistr:HN_$i $str\n\n";
+	    print "HEADOUTPUT:" . $hnote;
 	    $i++;
-	    $string = $2;
-	    $string =~ s/<.*?>//g;
-	    $string =~ s/<\/.*?>//g;
-	    $mystring = "$lnistr:HN_$i $string\n\n";
-	    print "HEADOUTPUT:" . $mystring;	
 	}
     }
-    my $i = 0;
-    while ($$headref =~ /(<casesum:headnote headnotesource=\"lexis-caselaw-editorial\">)(.*?)(<\/casesum:headnote>)/g) {
+
+    # replace headnote string with a label 'HN_[0-9]+'
+    $i = 1;
+    while ($docstr =~ /(<casesum:headnote headnotesource=\"lexis-caselaw-editorial\">)(.*?)(<\/casesum:headnote>)/g) {
+	$docstr =~ s/(<casesum:headnote headnotesource=\"lexis-caselaw-editorial\">)(.*?)(<\/casesum:headnote>)/HN_$i /;
 	$i++;
-	$$headref =~ s/(<casesum:headnote headnotesource=\"lexis-caselaw-editorial\">)(.*?)(<\/casesum:headnote>)/HN_$i /;
     }
     
-    while ($$headref =~ /((<casesum:headnote headnotesource=\"ca-official-reporter\">)(.*?)(<ref:anchor id=\"hnpara_([0-9]+)\"\/>)(.*?)(<\/casesum:headnote>))/g) {
-	$number = $5;
-	$temp = $6;
-	if ($temp =~ /(<text>)(.*?)(<\/text>)/)	{
-	    $i = $number;
-	    $string = $2;
-	    $string =~ s/<.*?>//g;
-	    $string =~ s/<\/.*?>//g;
+    # ca headnote, format <casesum:headnote>
+    while ($docstr =~ /((<casesum:headnote headnotesource=\"ca-official-reporter\">)(.*?)(<ref:anchor id=\"hnpara_([0-9]+)\"\/>)(.*?)(<\/casesum:headnote>))/g) {
+	my $num = $5;
+	if ($6 =~ /(<text>)(.*?)(<\/text>)/)	{
+	    my $str = $2;
+	    $str =~ s/<.*?>//g;
+	    $str =~ s/<\/.*?>//g;
 	    
-	    if ( $string =~ / \" / ) {
-		$string =~ s/ \" ([^"]+\S)\"/ \"$1\"/g ;
-		$string =~ s/ \"(\S[^"]+) \" / \"$1\" /g ;
-		$string =~ s/ \" ([^"]+) \" / \"$1\" /g ;
+	    if ( $str =~ / \" / ) {
+		$str =~ s/ \" ([^"]+\S)\"/ \"$1\"/g ;
+		$str =~ s/ \"(\S[^"]+) \" / \"$1\" /g ;
+		$str =~ s/ \" ([^"]+) \" / \"$1\" /g ;
 	    }
-	    print "HEADOUTPUT:" . "$lnistr:CAL_HN_$i $string\n\n";
+	    print "HEADOUTPUT:" . "$lnistr:CAL_HN_$num $str\n\n";
 	}
     }
     
-    while ($$headref =~ /((<casesum:headnote-ref.*?\">).*?<label>(.*?)<\/label>.*?(<\/casesum:headnote-ref>))/g) {	
-	$string = $3;
-	$$headref =~ s/((<casesum:headnote-ref.*?\">).*?(<\/casesum:headnote-ref>))/CAL_HN_$string /;
+    # format <casesum:headnote-ref>
+    while ($docstr =~ /((<casesum:headnote-ref.*?\">).*?<label>(.*?)<\/label>.*?(<\/casesum:headnote-ref>))/g) {
+	$docstr =~ s/((<casesum:headnote-ref.*?\">).*?(<\/casesum:headnote-ref>))/CAL_HN_$3 /;
     }
+    return; 
 }
 
 # ==================================================
 # @brief extract footnotes from document.
-# @param 
-# @return
+# @param $doc, a global variable. 
+# @return none. 
 # ==================================================
 sub getFootnotes {
-    my $footref = $_[0];
-
+    my $i = 1; 
     # Look for all the footnotes within the document.
-    while ($$footref =~ /(<footnote>)(.*?)(<\/footnote)/g) {
+    while ($docstr =~ /(<footnote>)(.*?)(<\/footnote)/g) {
 	if ($2 =~ /(<text>)(.*?)(<\/text>)/)	{
-	    $i++;
 	    $str = $2;
 	    $str =~ s/<.*?>//g;
 	    $str =~ s/<\/.*?>//g;
@@ -217,29 +240,31 @@ sub getFootnotes {
 		$str =~ s/ \" ([^"]+) \" / \"$1\" /g ;
 	    }
 	    print "FOOTOUTPUT:" . $lnistr.":FN_".$i." ".$str."\n\n";
+	    $i++;
 	}
     }
     
     $i=1;
-    while ($$footref =~ /(<footnote>)(.*?)(<\/footnote>)/g) {
-	$$footref =~ s/(<footnote>)(.*?)(<\/footnote>)/FN_$i /;	
+    while ($docstr =~ /(<footnote>)(.*?)(<\/footnote>)/g) {
+	$docstr =~ s/(<footnote>)(.*?)(<\/footnote>)/FN_$i /;	
 	$i++;
     }
+    return;
 }
 
 # ==================================================
 # @brief extract text from the document. 
-# @param 
-# @return
+# @param $docstr, the global document string. 
+# @return none. 
 # ==================================================
 sub getText {
     my $i=1;
-    my $strref = $_[0];
     my $parstr = "";
     
     # This part does the actual paragraph extraction.
-    while  ($$strref =~ /<p>(.*)<\/p>/g) {
-	while ($1 =~ /<text>(.*?)<\/text>/g) {
+    while  ($docstr =~ /<p>(.*)<\/p>/g) {
+	my $par = $1;
+	while ($par =~ /<text>(.*?)<\/text>/g) {
 	    $partxt = $1;
 	    $partxt =~ s/<.*?>//g;
 	    $partxt =~ s/<\/.*?>//g;
@@ -252,10 +277,9 @@ sub getText {
 		$parstr =~ s/\s*\n*$//; 
 		$parstr = $parstr." ".$partxt."\n\n"; 
 	    } else {
-		$parstr = $parstr."PARAGRAPH_".$k."\n".$partxt."\n\n";
-		$k++;
+		$parstr = $parstr."PARAGRAPH_".$i."\n".$partxt."\n\n";
+		$i++;
 	    }
-	    $i++;
 	}
     }
 
@@ -277,6 +301,7 @@ sub getText {
     # I tried to pass them both through this entire sub routine twice.
     # This part of logic avoids this LNI of document to be printed twice.
     if ($parstr !~ /^[\s\n\r]*[A-Z0-9]{23}:[\s\r\n]*$/) {
-	print $parstr; 
-    }    
+	print $parstr;
+    }
+    return;
 }
