@@ -35,7 +35,7 @@ class CFTree {
   void insert_trans(map<string, int>& trans);
   //int adjust_trans(map<string, int>& trans, int eid);
   bool absort_trans(map<string, int>& trans); 
-  void traverse(CFNode* root);
+  bool traverse(CFNode* root);
   CFNode* findEntry(int eid);
 
   // tree operations. 

@@ -34,6 +34,10 @@ Entry::~Entry() {}
 // @param trans the transaction to insert into Entry. 
 // @return *this* entry id. 
 int Entry::add_trans(map<string, int>& trans) {
+  if (trans.size() == 0) {
+    cerr << "Error, adding empty trans..." << endl; 
+    return -1; 
+  }
   DBG_ENTRY("Adding trans to entry " + itoa(eid)); 
   map<string, int>::iterator it = trans.begin(); 
   while(it != trans.end()) {
@@ -59,6 +63,10 @@ int Entry::add_trans(map<string, int>& trans) {
 // @param trans The trans to remove from cluster. 
 // @return eid of *this* entry. 
 int Entry::remove_trans(map<string, int>& trans) {
+  if (trans.size() == 0) {
+    cerr << "Error, removing empty trans..." << endl; 
+    return -1; 
+  }
   cout << "removing trans from cluster " << eid << endl; 
   map<string, int>::iterator it = trans.begin(); 
   while(it != trans.end()) {
@@ -84,6 +92,10 @@ int Entry::remove_trans(map<string, int>& trans) {
 // @param trans the transaction to test. 
 // @return delta wcd on the addition or removal of trans.
 float Entry::test_trans(map<string, int>& trans, t_type type) {
+  if (trans.size() == 0) {
+    cerr << "Error, testing empty trans..." << endl; 
+    return -1; 
+  }
   float ssk2 = 0.0; 
   map<string, int>::iterator it = trans.begin(); 
   while(it != trans.end()) {
@@ -144,19 +156,6 @@ bool Entry::operator==(Entry& en) {
   if (child_ptr != en.get_child()) return false; 
   return true; 
 }
-
-// @brief Overloading the copy assignment operator. 
-// @param en the rhs operator to copy from. 
-// Entry& Entry::operator=(Entry& en) {
-//   eid = Entry::e_counter++; 
-//   sk = en.getSk(); 
-//   nk = en.getNk(); 
-//   wcd = en.getWcd(); 
-//   sk2 = en.getWcd();
-//   my_tree = en.get_tree();
-//   child_ptr = en.get_child();
-//   DBG_ENTRY("New entry created by copy assignment. ");
-// }
 
 // @brief overloading the operator<. 
 // @param lhs left hand side operator. 

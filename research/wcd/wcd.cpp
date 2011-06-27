@@ -62,6 +62,7 @@ bool WCD::doEwcd() {
     // add trans into cftree.
     if (trans.size() > 0) {
       tree->insert_trans(trans);// todo, trans is corrupted. 
+      // tree->traverse(tree->getRoot()); 
       trans.clear();		// ???????
     }
     DBG_WCD("\n~~~~~~~new trans~~~~~~~");

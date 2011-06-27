@@ -1,4 +1,5 @@
 #include "cfnode.h"
+#include <assert.h>
 #include <algorithm>
 
 // @brief Constructor of CFNode class, by default, each node
@@ -90,6 +91,7 @@ bool CFNode::partition(CFNode* brother) {
 // @param child - the child node of *this* node.
 // @return the entry id where the trans was added into. 
 int CFNode::insert_trans(map<string, int>& trans, CFNode** child) {
+  //assert(this);
   // variables for operation. 
   CFNode *succ = NULL, *new_succ = NULL; 
   CFNode *brother; 
@@ -160,7 +162,9 @@ int CFNode::insert_trans(map<string, int>& trans, CFNode** child) {
 
     // go to next level. 
     succ = subtree->get_child();
-    ret = succ->insert_trans(trans, &new_succ);
+    if(succ) {
+      ret = succ->insert_trans(trans, &new_succ);
+    } else return NONE;
 
     // arrange index nodes.  // TODO, split has problem.
     if (SPLIT == ret) {
@@ -256,7 +260,7 @@ int CFNode::get_num_trans() {
 // @param en entry pointer to add onto. 
 // @return true on success and false on failure. 
 bool CFNode::addEntry(Entry** en) {
-  cout << "Adding entry to node." << endl; 
+  // cout << "Adding entry to node." << endl; 
   if(!getEntryById((*en)->getEid())) {
     entries[(*en)->getEid()] = *en; 
     //cout << "========= " << entries[en->getEid()]->getSk2() << endl;

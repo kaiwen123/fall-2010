@@ -64,6 +64,7 @@ void CFTree::insert_trans(map<string, int>& trans) {
 
     cfroot = newroot; 
   }
+  pprint();
   return;
 }
 
@@ -151,8 +152,12 @@ bool CFTree::absort_trans(map<string, int>& trans) {
 // @brief traverse the tree and print related info 
 // for node and entries. And then, delete each node.
 // @param none. 
-// @return void. 
-void CFTree::traverse(CFNode* node) {
+// @return true (success) and false (failure). 
+bool CFTree::traverse(CFNode* node) {
+  if (!node) {
+    cerr << "Traversal error, input node is null. " << endl;
+    return false; 
+  }
   node->pprint(); 
   while(true) {
     map<int, Entry*>::iterator it = node->getEntries().begin(); 
@@ -162,7 +167,7 @@ void CFTree::traverse(CFNode* node) {
       it->second->del_child(); 
       it++; 
     }
-    if(node->isLeaf()) return; 
+    if(node->isLeaf()) return true; 
   }
 }
 
