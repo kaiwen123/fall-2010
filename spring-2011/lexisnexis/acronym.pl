@@ -6,7 +6,7 @@
 
 while (<STDIN>) {
     s/  +/ /g;
-    if ($_ =~ m/ ([A-Z][a-z0-9]*\.) /) {
+    while ($_ =~ m/ ([A-Za-z0-9]+\.) /) {
 	print $1 . "\n"; 
     }
 }
