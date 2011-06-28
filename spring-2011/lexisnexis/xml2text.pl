@@ -9,6 +9,12 @@
 # @revision 06/23/2011 added sentence cutting part by Simon Guo. 
 # @revision 06/27/2011 added detailed comments. 
 
+# Including sentence cutting module. 
+BEGIN {
+    push @INC, "/data/simon"; 
+}
+
+use tosentence ;
 # Counting the number of documents processed. 
 $cnt = 1;
 
@@ -30,6 +36,10 @@ $cnt = 1;
 # @var Global variables : 
 # $lnistr - the doc unique doc as string; 
 # $docstr - courtcase representation string; 
+# %metastr - variable for storing metadata as string; 
+# meta string will be of the form as:
+# key  <--> value. 
+# S_10 <--> State Nat'l Bank v. Farah
 # 
 # @comments Due to the large size of the input legal document, it is 
 # advisible to pass reference to function by reference rather than by 
@@ -46,6 +56,13 @@ MAINLOOP:while (<STDIN>) {
     # a global string variable. 
     $docstr = ""; 
     $lnistr = "";
+
+    # %metastr is used to store metadata so that every time when I do 
+    # text extraction and sentence cutting, I can remove the hassle of 
+    # dealing with the large number of abbreviations within the string. 
+    # And then change back the string that was replaced by a label, 
+    # labels in this project include ((S|L|HN|CA_HN|FN|)_[0-9]+).
+    %metastr = ();
 
     # get lni string for the doc. 
     &getLNI(\$_);
@@ -128,17 +145,21 @@ sub getLCitations {
 	my $timepass = $2;
 	my $string = $3;
 	my $id = $4;
-	my $temp = $5;
+	my $citestr = $5;
 	my $actuallni = ""; 
 	if ( $timepass =~ /lni=\"([A-Z0-9-]+)\"/) { 
 	    $actuallni = $1; 
 	    $actuallni =~ s/-//g; 
 	}
-	$temp =~ s/<.*?>//g;
-	$temp =~ s/<\/.*?>//g;
-	$citation = $lnistr.":L_".$i."::".$id."::".$actuallni."::\t".$temp."\n";
+	$citestr =~ s/<.*?>//g;
+	$citestr =~ s/<\/.*?>//g;
+	$citation = $lnistr.":L_".$i."::".$id."::".$actuallni."::".$citestr."\n";
 	print "CASEREFS:" . $citation;
-	$docstr =~ s/\Q$string/ L_$i /g; # $temp/;
+
+	my $citeid = "L_$i"; 
+	$metastr{$citeid} = $citestr; 
+	# print $metastr{$citeid} . "\n"; 
+	$docstr =~ s/\Q$string/ $citeid /g; # $citestr/;
 	$i++;
     }
 }
@@ -158,11 +179,14 @@ sub getSCitations {
     {
 	my $string = $1;
 	my $token = $2;
-	my $temp = $3;
-	$temp =~ s/<.*?>//g;
-	$temp =~ s/<\/.*?>//g;
-	print "CASEREFS:" . $lnistr.": S_".$i."::$token\t$temp\n";
-	$docstr =~ s/\Q$string/ S_$i /g; # $temp/;
+	my $citestr = $3;
+	$citestr =~ s/<.*?>//g;
+	$citestr =~ s/<\/.*?>//g;
+
+	my $citeid = "S_$i"; 
+	$metastr{$citeid} = $citestr; 
+	print "CASEREFS:" . $lnistr.": S_".$i."::$token $citestr\n";
+	$docstr =~ s/\Q$string/ S_$i /g; # $citestr/;
 	$i++;
     }
 }
@@ -174,47 +198,46 @@ sub getSCitations {
 # ==================================================
 sub getHeadnotes {
     my $i = 1;
+    my $hnoteid;
 
     # Look for HNs for all other documents.
-    while ($docstr =~ /(<casesum:headnote headnotesource=\"lexis-caselaw-editorial\">)(.*?)(<\/casesum:headnote>)/g) {
-	if ($2 =~ /(<text>)(.*?)(<\/text>)/) {
-	    my $str = $2;
-	    $str =~ s/<.*?>//g;
-	    $str =~ s/<\/.*?>//g;
-	    $hnote = "$lnistr:HN_$i $str\n\n";
-	    print "HEADOUTPUT:" . $hnote;
+    while ($docstr =~ /(<casesum:headnote headnotesource=\"lexis-caselaw-editorial\">(.*?)<\/casesum:headnote>)/g) {
+	my $headnotestr = $1; 
+	$hnoteid = "HN_$i";
+	$docstr =~ s/$headnotestr/ $hnoteid /g; 
+
+	if ($headnotestr =~ /(<text>)(.*?)(<\/text>)/) {
+	    my $hnstr = $2;
+	    $hnstr =~ s/<.*?>//g;
+	    $hnstr =~ s/<\/.*?>//g;
+	    $metastr{$hnoteid} = $hnstr;
+	    print "HEADOUTPUT:" . "$lnistr:$hnoteid $hnstr\n\n";
 	    $i++;
 	}
     }
 
-    # replace headnote string with a label 'HN_[0-9]+'
-    $i = 1;
-    while ($docstr =~ /(<casesum:headnote headnotesource=\"lexis-caselaw-editorial\">)(.*?)(<\/casesum:headnote>)/g) {
-	$docstr =~ s/(<casesum:headnote headnotesource=\"lexis-caselaw-editorial\">)(.*?)(<\/casesum:headnote>)/HN_$i /;
-	$i++;
-    }
-    
     # ca headnote, format <casesum:headnote>
-    while ($docstr =~ /((<casesum:headnote headnotesource=\"ca-official-reporter\">)(.*?)(<ref:anchor id=\"hnpara_([0-9]+)\"\/>)(.*?)(<\/casesum:headnote>))/g) {
-	my $num = $5;
-	if ($6 =~ /(<text>)(.*?)(<\/text>)/)	{
-	    my $str = $2;
-	    $str =~ s/<.*?>//g;
-	    $str =~ s/<\/.*?>//g;
+    while ($docstr =~ /(<casesum:headnote headnotesource=\"ca-official-reporter\">(.*?)(<ref:anchor id=\"hnpara_([0-9]+)\"\/>)(.*?)<\/casesum:headnote>)/g) {
+	my $cahnstr = $1;
+	my $num = $4;
+	$hnoteid = "CA_HN_$num";
+	$docstr =~ s/$cahnstr/$hnoteid /;
+	$metastr{$hnoteid} = "EMPTY"; 
+
+	if ($cahnstr =~ /(<text>)(.*?)(<\/text>)/)	{
+	    my $hnstr = $2;
+	    $hnstr =~ s/<.*?>//g;
+	    $hnstr =~ s/<\/.*?>//g;
 	    
-	    if ( $str =~ / \" / ) {
-		$str =~ s/ \" ([^"]+\S)\"/ \"$1\"/g ;
-		$str =~ s/ \"(\S[^"]+) \" / \"$1\" /g ;
-		$str =~ s/ \" ([^"]+) \" / \"$1\" /g ;
+	    if ( $hnstr =~ / \" / ) {
+		$hnstr =~ s/ \" ([^"]+\S)\"/ \"$1\"/g ;
+		$hnstr =~ s/ \"(\S[^"]+) \" / \"$1\" /g ;
+		$hnstr =~ s/ \" ([^"]+) \" / \"$1\" /g ;
 	    }
-	    print "HEADOUTPUT:" . "$lnistr:CAL_HN_$num $str\n\n";
+	    print "HEADOUTPUT:" . "$lnistr:$hnoteid $hnstr\n\n";
 	}
     }
-    
-    # format <casesum:headnote-ref>
-    while ($docstr =~ /((<casesum:headnote-ref.*?\">).*?<label>(.*?)<\/label>.*?(<\/casesum:headnote-ref>))/g) {
-	$docstr =~ s/((<casesum:headnote-ref.*?\">).*?(<\/casesum:headnote-ref>))/CAL_HN_$3 /;
-    }
+
     return; 
 }
 
@@ -224,31 +247,35 @@ sub getHeadnotes {
 # @return none. 
 # ==================================================
 sub getFootnotes {
+    my $fnoteid; 
     my $i = 1; 
     # Look for all the footnotes within the document.
-    while ($docstr =~ /(<footnote>)(.*?)(<\/footnote)/g) {
-	if ($2 =~ /(<text>)(.*?)(<\/text>)/)	{
-	    $str = $2;
-	    $str =~ s/<.*?>//g;
-	    $str =~ s/<\/.*?>//g;
-	    $str =~ s/  +/ /g;
-	    $str =~ s/\( +/\(/g;
+    while ($docstr =~ /((<footnote>)(.*?)(<\/footnote))/g) {
+	my $fnotestr = $1; 
+	$fnoteid = "FN_$i"; 
+	$metastr{$fnoteid} = "EMPTY";
+	$docstr =~ s/$fnotestr/$fnoteid /g;
+
+	if ($fnotestr =~ /(<text>)(.*?)(<\/text>)/)	{
+	    $fnote = $2;
+	    $fnote =~ s/<.*?>//g;
+	    $fnote =~ s/<\/.*?>//g;
+	    $fnote =~ s/  +/ /g;
+	    $fnote =~ s/\( +/\(/g;
 	    
-	    if ( $str =~ / \" / ) {
-		$str =~ s/ \" ([^"]+\S)\"/ \"$1\"/g ;
-		$str =~ s/ \"(\S[^"]+) \" / \"$1\" /g ;
-		$str =~ s/ \" ([^"]+) \" / \"$1\" /g ;
+	    if ( $fnote =~ / \" / ) {
+		$fnote =~ s/ \" ([^"]+\S)\"/ \"$1\"/g ;
+		$fnote =~ s/ \"(\S[^"]+) \" / \"$1\" /g ;
+		$fnote =~ s/ \" ([^"]+) \" / \"$1\" /g ;
 	    }
-	    print "FOOTOUTPUT:" . $lnistr.":FN_".$i." ".$str."\n\n";
+	    $metastr{$fnoteid} = $fnote;
+	    # print $metastr{$fnoteid} . "\n";
+
+	    print "FOOTOUTPUT:" . $lnistr."$fnoteid ".$fnote."\n\n";
 	    $i++;
 	}
     }
     
-    $i=1;
-    while ($docstr =~ /(<footnote>)(.*?)(<\/footnote>)/g) {
-	$docstr =~ s/(<footnote>)(.*?)(<\/footnote>)/FN_$i /;	
-	$i++;
-    }
     return;
 }
 
@@ -301,7 +328,24 @@ sub getText {
     # I tried to pass them both through this entire sub routine twice.
     # This part of logic avoids this LNI of document to be printed twice.
     if ($parstr !~ /^[\s\n\r]*[A-Z0-9]{23}:[\s\r\n]*$/) {
-	print $parstr;
+	# Do sentence cutting here. 
+    	print $parstr;
+	
     }
     return;
+}
+
+
+# ==================================================
+# @brief Cut paragraph into sentence. 
+# @param $parstr - the paragraph string to cut.  
+# @return sentences that are cutted. 
+# ==================================================
+sub cut2sentence {
+    my $parstr = $_[0]; 
+    # Pre-processing paragraph string. 
+
+    # Do sentence cutting to the string. 
+
+    # Post-processing the sentence string. 
 }
