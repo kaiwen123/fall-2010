@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-# @file tosentence.pl
+# @file tosentence.pm
 # @brief This script is to split paragraphs into sentences.
 # We used the Lingua::EN::Sentence package for this task. 
 # The unique difficulty for this task is to identify as many 
@@ -10,23 +10,25 @@
 # @revision 1.0 06/15/2011, by Simon
 # - Initially created.
 # @revision 1.1 06/19/2011, by Simon
+# @revision 2.0 06/28/2011, changed this file to be a module by Simon 
+# 
 # - Added more acronyms and sentence variations by random sampling. 
 # @comments Please update the revision log when you update
 # this file, thanks. 
 
-use Lingua::EN::Sentence qw( get_sentences add_acronyms get_EOS );
+use Lingua::EN::Sentence qw( get_sentences add_acronyms );
 
-# the end of sentence.
-my $EOS = &get_EOS(); 		# end of sentence separator. 
-
-MAINLOOP:while (<STDIN>) {
-    print $_; 
+# ==================================================
+# @brief This process will be used to remove all the
+# errors that can cause the failure of the sentence 
+# cutting program. 
+# @param $parstr The paragraph string. 
+# @return None.
+# ==================================================
+sub phase1 {
+    $parref = $_[0]; 
+    $_ = $$parref;
     chomp;
-    # ======================================================================
-    # --Preprocessing of the document.-- 
-    # This process will be used to remove all the errors that can cause the
-    # failure of the sentence cutting program. 
-
     # ==================================================
     # Correct errors and abnormal forms of the input. 
     # ==================================================
@@ -44,18 +46,10 @@ MAINLOOP:while (<STDIN>) {
 
     s/ ([,\?\.])/$1/g;		      # remove space in front of [,?].
 
-    print $_ . "\n\n";
-
-    next MAINLOOP; 
     # ==================================================
     # Add acronyms within docs. 
     # ==================================================
-    # do pre-processing to the paragraph, erase the unregular patterns.
-    # add additional acronyms. 
-    # ajust abbreviations. 
-    add_acronyms('sec', 'am', 'jur', 'app', 'no', 'etc', 'id'); 
-    add_acronyms('orig', 'rev', 'civ', 'stat', 'ann', 'mag', 'op', 'com', 'bl'); # 06/19/2011.
-    add_acronyms('ab', 'tit', 'pen', 'supp', 'bhd', 'indus'); # 06/20/2011.
+    add_acronyms('ab', 'tit', 'pen', 'supp', 'bhd', 'indus'); 
 
     # because acronyms are capital initialized words some may not work such as seq. 
     s/(seq\.)/$1,/g;
@@ -92,8 +86,20 @@ MAINLOOP:while (<STDIN>) {
     s/([\"\.]) ([0-9]+[^\.])/$1, $2/g;
     s/([\"\.]) ([\(])/$1, $2/g;		   # e.g: A. (2nd) => A., (2nd)
     s/([\",\.][0-9]+)\. ([^A-Z])/$1, $2/g; # e.g: "2. xxx. => "2, xxx.
+    $$parref = $_;			   # pass the value to the next phase. 
+    return; 
+}
 
-    my $sentence = get_sentences($_); 
+# ==================================================
+# @brief sentence cutting using perl sentence module. 
+# @param none, actually it will use the package use 
+# the global variable called $parstr. 
+# @return none. 
+# ==================================================
+sub phase2 {
+    $parref = $_[0]; 
+    &loadAbbrev(); 
+    my $sentence = get_sentences($$parref); 
     foreach $sentence (@$sentence) {
 	# post-process the sentence.
 	$sentence =~ s/  +/ /g;	# remove redundant spaces. 
@@ -107,50 +113,24 @@ MAINLOOP:while (<STDIN>) {
 	}
 	print "\n" . $sentence . "\n"; 
     }
-}
-
-# //////////////////////////////////////////////////
-
-# ==================================================
-# @brief This function is used to process errors and 
-# abnormal sentence formats within the document. 
-# @category paragraph pre-processing. 
-# @param 
-# @param 
-# @return 
-# ==================================================
-sub correctError {
-
-}
-
-
-# ==================================================
-# @brief This subroutine processes acronyms. 
-# @category paragraph post-processing. 
-# @param 
-# @param 
-# @return 
-# ==================================================
-sub processAcronyms {
-
+    return; 
 }
 
 # ==================================================
-# @brief Process specific cases. 
-# @category paragraph pre-processing. 
-# @param
-# @return 
+# @brief load abbrevations from file. 
+# @param none. 
+# @return none. 
 # ==================================================
-sub processSpecific {
+sub loadAbbrev {
+    open(ABBFILE, "abbrev.abb");
 
+    while (<ABBFILE>) {
+	chomp; 
+	s/[0-9]+ //g; 		# remove counting.
+	push @abbv, qw($_); 
+    }
+    add_acronyms(@abbv);
+    return; 
 }
 
-
-# ==================================================
-# @brief Adjustment of sentences.  
-# @category sentence post-processing. 
-# @return 
-# ==================================================
-sub processSentence {
-
-}
+1;

@@ -10,7 +10,7 @@ while (<STDIN>) {
     # 	printf "%40s. %-40s\n", $1, $3;
     # }
     # print $_ . "\n"; 
-    while ($_ =~ / ([A-Z]\w*)\. /g) {
+    while ($_ =~ / ([A-Z][A-Za-z_]*)\. /g) {
 	$abbr = lc($1); 
 	print $abbr . "\n";
     }
