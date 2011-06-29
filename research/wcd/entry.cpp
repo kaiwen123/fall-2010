@@ -44,14 +44,15 @@ int Entry::add_trans(map<string, int>& trans) {
     string t = it->first; 
     int cnt = it->second; 
     if(items.find(t) == items.end()) {
-      items[t] = 1;
+      items[t] = cnt;
     } else {
       items[t] += cnt; 
     }
-    sk2 += 2 * items[t] + 1;
+    sk += cnt; 
+    sk2 += 2 * cnt + 1;
     it++;
   }
-  sk += trans.size();
+  // sk += trans.size();
   nk++; 
   wcd = (float)sk2 / (float)sk;
   DBG_ENTRY(*this);
@@ -128,11 +129,11 @@ float Entry::test_trans(map<string, int>& trans, t_type type) {
 // @param en reference to entry for output.
 // @return output stream. 
 ostream& operator<<(ostream& out, Entry& en) {
-  out << "Entry: " << en.getEid() << " summary: " 
-      << "nk=" << en.getNk() << " " 
+  out << "Entry: " << en.getEid()
+      << "(nk=" << en.getNk() << " " 
       << "sk=" << en.getSk() << " " 
       << "sk2=" << en.getSk2() << " " 
-      << "wcd=" << en.getWcd() << endl;
+      << "wcd=" << en.getWcd() << ") ";
 #ifdef OUT_VERBOSE
   map<string, int>::iterator it = en.getItems().begin();
   while(it != en.getItems().end()) {

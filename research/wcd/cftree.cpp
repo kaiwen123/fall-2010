@@ -4,30 +4,21 @@
 // @brief CFTree Constructor and distructor.
 // @return None, constructor no return.
 CFTree::CFTree() {
-  //setUplimit(fo, maxlvl);
-  cfroot = newNode(); // root node.
+  cfroot = new CFNode(); // root node.
   Entry* en = cfroot->newEntry();
   cfroot->addEntry(&en); 
-  //cfroot->addEntry(cfroot->newEntry());
   cfroot->setLevel(0);
   DBG_CFTREE("CFTree Initialized");
 }
 
 // @brief Destructor of tree. cleanup all nodes. 
-CFTree::~CFTree() {
-  // vector<CFNode*>::iterator it = allnodes.begin(); 
-  // while(it != allnodes.end()) {
-  //   if(*it) delete *it; 
-  //   it++;
-  // }
-}
+CFTree::~CFTree() { }
 
 // @brief Insert a transaction into entry. The insertion process
 // will traverse the whole clustering tree till to the leaf entries.
 // for each node, it tries to determine which child branch to go to. 
 // In case when the leaf node overflows and needs to be splited, it
-// will go back up from leaf until to root node to propagate the
-// split. 
+// will go back up from leaf until to root node to propagate the split. 
 // @param trans the transaction to insert into. 
 // @return entry id where the trans was inserted into.
 void CFTree::insert_trans(map<string, int>& trans) {
@@ -46,13 +37,12 @@ void CFTree::insert_trans(map<string, int>& trans) {
 
   // split root if need to. 
   if(SPLIT == split_root) {
-    CFNode* newroot = newNode(); 
+    CFNode* newroot = new CFNode(); 
     newroot->setLevel(root->getLevel() + 1);
     child->setLevel(root->getLevel());
 
     // get summary from old root and new sibling 
     // and insert them into new root. 
-    //Entry **e1, **e2; 
     Entry *e1 = new Entry(); 
     Entry *e2 = new Entry();
     root->get_summary(&e1); 
@@ -74,16 +64,15 @@ void CFTree::insert_trans(map<string, int>& trans) {
 // is already full, then new node creation will fail.
 // @param none.
 // @return Pointer to the new node. 
-CFNode* CFTree::newNode() {
-  if(isFull()) {
-    cout << "Tree is full, new node creation failed." << endl;
-    return NULL;
-  }
-  CFNode* cfnode = new CFNode(); 
-  //allnodes.push_back(cfnode); 
-  num_nodes++;
-  return cfnode;
-}
+// CFNode* CFTree::newNode() {
+//   if(isFull()) {
+//     cout << "Tree is full, new node creation failed." << endl;
+//     return NULL;
+//   }
+//   CFNode* cfnode = new CFNode(); 
+//   num_nodes++;
+//   return cfnode;
+// }
 
 // @brief Absort transactions after the tree construction phase. 
 // In this process, no new node will be created, and the trans 
@@ -93,61 +82,6 @@ CFNode* CFTree::newNode() {
 bool CFTree::absort_trans(map<string, int>& trans) {
   return getRoot()->absorb_trans(trans, getRoot()); 
 }
-
-// @brief adjust the membership of a transaction. 
-// @param the transaction to be adjusted.
-// @return the new entry id where the trans was adjusted to. 
-// int CFTree::adjust_trans(map<string, int>& trans, int eid) {
-//   // find the leaf node where this entry reside in. 
-//   CFNode* node = findEntry(eid); 
-
-//   // for all the entries in the leaf node, choose the one that
-//   // can achieve highest ewcd metric and adjust accordingly.
-//   float maxv = -1;
-//   float v;
-//   int  id; 
-//   map<int, Entry*>::iterator it = node->getEntries().begin(); 
-//   while(it != node->getEntries().end()) {
-//     if (eid == (it->second)->getEid()) {
-//       // the same entry, test removal. 
-//       v = (it->second)->test_trans(trans, REMOVE);
-//       if (v > maxv) {
-// 	maxv = v;
-// 	id = eid; 
-//       }
-//     } else {
-//       // different entry. 
-//       v = (it->second)->test_trans(trans, ADD);
-//       if (v > maxv) {
-// 	maxv = v;
-// 	id = (it->second)->getEid(); 
-//       }      
-//     }
-//     it++;
-//   }
-//   // do adjustment. 
-//   node->getEntryById(eid)->remove_trans(trans); 
-//   node->getEntryById(id)->add_trans(trans); 
-//   return eid; 
-// }
-
-// @brief Find where an entry with eid resides. The cftree 
-// will be traversed in preorder. 
-// @param eid the id of entry to be found. 
-// @return pointer to the node that contains entry with
-// provided entry eid. 
-// CFNode* CFTree::findEntry(int eid) {
-//   // search over all nodes.
-//   vector<CFNode*>::iterator it = allnodes.begin(); 
-//   while(it != allnodes.end()) {
-//     if ((*it)->containsEntry(eid)) {
-//       return *it; 
-//     }
-//     it++; 
-//   }
-//   cout << "Can't find entry with eid: " << eid << endl; 
-//   return NULL;
-// }
 
 // @brief traverse the tree and print related info 
 // for node and entries. And then, delete each node.
@@ -183,7 +117,9 @@ void CFTree::pprint() {
     while(it != node->getEntries().end()) {
       cout << *(it->second); 
       CFNode* tnode = it->second->get_child(); 
-      cout << "Entry: "<< it->first << " in node: " << node << endl; 
+      cout << it->second << " in " << node 
+	   << " level: " << node->getLevel() 
+	   << " child " << it->second->get_child() << endl; 
       it++;
       if (NULL != tnode) nodes.push(tnode); 
     }

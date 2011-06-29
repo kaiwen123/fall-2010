@@ -33,14 +33,22 @@ bool changeMembership(int index, int neweid);
 static int degree; 		/* degree of node. */
 static int maxlevel; 		/* maximum level of tree. */
 static int uplimit; 		/* uplimit number of nodes. */
+static int num_nodes;		/* total node count. */
+
+// degree
 int getDegree();
 void setDegree(int dg);
 
+// level.
 int getMaxLevel(); 
 void setMaxLevel(int lvl); 
 
+// total node count. 
 int getUplimit();
 void setUplimit();
+
+void incNumNodes(); 
+int getNumNodes(); 
 
 #define SPLIT 1 
 #define NONE 0 

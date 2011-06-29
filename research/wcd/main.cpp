@@ -1,7 +1,8 @@
 /* 
  * @file This is the implementation of the EWCD clustering algorithm .
  * @Author Simon Guo (gsmsteve@gmail.com)
- * @version Ver 1.0 on Tue May 17 14:17:10 2011
+ * @revision Ver 1.0 on Tue May 17 14:17:10 2011
+ * @revision Ver 2.0 on Wed Jun 29 16:22:55 EDT 2011
  */
 #include "wcd.h"
 #include <stdlib.h>
@@ -37,17 +38,9 @@ int main(int argc, const char* argv[]) {
 
   WCD *wcd = new WCD(fname);
 
-  // phase one.
+  // do ewcd clustering. 
   wcd->doEwcd();
   wcd->pprint(); 
   return 0;
-
-  // phase two.
-  // wcd->phase2(2);
-  
-  // output result. 
-  wcd->pprint();
-
-  return 0; 
 }
 

@@ -4,14 +4,9 @@
  * @date Thu May 26, 2011. 
  */
 #ifndef _CFNode_H_
-#define _CFNode_H_
+#define _CFNode_H_ 1
 #include "entry.h"
-#include "cftree.h"
 #include "wcd.h"
-
-//class Entry; 
-class CFTree; 
-//class WCD;
 
 using namespace std; 
 
@@ -19,9 +14,7 @@ using namespace std;
 class CFNode {
  private:
   map<int, Entry*> entries;	/* all entries in node. */
-  //CFTree* my_tree; 		/* tree pointer. */
   int level;			/* level of node. */
-  //int capacity;			/* max entries in node. */
 
  public:
   CFNode();
@@ -60,7 +53,6 @@ class CFNode {
 
   // node split and partitioning. 
   bool partition(CFNode* node);
-  void absorb(Entry* en); 
   
   //float getSummaryWcd(); 
   void pprint(); 

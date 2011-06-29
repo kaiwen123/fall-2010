@@ -80,5 +80,9 @@ void setUplimit() {
   // fanout of index nodes and max entry in leaf nodes. 
   int deg = getDegree(); 
   int maxlvl = getMaxLevel(); 
-  uplimit = (pow(deg, maxlvl+1) - 1) / (deg - 1);
+  num_nodes = 0; 
+  uplimit = (int)pow(deg, maxlvl) - 1;
 }
+
+void incNumNodes() {num_nodes++;}
+int getNumNodes() {return num_nodes;}

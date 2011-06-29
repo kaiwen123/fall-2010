@@ -10,6 +10,7 @@
 CFNode::CFNode() {
   level = 0; 
   entries.clear(); 
+  incNumNodes(); 
   DBG_CFNODE("CFNode Created.");
 }
 
@@ -77,12 +78,6 @@ bool CFNode::partition(CFNode* brother) {
     brother->addEntry(&en); 
     removeEntry(en);
   }
-  // sort all entries based on ewcd. // TODO has problem. 
-  // sort(entries.begin(), entries.end()); 
-
-  // partition half of entries to brother node. 
-
-  // now distribute half of entries to brother node. 
   return true; 
 }
 
@@ -99,6 +94,7 @@ int CFNode::insert_trans(map<string, int>& trans, CFNode** child) {
   int ret = NONE; // return value, 1 for split, 0 for not split. 
   //child = NULL;
 
+  // insert entry into leaf node. 
   if(isLeaf() && !isOverflow()) {
     // If this node is leaf node, then find the best entry that this
     // trans can be added into and insert it into this entry. 
@@ -149,7 +145,7 @@ int CFNode::insert_trans(map<string, int>& trans, CFNode** child) {
     } else { ret = NONE; } 
     return ret; 
 
-  } else { // none-leaf node.
+  } else { // add entry into none-leaf node.
 
     DBG_CFNODE("Adding transaction into index node.");
     //entryid = 0;// TODO. //getEntryById(eid)->add_trans(trans);
@@ -191,15 +187,20 @@ int CFNode::insert_trans(map<string, int>& trans, CFNode** child) {
 // @param trans - transaction to be absorbed. 
 // @param child - child node for recurssion. 
 // @return bool - true / false => success/failure.
-bool CFNode::absorb_trans(map<string, int>& trans, CFNode* child) {
+bool CFNode::absorb_trans(map<string, int>& trans, CFNode* node) {
   // find the best subtree. 
+  bool ret = true; 
+  DBG_CFNODE("Absorbing trans......"); 
+  Entry* subtree;
+  node->choose_subtree(trans, &subtree); 
+  subtree->add_trans(trans); 
 
-  // insert transaction to the root of subtree(which is an entry obj).
-
-  // get the child node of subtree. 
-
-  // do recursive absorption. 
-  return true; 
+  // if *this* node is not leaf node, then go down the tree. 
+  if (!node->isLeaf()) {
+    CFNode *child = subtree->get_child(); 
+    ret = absorb_trans(trans, child); 
+  }
+  return ret; 
 }
 // @brief choose the subtree to achieve maximum EWCD. 
 // The standard is by comparing the ewcd incrent by testing 
