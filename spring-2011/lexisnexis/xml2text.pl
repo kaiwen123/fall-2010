@@ -61,22 +61,6 @@ MAINLOOP:while (<STDIN>) {
     %metastr = ();
 
     # Extract text and meta-data. 
-    &extractText();
-    $cnt++;
-}
-
-# ======================================================================
-# @brief This routine calls citation and lnistr extraction routines to
-# finish all the work. - Helper routine. 
-# The idea is quite simple. The input string is an issue document. 
-# Then I start replacing anything I find unimportant carrying the string
-# till the end of the routine and by the time I reach the end, I have a well
-# refined, paragraph separated routine which I can finally document.
-# @param input string which is actually an issue document. 
-# @param lnistr the documment unique lnistr. 
-# @return none. 
-# ======================================================================
-sub extractText {
     # get lni string for the doc. 
     &getLNI();
     
@@ -95,7 +79,7 @@ sub extractText {
     # Get text from the document. 
     &getText();
 
-    return;    
+    $cnt++;
 }
 
 # ==================================================
