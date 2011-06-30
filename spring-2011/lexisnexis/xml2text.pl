@@ -50,7 +50,7 @@ MAINLOOP:while (<STDIN>) {
     s/\&amp\;/\&/g;		# transform ascii chars to normal form. 
 
     # a global string variable. 
-    $docstr = ""; 
+    $docstr = $_; 
     $lnistr = "";
 
     # %metastr is used to store metadata so that every time when I do 
@@ -60,19 +60,6 @@ MAINLOOP:while (<STDIN>) {
     # labels in this project include ((S|L|HN|CA_HN|FN|)_[0-9]+).
     %metastr = ();
 
-    # get lni string for the doc. 
-    &getLNI(\$_);
-    
-    # court:representation information extraction.
-    if (/<courtcase:representation>(.*?)<\/courtcase:representation>/) {
-	$docstr = $1; 
-    }
-
-    # court:opinion information extraction. 
-    if (/<courtcase:opinion[^>]*?>(.*)<\/courtcase:opinion>/) {
-	$docstr .= " " . $1;
-    }
-    
     # Extract text and meta-data. 
     &extractText();
     $cnt++;
@@ -90,18 +77,21 @@ MAINLOOP:while (<STDIN>) {
 # @return none. 
 # ======================================================================
 sub extractText {
+    # get lni string for the doc. 
+    &getLNI();
+    
     # Look for all link citations with lni's involved.
     &getLCitations();
 
+    # Look for statutory citations.
+    &getSCitations();
+    
     # Look for CA_Headnotes if its California document.
     &getHeadnotes(); 
 
     # $footnote = $caheadnote;
     &getFootnotes();
 
-    # Look for statutory citations.
-    &getSCitations();
-    
     # Get text from the document. 
     &getText();
 
@@ -111,12 +101,11 @@ sub extractText {
 # ==================================================
 # @brief Get the LNI string from the document. This value is constant
 # throughout the document. 
-# @param reference to the document as a xml string. 
+# @param global variable $docstr will be used.
 # @return The document LNI string. 
 # ==================================================
 sub getLNI {
-    my $docref = $_[0]; 
-    if ($$docref =~ '<lncr:persistentidentifier>(.*?)<\/lncr:persistentidentifier>')
+    if ($docstr =~ '<lncr:persistentidentifier>(.*?)<\/lncr:persistentidentifier>')
     {
 	$lnistr = $1;
 	$lnistr =~ s/\-//g;
@@ -200,7 +189,7 @@ sub getHeadnotes {
     while ($docstr =~ /(<casesum:headnote headnotesource=\"lexis-caselaw-editorial\">(.*?)<\/casesum:headnote>)/g) {
 	my $headnotestr = $1; 
 	$hnoteid = "HN_$i";
-	$docstr =~ s/$headnotestr/ $hnoteid /g; 
+	$docstr =~ s/\Q$headnotestr/ $hnoteid /g; 
 
 	if ($headnotestr =~ /(<text>)(.*?)(<\/text>)/) {
 	    my $hnstr = $2;
@@ -217,7 +206,7 @@ sub getHeadnotes {
 	my $cahnstr = $1;
 	my $num = $4;
 	$hnoteid = "CA_HN_$num";
-	$docstr =~ s/$cahnstr/$hnoteid /;
+	$docstr =~ s/\Q$cahnstr/$hnoteid /;
 	$metastr{$hnoteid} = "EMPTY"; 
 
 	if ($cahnstr =~ /(<text>)(.*?)(<\/text>)/)	{
@@ -250,7 +239,7 @@ sub getFootnotes {
 	my $fnotestr = $1; 
 	$fnoteid = "FN_$i"; 
 	$metastr{$fnoteid} = "EMPTY";
-	$docstr =~ s/$fnotestr/$fnoteid /g;
+	$docstr =~ s/\Q$fnotestr/$fnoteid /g;
 
 	if ($fnotestr =~ /(<text>)(.*?)(<\/text>)/)	{
 	    $fnote = $2;
