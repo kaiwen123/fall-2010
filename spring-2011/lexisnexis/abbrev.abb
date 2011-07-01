@@ -1,6 +1,6 @@
+ 190024 Civ
  635482 mr
  475788 s
- 414879 ill
  413374 co
  399675 l
  371459 mrs
@@ -51,7 +51,6 @@
   66090 colo
   64196 md
   64008 am
-  62598 wash
   59779 b
   59209 del
   52735 d
@@ -104,11 +103,8 @@
   14270 vol
   14269 bd
   13787 mfg
-  12834 york
   12816 evid
-  12532 ohio
   12388 bros
-  12027 const
   11135 cr
   10778 dept
   10453 tr
@@ -128,37 +124,27 @@
    8107 tel
    7822 comp
    7817 elec
-   7770 bank
    7624 comm
-   7520 yes
    7429 syl
    7309 ed
    6906 constr
    6878 eng
    6708 pen
    6556 cyc
-   6507 hospital
    6490 gen
-   6319 remanded
    6268 ii
-   6261 avenue
    6078 sr
    5947 cum
    5932 mt
    5525 stats
    5515 acc
-   5390 okay
    5119 vt
    5030 sou
    4884 nev
    4690 drs
-   4607 defendant
    4506 hon
    4403 an
-   4383 louisiana
    4271 mca
-   4212 smith
-   4181 cent
    4152 prac
    4141 secs
    4077 tit
@@ -182,9 +168,7 @@
    3206 op
    3131 oct
    3107 pleas
-   3088 johnson
    3033 hosp
-   2975 none
    2961 educ
    2958 chap
    2928 abs
@@ -196,20 +180,15 @@
    2836 ibid
    2812 par
    2801 order
-   2729 williams
    2710 inv
    2665 bankr
-   2571 jones
-   2565 brown
    2558 harv
    2557 indem
    2546 how
    2528 pamph
    2512 rd
-   2500 appellant
    2498 cush
    2497 assur
-   2475 error
    2461 sess
    2451 banc
    2446 aff
@@ -219,1497 +198,423 @@
    2365 barb
    2350 park
    2337 iv
-   2327 orleans
    2312 prof
    2286 exh
-   2286 connecticut
-   2263 corrections
-   2252 johns
    2246 aug
-   2240 general
-   2211 circuit
-   2199 union
-   2172 office
-   2150 service
-   2139 council
    2122 penn
-   2117 clause
    2110 dev
-   2096 wend
    2080 lbr
-   2074 statute
    2071 adm
    2064 col
-   2037 rules
-   2025 committee
    2007 inst
    1992 davis
-   1988 idaho
    1976 met
    1967 sch
-   1945 parish
    1934 plan
-   1905 virginia
    1876 anno
-   1873 trial
-   1846 rehearing
-   1827 massachusetts
-   1826 jackson
-   1823 education
-   1805 columbia
    1798 gov
-   1788 review
-   1780 rule
    1754 univ
-   1749 miller
-   1748 university
-   1738 government
-   1734 congress
    1724 amer
    1712 phila
-   1703 limitations
    1699 mem
    1699 guar
-   1650 trust
    1646 rptr
-   1638 frauds
-   1635 bus
    1630 perm
    1618 reg
-   1617 church
    1612 natl
    1609 irr
-   1598 angeles
-   1584 dismissed
-   1577 defendants
    1566 sur
    1562 mar
-   1556 kentucky
-   1554 penitentiary
-   1551 seattle
    1547 gc
    1544 z
-   1542 auto
    1526 pet
-   1523 america
-   1521 wisconsin
    1519 min
-   1513 part
-   1505 governor
-   1498 mexico
-   1497 sunday
    1492 cons
    1490 club
-   1488 cong
-   1484 dig
    1478 geo
    1467 pl
-   1455 wilson
-   1449 boston
-   1443 township
    1439 penna
-   1435 minneapolis
-   1430 rights
-   1429 action
    1428 pr
-   1428 anderson
-   1426 property
-   1425 courts
    1421 jur
-   1420 denver
    1418 mach
-   1403 creek
-   1402 contract
-   1396 reversed
    1392 twp
-   1387 petition
-   1387 hall
-   1387 commissioners
-   1385 thomas
    1382 det
-   1364 taylor
-   1360 estate
-   1350 wyoming
    1348 mun
-   1346 farm
-   1338 wheat
    1334 admin
-   1326 ordinance
-   1307 ford
-   1297 rendered
-   1296 system
    1295 annot
    1294 atty
-   1291 prison
-   1291 moore
-   1283 right
    1283 edn
    1282 br
-   1280 island
-   1278 arts
-   1274 decision
    1271 auth
    1263 tp
    1262 it
-   1254 correction
-   1247 francisco
-   1242 drive
-   1238 jail
-   1237 complaint
    1235 chem
-   1228 police
    1225 hwy
-   1224 hill
-   1224 administration
-   1218 house
-   1214 beach
    1211 prods
-   1205 people
-   1204 martin
-   1203 alaska
-   1197 oregon
    1190 fin
-   1189 practice
-   1189 ency
-   1187 september
-   1181 conduct
    1180 apr
-   1178 harris
    1177 juv
-   1175 cleveland
    1173 commrs
-   1165 thompson
-   1161 may
-   1159 consol
-   1157 claims
    1147 rsmo
-   1147 insurance
    1144 etc
    1137 prop
-   1137 building
-   1136 sustained
-   1133 home
    1133 emp
-   1132 england
-   1131 agency
    1129 soc
-   1124 lake
    1120 comrs
    1109 vii
    1103 int
-   1102 responsibility
-   1089 bell
-   1086 june
-   1083 chancellor
    1080 manuf
-   1079 respondent
    1079 doc
    1076 is
    1075 chas
-   1074 monday
    1074 admr
-   1071 white
-   1070 august
-   1068 streets
-   1055 will
-   1042 green
-   1039 college
-   1038 store
-   1035 lab
-   1031 clark
    1022 med
-   1020 july
-   1017 october
-   1017 boulevard
-   1014 appellee
-   1013 april
    1012 proc
-   1011 dollars
-   1011 charter
    1010 vi
    1009 jud
-   1008 detroit
    1003 cl
-   1000 record
-    997 laws
     995 calif
-    994 hotel
-    988 health
-    981 canada
-    979 west
     979 imp
-    978 bureau
-    975 associates
-    969 lewis
     962 saf
-    960 director
-    958 miranda
     956 cert
     955 tax
     954 ev
-    951 robinson
     950 exch
-    949 nevada
     948 pt
     946 rys
-    946 november
-    940 wife
-    940 program
-    940 counsel
-    937 dakota
-    932 judges
     928 equip
     927 liq
-    923 english
-    921 walker
     919 esq
-    912 amendments
     907 allen
     901 scott
     899 spec
     897 x
     896 mis
     894 lee
-    890 young
-    890 king
-    877 december
-    875 james
-    875 article
-    874 station
-    870 foster
-    869 counties
     868 inn
     866 rouge
-    855 chevrolet
     853 ves
-    849 clerk
-    846 march
-    846 compensation
     844 sts
-    839 wright
-    833 american
     832 loc
-    832 january
     830 adams
     828 sp
-    827 hartford
-    825 highway
     823 servs
-    819 car
-    816 time
-    816 baker
-    815 degree
     814 el
     800 maj
-    797 falls
-    796 pittsburgh
-    796 costs
-    790 springs
-    784 parties
-    783 plaintiffs
-    783 husband
-    772 maine
-    769 dissenting
-    768 him
-    767 place
     766 subd
-    762 hawaii
     761 metc
-    758 referee
     758 nav
-    757 john
-    756 trustees
-    751 roberts
-    751 national
-    750 saturday
-    745 phoenix
-    745 memorandum
-    742 regulations
-    738 section
-    737 motion
-    736 phillips
-    734 instructions
     732 abb
-    731 village
-    731 verdict
-    729 project
     727 decl
-    726 mitchell
-    722 first
-    720 lane
-    719 objection
-    713 administrator
-    710 exceptions
-    710 clinic
-    709 evans
-    708 february
-    705 question
-    705 houston
-    702 participating
-    701 one
-    700 parker
-    695 rock
-    693 cincinnati
-    693 airport
-    692 second
-    686 cadillac
-    684 carter
-    681 turner
-    679 trustee
     678 supr
-    676 sheriff
-    674 utah
     673 mot
-    672 bay
     671 compl
     670 harr
-    668 guidelines
-    667 welf
     666 fsupp
-    666 brothers
-    665 columbus
-    662 valley
-    662 policy
-    660 rob
-    660 edwards
     659 prod
-    659 day
-    657 collins
-    655 springfield
-    654 made
     654 ida
-    653 nelson
     651 sen
-    642 miami
     642 fid
-    641 railroad
     641 elev
-    638 federal
-    637 officer
-    637 friday
-    635 brooklyn
-    634 petitioner
-    634 montgomery
     634 assocs
-    632 apartments
-    630 party
-    628 acts
     627 vil
-    627 secretary
-    627 mutual
-    627 erisa
-    626 stewart
     626 ref
-    625 haven
     625 def
     624 prob
-    622 morris
-    622 colum
     620 trans
-    620 society
-    620 senate
     620 contr
     620 bro
     619 rel
-    619 campbell
-    619 amend
-    618 atlanta
-    616 ward
-    616 cook
-    612 rest
-    611 appellants
-    609 god
-    608 exchange
-    607 statement
-    607 kelly
-    606 cases
-    603 birmingham
-    598 army
     597 veh
-    597 sir
-    597 revenue
-    594 price
-    593 rogers
-    591 nebraska
-    591 memphis
-    591 jefferson
-    588 report
-    587 lease
-    583 security
-    580 newark
     580 capt
     578 hous
     577 ia
-    576 heights
-    572 only
     572 exs
     571 val
-    571 group
-    569 dictionary
-    567 motors
     567 legis
     567 corps
     565 dallas
-    563 president
-    559 yeah
-    559 unit
-    559 fact
-    559 cooper
     559 ad
-    556 answer
-    548 negligence
-    548 morgan
-    547 dismiss
-    546 welfare
-    545 gray
-    544 note
     542 enc
-    540 hearing
-    540 claim
-    538 institute
-    537 them
-    537 buick
-    537 account
     535 pontiac
-    535 michael
-    535 facts
-    535 decree
     535 adv
     534 scam
-    534 damages
     533 rec
-    532 robert
-    532 murphy
-    532 incorporated
     531 commr
-    527 spokane
-    526 wood
-    525 subdivision
-    524 proceedings
-    524 burke
-    523 howard
-    522 mand
-    521 george
-    521 construction
-    520 charles
-    519 directors
-    518 works
     518 depo
-    516 germany
     514 sys
-    513 treasurer
     511 gilm
     511 coop
     509 cow
     506 thereof
-    505 chancery
-    504 allstate
-    501 hamilton
-    500 same
-    500 force
     500 cox
     499 ross
-    499 point
-    499 mills
-    496 testimony
-    494 dissents
-    493 black
-    492 util
-    492 realty
-    492 mandamus
-    491 charge
-    490 two
-    489 directions
     489 ctr
-    487 market
-    487 dissent
     487 bva
-    486 reed
-    485 title
     484 supt
     484 lsd
-    483 safety
-    483 motel
-    482 foundation
     481 dui
     480 riv
-    480 east
-    479 control
-    478 peterson
-    476 jurisdiction
-    475 lounge
-    475 griffin
     474 ord
-    471 transportation
-    469 oldsmobile
-    469 brooks
-    467 richardson
-    467 death
-    466 russell
-    466 coleman
-    465 marshall
-    465 long
     464 supra
     464 sect
     464 hughes
     460 ptsd
-    460 partnership
-    460 labor
-    460 bailey
-    459 woods
     459 mfrs
-    458 tucson
-    456 wilmington
     455 ops
-    454 austin
-    453 employment
-    452 manhattan
-    452 continental
     450 oh
-    450 life
     450 commn
-    448 murder
     448 mary
-    448 cross
     447 rico
-    444 mother
-    444 henderson
-    444 butler
-    443 international
-    443 employer
     443 bl
-    442 appellees
-    440 vehicles
     439 sub
-    439 buffalo
-    438 greenl
-    437 information
     437 hills
-    436 restaurant
-    435 sanders
-    435 lawrence
-    434 sale
     434 mart
-    433 shop
-    433 baltimore
-    432 town
-    432 industries
-    432 bridge
     428 sullivan
     428 aetna
     426 william
     423 con
-    422 ranch
-    422 father
-    420 corpus
-    419 facility
-    419 accident
-    417 franklin
-    416 restatement
-    416 hampshire
-    413 superintendent
     413 liab
-    413 gibson
     413 cos
-    412 watson
     411 viii
-    411 investigation
     409 sm
     408 wichita
-    408 third
-    408 test
     408 mtg
-    408 jacksonville
-    406 terry
-    406 sales
-    406 david
-    406 broadway
-    405 relief
-    405 gordon
-    405 field
-    404 dick
-    404 bennett
-    404 albany
-    403 bond
-    402 notice
-    402 defense
-    402 cause
-    401 mcdonald
-    401 grant
-    400 jenkins
-    399 stock
-    399 myers
-    398 perry
-    397 manager
     397 griev
     397 exp
-    396 indianapolis
-    395 treas
-    395 kans
-    394 torts
-    394 stew
-    394 convention
-    393 reynolds
-    392 premises
-    392 powell
-    392 portland
-    392 mortgage
-    391 pacific
     390 mgt
     390 hunt
-    389 honolulu
     388 regs
-    387 tulsa
     387 monroe
-    386 western
-    386 master
-    386 interest
     385 warren
     385 palmer
     385 beav
     384 shreveport
     382 ucc
-    382 europe
     382 blvd
     382 ben
     381 strickland
-    381 replacement
-    380 wallace
-    380 barnes
-    379 navy
-    379 metro
-    379 felony
-    376 louisville
-    375 alexander
-    374 area
     373 thos
     373 sw
     373 est
     371 duluth
     370 graham
-    369 wells
-    369 reformatory
-    369 highways
     369 ellis
-    367 harrison
-    366 vacated
-    366 dayton
-    366 central
-    365 simmons
-    364 stone
-    363 lodge
-    363 cmwlth
-    362 power
-    362 business
     362 apa
-    361 sessions
     361 edw
-    360 line
-    360 henry
-    360 examination
-    360 defender
     360 cur
-    359 years
-    359 stevens
     359 ste
-    357 borough
     356 webb
-    356 claimant
     355 whart
     355 gr
-    355 elizabeth
-    355 conclusion
-    354 hayes
-    354 children
-    354 bonds
-    353 comptroller
-    352 work
-    352 way
     351 bur
-    349 plant
-    349 development
-    348 patterson
-    348 leg
-    348 child
     348 ada
     347 cole
     347 apts
-    347 appendix
-    346 sundays
-    345 limited
     344 uccja
-    344 nashville
-    344 douglas
-    343 tucker
     343 holmes
     343 dkt
-    342 travelers
-    342 owens
-    342 moines
-    342 chrysler
     341 rr
     341 resp
     341 hudson
-    341 electric
-    341 burns
     340 res
-    340 grove
-    340 fisher
-    339 joseph
-    339 issue
     338 ix
-    338 affirming
-    336 mobile
-    336 lynch
-    336 justices
-    335 united
-    335 steel
-    335 rose
     335 fam
-    335 application
     335 ans
-    334 liability
-    334 injury
-    334 concurring
-    333 rochester
     333 ib
-    333 filed
     332 ryan
-    332 consideration
     331 shaw
-    330 merits
-    330 guilty
-    330 france
-    330 banks
-    329 thereto
-    329 jordan
     329 irs
-    329 farms
-    328 tuesday
-    328 land
-    327 tacoma
-    327 deceased
-    327 daniels
-    327 adjustment
     326 cont
     326 asso
-    325 nationwide
-    325 entry
-    324 territory
-    324 homes
-    324 branch
     324 apt
-    323 north
-    323 laboratory
     322 zab
-    322 oil
-    322 insured
-    322 bill
-    321 purpose
-    321 enterprises
-    320 sears
     320 dixon
     319 tavern
-    319 journal
-    319 commerce
     318 opp
-    318 equalization
-    318 camp
-    318 bryant
     317 moot
-    317 anchorage
-    316 ray
-    316 murray
-    316 hunter
-    316 barn
-    316 automobile
     315 bish
-    314 memo
-    314 mayor
-    314 kennedy
-    314 chambers
     314 alj
-    313 porter
-    313 peace
     313 admx
     312 suppl
-    312 frank
-    312 finance
-    311 christmas
-    310 paul
     310 neg
     309 garcia
-    309 carroll
-    308 indians
-    308 addition
-    307 richard
-    307 rapids
-    307 batson
-    307 balto
-    306 cohen
-    304 japan
-    304 effect
     303 rt
     303 pom
-    303 cafe
-    302 her
     302 dict
-    301 rodriguez
-    301 lines
-    300 spanish
-    300 simpson
     299 summ
-    299 pierce
     299 burr
     298 war
-    298 chapman
     297 dir
     297 ass
-    296 misconduct
-    296 boyd
-    295 management
-    294 schools
-    294 resources
     294 mtge
-    294 accordingly
-    293 instruction
-    293 estates
-    293 diego
-    292 rice
-    292 lincoln
-    291 sons
-    291 representatives
-    291 patrol
     290 manf
-    290 examiners
     290 bk
-    290 berry
-    289 vietnam
-    289 sentence
-    289 freeman
-    289 date
-    288 republic
-    288 intern
-    288 hicks
-    288 bridgeport
-    287 thereon
-    287 news
-    287 invest
-    286 manual
     286 hart
-    286 ferguson
-    286 engineer
-    285 mall
-    285 guard
     285 fig
     285 brady
     285 authy
     285 arnold
     284 witness
-    284 toledo
     284 indep
-    284 exception
     284 envtl
-    284 deed
-    283 result
     283 puc
-    283 powers
-    283 found
-    283 fees
     283 curtis
-    282 square
     282 ibm
-    281 son
     281 psc
     280 fox
-    279 owner
     279 mortg
-    279 daniel
     279 blackf
-    278 reservation
     278 para
-    278 morrison
     278 jos
-    277 supervisors
-    277 contractor
     276 olson
-    276 companies
-    275 witnesses
-    275 reports
-    275 plaza
-    275 fowler
     275 coll
-    274 universal
-    274 resolution
-    274 kelley
-    274 equity
     274 dunn
-    274 bradley
-    273 martinez
     272 tampa
     272 reh
-    272 madison
-    272 lafayette
-    272 gilbert
-    271 plymouth
-    271 pleadings
-    271 bing
-    271 annotated
-    270 settlement
     269 unif
     269 dom
-    269 caldwell
-    268 taken
-    268 mason
-    268 farmers
     268 dwi
-    268 decedent
-    268 armstrong
-    268 agent
-    267 star
-    267 products
-    267 negroes
-    267 erie
-    267 carpenter
     266 mnfg
-    266 johnston
-    266 engineers
     266 doe
-    266 brief
-    265 robbery
-    265 peoria
-    265 italy
-    265 issues
-    265 agriculture
     264 vand
-    264 parkway
-    264 ethics
-    264 dill
-    264 carr
-    264 affairs
-    263 vermont
-    263 prejudice
-    263 page
-    263 institution
-    263 harbor
-    262 mustang
     262 marsh
-    262 london
-    262 holland
     262 dean
     262 boro
     262 bkg
-    261 treasury
-    261 islands
-    261 harvey
-    261 book
-    260 spencer
     260 riley
-    260 loan
     260 craig
-    258 times
-    258 allowed
-    257 paid
     257 hawkins
-    257 debtor
-    256 thursday
-    256 presented
-    256 payne
-    256 care
-    255 three
-    255 stand
     255 serg
-    255 here
-    255 below
     254 watkins
-    254 crawford
     253 wisc
     253 traf
     253 gratt
-    252 mill
-    252 gas
-    252 bush
-    251 districts
-    251 antonio
-    250 modified
     250 hoffman
     250 akron
-    249 stephens
     249 sims
-    249 peters
     249 nichols
-    249 matter
     249 alex
     248 xiv
-    248 wills
-    248 volkswagen
     248 pros
-    248 grounds
-    248 determined
     248 bhd
-    247 matthews
-    247 elections
-    247 dodge
-    247 correct
-    247 certificate
-    247 barker
     246 mod
-    245 use
-    245 conference
     243 std
-    243 records
-    243 oliver
-    243 meyer
     243 jas
     243 conf
     242 intl
-    242 elliott
-    241 support
-    241 fraud
     241 do
-    240 worth
-    240 willis
-    240 orange
-    240 dennis
     240 den
-    240 academy
-    239 proof
     239 bev
     238 xi
-    238 newton
-    238 milwaukee
-    238 anthony
-    238 amended
-    237 therein
-    237 perkins
-    237 larson
     237 cpl
-    236 williamson
-    236 systems
-    236 schwartz
-    236 andrews
-    235 robertson
-    235 proceeding
-    235 oakland
-    235 cutpa
     235 ap
-    234 sacramento
-    233 sound
-    233 properties
     233 pcp
-    233 internat
-    232 receiver
     232 kent
     232 chit
-    231 unemp
-    231 involved
-    230 public
-    230 agreements
-    229 period
-    229 gardner
-    229 discretion
-    228 rich
     228 merc
-    228 indictment
     227 pers
-    226 richmond
-    226 fourth
     226 duncan
-    225 turnpike
-    225 funds
-    225 canal
-    224 ordinances
-    224 lien
-    224 definitions
-    224 billings
-    224 baldwin
-    223 snyder
     223 sandf
     222 todd
     222 temp
-    222 election
     222 dam
     220 wheeler
     220 tyler
-    220 tribunal
-    220 standard
-    220 knoxville
-    220 jacobs
-    220 fields
-    220 circumstances
-    219 webster
-    219 wagner
-    219 process
     219 post
-    219 panel
-    219 injunction
-    218 relations
-    218 injuries
-    218 fairbanks
     218 bates
-    217 required
     217 parks
-    217 digest
-    217 credit
-    217 bronx
-    216 wednesday
-    216 rockford
     216 not
     216 jnov
-    216 greene
-    216 collision
-    216 auditor
-    215 taxation
     215 har
     215 exr
-    215 cunningham
     215 cor
-    215 attorneys
     214 vs
-    214 room
     214 pres
-    214 man
-    214 chester
-    214 ball
-    213 leonard
-    213 houst
-    213 blair
-    213 aurora
     213 arcp
     213 al
-    212 see
     212 russ
     212 reid
-    212 money
     212 gary
     212 bldrs
     212 benson
-    211 wade
     211 tract
-    211 register
-    211 regents
-    211 prudential
-    211 pass
-    211 overviewtex
-    211 curt
     210 cts
-    209 richards
-    209 norman
-    209 hernandez
-    208 stanley
-    208 generally
     208 fleming
-    208 barnett
-    207 worcester
     207 welch
-    207 queens
     207 howell
-    207 examiner
     207 esquire
-    207 disposition
-    207 casualty
-    207 arthur
-    206 walter
     206 mccoy
-    206 garrett
-    206 fidelity
-    205 knight
     205 hrs
-    205 governors
-    205 gates
     205 davenport
-    205 barbara
-    205 argument
-    204 value
     204 prov
-    204 lakes
-    204 harper
-    204 distrib
-    204 cambridge
     204 bishop
-    204 base
-    203 pearson
     203 lynn
     203 lopez
-    203 liberty
-    203 chief
-    203 carlson
-    202 schmidt
-    202 ridge
-    202 reservoir
-    202 person
-    202 everett
-    202 edward
     201 wayne
     201 pro
     201 pp
-    201 pike
     201 holt
-    201 camden
-    201 bull
     200 us
-    200 supplement
     200 props
-    200 lexington
-    200 equipment
-    199 view
     199 stan
-    199 railway
-    199 fair
-    199 cemetery
-    199 calendar
-    198 year
-    198 shelton
     198 ok
-    198 linda
-    198 done
     198 cuy
-    198 contracts
     198 comr
-    198 burton
-    198 alimony
     197 vict
-    197 supply
-    197 steele
     197 secy
-    197 prohibition
     197 hun
-    197 brewer
-    197 actions
-    196 warner
     196 sq
-    196 condition
     196 bac
-    195 payment
-    195 forest
     195 atk
-    194 weaver
-    194 pharmacy
-    194 paterson
-    194 newman
-    194 form
-    194 decatur
     194 chi
-    194 bluff
     193 weber
-    193 thornton
-    193 rhodes
-    193 hammond
-    193 bend
-    192 sim
     192 nw
-    192 benefits
-    191 suit
-    191 nation
-    191 hanson
     191 agr
-    190 higgins
     190 dauph
-    190 chattanooga
-    190 certiorari
     189 tech
-    189 notes
     189 joliet
     189 halst
-    189 given
-    189 four
-    189 duty
-    189 chandler
-    188 watts
-    188 lyons
-    188 gregory
-    188 chapter
-    188 bowman
-    187 site
-    187 patent
-    187 orlando
-    187 orders
     187 lessee
-    187 frazier
-    187 express
-    186 vernon
-    186 truck
-    186 parole
-    186 manfg
     186 ald
     185 walsh
-    185 true
     185 supps
     185 rly
     185 pars
     185 indemn
     185 britain
-    184 troy
-    184 levy
-    184 hopkins
     184 hen
     184 fbi
     184 empl
     184 dot
-    183 indian
-    183 graves
-    183 foods
-    183 davidson
-    183 beck
-    182 schultz
-    182 savings
-    182 possession
-    182 medicine
     182 foia
-    182 conditions
-    182 clinton
-    181 southern
-    181 marie
-    181 fuller
-    181 family
     181 exrs
-    181 coast
-    181 builders
-    180 townsend
-    180 respondents
-    180 reeves
-    180 margaret
-    180 logan
     180 iad
-    180 grace
     179 vegas
-    179 surrogate
-    179 refused
-    179 purposes
-    179 marriage
-    179 light
-    179 junction
-    179 declaration
-    178 weeks
-    178 topeka
-    178 reserve
-    178 marion
-    178 hale
-    178 edison
-    178 bowen
-    178 award
-    177 thunderbird
-    177 stated
-    177 relator
-    177 penalty
-    177 negro
-    177 midwest
-    177 medicaid
     177 mark
-    177 affidavit
-    176 offense
-    176 manning
-    176 interstate
-    176 divorce
-    176 determination
-    175 french
-    175 floyd
-    175 alright
-    175 alexandria
-    174 noted
-    174 ditch
-    174 discipline
-    174 crown
-    174 corvette
-    174 booth
-    173 taunt
-    173 sterling
-    173 reporter
-    173 prosecutor
-    173 herein
-    172 whitaker
-    172 syracuse
-    172 shield
-    172 press
-    172 northern
-    172 israel
-    172 instr
     172 hy
-    172 donald
     172 dhs
-    172 dall
-    172 commercial
-    172 character
-    172 accounts
-    171 resentencing
-    171 love
-    171 jennings
-    171 cameron
-    171 acres
-    170 taxes
-    170 tate
-    170 stark
     170 seq
-    170 seller
     170 roy
     170 ph
-    170 manor
-    170 fire
-    170 doctor
-    169 stores
     169 stmt
-    169 lawson
-    169 edition
-    169 dawson
-    169 camaro
-    169 all
-    168 robbins
-    168 paso
-    168 mccarthy
     168 ld
-    168 harrisburg
-    167 youngstown
     167 pol
-    167 miles
-    167 lessor
-    167 employees
     167 cba
-    167 basin
-    166 session
-    166 pope
     166 phil
-    166 patrick
-    166 norris
-    166 league
-    166 burglary
-    165 trenton
     165 taxn
     165 stor
-    165 roads
     165 pat
-    165 magistrate
     165 korea
     165 klein
     165 inds
-    165 courthouse
-    165 becker
-    164 walters
-    164 void
-    164 toyota
     164 theo
-    164 standards
     164 simon
-    164 officers
     164 flsa
     164 fdic
     164 cab
-    163 tallahassee
     163 print
-    163 norton
-    163 mercury
-    163 hodges
-    163 garage
-    163 doyle
-    163 avenues
-    162 superior
-    162 fine
     162 cplr
-    162 cited
-    161 survey
-    161 port
-    161 paris
-    161 goodman
-    161 chase
     160 vaughn
     160 sanchez
     160 neal

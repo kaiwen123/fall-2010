@@ -44,7 +44,7 @@ $cnt = 1;
 # ======================================================================
 MAINLOOP:while (<STDIN>) {
     # Eliminate noise and weird characters.
-    s/§/S/g;			# remove special chars; 
+    # s/§/S/g;			# remove special chars; 
     s/ //g;
     s/\$ /\$/g;
     s/\&amp\;/\&/g;		# transform ascii chars to normal form. 
@@ -70,11 +70,11 @@ MAINLOOP:while (<STDIN>) {
     # Look for statutory citations.
     &getSCitations();
     
-    # Look for CA_Headnotes if its California document.
-    &getHeadnotes(); 
-
     # $footnote = $caheadnote;
     &getFootnotes();
+
+    # Look for CA_Headnotes if its California document.
+    &getHeadnotes(); 
 
     # Get text from the document. 
     &getText();
@@ -109,23 +109,49 @@ sub getLNI {
 # ==================================================
 sub getLCitations {
     my $i = 1;
-    
+
+    # while ($docstr =~ m/(<rfc:anchorcite lni=\"([A-Z0-9_]+)\"[^>]*>(.*?)<\/rfc:anchorcite>)/g) {
+    # 	my $citestr = $1; 
+    # 	my $destlni = $2; 	# cited issue doc lni. 
+    # 	my $localciteid = ""; 
+    # 	my $citecontent = ""; 
+    # 	my $citeid = "L_$i";
+
+    # 	$docstr =~ s/\Q$citestr/ $citeid /g; 
+    # 	# get document unique cite id. 
+    # 	if ($citestr =~ m/<lnci:cite ID=\"([A-Z0-9]+)\"/) {
+    # 	    $localciteid = $1; 
+    # 	}
+
+    # 	# get cite content. 
+    # 	$destlni =~ s/-//g;
+    # 	if ($citestr =~ m/<cite:content[^>]*>(.*)<\/cite:content>/) {
+    # 	    $_ = $1; 
+    # 	    s/<[^>]+>//g;	# remove xml label.
+    # 	    $citecontent = $_;
+    # 	}
+    # 	print "CASEREFS:" . $lnistr . ":" . $citeid . "::$destlni:$localciteid:$citecontent\n";
+    # }
+
+    # return;     
+
     while ($docstr =~ /((.{200})(<lnci:cite ID=\"([^\"]*?)\"[^>]*?normprotocol=\"lexsee\"[^>]*>(.*?)<\/lnci:cite>))/g){
 	my $timepass = $2;
 	my $string = $3;
-	my $id = $4;
+	my $localid = $4;
 	my $citestr = $5;
 	my $actuallni = ""; 
 	if ( $timepass =~ /lni=\"([A-Z0-9-]+)\"/) { 
 	    $actuallni = $1; 
 	    $actuallni =~ s/-//g; 
 	}
-	$citestr =~ s/<.*?>//g;
-	$citestr =~ s/<\/.*?>//g;
-	$citation = $lnistr.":L_".$i."::".$id."::".$actuallni."::".$citestr."\n";
+	my $citeid = "L_$i"; 
+	$citestr =~ s/<[^>]+>//g;
+	# $citestr =~ s/<.*?>//g;
+	# $citestr =~ s/<\/.*?>//g;
+	$citation = $lnistr . ":" . $citeid . "::$actuallni:$localid:$citestr\n";
 	print "CASEREFS:" . $citation;
 
-	my $citeid = "L_$i"; 
 	$metastr{$citeid} = $citestr; 
 	# print $metastr{$citeid} . "\n"; 
 	$docstr =~ s/\Q$string/ $citeid /g; # $citestr/;
@@ -136,7 +162,7 @@ sub getLCitations {
 # ==================================================
 # @brief As compared with the above routine, this routine helps in finding
 # statutory citations in the document. The format it captures is as follows:
-# Lni-current document::S_(citation_number)::TokenID:: Actual citation
+# Lni-current document::S_(citation_number)::localID:: Actual citation
 # @param $docstr which are global variables for each doc. 
 # @param lnistr - the document unique string. 
 # @return none, but will update the global $docstr. 
@@ -144,18 +170,16 @@ sub getLCitations {
 sub getSCitations {
     my $i = 1;
 
-    while ($docstr  =~ /(<lnci:cite ID=\"([^\"]*?)\"[^>]*?normprotocol=\"lexstat\"[^>]*>(.*?)<\/lnci:cite>)/g)
-    {
+    while ($docstr  =~ /(<lnci:cite ID=\"([A-Z0-9]+)\"[^>]*normprotocol=\"lexstat\"[^>]*>(.*?)<\/lnci:cite>)/g) {
 	my $string = $1;
-	my $token = $2;
+	my $localid = $2;
 	my $citestr = $3;
-	$citestr =~ s/<.*?>//g;
-	$citestr =~ s/<\/.*?>//g;
+	$citestr =~ s/<[^>]+>//g; # remove xml label. 
 
 	my $citeid = "S_$i"; 
 	$metastr{$citeid} = $citestr; 
-	print "CASEREFS:" . $lnistr.": S_".$i."::$token $citestr\n";
-	$docstr =~ s/\Q$string/ S_$i /g; # $citestr/;
+	print "CASEREFS:" . "$lnistr:" . $citeid . "::$localid:$citestr\n";
+	$docstr =~ s/\Q$string/ $citeid /g; # $citestr/;
 	$i++;
     }
 }
@@ -173,14 +197,14 @@ sub getHeadnotes {
     while ($docstr =~ /(<casesum:headnote headnotesource=\"lexis-caselaw-editorial\">(.*?)<\/casesum:headnote>)/g) {
 	my $headnotestr = $1; 
 	$hnoteid = "HN_$i";
-	$docstr =~ s/\Q$headnotestr/ $hnoteid /g; 
+	# $docstr =~ s/\Q$headnotestr/ $hnoteid /g; 
 
 	if ($headnotestr =~ /(<text>)(.*?)(<\/text>)/) {
 	    my $hnstr = $2;
 	    $hnstr =~ s/<.*?>//g;
 	    $hnstr =~ s/<\/.*?>//g;
 	    $metastr{$hnoteid} = $hnstr;
-	    print "HEADOUTPUT:" . "$lnistr:$hnoteid $hnstr\n\n";
+	    print "HEADOUTPUT:" . "$lnistr:$hnoteid:$hnstr\n\n";
 	    $i++;
 	}
     }
@@ -203,10 +227,9 @@ sub getHeadnotes {
 		$hnstr =~ s/ \"(\S[^"]+) \" / \"$1\" /g ;
 		$hnstr =~ s/ \" ([^"]+) \" / \"$1\" /g ;
 	    }
-	    print "HEADOUTPUT:" . "$lnistr:$hnoteid $hnstr\n\n";
+	    print "HEADOUTPUT:" . "$lnistr:$hnoteid:$hnstr\n\n";
 	}
     }
-
     return; 
 }
 
@@ -255,56 +278,37 @@ sub getFootnotes {
 # ==================================================
 sub getText {
     my $i=1;
+    my $parid = "zzz"; 
     $parstr = "";
-    
-    # This part does the actual paragraph extraction.
-    while  ($docstr =~ /<p>(.*)<\/p>/g) {
-	my $par = $1;
-	while ($par =~ /<text>(.*?)<\/text>/g) {
-	    $partxt = $1;
-	    $partxt =~ s/<.*?>//g;
-	    $partxt =~ s/<\/.*?>//g;
+    print $lnistr . "\n\n"; 
 
-	    # Check these cases, it might fail in cases other than
-	    # sentences which start with a lower case letter. 
-	    # as I am presuming that all such sentences which start with lower
-	    # case can be attached to the previos paragraph.
-	    if ($partxt =~ /^[a-z]+?/) { 
-		$parstr =~ s/\s*\n*$//; 
-		$parstr = $parstr." ".$partxt."\n\n"; 
-	    } else {
-		$parstr = $parstr."PARAGRAPH_".$i."\n".$partxt."\n\n";
-		$i++;
-	    }
+    # extract all the paragraph data. 
+    while($docstr =~ m/<p>(.*?)<\/p>/g) {
+	my $doc = $1; 
+	if ($doc =~ /<ref:anchor id=\"([a-z]+_[0-9]+)\"\/>/) {
+	    $parid = $1;
+	    print $parid . "\n";
 	}
+
+	# extract paragraph data. 
+	if($doc =~ m/<text>(.*)<\/text>/) {
+	    $parstr = $1;
+
+	    $parstr =~ s/<[^>]+>//g; # remove xml labels. 
+	    $parstr =~ s/  +/ /g; # remove additional space. 
+	    $parstr =~ s/ ([,\;\.])/$1/g; # remove space before ending punctuations.
+	    $parstr =~ s/^ +//g; # remove leading space. 
+
+	    print $parstr . "\n\n";
+
+	    # do sentence cutting. 
+	    &preProcess(); 
+	    &postProcess(); 
+	}
+	print "\n===============End of $parid==========\n";
     }
 
-    $parstr = "\n\n\n".$lnistr."\n\n".$parstr;
-
-    # Remove double spaces and other unimportant things.
-    $parstr =~ s/  +/ /g;
-    $parstr =~ s/\( +/\(/g;
-    $parstr =~ s/ \./\./g;
-
-    if ( $parstr =~ / \" / ) {
-	$parstr =~ s/ \" ([^"]+\S)\"/ \"$1\"/g ;
-	$parstr =~ s/ \"(\S[^"]+) \" / \"$1\" /g ;
-	$parstr =~ s/ \" ([^"]+) \" / \"$1\" /g ;
-    }
-
-    # This part tries to avoid lni string being printed twice.
-    # If a document has both courtcase:representation and courtcase:opinion parts
-    # I tried to pass them both through this entire sub routine twice.
-    # This part of logic avoids this LNI of document to be printed twice.
-    if ($parstr !~ /^[\s\n\r]*[A-Z0-9]{23}:[\s\r\n]*$/) {
-	# Do sentence cutting here. 
-    	# print $parstr;
-
-	# do sentence cutting. 
-	&preProcess(); 
-	&postProcess(); 
-    }
-    return;
+    return ;
 }
 
 # ==================================================
@@ -385,12 +389,14 @@ sub preProcess {
 # ==================================================
 sub postProcess {
     &loadAbbrev(); 
-    my $sentence = get_sentences($parstr); 
-    foreach $sentence (@$sentence) {
+    my $sentences = get_sentences($parstr); 
+    foreach $sentence (@$sentences) {
 	# post-process the sentence.
 	$sentence =~ s/  +/ /g;	# remove redundant spaces. 
 	$sentence =~ s/\.\./\./g; # remove additional period mark. 
 	$sentence =~ s/ ,/,/g;	  # remove space before ,. 
+	$sentence =~ s/^\s+//g;	  # remove leading space. 
+	$sentence =~ s/^\"([^\"]+)/$1/g; # remove unbalanced quotation. 
 
 	# replace the labels back: ((S|L|HN|CA_HN|FN|)_[0-9]+).
 	while ($sentence =~ /((S|L|HN|CA_HN|FN)_[0-9]+)/g) {
@@ -420,12 +426,11 @@ sub loadAbbrev {
 
     LOOP:while (<ABBFILE>) {
 	chomp; 
-	s/[0-9]+ //g; 		# remove counting.
-	s/ //g; 
+	s/[0-9]+ +//g; 		# remove counting.
 	# print $_ . " ";
 	push @abbv, "$_"; 
 	$cnt++;
-	if ($cnt >= 2000) {
+	if ($cnt >= 600) {
 	    last LOOP;
 	}
     }
