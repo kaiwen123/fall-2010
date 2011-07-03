@@ -14,5 +14,5 @@ for i in $(seq $NUM); do
     sed ''"$DOC"'q;d' $INPUT > input_$i.xml;
 
     echo "processing doc" input_$i.xml;
-    perl conv_to_text.latest input_$i.xml _$i | perl sentence_cutting/tosentence.pl > split_$i.sen; 
+    perl xml2text.pl input_$i.xml _$i | perl sentence_cutting/tosentence.pl > split_$i.sen; 
 done

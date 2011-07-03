@@ -3,6 +3,7 @@
 # Examples are shown as follows: 
 # 
 
+print @INC;
 while (<STDIN>) {
     # preprocessing. 
     if ($_ = /(( [^ \.]+){3})\.([A-Z][^ \.]+ .{20})/) {

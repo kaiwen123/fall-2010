@@ -287,6 +287,7 @@ sub getText {
 	my $doc = $1; 
 	if ($doc =~ /<ref:anchor id=\"([a-z]+_[0-9]+)\"\/>/) {
 	    $parid = $1;
+	    print ">>>>>>>>>>Start of $parid>>>>>>>>>>\n";
 	    print $parid . "\n";
 	}
 
@@ -305,7 +306,7 @@ sub getText {
 	    &preProcess(); 
 	    &postProcess(); 
 	}
-	print "\n===============End of $parid==========\n";
+	print "\n<<<<<<<<<<End of $parid<<<<<<<<<<\n\n";
     }
 
     return ;
@@ -388,7 +389,7 @@ sub preProcess {
 # @return none. 
 # ==================================================
 sub postProcess {
-    &loadAbbrev(); 
+    # &loadAbbrev(); 
     my $sentences = get_sentences($parstr); 
     foreach $sentence (@$sentences) {
 	# post-process the sentence.
