@@ -110,30 +110,34 @@ sub getLNI {
 sub getLCitations {
     my $i = 1;
 
-    # while ($docstr =~ m/(<rfc:anchorcite lni=\"([A-Z0-9_]+)\"[^>]*>(.*?)<\/rfc:anchorcite>)/g) {
-    # 	my $citestr = $1; 
-    # 	my $destlni = $2; 	# cited issue doc lni. 
-    # 	my $localciteid = ""; 
-    # 	my $citecontent = ""; 
-    # 	my $citeid = "L_$i";
+    # need to verify the structure of original xml file. 
+    while ($docstr =~ m/(<rfc:anchorcite lni=\"([A-Z0-9\-]+)\"[^>]*>(.*?)<\/rfc:anchorcite>)/g) {
+    	my $citestr = $1; 
+    	my $destlni = $2; 	# cited issue doc lni. 
+    	my $localciteid = ""; 
+    	my $citecontent = ""; 
+    	my $citeid = "L_$i";
 
-    # 	$docstr =~ s/\Q$citestr/ $citeid /g; 
-    # 	# get document unique cite id. 
-    # 	if ($citestr =~ m/<lnci:cite ID=\"([A-Z0-9]+)\"/) {
-    # 	    $localciteid = $1; 
-    # 	}
+    	# get document unique cite id. 
+    	if ($citestr =~ m/<lnci:cite ID=\"([A-Z0-9]+)\"/) {
+    	    $localciteid = $1; 
+    	}
 
-    # 	# get cite content. 
-    # 	$destlni =~ s/-//g;
-    # 	if ($citestr =~ m/<cite:content[^>]*>(.*)<\/cite:content>/) {
-    # 	    $_ = $1; 
-    # 	    s/<[^>]+>//g;	# remove xml label.
-    # 	    $citecontent = $_;
-    # 	}
-    # 	print "CASEREFS:" . $lnistr . ":" . $citeid . "::$destlni:$localciteid:$citecontent\n";
-    # }
+    	# get cite content. 
+    	$destlni =~ s/-//g;
+    	if ($citestr =~ m/<lnci:content[^>]*>(.*)<\/lnci:content>/) {
+    	    $_ = $1; 
+    	    s/<[^>]+>//g;	# remove xml label.
+    	    $citecontent = $_;
+    	}
+    	$docstr =~ s/\Q$citestr/ $citeid /g; 
+	$metastr{$citeid} = $citecontent; 
 
-    # return;     
+    	print "CASEREFS:" . $lnistr . ":" . $citeid . "::$destlni:$localciteid:$citecontent\n";
+	$i++;
+    }
+
+    return;     
 
     while ($docstr =~ /((.{200})(<lnci:cite ID=\"([^\"]*?)\"[^>]*?normprotocol=\"lexsee\"[^>]*>(.*?)<\/lnci:cite>))/g){
 	my $timepass = $2;
