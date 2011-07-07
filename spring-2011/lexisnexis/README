@@ -1,0 +1,12 @@
+Files:
+==========
+xml2text.pl - file to convert from xml to text. 
+get_input_xml.sh - file to randomly extract xml from xml repository. 
+get_par_label.sh - file to extract paragraph labels (e.g. para_1). 
+RFC_revsOrder.pl - file to get RFC for text. 
+
+How to Run: 
+==========
+Follow the steps below to run the script. 
+1, use get_input_xml.sh to extract xml files from xml source. 
+2, run the extracted data over xml2text.pl file. 

@@ -12,7 +12,7 @@
 use Lingua::EN::Sentence qw( get_sentences add_acronyms );
 
 # Counting the number of documents processed. 
-$cnt = 1;
+my $cnt = 1;
 
 # ======================================================================
 # @brief this is the main loop over all the legal documents. It will go 
@@ -50,20 +50,22 @@ MAINLOOP:while (<STDIN>) {
     s/\&amp\;/\&/g;		# transform ascii chars to normal form. 
 
     # a global string variable. 
-    $docstr = $_; 
-    $lnistr = "";
+    our $docstr = $_; 
+    our $lnistr = "";
 
     # %metastr is used to store metadata so that every time when I do 
     # text extraction and sentence cutting, I can remove the hassle of 
     # dealing with the large number of abbreviations within the string. 
     # And then change back the string that was replaced by a label, 
     # labels in this project include ((S|L|HN|CA_HN|FN|)_[0-9]+).
-    %metastr = ();
+    our %metastr = ();
 
+    # ==============================
     # Extract text and meta-data. 
+    # ==============================
     # get lni string for the doc. 
     &getLNI();
-    
+
     # Look for all link citations with lni's involved.
     &getLCitations();
 
@@ -108,84 +110,84 @@ sub getLNI {
 # @return Link citation strings in the input string.
 # ==================================================
 sub getLCitations {
-    my $i = 1;
+    my $i = 1; 
+    my $citeid; 
+    my $citestr; 
+    my $citecontent;
+    my $localciteid; 
+    my $destlni; 
 
     # need to verify the structure of original xml file. 
-    while ($docstr =~ m/(<rfc:anchorcite lni=\"([A-Z0-9\-]+)\"[^>]*>(.*?)<\/rfc:anchorcite>)/g) {
-    	my $citestr = $1; 
-    	my $destlni = $2; 	# cited issue doc lni. 
-    	my $localciteid = ""; 
-    	my $citecontent = ""; 
-    	my $citeid = "L_$i";
+    while ($docstr =~ /((.{200})(<lnci:cite ID=\"([0-9A-Z]+)\"[^>]*?normprotocol=\"lexsee\"[^>]*>(.*?)<\/lnci:cite>))/g) {
+	$destlni = $2;
+	$citestr = $3; 
+	$localciteid = $4; 
 
-    	# get document unique cite id. 
-    	if ($citestr =~ m/<lnci:cite ID=\"([A-Z0-9]+)\"/) {
-    	    $localciteid = $1; 
-    	}
+	$citeid = "L_$i";
+	$docstr =~ s/\Q$citestr/ $citeid /g; 
+	# some citation doesn't contain destination lni string. 
+	if ($destlni =~ m/lni=\"([A-Z0-9\-]+)\"/g) {
+	    $destlni = $1; 
+	    $destlni =~ s/-//g;
+	} else {
+	    $destlni = "UNRESOLVED";
+	}
 
     	# get cite content. 
-    	$destlni =~ s/-//g;
-    	if ($citestr =~ m/<lnci:content[^>]*>(.*)<\/lnci:content>/) {
-    	    $_ = $1; 
-    	    s/<[^>]+>//g;	# remove xml label.
-    	    $citecontent = $_;
-    	}
-    	$docstr =~ s/\Q$citestr/ $citeid /g; 
-	$metastr{$citeid} = $citecontent; 
-
-    	print "CASEREFS:" . $lnistr . ":" . $citeid . "::$destlni:$localciteid:$citecontent\n";
-	$i++;
-    }
-
-    return;     
-
-    while ($docstr =~ /((.{200})(<lnci:cite ID=\"([^\"]*?)\"[^>]*?normprotocol=\"lexsee\"[^>]*>(.*?)<\/lnci:cite>))/g){
-	my $timepass = $2;
-	my $string = $3;
-	my $localid = $4;
-	my $citestr = $5;
-	my $actuallni = ""; 
-	if ( $timepass =~ /lni=\"([A-Z0-9-]+)\"/) { 
-	    $actuallni = $1; 
-	    $actuallni =~ s/-//g; 
-	}
-	my $citeid = "L_$i"; 
-	$citestr =~ s/<[^>]+>//g;
-	# $citestr =~ s/<.*?>//g;
-	# $citestr =~ s/<\/.*?>//g;
-	$citation = $lnistr . ":" . $citeid . "::$actuallni:$localid:$citestr\n";
-	print "CASEREFS:" . $citation;
+	$citestr =~ s/<[^>]+>/ /g;
+	$citestr =~ s/  +/ /g;
+	$citestr =~ s/^ +//g;
 
 	$metastr{$citeid} = $citestr; 
-	# print $metastr{$citeid} . "\n"; 
-	$docstr =~ s/\Q$string/ $citeid /g; # $citestr/;
+
+    	print "CASEREFS:" . $lnistr . ":" . $citeid . "::$destlni:$localciteid:$citestr\n";
 	$i++;
     }
+
+    return;
 }
 
 # ==================================================
 # @brief As compared with the above routine, this routine helps in finding
 # statutory citations in the document. The format it captures is as follows:
-# Lni-current document::S_(citation_number)::localID:: Actual citation
+# Lni-current document::S_(citation_number)::localID::citation string. 
+# When extracting statutory citaions, we need to consider cases that might 
+# contain citations. Currently, I have identified three cases. 
+# case 1: <lnci:cite ... normprotocol="lexstat"; 
+# case 2: <ref:cite4thisresource...>; 
+# case 3: <lnci:cite ...>. which does not contain the normprotocol property. 
 # @param $docstr which are global variables for each doc. 
 # @param lnistr - the document unique string. 
 # @return none, but will update the global $docstr. 
 # ==================================================
 sub getSCitations {
-    my $i = 1;
+    my $i = 1; 
+    my $localid = ""; 
+    my $citestr; 
+    my $citeid;
 
-    while ($docstr  =~ /(<lnci:cite ID=\"([A-Z0-9]+)\"[^>]*normprotocol=\"lexstat\"[^>]*>(.*?)<\/lnci:cite>)/g) {
-	my $string = $1;
-	my $localid = $2;
-	my $citestr = $3;
-	$citestr =~ s/<[^>]+>//g; # remove xml label. 
+    # Process citations in head of doc. 
+    # xml node is: <ref:cite4thisresource...>
+    # added by simon on July 05, 2011. 
+    while ($docstr =~ m/((<ref:cite4thisresource[^>]*>|<lnci:cite ID=\"([A-Z0-9]+)\"[^>]*(normprotocol=\"lexstat\")?[^>]*>)(.*?)(<\/ref:cite4thisresource>|<\/lnci:cite>))/g) {
+	$citestr = $1;
+	$localid = $3; 
+	if (! $localid) {
+	    $localid = "UNDETERMINED";
+	}
+	$citeid = "S_$i";
 
-	my $citeid = "S_$i"; 
-	$metastr{$citeid} = $citestr; 
+	$docstr =~ s/\Q$citestr/ $citeid /g; 
+
+	$citestr =~ s/<[^>]+>/ /g; 
+	$citestr =~ s/  +/ /g; 
 	print "CASEREFS:" . "$lnistr:" . $citeid . "::$localid:$citestr\n";
-	$docstr =~ s/\Q$string/ $citeid /g; # $citestr/;
-	$i++;
+
+	$metastr{$citeid} = $citestr; 
+	$i++; 
     }
+
+    return; 
 }
 
 # ==================================================
@@ -197,11 +199,11 @@ sub getHeadnotes {
     my $i = 1;
     my $hnoteid;
 
-    # Look for HNs for all other documents.
-    while ($docstr =~ /(<casesum:headnote headnotesource=\"lexis-caselaw-editorial\">(.*?)<\/casesum:headnote>)/g) {
+    # extract headnote tag. 
+    while ($docstr =~ /(<casesum:headnote[^>]+>(.*?)<\/casesum:headnote>)/g) {
 	my $headnotestr = $1; 
 	$hnoteid = "HN_$i";
-	# $docstr =~ s/\Q$headnotestr/ $hnoteid /g; 
+	$docstr =~ s/\Q$headnotestr/ $hnoteid /g; 
 
 	if ($headnotestr =~ /(<text>)(.*?)(<\/text>)/) {
 	    my $hnstr = $2;
@@ -213,27 +215,6 @@ sub getHeadnotes {
 	}
     }
 
-    # ca headnote, format <casesum:headnote>
-    while ($docstr =~ /(<casesum:headnote headnotesource=\"ca-official-reporter\">(.*?)(<ref:anchor id=\"hnpara_([0-9]+)\"\/>)(.*?)<\/casesum:headnote>)/g) {
-	my $cahnstr = $1;
-	my $num = $4;
-	$hnoteid = "CA_HN_$num";
-	$docstr =~ s/\Q$cahnstr/$hnoteid /;
-	$metastr{$hnoteid} = "EMPTY"; 
-
-	if ($cahnstr =~ /(<text>)(.*?)(<\/text>)/)	{
-	    my $hnstr = $2;
-	    $hnstr =~ s/<.*?>//g;
-	    $hnstr =~ s/<\/.*?>//g;
-	    
-	    if ( $hnstr =~ / \" / ) {
-		$hnstr =~ s/ \" ([^"]+\S)\"/ \"$1\"/g ;
-		$hnstr =~ s/ \"(\S[^"]+) \" / \"$1\" /g ;
-		$hnstr =~ s/ \" ([^"]+) \" / \"$1\" /g ;
-	    }
-	    print "HEADOUTPUT:" . "$lnistr:$hnoteid:$hnstr\n\n";
-	}
-    }
     return; 
 }
 
@@ -254,8 +235,7 @@ sub getFootnotes {
 
 	if ($fnotestr =~ /(<text>)(.*?)(<\/text>)/)	{
 	    $fnote = $2;
-	    $fnote =~ s/<.*?>//g;
-	    $fnote =~ s/<\/.*?>//g;
+	    $fnote =~ s/<[^>]+>//g; 
 	    $fnote =~ s/  +/ /g;
 	    $fnote =~ s/\( +/\(/g;
 	    
