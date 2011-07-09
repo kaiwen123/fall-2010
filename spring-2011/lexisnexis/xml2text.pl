@@ -43,12 +43,6 @@ my $cnt = 1;
 # functions in the script can use it.
 # ======================================================================
 MAINLOOP:while (<STDIN>) {
-    # Eliminate noise and weird characters.
-    # s/§/S/g;			# remove special chars; 
-    s/ //g;
-    s/\$ /\$/g;
-    s/\&amp\;/\&/g;		# transform ascii chars to normal form. 
-
     # a global string variable. 
     our $docstr = $_; 
     our $lnistr = "";
@@ -57,8 +51,15 @@ MAINLOOP:while (<STDIN>) {
     # text extraction and sentence cutting, I can remove the hassle of 
     # dealing with the large number of abbreviations within the string. 
     # And then change back the string that was replaced by a label, 
-    # labels in this project include ((S|L|HN|CA_HN|FN|)_[0-9]+).
+    # labels in this project include ((|S|L|HN|FN|)_[0-9]+).
     our %metastr = ();
+
+    # Preprocessing of the document, mainly correct the case citation problems
+    # 1, if no lni is provided, we need to go over the xml doc and search local
+    #    the same local id and resolve the lni. 
+    # 2, if no info is given as what type of citation it is, we can analyze the 
+    #    context info and get make a decision. 
+    &preProcessXml(); 
 
     # ==============================
     # Extract text and meta-data. 
@@ -68,20 +69,38 @@ MAINLOOP:while (<STDIN>) {
 
     # Look for all link citations with lni's involved.
     &getLCitations();
+#=begin DEBUG
 
     # Look for statutory citations.
     &getSCitations();
     
-    # $footnote = $caheadnote;
-    &getFootnotes();
-
-    # Look for CA_Headnotes if its California document.
+    # Look for headnotes. 
     &getHeadnotes(); 
+
+    # Look for footnodes. 
+    &getFootnotes();
 
     # Get text from the document. 
     &getText();
-
+#=end DEBUG
+#=cut
     $cnt++;
+}
+
+# ==================================================
+# @brief Preprocess the xml document, mainly correct
+# errors and unresolved issues. 
+# @param the global document will be used. 
+# @return none. 
+# ==================================================
+sub preProcessXml {
+    # Eliminate noise and unstandard characters.
+    s/ //g;
+    s/\$ /\$/g;
+    s/\&amp\;/\&/g;		# transform ascii chars to normal form. 
+
+    # correct the unresolved lni citation. 
+
 }
 
 # ==================================================
@@ -99,15 +118,25 @@ sub getLNI {
     return;
 }
 
+=begin citation
+    Determinination of case citation is dependent on the normprotocol property
+    of the citation, if normprotocol="lexsee", citation is a case citation, else
+    if normprotocol ="lexstat", citation is a statutory citation. But there are
+    errors within the input xml files, such as what should we do if there is no
+    normprotocol property, how do we handle it? 
+=end citation
+=cut 
+
+
 # ==================================================
-# @brief This routine helps in finding the Link citations. That is "A vs. B"
+# @brief This routine helps in finding the Case citations. That is "A vs. B"
 # kind of citations. This captures and records casereftokens in the
 # file. And the format it captures is as follows:
-# Lni-current document::L_(citation_number)::TokenID::LNI-target document:: \
+# Lni-current document::C_(citation_number)::TokenID::LNI-target document:: \
 # Actual citation 
 # @param $docstr  which are global variables. 
 # @param lnistr which is the global variable.
-# @return Link citation strings in the input string.
+# @return case citation strings in the input string.
 # ==================================================
 sub getLCitations {
     my $i = 1; 
@@ -123,7 +152,7 @@ sub getLCitations {
 	$citestr = $3; 
 	$localciteid = $4; 
 
-	$citeid = "L_$i";
+	$citeid = "C_$i";
 	$docstr =~ s/\Q$citestr/ $citeid /g; 
 	# some citation doesn't contain destination lni string. 
 	if ($destlni =~ m/lni=\"([A-Z0-9\-]+)\"/g) {
@@ -137,6 +166,7 @@ sub getLCitations {
 	$citestr =~ s/<[^>]+>/ /g;
 	$citestr =~ s/  +/ /g;
 	$citestr =~ s/^ +//g;
+	$citestr =~ s/  +([,])/,/g; # remove space in front of comma etc. 
 
 	$metastr{$citeid} = $citestr; 
 
@@ -230,6 +260,10 @@ sub getFootnotes {
     while ($docstr =~ /((<footnote>)(.*?)(<\/footnote>))/g) {
 	my $fnotestr = $1; 
 	$fnoteid = "FN_$i"; 
+	# get footnote id from anchor. 
+	if ($fnotestr =~ m/<ref:anchor id=\"(fn_fnote[0-9]+)\"/) {
+	    $fnoteid=$1; 
+	}
 	$metastr{$fnoteid} = "EMPTY";
 	$docstr =~ s/\Q$fnotestr/$fnoteid /g;
 
@@ -257,43 +291,90 @@ sub getFootnotes {
 
 # ==================================================
 # @brief extract text from the document. 
+# NOTE: paragraphs like clspara_[0-9]+ will be ignored here.
 # @param $docstr, the global document string. 
 # @return none. 
 # ==================================================
 sub getText {
-    my $i=1;
-    my $parid = "zzz"; 
-    $parstr = "";
+    my $id = 1; 
+    my $parstr = ""; 
     print $lnistr . "\n\n"; 
+    my %pars = (); 		# paragraph table. 
+
+    # paragraphs embedded within paragraph can be identified by
+    # <\/?blockquote>. Let's remove them first. 
+    while ($docstr =~ m/(<blockquote[^>]*>(.*?)<\/blockquote>)/g) {
+	my $quotestr = $1;
+	$parstr = $2; 
+
+	# get paragraph id.
+	if ($parstr =~ m/id=\"para_([0-9]+)\"/) {
+	    $id = int($1);
+	    $pars{$id} = $parstr; 
+	}
+
+	# Then remove the embedded quota paragraph. 
+	$docstr =~ s/\Q$quotestr/ /;
+    }
 
     # extract all the paragraph data. 
-    while($docstr =~ m/<p>(.*?)<\/p>/g) {
-	my $doc = $1; 
-	if ($doc =~ /<ref:anchor id=\"([a-z]+_[0-9]+)\"\/>/) {
-	    $parid = $1;
-	    print ">>>>>>>>>>Start of $parid>>>>>>>>>>\n";
-	    print $parid . "\n";
+    while($docstr =~ m/(<p>(.*?)<\/p>)/g) {
+	$parstr = $1; 
+
+	# get paragraph id.
+	if ($parstr =~ m/id=\"para_([0-9]+)\"/) {
+	    $id = int($1);
+	    $pars{$id} = $parstr; 
 	}
 
-	# extract paragraph data. 
-	if($doc =~ m/<text>(.*)<\/text>/) {
-	    $parstr = $1;
+	$parstr =~ s/\Q$parstr/ /g; # remove embeded par. 
+    }
 
-	    $parstr =~ s/<[^>]+>//g; # remove xml labels. 
-	    $parstr =~ s/  +/ /g; # remove additional space. 
-	    $parstr =~ s/ ([,\;\.])/$1/g; # remove space before ending punctuations.
-	    $parstr =~ s/^ +//g; # remove leading space. 
-
-	    print $parstr . "\n\n";
-
-	    # do sentence cutting. 
-	    &preProcess(); 
-	    &postProcess(); 
-	}
-	print "\n<<<<<<<<<<End of $parid<<<<<<<<<<\n\n";
+    # Process the paragraphs, should be sort by order. 
+    for my $key (sort { $a <=> $b } keys %pars) {
+	&processParagraph($pars{$key}); 
     }
 
     return ;
+}
+
+# ==================================================
+# @brief This routine is used to process the paragraph 
+# text, including getting paragraph ids and and the 
+# text as string. 
+# @param a <p> and </p> bounded pargraph xml string. 
+# @return true/false; and print out the paragraph data
+# into standard output. 
+# ==================================================
+sub processParagraph {
+    my $doc = $_[0];
+    my $i=1;
+    my $parid = "zzz"; 
+    $parstr = "";
+
+    if ($doc =~ /<ref:anchor id=\"([a-z]+_[0-9]+)\"\/>/) {
+	$parid = $1;
+	print ">>>>>>>>>>Start of $parid>>>>>>>>>>\n";
+	print $parid . "\n";
+    }
+    
+    # extract paragraph data. 
+    if($doc =~ m/<text>(.*)<\/text>/) {
+	$parstr = $1;
+	
+	$parstr =~ s/<[^>]+>//g; # remove xml labels. 
+	$parstr =~ s/  +/ /g; # remove additional space. 
+	$parstr =~ s/ ([,\;\.])/$1/g; # remove space before ending punctuations.
+	$parstr =~ s/^ +//g; # remove leading space. 
+	
+	print $parstr . "\n\n";
+	
+	# do sentence cutting. 
+	&preProcess(); 
+	&postProcess(); 
+    }
+    print "\n<<<<<<<<<<End of $parid<<<<<<<<<<\n\n";
+    return; 
 }
 
 # ==================================================
@@ -384,11 +465,11 @@ sub postProcess {
 	$sentence =~ s/^\"([^\"]+)/$1/g; # remove unbalanced quotation. 
 
 	# replace the labels back: ((S|L|HN|CA_HN|FN|)_[0-9]+).
-	while ($sentence =~ /((S|L|HN|CA_HN|FN)_[0-9]+)/g) {
-	    my $labelkey = $1; 
-	    # print $labelkey . " ===== ";
-	    $sentence =~ s/$labelkey/$metastr{$labelkey}/;
-	}
+	# while ($sentence =~ /((S|L|HN|CA_HN|FN)_[0-9]+)/g) {
+	#     my $labelkey = $1; 
+	#     # print $labelkey . " ===== ";
+	#     $sentence =~ s/$labelkey/$metastr{$labelkey}/;
+	# }
 
 	# If sentence doesn't contain ending mark, add one. 
 	if (($sentence =~ m/(^.*)([^\.\"\?\:])$/) && 
