@@ -25,7 +25,10 @@ class Entry {
   int nk; 			/* total transactions. */
   float wcd; 			/* weighted clustering density. */
   int sk2; 			/* square sum of item occurences. */
-  map<string, int> items; 	/* items summary in this entry. */
+
+  // string is the transaction element. 
+  // int is the occurrence of the element within the cluster. 
+  map<string, int> items;
 
   // structure linkage in the tree. 
   CFNode *child_ptr; 
@@ -41,7 +44,7 @@ class Entry {
   int getNk() {return nk;}
   float getWcd() {return wcd;}
   int getSk2() {return sk2;}
-  map<string, int>& getItems() {return items;}
+  const map<string, int>& getItems() {return items;}
 
   // Structure operations.
   void del_child(); // release child of of *this* entry.

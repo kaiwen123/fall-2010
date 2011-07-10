@@ -45,15 +45,16 @@ int Entry::add_trans(map<string, int>& trans) {
     int cnt = it->second; 
     if(items.find(t) == items.end()) {
       items[t] = cnt;
+      sk2 += cnt * cnt; 
     } else {
+      sk2 += 2 * cnt * items[t] + cnt * cnt; 
       items[t] += cnt; 
     }
     sk += cnt; 
-    sk2 += 2 * cnt + 1;
     it++;
   }
-  // sk += trans.size();
   nk++; 
+
   wcd = (float)sk2 / (float)sk;
   DBG_ENTRY(*this);
   DBG_ENTRY("Added Transaction to entry");
@@ -73,16 +74,30 @@ int Entry::remove_trans(map<string, int>& trans) {
   while(it != trans.end()) {
     string t = it->first; 
     int cnt = it->second; 
-    if(items.find(t) == items.end()) {
-      items[t] = 1;
+    if((items.find(t) == items.end()) || (cnt > items[t])) {
+      cerr << "trans is not in entry " << getEid() << endl;
+      return -1;
     } else {
-      items[t] += cnt; 
+      items[t] -= cnt; 
+      // remove 0 elements. 
+      if(items[t] == 0) {
+	items.erase(t);
+      }
+      sk -= cnt;
     }
-    sk2 -= 2 * items[t] + 1;
     it++;
   }
-  sk -= trans.size();
   nk--; 
+
+  // calculate sk2. 
+  sk2 = 0; 
+  it = items.begin(); 
+  while (it != items.end()) {
+    int cnt = it->second; 
+    sk2 += cnt * cnt; 
+    it++; 
+  }
+
   if (sk > 0) wcd = (float)sk2 / (float)sk;
   else wcd = 0.0; 
   return eid; 
@@ -97,30 +112,53 @@ float Entry::test_trans(map<string, int>& trans, t_type type) {
     cerr << "Error, testing empty trans..." << endl; 
     return -1; 
   }
-  float ssk2 = 0.0; 
-  map<string, int>::iterator it = trans.begin(); 
-  while(it != trans.end()) {
-    string t = it->first; 
-    int cnt = it->second; 
-    if(items.find(t) == items.end()) {
-      ssk2 += 1; 
-    } else {
-      ssk2 += 2 * items[t] + 1; 
-    }
-    it++;
-  }
+  int ssk2, ssk; 
+  float wwcd; 
+  map<string, int>::iterator it; 
+
+  // test adding into entry. 
   if (ADD == type) {
-    return (float)(sk2 + ssk2) / (float)(sk + trans.size()) - wcd; 
-  } else if (REMOVE == type) {
-    if ((sk - trans.size() == 0) || (nk == 1)) {
-      return 0.0; 
-    } else {
-      return wcd - (float)(sk2 - ssk2) / (float)(sk - trans.size());
+    ssk = sk; 
+    ssk2 = sk2; 
+
+    it = trans.begin(); 
+    while(it != trans.end()) {
+      string t = it->first; 
+      int cnt = it->second; 
+      if(items.find(t) == items.end()) {
+	ssk2 += 1; 
+      } else {
+	ssk2 += 2 * cnt * items[t] + cnt * cnt; 
+      }
+      ssk += cnt; 
+      it++;
     }
+    wwcd = (float)ssk2 / (float)ssk; 
+    return wwcd - wcd; 
+    // test removing from entry. 
+  } else if (REMOVE == type) {
+    ssk = sk; 
+    ssk2 = sk2; 
+
+    it = trans.begin(); 
+    while(it != trans.end()) {
+      string t = it->first;
+      int cnt = it->second; 
+      if (items.find(t) == items.end() || (cnt > items[t])) {
+	cerr << "trans is not in entry " << getEid() << endl; 
+	return -100; 
+      } else {
+	ssk -= cnt; 
+	ssk2 -= (2 * cnt * ssk + cnt * cnt); 
+      }
+      it++; 
+    }
+
+    wwcd = (float) ssk2 / (float) ssk; 
+    return wcd - wwcd;
   } else {
-    cerr << "Unsupport test, only support 0/add and 1/remove test." \
-	 << endl; 
-    return -1.0;
+    cerr << "Unsupport test " << endl; 
+    return -100.0;
   }
 }
 
@@ -135,7 +173,7 @@ ostream& operator<<(ostream& out, Entry& en) {
       << "sk2=" << en.getSk2() << " " 
       << "wcd=" << en.getWcd() << ") ";
 #ifdef OUT_VERBOSE
-  map<string, int>::iterator it = en.getItems().begin();
+  map<string, int>::const_iterator it = en.getItems().begin();
   while(it != en.getItems().end()) {
     out << it->first << ":" << it->second << " "; 
     it++;
@@ -169,8 +207,29 @@ bool operator< (Entry lhs, Entry rhs) {
 Entry& Entry::operator+=(Entry& en) {
   sk += en.getSk(); 
   nk += en.getNk();
-  sk2 += en.getSk2() + 2 * sk * en.getSk();
-  wcd = sk2 / sk; 
+
+  // copy the items in old entry into new entry. 
+  map<string, int>::const_iterator it = en.getItems().begin(); 
+  while(it != en.getItems().end()) {
+    string t = it->first; 
+    int cnt = it->second; 
+    if(items.find(t) == items.end()) {
+      items[t] = cnt; 
+    } else {
+      items[t] += cnt;
+    }
+    it++; 
+  }
+
+  // calc sk2. 
+  sk2 = 0; 
+  it = items.begin(); 
+  while(it != items.end()) {
+    sk2 += it->second * it->second; 
+    it++; 
+  }
+
+  wcd = (float)sk2 / (float)sk; 
   return *this; 
 }
 

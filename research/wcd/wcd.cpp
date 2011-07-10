@@ -26,6 +26,9 @@ WCD::WCD(string fname){
 // @return true on success and false on failure. 
 bool WCD::doEwcd() {
   cout << "\n\n============starting Ewcd clustering===========" << endl;
+  // for test, please delete after test. 
+  // Entry *en = new Entry(); 
+
   fstream ftrans;
   ftrans.open(transfile.c_str(), ifstream::in);
   if(!ftrans) {
@@ -59,6 +62,11 @@ bool WCD::doEwcd() {
       }
     }
 
+    // testing entry. 
+    // en->add_trans(trans); 
+
+    // en->remove_trans(trans); 
+  
     // add trans into cftree.
     if (trans.size() > 0) {
       tree->insert_trans(trans);// todo, trans is corrupted. 
@@ -71,44 +79,6 @@ bool WCD::doEwcd() {
   cout << "\n============Ending Ewcd clustering===========" << endl;
   return true; 
 }
-
-// @brief phase two of the wcd process. 
-// This is absortion phase, which absorbs the remaining trans
-// into the tree constructed from the first phase. 
-// @param iter number of adjustive iterations. 
-// @return true on success and false on failure. 
-// bool WCD::phase2(int iter) {
-//   DBG_WCD("Staring phase two");
-//   ifstream ftrans; 
-//   ftrans.open(transfile.c_str(), ifstream::in);
-//   map<string, int> trans;
-//   for(int i = 0; i < iter; i++) {
-//     int cnt = 0; 		// trans line number;
-//     while(ftrans) {
-//       string line;
-//       getline(ftrans, line); 
-//       char_separator<char> sep(" ");
-//       tokenizer<char_separator<char> > tokens(line, sep);
-//       BOOST_FOREACH(string t, tokens) {
-// 	cout << t << "." << endl;
-// 	if (items.find(t) != items.end()) {
-// 	  items[t]++; 
-// 	} else {
-// 	  items[t] = 1;
-// 	}	
-// 	if(trans.find(t) == trans.end()) {
-// 	  trans[t] = 1; 
-// 	} else {
-// 	  trans[t]++; 
-// 	}
-//       }
-//       // adjust trans to achieve highest ewcd. 
-//       tree->adjust_trans(trans, getMembership(cnt));
-//     }
-//   }
-//   ftrans.close();
-//   return true; 
-// }
 
 // @brief print labeled transactions. 
 // @param None
@@ -134,7 +104,7 @@ void WCD::pprint() {
   // first output the global summary table. 
   cout << *this << endl;
 
-  // second, output the summary table for each entry. 
+  // then, output the summary table for each entry. 
   tree->pprint(); 
 }
 
