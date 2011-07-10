@@ -54,6 +54,20 @@ MAINLOOP:while (<STDIN>) {
     # labels in this project include ((|S|L|HN|FN|)_[0-9]+).
     our %metastr = ();
 
+    # ==============================
+    # Extract text and meta-data. 
+    # ==============================
+    # get lni string for the doc. 
+    &getLNI();
+
+    # only process representation and opinions part. 
+    if ($_ =~ /<courtcase:representation>(.*?)<\/courtcase:representation>/){
+	$docstr = $1; 
+    }
+    if ($_ =~ /<courtcase:opinions[^>]*>(.*)<\/courtcase:opinions>/) {
+	$docstr .= " " . $1; 
+    }
+
     # Preprocessing of the document, mainly correct the case citation problems
     # 1, if no lni is provided, we need to go over the xml doc and search local
     #    the same local id and resolve the lni. 
@@ -61,14 +75,8 @@ MAINLOOP:while (<STDIN>) {
     #    context info and get make a decision. 
     &preProcessXml(); 
 
-    # ==============================
-    # Extract text and meta-data. 
-    # ==============================
-    # get lni string for the doc. 
-    &getLNI();
-
     # Look for all link citations with lni's involved.
-    &getLCitations();
+    &getCCitations();
 #=begin DEBUG
 
     # Look for statutory citations.
@@ -95,9 +103,9 @@ MAINLOOP:while (<STDIN>) {
 # ==================================================
 sub preProcessXml {
     # Eliminate noise and unstandard characters.
-    s/ //g;
-    s/\$ /\$/g;
-    s/\&amp\;/\&/g;		# transform ascii chars to normal form. 
+    $docstr =~ s/ //g;
+    $docstr =~ s/\$ /\$/g;
+    $docstr =~ s/\&amp\;/\&/g;		# transform ascii chars to normal form. 
 
     # correct the unresolved lni citation. 
 
@@ -132,13 +140,13 @@ sub getLNI {
 # @brief This routine helps in finding the Case citations. That is "A vs. B"
 # kind of citations. This captures and records casereftokens in the
 # file. And the format it captures is as follows:
-# Lni-current document::C_(citation_number)::TokenID::LNI-target document:: \
+# Lni-current document::CC_(citation_number)::TokenID::LNI-target document:: \
 # Actual citation 
 # @param $docstr  which are global variables. 
 # @param lnistr which is the global variable.
 # @return case citation strings in the input string.
 # ==================================================
-sub getLCitations {
+sub getCCitations {
     my $i = 1; 
     my $citeid; 
     my $citestr; 
@@ -146,13 +154,14 @@ sub getLCitations {
     my $localciteid; 
     my $destlni; 
 
+    print "\nCase Citations\n";
     # need to verify the structure of original xml file. 
     while ($docstr =~ /((.{200})(<lnci:cite ID=\"([0-9A-Z]+)\"[^>]*?normprotocol=\"lexsee\"[^>]*>(.*?)<\/lnci:cite>))/g) {
 	$destlni = $2;
 	$citestr = $3; 
 	$localciteid = $4; 
 
-	$citeid = "C_$i";
+	$citeid = "CC_$i";
 	$docstr =~ s/\Q$citestr/ $citeid /g; 
 	# some citation doesn't contain destination lni string. 
 	if ($destlni =~ m/lni=\"([A-Z0-9\-]+)\"/g) {
@@ -170,7 +179,8 @@ sub getLCitations {
 
 	$metastr{$citeid} = $citestr; 
 
-    	print "CASEREFS:" . $lnistr . ":" . $citeid . "::$destlni:$localciteid:$citestr\n";
+    	# print "CASEREFS:$citeid:\t" . $lnistr . ":$localciteid" . "::$destlni:$citestr\n";
+    	print "CASEREFS:" . $lnistr . ":$citeid" . "::$destlni:$citestr\n";
 	$i++;
     }
 
@@ -196,22 +206,33 @@ sub getSCitations {
     my $citestr; 
     my $citeid;
 
+    print "\nStatutory Citations\n";
+
     # Process citations in head of doc. 
     # xml node is: <ref:cite4thisresource...>
     # added by simon on July 05, 2011. 
-    while ($docstr =~ m/((<ref:cite4thisresource[^>]*>|<lnci:cite ID=\"([A-Z0-9]+)\"[^>]*(normprotocol=\"lexstat\")?[^>]*>)(.*?)(<\/ref:cite4thisresource>|<\/lnci:cite>))/g) {
+    while ($docstr =~ m/((<lnci:cite ID=\"([A-Z0-9]+)\"[^>]*(normprotocol=\"lexstat\")?[^>]*>)(.*?)<\/lnci:cite>)/g) {
 	$citestr = $1;
 	$localid = $3; 
+	my $citetype = $4; 
 	if (! $localid) {
 	    $localid = "UNDETERMINED";
 	}
-	$citeid = "S_$i";
+
+	# TODO, try to determine the type of citation. 
+	if (! $citetype) {
+
+	}
+
+	$citeid = "SC_$i";
 
 	$docstr =~ s/\Q$citestr/ $citeid /g; 
 
 	$citestr =~ s/<[^>]+>/ /g; 
 	$citestr =~ s/  +/ /g; 
-	print "CASEREFS:" . "$lnistr:" . $citeid . "::$localid:$citestr\n";
+	$citestr =~ s/^ +//g;
+	# print "CASEREFS:$citeid:\t" . "$lnistr:$localid" . "::$citestr\n";
+	print "CASEREFS:" . "$lnistr:$citeid" . "::$citestr\n";
 
 	$metastr{$citeid} = $citestr; 
 	$i++; 
@@ -228,6 +249,8 @@ sub getSCitations {
 sub getHeadnotes {
     my $i = 1;
     my $hnoteid;
+
+    print "\nHeadnote:\n";
 
     # extract headnote tag. 
     while ($docstr =~ /(<casesum:headnote[^>]+>(.*?)<\/casesum:headnote>)/g) {
@@ -256,14 +279,17 @@ sub getHeadnotes {
 sub getFootnotes {
     my $fnoteid; 
     my $i = 1; 
+
+    print "\nFootnote:\n";
+
     # Look for all the footnotes within the document.
     while ($docstr =~ /((<footnote>)(.*?)(<\/footnote>))/g) {
 	my $fnotestr = $1; 
 	$fnoteid = "FN_$i"; 
 	# get footnote id from anchor. 
-	if ($fnotestr =~ m/<ref:anchor id=\"(fn_fnote[0-9]+)\"/) {
-	    $fnoteid=$1; 
-	}
+	# if ($fnotestr =~ m/<ref:anchor id=\"(fn_fnote[0-9]+)\"/) {
+	#     $fnoteid=$1; 
+	# }
 	$metastr{$fnoteid} = "EMPTY";
 	$docstr =~ s/\Q$fnotestr/$fnoteid /g;
 
@@ -301,6 +327,8 @@ sub getText {
     print $lnistr . "\n\n"; 
     my %pars = (); 		# paragraph table. 
 
+    print "\nText:\n";
+
     # paragraphs embedded within paragraph can be identified by
     # <\/?blockquote>. Let's remove them first. 
     while ($docstr =~ m/(<blockquote[^>]*>(.*?)<\/blockquote>)/g) {
@@ -311,10 +339,11 @@ sub getText {
 	if ($parstr =~ m/id=\"para_([0-9]+)\"/) {
 	    $id = int($1);
 	    $pars{$id} = $parstr; 
+	    # Then remove the embedded quota paragraph. 
+	    $docstr =~ s/\Q$quotestr/ para_$id /;
+	} else {
+	    $docstr =~ s/\Q$quotestr/ /;
 	}
-
-	# Then remove the embedded quota paragraph. 
-	$docstr =~ s/\Q$quotestr/ /;
     }
 
     # extract all the paragraph data. 
@@ -436,11 +465,6 @@ sub preProcess {
 
     # adjust numbers. 
     s/^[0-9]+\. //g;		# e.g: 1. The extent of ....
-    #s/ ([0-9]+)\. / $1, /g;
-    s/ I\.//g;			# remove numbering. 
-    s/ II\.//g;
-    s/ III\.//g;
-    s/ IV\.//g;
     s/([\"\.]) ([0-9]+[^\.])/$1, $2/g;
     s/([\"\.]) ([\(])/$1, $2/g;		   # e.g: A. (2nd) => A., (2nd)
     s/([\",\.][0-9]+)\. ([^A-Z])/$1, $2/g; # e.g: "2. xxx. => "2, xxx.
@@ -454,6 +478,7 @@ sub preProcess {
 # @return none. 
 # ==================================================
 sub postProcess {
+    my $cnt = 1; 
     # &loadAbbrev(); 
     my $sentences = get_sentences($parstr); 
     foreach $sentence (@$sentences) {
@@ -464,19 +489,13 @@ sub postProcess {
 	$sentence =~ s/^\s+//g;	  # remove leading space. 
 	$sentence =~ s/^\"([^\"]+)/$1/g; # remove unbalanced quotation. 
 
-	# replace the labels back: ((S|L|HN|CA_HN|FN|)_[0-9]+).
-	# while ($sentence =~ /((S|L|HN|CA_HN|FN)_[0-9]+)/g) {
-	#     my $labelkey = $1; 
-	#     # print $labelkey . " ===== ";
-	#     $sentence =~ s/$labelkey/$metastr{$labelkey}/;
-	# }
-
 	# If sentence doesn't contain ending mark, add one. 
 	if (($sentence =~ m/(^.*)([^\.\"\?\:])$/) && 
-	    ($sentence !~ m/PARAGRAPH_[0-9]+/)) {
+	    ($sentence !~ m/para_[0-9]+/)) {
 	    $sentence = $1 . $2 . "."; 
 	}
-	print "\n" . $sentence . "\n"; 
+	print "$cnt:  " . $sentence . "\n"; 
+	$cnt++;
     }
     return; 
 }
