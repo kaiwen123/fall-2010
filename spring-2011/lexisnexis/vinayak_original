@@ -50,7 +50,7 @@ while ($randtemp =~ /((.{200})(<lnci:cite ID=\"([^\"]*?)\"[^>]*?normprotocol=\"l
                 select CASEREFS;
                 $| = 1;
 		print CASEREFS $citation;
-                $randtemp =~ s/\Q$string/ L_$i $temp /;
+                $randtemp =~ s/\Q$string/ L_$i /; #$temp /;
         }
 return $randtemp."\n";
 }
@@ -76,7 +76,7 @@ while ($actstring  =~ /(<lnci:cite ID=\"([^\"]*?)\"[^>]*?normprotocol=\"lexstat\
     select CASEREFS;
     $| = 1;
     print CASEREFS $lnistring.": S_".$j."::$token\t$temp\n";
-    $actstring =~ s/\Q$string/ S_$j $temp /;
+    $actstring =~ s/\Q$string/ S_$j /; #$temp /;
   }
 return $actstring;
 }

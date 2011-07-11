@@ -338,9 +338,15 @@ sub getText {
 	# get paragraph id.
 	if ($parstr =~ m/id=\"para_([0-9]+)\"/) {
 	    $id = int($1);
-	    $pars{$id} = $parstr; 
-	    # Then remove the embedded quota paragraph. 
-	    $docstr =~ s/\Q$quotestr/ para_$id /;
+	    #$pars{$id} = $parstr; 
+	    $parstr =~ s/<[^>]+>/ /g;
+	    # Then remove the embedded quotation paragraph. 
+	    # After careful analysis, the quotation paragraph should be 
+	    # embedded into the quoting paragraph, or else, the sentences
+	    # might be broken or it will cause problems with the following
+	    # RFC segmentation paragraph. 
+	    # $docstr =~ s/\Q$quotestr/ para_$id /;
+	    $docstr =~ s/\Q$quotestr/ $parstr /;
 	} else {
 	    $docstr =~ s/\Q$quotestr/ /;
 	}
