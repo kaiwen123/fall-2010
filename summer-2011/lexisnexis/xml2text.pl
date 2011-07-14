@@ -156,13 +156,13 @@ sub getCCitations {
 
     print "\nCase Citations\n";
     # need to verify the structure of original xml file. 
-    while ($docstr =~ /((.{200})(<lnci:cite ID=\"([0-9A-Z]+)\"[^>]*?normprotocol=\"lexsee\"[^>]*>(.*?)<\/lnci:cite>))/g) {
+    while ($docstr =~ /((.{200})(<lnci:cite ID=\"([0-9A-Z]+)\"[^>]*normprotocol=\"lexsee\"[^>]*>(.*?)<\/lnci:cite>))/g) {
 	$destlni = $2;
 	$citestr = $3; 
 	$localciteid = $4; 
 
 	$citeid = "CC_$i";
-	$docstr =~ s/\Q$citestr/ $citeid /g; 
+	$docstr =~ s/\Q$citestr/ $citeid /; 
 	# some citation doesn't contain destination lni string. 
 	if ($destlni =~ m/lni=\"([A-Z0-9\-]+)\"/g) {
 	    $destlni = $1; 
@@ -211,7 +211,7 @@ sub getSCitations {
     # Process citations in head of doc. 
     # xml node is: <ref:cite4thisresource...>
     # added by simon on July 05, 2011. 
-    while ($docstr =~ m/((<lnci:cite ID=\"([A-Z0-9]+)\"[^>]*(normprotocol=\"lexstat\")?[^>]*>)(.*?)<\/lnci:cite>)/g) {
+    while ($docstr =~ m/((<lnci:cite ID=\"([A-Z0-9]+)\"[^>]*normprotocol=\"lexstat\"[^>]*>)(.*?)<\/lnci:cite>)/g) {
 	$citestr = $1;
 	$localid = $3; 
 	my $citetype = $4; 
@@ -219,14 +219,9 @@ sub getSCitations {
 	    $localid = "UNDETERMINED";
 	}
 
-	# TODO, try to determine the type of citation. 
-	if (! $citetype) {
-
-	}
-
 	$citeid = "SC_$i";
 
-	$docstr =~ s/\Q$citestr/ $citeid /g; 
+	$docstr =~ s/\Q$citestr/ $citeid /; 
 
 	$citestr =~ s/<[^>]+>/ /g; 
 	$citestr =~ s/  +/ /g; 
