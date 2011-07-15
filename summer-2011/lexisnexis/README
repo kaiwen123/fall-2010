@@ -1,7 +1,11 @@
 Files:
 ==========
 xml2text.pl - file to convert from xml to text. 
+xml2text.pl.bak - an alternative implementation of case citation extraction.
 get_input_xml.sh - file to randomly extract xml from xml repository. 
+get_doc_names.sh - script to get a pair case name and LNI identifier. 
+get_link_cite.sh - script to get link citations. 
+get_unresolved_lni.sh - script to get unresolved LNI string. 
 get_par_label.sh - file to extract paragraph labels (e.g. para_1). 
 RFC_revsOrder.pl - file to get RFC for text. 
 
