@@ -33,25 +33,23 @@ my $cnt = 1;
 # use filtering to separate these texts in to different files. 
 # 
 # @input <STDIN>, each line of input is an issue document in xml format. 
-# @output <STDOUT>, the meta-data we need include footnote, headnote, 
-# citation meta-data and paragraph/sentences. 
+# @output <STDOUT>, the information we need will include footnote, headnote, 
+# citation meta-data and paragraph/sentences.
 # 
 # @var Global variables : 
 # $lnistr - the doc unique doc as string; 
 # $docstr - courtcase representation string; 
 # %metastr - variable for storing metadata as string; 
 # meta string will be of the form as:
-# key  <--> value. Such as, S_10 <--> State Nat'l Bank v. Farah.
+# key  <--> value. Such as, S_10 <--> State Nat'l Bank v. Farah
 # 
 # @comments Due to the large size of the input legal document, it is 
 # advisible to pass reference to function by reference rather than by 
 # value. And $lnistr is treated as a global variable such that all the 
-# functions in the script can use it. 
+# functions in the script can use it.
 # Added 07/15/2011. Although pass by reference can be used to pass parameters 
 # into functions, it is better to use a global variable for parameter passing
 # and eliminate the hassle of handling the function parameters. 
-# ======================================================================
-# The main loop. 
 # ======================================================================
 MAINLOOP:while (<STDIN>) {
     # a global string variable. 
@@ -71,9 +69,7 @@ MAINLOOP:while (<STDIN>) {
     # get lni string for the doc. 
     &getLNI();
 
-    # By comparing with the real document, we only process representation 
-    # and opinions part. And ignore case summary and consel part, which include 
-    # citations and paragraphs. 
+    # only process representation and opinions part. 
     if ($_ =~ /<courtcase:representation>(.*?)<\/courtcase:representation>/){
 	$docstr = $1; 
     }
@@ -89,11 +85,11 @@ MAINLOOP:while (<STDIN>) {
     &preProcessXml(); 
 
     # Look for all link citations with lni's involved.
-    &getCCitations();
+    &getCitations();
 #=begin DEBUG
 
     # Look for statutory citations.
-    &getSCitations();
+    #&getSCitations();
     
     # Look for headnotes. 
     &getHeadnotes(); 
@@ -159,42 +155,62 @@ sub getLNI {
 # @param lnistr which is the global variable.
 # @return case citation strings in the input string.
 # ==================================================
-sub getCCitations {
-    my $i = 1; 
+sub getCitations {
+    my $i = 1; 			# case cite. 
+    my $j = 1; 			# statutory citation. 
     my $citeid; 
     my $citestr; 
+    my $citetype = "TYPE"; 
     my $citecontent;
-    my $localciteid; 
+    my $localid; 
     my $destlni; 
 
     print "\nCase Citations\n";
     # need to verify the structure of original xml file. 
-    while ($docstr =~ /((.{200})(<lnci:cite ID=\"([0-9A-Z]+)\"[^>]*normprotocol=\"lexsee\"[^>]*>(.*?)<\/lnci:cite>))/g) {
+    LOOP:while ($docstr =~ /((.{150})(<lnci:cite ID=\"([0-9A-Z]+)\"([^>]*)>(.*?)<\/lnci:cite>))/g) {
 	$destlni = $2;
 	$citestr = $3; 
-	$localciteid = $4; 
+	$localid = $4; 
+	$citetype = $5; 
 
-	$citeid = "CC_$i";
 	$docstr =~ s/\Q$citestr/ $citeid /; 
-	# some citation doesn't contain destination lni string. 
-	if ($destlni =~ m/lni=\"([A-Z0-9\-]+)\"/g) {
-	    $destlni = $1; 
-	    $destlni =~ s/-//g;
-	} else {
-	    $destlni = "UNRESOLVED";
-	}
 
-    	# get cite content. 
+	# get cite content. 
 	$citestr =~ s/<[^>]+>/ /g;
 	$citestr =~ s/  +/ /g;
 	$citestr =~ s/^ +//g;
 	$citestr =~ s/  +([,])/,/g; # remove space in front of comma etc. 
 
-	$metastr{$citeid} = $citestr; 
+	# process case citations and statutory citations.
+	if ($citetype =~ m/normprotocol=\"lexsee\"/) {
+	    # case cite.
+	    # $citetype = "casecite";
+	    $citeid = "CC_$i";
+	    # some citation doesn't contain destination lni string. 
+	    if ($destlni =~ m/lni=\"([A-Z0-9\-]+)\"/g) {
+		$destlni = $1; 
+		$destlni =~ s/-//g;
+	    } else {
+		$destlni = "UNRESOLVED";
+	    }
 
-    	# print "CASEREFS:$citeid:\t" . $lnistr . ":$localciteid" . "::$destlni:$citestr\n";
-    	print "CASEREFS:" . $lnistr . ":$citeid" . "::$destlni:$citestr\n";
-	$i++;
+	    # print "CASEREFS:$citeid:\t" . $lnistr . ":$localciteid" . "::$destlni:$citestr\n";
+	    print "CASEREFS:" . $lnistr . ":$citeid" . "::$destlni:$citestr\n";
+	    $i++;
+
+	} elsif ($citetype =~ m/normprotocol=\"lexstat\"/) {
+	    # statutory citation. 
+	    # $citetype = "statcite";
+	    $citeid = "SC_$j";
+
+	    # print "CASEREFS:$citeid:\t" . "$lnistr:$localid" . "::$citestr\n";
+	    print "CASEREFS:" . "$lnistr:$citeid" . "::$citestr\n";
+	    $j++; 
+
+	} else {
+	    next LOOP;
+	}
+	$metastr{$citeid} = $citestr; 
     }
 
     return;
@@ -213,41 +229,25 @@ sub getCCitations {
 # @param lnistr - the document unique string. 
 # @return none, but will update the global $docstr. 
 # ==================================================
-sub getSCitations {
-    my $i = 1; 
-    my $localid = ""; 
-    my $citestr; 
-    my $citeid;
+# sub getSCitations {
+#     my $i = 1; 
+#     my $localid = ""; 
+#     my $citestr; 
+#     my $citeid;
 
-    print "\nStatutory Citations\n";
+#     print "\nStatutory Citations\n";
 
-    # Process citations in head of doc. 
-    # xml node is: <ref:cite4thisresource...>
-    # added by simon on July 05, 2011. 
-    while ($docstr =~ m/((<lnci:cite ID=\"([A-Z0-9]+)\"[^>]*normprotocol=\"lexstat\"[^>]*>)(.*?)<\/lnci:cite>)/g) {
-	$citestr = $1;
-	$localid = $3; 
-	my $citetype = $4; 
-	if (! $localid) {
-	    $localid = "UNDETERMINED";
-	}
+#     # Process citations in head of doc. 
+#     # xml node is: <ref:cite4thisresource...>
+#     # added by simon on July 05, 2011. 
+#     while ($docstr =~ m/((<lnci:cite ID=\"([A-Z0-9]+)\"[^>]*(normprotocol=\"lexstat\")?[^>]*>)(.*?)<\/lnci:cite>)/g) {
+# 	$citestr = $1;
+# 	$localid = $3; 
+# 	my $citetype = $4; 
+#     }
 
-	$citeid = "SC_$i";
-
-	$docstr =~ s/\Q$citestr/ $citeid /; 
-
-	$citestr =~ s/<[^>]+>/ /g; 
-	$citestr =~ s/  +/ /g; 
-	$citestr =~ s/^ +//g;
-	# print "CASEREFS:$citeid:\t" . "$lnistr:$localid" . "::$citestr\n";
-	print "CASEREFS:" . "$lnistr:$citeid" . "::$citestr\n";
-
-	$metastr{$citeid} = $citestr; 
-	$i++; 
-    }
-
-    return; 
-}
+#     return; 
+# }
 
 # ==================================================
 # @brief extract headnotes from document.
@@ -346,15 +346,9 @@ sub getText {
 	# get paragraph id.
 	if ($parstr =~ m/id=\"para_([0-9]+)\"/) {
 	    $id = int($1);
-	    #$pars{$id} = $parstr; 
-	    $parstr =~ s/<[^>]+>/ /g;
-	    # Then remove the embedded quotation paragraph. 
-	    # After careful analysis, the quotation paragraph should be 
-	    # embedded into the quoting paragraph, or else, the sentences
-	    # might be broken or it will cause problems with the following
-	    # RFC segmentation paragraph. 
-	    # $docstr =~ s/\Q$quotestr/ para_$id /;
-	    $docstr =~ s/\Q$quotestr/ $parstr /;
+	    $pars{$id} = $parstr; 
+	    # Then remove the embedded quota paragraph. 
+	    $docstr =~ s/\Q$quotestr/ para_$id /;
 	} else {
 	    $docstr =~ s/\Q$quotestr/ /;
 	}
