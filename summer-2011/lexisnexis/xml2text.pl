@@ -262,10 +262,14 @@ sub getHeadnotes {
     print "\nHeadnote:\n";
 
     # extract headnote tag. 
-    while ($docstr =~ /(<casesum:headnote[^>]+>(.*?)<\/casesum:headnote>)/g) {
+    while ($docstr =~ /(<casesum:headnote[^>]*>(.*?)<\/casesum:headnote>)/g) {
 	my $headnotestr = $1; 
+
 	$hnoteid = "HN_$i";
 	$docstr =~ s/\Q$headnotestr/ $hnoteid /g; 
+
+	$headnotestr =~ s/<\/p>/\n/g; 
+	$headnotestr =~ s/<p>//g; 
 
 	if ($headnotestr =~ /(<text>)(.*?)(<\/text>)/) {
 	    my $hnstr = $2;
@@ -276,6 +280,23 @@ sub getHeadnotes {
 	    $i++;
 	}
     }
+
+    # extract headnote groups. 
+    # it is embedded by <casesum:headnote-grp> and <casesum:headnote-simple>
+    # while ($docstr =~ /(<casesum:headnote[^>]+>(.*?)<\/casesum:headnote>)/g) {
+    # 	my $headnotestr = $1; 
+    # 	$hnoteid = "HN_$i";
+    # 	$docstr =~ s/\Q$headnotestr/ $hnoteid /g; 
+
+    # 	if ($headnotestr =~ /(<text>)(.*?)(<\/text>)/) {
+    # 	    my $hnstr = $2;
+    # 	    $hnstr =~ s/<.*?>//g;
+    # 	    $hnstr =~ s/<\/.*?>//g;
+    # 	    $metastr{$hnoteid} = $hnstr;
+    # 	    print "HEADOUTPUT:" . "$lnistr:$hnoteid:$hnstr\n\n";
+    # 	    $i++;
+    # 	}
+    # }
 
     return; 
 }

@@ -1,5 +1,7 @@
 #!/usr/bin/perl
-# @brief This script implements cutting of paragraphs into sentences. 
+# @brief This script implements cutting of paragraphs 
+# into sentences. This module file will be used by 
+# the xml2text.pl file. 
 # @revision 07/15/2011 initial version by Simon.
 # 
 #
@@ -15,7 +17,12 @@ use Lingua::EN::Sentence qw( get_sentences add_acronyms );
 # ==================================================
 sub preProcess {
     $parstr = $_[0];
+    if ($parstr =~ m/^ *$/) { return; }
     chomp;
+
+    # remove quotations in paragraph. 
+    #&removeQuotes; 
+
     # ==================================================
     # Correct errors and abnormal forms of the input. 
     # ==================================================
@@ -79,7 +86,8 @@ sub preProcess {
 # ==================================================
 sub postProcess {
     my $cnt = 1; 
-    # &loadAbbrev(); 
+    my $file = "abbrev.abb";
+    # &loadAbbrev($file); 
     my $sentences = get_sentences($parstr); 
     foreach $sentence (@$sentences) {
 	# post-process the sentence.
@@ -101,13 +109,22 @@ sub postProcess {
 }
 
 # ==================================================
-# @brief load abbrevations from file. 
-# @param none. 
-# @return none. 
+# @brief load abbrevations from file, and add all the 
+# acronyms into EN::Sentence library for handling 
+# sentence endings. This is mainly used to disambiguite
+# the ending of sentence by period(.). 
+# The problem of doing this is that it will be very 
+# time consuming to load and check all the input text 
+# over all the loaded abbrevations. 
+# The format of the abbrevation file is "cnt abbrev.". 
+# @param $abbfile, the name of the abbrevation file. 
+# @return none, the abbrevations will be loaded into 
+# files. 
 # ==================================================
 sub loadAbbrev {
     my $cnt = 0; 
-    open(ABBFILE, "abbrev.abb");
+    my $abbfile = $_[0];
+    open(ABBFILE, "$abbfile");
 
     LOOP:while (<ABBFILE>) {
 	chomp; 
@@ -123,6 +140,78 @@ sub loadAbbrev {
 
     close ABBFILE; 
     return; 
+}
+
+# =======================================================================
+# initially obtained from Paul's previous work. This routine is to be
+# adjusted according to the requirement of current sentence cutting work. 
+# Remove " at beginning and end position of a paragraph if proper
+# Remove long quoted string in the middle if proper
+# Input Paragraph is in $_
+# =======================================================================
+sub removeQuotes {
+my $L ;
+my $QLength ;
+my @QCts ;
+  $QLength = "" ;
+  @QCts = ( /(\")/g ) ;
+  return unless ( $#QCts > -1 ) ;
+
+  $PLength = length ( $_ ) ;
+
+  # =======================================================
+  # Remove " at Beginning if no other " found in string
+  # =======================================================
+  if ( ( $#QCts == 0 ) &&
+       ( /^(?:HEADNOTE_\d+_\d+)* *\"/ )
+     ) {
+    s/\"// ;
+  }
+
+  # =======================================================
+  # Remove " at both ends
+  # =======================================================
+  if ( ( /^(?:HEADNOTE_\d+_\d+)* *\"/ ) &&
+       ( /\"[^A-Za-z]{0,5}$/ )
+     ) {
+    # =====================================================
+    # Do nothing if first "..." not includes WHOLE String
+    # =====================================================
+    if ( $#QCts > 1 ) {
+      return ;
+    }
+    else {
+      # ===================================================
+      # If conditions are met, remove " at both ends
+      # ===================================================
+      if ( ( $PLength > 1000 ) ||
+           ( /(?:...(?:HEADNOTE_\d+_\d+|CANOTE)..+?){2}/ ) ||
+           ( /(?:[A-Za-z]{3}[\.\?] .+?){5}/ ) ||
+           ( /\b(?:I |Q\. )/ ) ||
+           ( /\b(?:you|he) /i )
+         ) {
+        s/^(HEADNOTE_\d+_\d+ *)*\"/$1/ ;
+        s/\"([^A-Za-z]{0,5})$/$1/ ;
+      }
+    }
+  }
+
+  return if ( $PLength < 1200 ) ;
+  # =======================================================
+  # Remove " " around long strings : 
+  # I.e. String : longer than 2000; or
+  #               longer than 1200 and NOT followed by "("
+  # =======================================================
+  if ( / \"([^"]{1200,})\"[ \.,\?]*(.{0,6})/ ) {
+    $LongQuate = $1 ;
+    $TrailingTxt = $2 ;
+    $QLength = length ( $LongQuate ) ;
+    if ( ( $QLength > 2000 ) ||
+         ( $TrailingTxt !~ /\(/ )
+       ) {
+      s/\"\Q$LongQuate\E\"/$LongQuate/g ;
+    }
+  }
 }
 
 1; 
