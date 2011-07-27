@@ -281,23 +281,6 @@ sub getHeadnotes {
 	}
     }
 
-    # extract headnote groups. 
-    # it is embedded by <casesum:headnote-grp> and <casesum:headnote-simple>
-    # while ($docstr =~ /(<casesum:headnote[^>]+>(.*?)<\/casesum:headnote>)/g) {
-    # 	my $headnotestr = $1; 
-    # 	$hnoteid = "HN_$i";
-    # 	$docstr =~ s/\Q$headnotestr/ $hnoteid /g; 
-
-    # 	if ($headnotestr =~ /(<text>)(.*?)(<\/text>)/) {
-    # 	    my $hnstr = $2;
-    # 	    $hnstr =~ s/<.*?>//g;
-    # 	    $hnstr =~ s/<\/.*?>//g;
-    # 	    $metastr{$hnoteid} = $hnstr;
-    # 	    print "HEADOUTPUT:" . "$lnistr:$hnoteid:$hnstr\n\n";
-    # 	    $i++;
-    # 	}
-    # }
-
     return; 
 }
 
@@ -415,7 +398,7 @@ sub processParagraph {
     my $doc = $_[0];
     my $i=1;
     my $parid = "zzz"; 
-    $parstr = "";
+    my $parstr = "";
 
     if ($doc =~ /<ref:anchor id=\"([a-z]+_[0-9]+)\"\/>/) {
 	$parid = $1;
@@ -435,8 +418,8 @@ sub processParagraph {
 	print $parstr . "\n\n";
 	
 	# do sentence cutting. 
-	&preProcess($parstr); 
-	&postProcess(); 
+	&preProcess(\$parstr); 
+	&postProcess(\$parstr); 
     }
     print "\n<<<<<<<<<<End of $parid<<<<<<<<<<\n\n";
     return; 

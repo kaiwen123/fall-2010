@@ -15,9 +15,11 @@ use Lingua::EN::Sentence qw( get_sentences add_acronyms );
 # @param $parstr The paragraph string. 
 # @return None.
 # ==================================================
+$replstr = "ZZZZZ";
 sub preProcess {
-    $parstr = $_[0];
-    if ($parstr =~ m/^ *$/) { return; }
+    $_ = ${$_[0]};
+
+    if (m/^ *$/) { return; }
     chomp;
 
     # remove quotations in paragraph. 
@@ -40,6 +42,18 @@ sub preProcess {
 
     s/ ([,\?\.])/$1/g;		      # remove space in front of [,?].
 
+    # handling abbrevations. 
+    while (m/\b(([A-Za-z]{1,4}\. ?){2,})/g) {
+    	my $origstr = $1; 	# original string;
+    	my $transtr = $origstr; # transformed string;
+
+    	$transtr =~ s/\./$replstr/g;
+
+    	s/\Q$origstr/$transtr/g;
+    	print $_ . "\n";
+    }
+
+    #return; 
     # ==================================================
     # Add acronyms within docs. 
     # ==================================================
@@ -53,7 +67,7 @@ sub preProcess {
     
     # special cases.
     s/"If/" If/g;
-    s/Id\.//g;			# This term is redundant?
+    s/Id\.//g;
 
     # remove the numbering at the beginning of paragraph. 
     s/\. ([SL]_[0-9]+)/\, $1/g;	# e.g: xxx. S_10. => xxx, S_10.
@@ -75,6 +89,9 @@ sub preProcess {
     s/([\"\.]) ([0-9]+[^\.])/$1, $2/g;
     s/([\"\.]) ([\(])/$1, $2/g;		   # e.g: A. (2nd) => A., (2nd)
     s/([\",\.][0-9]+)\. ([^A-Z])/$1, $2/g; # e.g: "2. xxx. => "2, xxx.
+
+    ${$_[0]} = $_;
+
     return; 
 }
 
@@ -88,7 +105,7 @@ sub postProcess {
     my $cnt = 1; 
     my $file = "abbrev.abb";
     # &loadAbbrev($file); 
-    my $sentences = get_sentences($parstr); 
+    my $sentences = get_sentences(${$_[0]}); 
     foreach $sentence (@$sentences) {
 	# post-process the sentence.
 	$sentence =~ s/  +/ /g;	# remove redundant spaces. 
@@ -96,7 +113,7 @@ sub postProcess {
 	$sentence =~ s/ ,/,/g;	  # remove space before ,. 
 	$sentence =~ s/^\s+//g;	  # remove leading space. 
 	$sentence =~ s/^\"([^\"]+)/$1/g; # remove unbalanced quotation. 
-
+	$sentence =~ s/$replstr/\./g;
 	# If sentence doesn't contain ending mark, add one. 
 	if (($sentence =~ m/(^.*)([^\.\"\?\:])$/) && 
 	    ($sentence !~ m/para_[0-9]+/)) {
