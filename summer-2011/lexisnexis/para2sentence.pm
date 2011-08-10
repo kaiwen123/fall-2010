@@ -3,8 +3,6 @@
 # into sentences. This module file will be used by 
 # the xml2text.pl file. 
 # @revision 07/15/2011 initial version by Simon.
-# 
-#
 
 use Lingua::EN::Sentence qw( get_sentences add_acronyms );
  
@@ -15,69 +13,105 @@ use Lingua::EN::Sentence qw( get_sentences add_acronyms );
 # @param $parstr The paragraph string. 
 # @return None.
 # ==================================================
-$replstr = "ZZZZZ";
+$replstr = "ZZZZZ";		# for replacing dot(\.).
+$replstr1 = "XXXXX"; # for replacing ' in pattern like Poor's." Count ...
 sub preProcess {
     $_ = ${$_[0]};
+    %bracepart = ();	# store the bracketed sentence. 
+    my $cnt = 0;	# counted key for above work. 
 
     if (m/^ *$/) { return; }
     chomp;
 
-    # remove quotations in paragraph. 
-    #&removeQuotes; 
+    # remove space before the enclosing symbols(e.g. \(\{\[ etc.). 
+    s/([\(]) *([^\)]*[^ ]) *([\)])/$1$2$3/g;
+    s/O?\&[lg]t;O?//g;		# delete special characters. 
 
-    # ==================================================
-    # Correct errors and abnormal forms of the input. 
-    # ==================================================
-    # rule R_0; handling citation case names, -- casename.pl 
-    # rule example: in file -> casename.example. 
+    # book keep braced sentences. 
+    while (m/\.[\"\)]? ([\(\[\{][A-Z]([^\)\]\}]|([\(\[\{][^\)\]\}]*[\)\]\}]))*\.[\)\]\}])([ \"\.])/g) {
+	my $s = $1; 
+	if ($s =~ m/ /g) {
+	    my $key = "BST_".$cnt;
+	    $bracepart{$key} = $s;
+	    s/\Q$s/ $key. /g; 
+	    $cnt++;
+	}
+    }
 
-    # rule R_1; abbrevation handling. -- abbrev.pl 
-    # rule example: in file -> abbrev.example. 
-    s/([0-9a-z]+\."?)([A-Z])/$1 $2/g; # Add space between sentences. 
+    # book keep braced non-sentences. --verify (\.?)
+    while (m/([\(\[\{]([^\)\]\]]|([\(\[\{][^\)\]\}]*[\)\]\}]))*[\)\]\}])(\.?)/g){
+	my $p = $1; 
+	if ($p =~ m/ /g) {	# more than two words. 
+	    my $dot = $4;
+	    my $key = "BST_".$cnt;
+	    $bracepart{$key} = $p; 
+	    s/\Q$p/$key$dot /g;
+	    $cnt++; 
+	}
+    }
 
-    # rule R_2; labels handling. -- label.pl
-    # rule example: in file -> label.example.
-    s/(\w+)\. (((FN|HN|L|S)_[0-9]+ )+)([A-Z])/$1, $2\. $5/g; # adjust "xxx. FN_10 Foo "
-    s/([\.\?]\") (((FN|HN|L|S)_[0-9]+ )+)([A-Z])/$1, $2\. $5/g; # adjust "xxx." FN_10 Foo "
-
+    while (m/([0-9]+[\,\. ](\w+\. )+LEXIS [0-9]+)([\.]) ?/g){
+	my $lexisid = $1;
+	my $dot = $3;
+	my $key = "BST_" . $cnt; 
+	$bracepart{$key} = $lexisid;
+	s/\Q$lexisid/$key$dot/g;
+	$cnt++; 
+    }
+    # Remove quotations in paragraph. 
+    # &removeQuotes; 
+    # add missing space between sentences. 
+    s/([A-Za-z]+ \w+[a-z]+\.)([A-Z]\w+[a-z]+)/$1 $2/g; 
     s/ ([,\?\.])/$1/g;		      # remove space in front of [,?].
 
+    # add space in front of numbering. 
+    s/[\.]([IVX]+\. )/\. $1/g;
+
     # handling abbrevations. 
-    while (m/\b(([A-Za-z]{1,4}\. ?){2,})/g) {
+    # eg. permit on March, 7, 1990. Plf. Summ. J. Ex. 58. In its review ...
+    while (m/\b([A-Za-z]{1,4}\. ?([A-Za-z0-9]{1,4}\. ?){2,})(\w+\.( [A-Z]\w+|$) ?|\w+\W)?/g) {
     	my $origstr = $1; 	# original string;
     	my $transtr = $origstr; # transformed string;
 
     	$transtr =~ s/\./$replstr/g;
-
     	s/\Q$origstr/$transtr/g;
-    	print $_ . "\n";
     }
 
-    #return; 
+    # if dot for the end of the sentence is replaced, bring it back.
+    s/$replstr( [A-Z][a-z]+ )/\.$1/g;
+    #s/$replstr( [A-Z]+) /\.$1 /g;
+
+    s/( [a-zA-Z]+)\.([a-zA-Z]+)\. /$1$replstr$2$replstr /g; # e.g: p.m.
+    s/(([A-Z]+\.){2,})\.+/$1/g;
+
+    # special cases. 
+    s/(\bNo)\.( [A-Z0-9]+\b)/$1$replstr$2/g;
+    s/( So)\.( [0-9])/$1$replstr$2/g;
+    s/(^P[0-9]+)\. /$1$replstr /g;
+
     # ==================================================
-    # Add acronyms within docs. 
+    # Add acronyms.
     # ==================================================
-    add_acronyms('ab', 'tit', 'pen', 'supp', 'bhd', 'indus', 'civ',); 
+    add_acronyms('art', 'ab', 'tit', 'pen', 'supp', 'bhd', 'indus', 'civ','j','affd'); 
+    add_acronyms('seq', 'cert', 'disc', 'etc', 'cf', 'ed', 'ch', 'fed', 'cir','sec');
+    add_acronyms('cong', 'sess', 'admin', 'ann', 'stat', 'cr','am','pet','mem','br');
+    add_acronyms('nos','commn','syl','constr');
 
-    # because acronyms are capital initialized words some may not work such as seq. 
-    s/(seq\.)/$1,/g;
-    s/(cert\.)/$1,/g;
-    s/(disc\.)/$1,/g;
-    s/(etc\.) ([A-Z])/$1. $2/g;	# ended with etc. might have problem. 
-    
-    # special cases.
-    s/"If/" If/g;
-    s/Id\.//g;
+    # old style state acronyms. 
+    add_acronyms('Ala','Ark','Ariz','Calif','Colo','Conn','Del','fla','Ga','Ill'); 
+    add_acronyms('Ind','Kan','Ky','La','Mass','Md','Mich','Minn','Mo.','Miss','Mont','Neb'); 
+    add_acronyms('Nev','Okla','Ore','Pa','Tenn','Vt','Va','Wash','Wis','Wyo');
 
-    # remove the numbering at the beginning of paragraph. 
-    s/\. ([SL]_[0-9]+)/\, $1/g;	# e.g: xxx. S_10. => xxx, S_10.
-    s/\" ([SL]_[0-9]+)/", $1/g;
-    s/([SL]_[0-9]+)\. ?([^A-Z])/$1\, $2/g; # change . to ,
+    s/(( |^)[iI]d)\./$1$replstr/g; # can not be handled by acronyms because of its location.
 
-    # Adjust headnotes and footnotes. 
-    s/(FN_[0-9]+) ([A-Z])/$1\. $2/g;
-    s/\. ([HF]N_[0-9]+)/\, $1/g;   
-    s/([SL]_[0-9]+[.,;!'"])/$1 /g; # e.g: S_10,Abc => S_10, Abc
+    s/(\w+)\'(\w*\.\" [A-Z]\w+)/$1$replstr1$2/g;
+
+    s/(\b\w+)\.( at )/$1$replstr$2/g;
+
+    s/(\w+)\.( \W\"[A-Z]+\"\W)/$1$replstr$2/g; # e.g: Fla. ("MCC") ...
+
+    # Ajust ids. 
+    s/([SC]C_[0-9]+[\.\,\;\!\'\"])(\w+)/$1 $2/g; # e.g: S_10,Abc => S_10, Abc
 
     # adjust marks. like .... ... etc. 
     s/\.\.\.\.?( [^A-Z])/, $1/g; # e.g: .... by => , by
@@ -85,10 +119,21 @@ sub preProcess {
     s/\.\.\.?\.?([^ ])/\.$1/g;	 # e.g: ..., by => ., by
 
     # adjust numbers. 
-    s/^[0-9]+\. //g;		# e.g: 1. The extent of ....
-    s/([\"\.]) ([0-9]+[^\.])/$1, $2/g;
-    s/([\"\.]) ([\(])/$1, $2/g;		   # e.g: A. (2nd) => A., (2nd)
-    s/([\",\.][0-9]+)\. ([^A-Z])/$1, $2/g; # e.g: "2. xxx. => "2, xxx.
+    s/((^|[\.\?] |")[0-9]+)\. /$1$replstr /g; # numbering of lists. 
+    s/([Nn][oO]\. [0-9]+)$replstr( [A-Z])/$1\.$2/g; # correct error. (e.g. No. 120. The ...)
+    s/(^[a-zA-Z])\. /$1$replstr /g;  # alphabetical numbering.
+    s/(^[IVX]+)\. /$1$replstr /g; # replace the I. II. ... numbering. 
+    s/(\. [IVX]+)\.( [A-Z]\w+ )/$1$replstr$2/g; # numbering within paragraph. 
+
+    # special cases.
+    s/per cent\.( ?[^A-Z])/percent$1/g;	# change "per cent\." to "percent" for non-sentence.
+    s/per cent\./percent\./g; # change "per cent\." to "percent" for else.
+    s/( etc\.)( [A-Z]\w*)/$1\.$2/g; # when "etc." ends a sentence, add additional dot.
+    s/(\'\"|\"\')/\"/g;		    # change double quote to single quote. 
+
+    s/(\w+\.\"\))( [A-Z]\w+)/$1\.$2/g; # add period after \w+\.\"\) and before Xxxx, ...
+
+    print $_ . "\n\n";
 
     ${$_[0]} = $_;
 
@@ -107,24 +152,28 @@ sub postProcess {
     # &loadAbbrev($file); 
     my $sentences = get_sentences(${$_[0]}); 
     foreach $sentence (@$sentences) {
-	# post-process the sentence.
-	$sentence =~ s/  +/ /g;	# remove redundant spaces. 
-	$sentence =~ s/\.\./\./g; # remove additional period mark. 
-	$sentence =~ s/ ,/,/g;	  # remove space before ,. 
-	$sentence =~ s/^\s+//g;	  # remove leading space. 
-	$sentence =~ s/^\"([^\"]+)/$1/g; # remove unbalanced quotation. 
-	$sentence =~ s/$replstr/\./g;
-	# If sentence doesn't contain ending mark, add one. 
-	if (($sentence =~ m/(^.*)([^\.\"\?\:])$/) && 
-	    ($sentence !~ m/para_[0-9]+/)) {
-	    $sentence = $1 . $2 . "."; 
+	$_ = $sentence; 
+	while (m/((BST_[0-9]+)\.?)/g) {
+	    my $replace = $1; 
+	    my $key = $2; 
+	    s/\Q$replace/$bracepart{$key}/;
 	}
-	print "$cnt:  " . $sentence . "\n"; 
+	# post-process the sentence.
+	s/\s\s+/ /g;	# remove redundant spaces. 
+	s/ ,/,/g;	# remove space before ,. 
+	s/^\"([^\"]+)/$1/g;	# remove unbalanced quotation. 
+	s/$replstr/\./g;
+	s/$replstr1/\'/g;
+	print "$cnt:  " . $_ . "\n"; 
 	$cnt++;
     }
+    %bracepart = ();
     return; 
 }
 
+# 
+# Deprecated functions after this line. 
+# 
 # ==================================================
 # @brief load abbrevations from file, and add all the 
 # acronyms into EN::Sentence library for handling 
@@ -166,69 +215,6 @@ sub loadAbbrev {
 # Remove long quoted string in the middle if proper
 # Input Paragraph is in $_
 # =======================================================================
-sub removeQuotes {
-my $L ;
-my $QLength ;
-my @QCts ;
-  $QLength = "" ;
-  @QCts = ( /(\")/g ) ;
-  return unless ( $#QCts > -1 ) ;
-
-  $PLength = length ( $_ ) ;
-
-  # =======================================================
-  # Remove " at Beginning if no other " found in string
-  # =======================================================
-  if ( ( $#QCts == 0 ) &&
-       ( /^(?:HEADNOTE_\d+_\d+)* *\"/ )
-     ) {
-    s/\"// ;
-  }
-
-  # =======================================================
-  # Remove " at both ends
-  # =======================================================
-  if ( ( /^(?:HEADNOTE_\d+_\d+)* *\"/ ) &&
-       ( /\"[^A-Za-z]{0,5}$/ )
-     ) {
-    # =====================================================
-    # Do nothing if first "..." not includes WHOLE String
-    # =====================================================
-    if ( $#QCts > 1 ) {
-      return ;
-    }
-    else {
-      # ===================================================
-      # If conditions are met, remove " at both ends
-      # ===================================================
-      if ( ( $PLength > 1000 ) ||
-           ( /(?:...(?:HEADNOTE_\d+_\d+|CANOTE)..+?){2}/ ) ||
-           ( /(?:[A-Za-z]{3}[\.\?] .+?){5}/ ) ||
-           ( /\b(?:I |Q\. )/ ) ||
-           ( /\b(?:you|he) /i )
-         ) {
-        s/^(HEADNOTE_\d+_\d+ *)*\"/$1/ ;
-        s/\"([^A-Za-z]{0,5})$/$1/ ;
-      }
-    }
-  }
-
-  return if ( $PLength < 1200 ) ;
-  # =======================================================
-  # Remove " " around long strings : 
-  # I.e. String : longer than 2000; or
-  #               longer than 1200 and NOT followed by "("
-  # =======================================================
-  if ( / \"([^"]{1200,})\"[ \.,\?]*(.{0,6})/ ) {
-    $LongQuate = $1 ;
-    $TrailingTxt = $2 ;
-    $QLength = length ( $LongQuate ) ;
-    if ( ( $QLength > 2000 ) ||
-         ( $TrailingTxt !~ /\(/ )
-       ) {
-      s/\"\Q$LongQuate\E\"/$LongQuate/g ;
-    }
-  }
-}
+sub removeQuotes {}
 
 1; 

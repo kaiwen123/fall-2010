@@ -59,6 +59,8 @@ MAINLOOP:while (<STDIN>) {
     our $docstr = $_; 
     our $lnistr = "";
 
+    print "\nProcessing file number " . $cnt . ">>>>>\n\n";
+
     # %metastr is used to store metadata so that every time when I do 
     # text extraction and sentence cutting, I can remove the hassle of 
     # dealing with the large number of abbreviations within the string. 
@@ -168,7 +170,7 @@ sub getCCitations {
     my $localciteid; 
     my $destlni; 
 
-    print "\nCase Citations\n";
+    # print "\nCase Citations\n";
     # need to verify the structure of original xml file. 
     while ($docstr =~ /((.{200})(<lnci:cite ID=\"([0-9A-Z]+)\"[^>]*normprotocol=\"lexsee\"[^>]*>(.*?)<\/lnci:cite>))/g) {
 	$destlni = $2;
@@ -176,7 +178,9 @@ sub getCCitations {
 	$localciteid = $4; 
 
 	$citeid = "CC_$i";
-	$docstr =~ s/\Q$citestr/ $citeid /; 
+
+	my $replcite = $citestr; # used to handle unbalanced braces. 
+
 	# some citation doesn't contain destination lni string. 
 	if ($destlni =~ m/lni=\"([A-Z0-9\-]+)\"/g) {
 	    $destlni = $1; 
@@ -193,8 +197,19 @@ sub getCCitations {
 
 	$metastr{$citeid} = $citestr; 
 
-    	# print "CASEREFS:$citeid:\t" . $lnistr . ":$localciteid" . "::$destlni:$citestr\n";
-    	print "CASEREFS:" . $lnistr . ":$citeid" . "::$destlni:$citestr\n";
+	# handle unbalanced brakets. 
+	if($citestr =~ m/\)\)/g) {
+	    $docstr =~ s/\Q$replstr/ $citeid) /g;
+	    $citestr =~ s/\)\)/\)/g;
+	} elsif ($citestr =~ m/^[^\(\)]*\)\W*$/g) {
+	    $docstr =~ s/\Q$replstr/ $citeid) /g;
+	    $citestr =~ s/\)//g;
+	} else {
+	    $docstr =~ s/\Q$replstr/ $citeid /; 
+	}
+
+    	# vinayak print "CASEREFS:$citeid:\t" . $lnistr . ":$localciteid" . "::$destlni:$citestr\n";
+    	#print "CASEREFS:" . $lnistr . ":$citeid" . "::$destlni:$citestr\n";
 	$i++;
     }
 
@@ -220,7 +235,7 @@ sub getSCitations {
     my $citestr; 
     my $citeid;
 
-    print "\nStatutory Citations\n";
+    #print "\nStatutory Citations\n";
 
     # Process citations in head of doc. 
     # xml node is: <ref:cite4thisresource...>
@@ -234,14 +249,25 @@ sub getSCitations {
 	}
 
 	$citeid = "SC_$i";
-
-	$docstr =~ s/\Q$citestr/ $citeid /; 
+	my $replstr = $citestr; # handle unbalanced braces. 
 
 	$citestr =~ s/<[^>]+>/ /g; 
 	$citestr =~ s/  +/ /g; 
 	$citestr =~ s/^ +//g;
-	# print "CASEREFS:$citeid:\t" . "$lnistr:$localid" . "::$citestr\n";
-	print "CASEREFS:" . "$lnistr:$citeid" . "::$citestr\n";
+
+	# handle unbalanced brakets. 
+	if($citestr =~ m/\)\)/g) {
+	    $docstr =~ s/\Q$replstr/ $citeid) /g;
+	    $citestr =~ s/\)\)/\)/g;
+	} elsif ($citestr =~ m/^[^\(\)]*\)\W*$/g) {
+	    $docstr =~ s/\Q$replstr/ $citeid) /g;
+	    $citestr =~ s/\)//g;
+	} else {
+	    $docstr =~ s/\Q$replstr/ $citeid /; 
+	}
+
+	# vinayak print "CASEREFS:$citeid:\t" . "$lnistr:$localid" . "::$citestr\n";
+	#print "CASEREFS:" . "$lnistr:$citeid" . "::$citestr\n";
 
 	$metastr{$citeid} = $citestr; 
 	$i++; 
@@ -259,7 +285,7 @@ sub getHeadnotes {
     my $i = 1;
     my $hnoteid;
 
-    print "\nHeadnote:\n";
+    #print "\nHeadnote:\n";
 
     # extract headnote tag. 
     while ($docstr =~ /(<casesum:headnote[^>]*>(.*?)<\/casesum:headnote>)/g) {
@@ -276,7 +302,7 @@ sub getHeadnotes {
 	    $hnstr =~ s/<.*?>//g;
 	    $hnstr =~ s/<\/.*?>//g;
 	    $metastr{$hnoteid} = $hnstr;
-	    print "HEADOUTPUT:" . "$lnistr:$hnoteid:$hnstr\n\n";
+	    #print "HEADOUTPUT:" . "$lnistr:$hnoteid:$hnstr\n\n";
 	    $i++;
 	}
     }
@@ -293,7 +319,7 @@ sub getFootnotes {
     my $fnoteid; 
     my $i = 1; 
 
-    print "\nFootnote:\n";
+    #print "\nFootnote:\n";
 
     # Look for all the footnotes within the document.
     while ($docstr =~ /((<footnote>)(.*?)(<\/footnote>))/g) {
@@ -320,7 +346,7 @@ sub getFootnotes {
 	    $metastr{$fnoteid} = $fnote;
 	    # print $metastr{$fnoteid} . "\n";
 
-	    print "FOOTOUTPUT:" . "$lnistr:$fnoteid:$fnote\n\n";
+	    #print "FOOTOUTPUT:" . "$lnistr:$fnoteid:$fnote\n\n";
 	    $i++;
 	}
     }
@@ -337,10 +363,10 @@ sub getFootnotes {
 sub getText {
     my $id = 1; 
     my $parstr = ""; 
-    print $lnistr . "\n\n"; 
+    print $lnistr . "\n\n"; 	# identifier of the document.
     my %pars = (); 		# paragraph table. 
 
-    print "\nText:\n";
+    #print "\nText:\n";
 
     # paragraphs embedded within paragraph can be identified by
     # <\/?blockquote>. Let's remove them first. 
