@@ -41,8 +41,8 @@ sub preProcess {
     # book keep braced non-sentences. --verify (\.?)
     while (m/([\(\[\{]([^\)\]\]]|([\(\[\{][^\)\]\}]*[\)\]\}]))*[\)\]\}])(\.?)/g){
 	my $p = $1; 
+	my $dot = $4;
 	if ($p =~ m/ /g) {	# more than two words. 
-	    my $dot = $4;
 	    my $key = "BST_".$cnt;
 	    $bracepart{$key} = $p; 
 	    s/\Q$p/$key$dot /g;
@@ -50,7 +50,7 @@ sub preProcess {
 	}
     }
 
-    while (m/([0-9]+[\,\. ](\w+\. )+LEXIS [0-9]+)([\.]) ?/g){
+    while (m/([0-9]+[\,\. ](\w+\. )+LEXIS [0-9]+)([\.]?)[,] ?/g){
 	my $lexisid = $1;
 	my $dot = $3;
 	my $key = "BST_" . $cnt; 
@@ -95,7 +95,7 @@ sub preProcess {
     add_acronyms('art', 'ab', 'tit', 'pen', 'supp', 'bhd', 'indus', 'civ','j','affd'); 
     add_acronyms('seq', 'cert', 'disc', 'etc', 'cf', 'ed', 'ch', 'fed', 'cir','sec');
     add_acronyms('cong', 'sess', 'admin', 'ann', 'stat', 'cr','am','pet','mem','br');
-    add_acronyms('nos','commn','syl','constr');
+    add_acronyms('nos','commn','syl','constr','serv','app','vol','lb','par','nn','ins');
 
     # old style state acronyms. 
     add_acronyms('Ala','Ark','Ariz','Calif','Colo','Conn','Del','fla','Ga','Ill'); 
