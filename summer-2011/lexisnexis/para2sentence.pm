@@ -96,6 +96,7 @@ sub preProcess {
     add_acronyms('seq', 'cert', 'disc', 'etc', 'cf', 'ed', 'ch', 'fed', 'cir','sec');
     add_acronyms('cong', 'sess', 'admin', 'ann', 'stat', 'cr','am','pet','mem','br');
     add_acronyms('nos','commn','syl','constr','serv','app','vol','lb','par','nn','ins');
+    add_acronyms('inc','rel','educ','ex','dep','compl','doc','pp','decl');
 
     # old style state acronyms. 
     add_acronyms('Ala','Ark','Ariz','Calif','Colo','Conn','Del','fla','Ga','Ill'); 
@@ -129,6 +130,7 @@ sub preProcess {
     s/per cent\.( ?[^A-Z])/percent$1/g;	# change "per cent\." to "percent" for non-sentence.
     s/per cent\./percent\./g; # change "per cent\." to "percent" for else.
     s/( etc\.)( [A-Z]\w*)/$1\.$2/g; # when "etc." ends a sentence, add additional dot.
+    s/( Amendment)\.( [0-9])/$1$2/g; # Amendment adjustment.
     s/(\'\"|\"\')/\"/g;		    # change double quote to single quote. 
 
     s/(\w+\.\"\))( [A-Z]\w+)/$1\.$2/g; # add period after \w+\.\"\) and before Xxxx, ...
