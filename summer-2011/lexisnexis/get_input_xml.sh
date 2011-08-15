@@ -5,7 +5,8 @@
 INPUT=$1;
 NUM=$2;
 for i in $(seq $NUM); do
-    DOC=$RANDOM;
-    echo 'Extracting doc' $DOC input_$i.xml;
-    sed ''"$DOC"'q;d' $INPUT > input_$i.xml;
+    #DOC=$RANDOM;
+#    echo 'Extracting doc' $DOC input_$i.xml;
+#    sed ''"$DOC"'q;d' $INPUT > input_$i.xml;
+    sed ''"$RANDOM"'q;d' $INPUT | tee -a random_sentence_test.xml;
 done; 
