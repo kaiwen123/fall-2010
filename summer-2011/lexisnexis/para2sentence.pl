@@ -1,10 +1,22 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
 # @brief This script implements cutting of paragraphs 
 # into sentences. This module file will be used by 
 # the xml2text.pl file. 
 # @revision 07/15/2011 initial version by Simon.
 
 use Lingua::EN::Sentence qw( get_sentences add_acronyms );
+
+LOOP:while (<STDIN>) {
+    $parstr = $_;
+    next if (m/^ *$/);
+    if (m/^(PARAGRAPH_[0-9]+|^[A-Z0-9_]{23,})$/g) {
+	print "\n".$parstr . "\n"; 
+	next LOOP; 
+    }
+    print $parstr . "\n";
+    &preProcess(); 
+    &postProcess(); 
+}
  
 # ==================================================
 # @brief This process will be used to remove all the
@@ -13,10 +25,10 @@ use Lingua::EN::Sentence qw( get_sentences add_acronyms );
 # @param $parstr The paragraph string. 
 # @return None.
 # ==================================================
-$replstr = "ZZZZZ";		# for replacing dot(\.).
-$replstr1 = "XXXXX"; # for replacing ' in pattern like Poor's." Count ...
 sub preProcess {
-    $_ = ${$_[0]};
+    $replstr = "ZZZZZ";		# for replacing dot(\.).
+    $replstr1 = "XXXXX"; # for replacing ' in pattern like Poor's." Count ...
+    $_ = $parstr;
     %bracepart = ();	# store the bracketed sentence. 
     my $cnt = 0;	# counted key for above work. 
 
@@ -115,16 +127,16 @@ sub preProcess {
     s/([SC]C_[0-9]+[\.\,\;\!\'\"])(\w+)/$1 $2/g; # e.g: S_10,Abc => S_10, Abc
 
     # adjust marks. like .... ... etc. 
-    s/\.\.\.\.?( [^A-Z])/, $1/g; # e.g: .... by => , by
-    s/\.\.\.\.?( [A-Z])/\. $1/g; # e.g: .... By => . By
-    s/\.\.\.?\.?([^ ])/\.$1/g;	 # e.g: ..., by => ., by
+    # s/\.\.\.\.?( [^A-Z])/, $1/g; # e.g: .... by => , by
+    # s/\.\.\.\.?( [A-Z])/\. $1/g; # e.g: .... By => . By
+    # s/\.\.\.?\.?([^ ])/\.$1/g;	 # e.g: ..., by => ., by
 
     # adjust numbers. 
     s/((^|[\.\?] |")[0-9]+)\. /$1$replstr /g; # numbering of lists. 
     s/([Nn][oO]\. [0-9]+)$replstr( [A-Z])/$1\.$2/g; # correct error. (e.g. No. 120. The ...)
     s/(^[a-zA-Z])\. /$1$replstr /g;  # alphabetical numbering.
-    s/(^[IVX]+)\. /$1$replstr /g; # replace the I. II. ... numbering. 
-    s/(\. [IVX]+)\.( [A-Z]\w+ )/$1$replstr$2/g; # numbering within paragraph. 
+    s/(^[IVXivx]+)\. /$1$replstr /g; # replace the I. II. ... numbering. 
+    s/(\. [IVXivx]+)\.( [A-Z]\w+ )/$1$replstr$2/g; # numbering within paragraph. 
 
     # special cases.
     s/per cent\.( ?[^A-Z])/percent$1/g;	# change "per cent\." to "percent" for non-sentence.
@@ -135,9 +147,9 @@ sub preProcess {
 
     s/(\w+\.\"\))( [A-Z]\w+)/$1\.$2/g; # add period after \w+\.\"\) and before Xxxx, ...
 
-    print $_ . "\n\n";
+# print $_ . "\n\n";
 
-    ${$_[0]} = $_;
+    $parstr = $_;
 
     return; 
 }
@@ -152,9 +164,10 @@ sub postProcess {
     my $cnt = 1; 
     my $file = "abbrev.abb";
     # &loadAbbrev($file); 
-    my $sentences = get_sentences(${$_[0]}); 
-    foreach $sentence (@$sentences) {
-	$_ = $sentence; 
+    #print $parstr . "\n"; 
+    
+    my $sentences = get_sentences($parstr); 
+    foreach $_ (@$sentences) {
 	while (m/((BST_[0-9]+)\.?)/g) {
 	    my $replace = $1; 
 	    my $key = $2; 
@@ -209,14 +222,3 @@ sub loadAbbrev {
     close ABBFILE; 
     return; 
 }
-
-# =======================================================================
-# initially obtained from Paul's previous work. This routine is to be
-# adjusted according to the requirement of current sentence cutting work. 
-# Remove " at beginning and end position of a paragraph if proper
-# Remove long quoted string in the middle if proper
-# Input Paragraph is in $_
-# =======================================================================
-sub removeQuotes {}
-
-1; 

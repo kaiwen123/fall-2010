@@ -11,8 +11,6 @@
 # @revision 07/15/2011 readjust comments to reflect changes on code. 
 # Move sentence cutting work into a separate module file. 
 
-use para2sentence; 
-
 # Counting the number of documents processed. 
 my $cnt = 1;
 
@@ -59,7 +57,12 @@ MAINLOOP:while (<STDIN>) {
     our $docstr = $_; 
     our $lnistr = "";
 
-    print "\nProcessing file number " . $cnt . ">>>>>\n\n";
+    s/§/S/g;
+    s/ //g;
+    s/\$ /\$/g;
+    s/\&amp\;/\&/g;
+
+    print "\nProcessing file number " . $cnt . ">>>>>\n";
 
     # %metastr is used to store metadata so that every time when I do 
     # text extraction and sentence cutting, I can remove the hassle of 
@@ -179,7 +182,7 @@ sub getCCitations {
 
 	$citeid = "CC_$i";
 
-	my $replcite = $citestr; # used to handle unbalanced braces. 
+	my $replstr = $citestr; # used to handle unbalanced braces. 
 
 	# some citation doesn't contain destination lni string. 
 	if ($destlni =~ m/lni=\"([A-Z0-9\-]+)\"/g) {
@@ -209,7 +212,7 @@ sub getCCitations {
 	}
 
     	# vinayak print "CASEREFS:$citeid:\t" . $lnistr . ":$localciteid" . "::$destlni:$citestr\n";
-    	#print "CASEREFS:" . $lnistr . ":$citeid" . "::$destlni:$citestr\n";
+    	# print "CASEREFS:" . $lnistr . ":$citeid" . "::$destlni:$citestr\n";
 	$i++;
     }
 
@@ -361,92 +364,55 @@ sub getFootnotes {
 # @return none. 
 # ==================================================
 sub getText {
-    my $id = 1; 
     my $parstr = ""; 
-    print $lnistr . "\n\n"; 	# identifier of the document.
-    my %pars = (); 		# paragraph table. 
+    my $cnt = 1; 
+    my $segmentstr = "ZZZZZ"; 
 
-    #print "\nText:\n";
+    print "\n\n" . $lnistr . "\n\n"; # identifier of the document.
 
-    # paragraphs embedded within paragraph can be identified by
-    # <\/?blockquote>. Let's remove them first. 
-    while ($docstr =~ m/(<blockquote[^>]*>(.*?)<\/blockquote>)/g) {
-	my $quotestr = $1;
-	$parstr = $2; 
-
-	# get paragraph id.
-	if ($parstr =~ m/id=\"para_([0-9]+)\"/) {
-	    $id = int($1);
-	    #$pars{$id} = $parstr; 
-	    $parstr =~ s/<[^>]+>/ /g;
-	    # Then remove the embedded quotation paragraph. 
-	    # After careful analysis, the quotation paragraph should be 
-	    # embedded into the quoting paragraph, or else, the sentences
-	    # might be broken or it will cause problems with the following
-	    # RFC segmentation paragraph. 
-	    # $docstr =~ s/\Q$quotestr/ para_$id /;
-	    $docstr =~ s/\Q$quotestr/ $parstr /;
-	} else {
-	    $docstr =~ s/\Q$quotestr/ /;
-	}
+    while ($docstr =~ m/(<blockquote[^>]*>(.*?)<\/blockquote[^>]*>)/g) {
+	my $quotestr = $1;	# quoted string with xml tag. 
+	my $quotepar = $2; 	# quoted paragraph. 
+	
+	$quotepar =~ s/<[^>]+>/ /g;
+	# print $parid . "  " . $parstr . "\n\n\n"; 
+	$docstr =~ s/\Q$quotestr/ $segmentstr $quotepar $segmentstr /g;
     }
 
     # extract all the paragraph data. 
-    while($docstr =~ m/(<p>(.*?)<\/p>)/g) {
+    while($docstr =~ m/(<p>(.*?)<\/p>|<h>(.*?)<\/h>)/g) {
 	$parstr = $1; 
 
-	# get paragraph id.
-	if ($parstr =~ m/id=\"para_([0-9]+)\"/) {
-	    $id = int($1);
-	    $pars{$id} = $parstr; 
+	# paragraphs embedded within paragraph can be identified by
+	# <\/?blockquote>.
+	# $parstr =~ s/<emph typestyle="bf">(.*?)<\/emph>/$segmentstr $1 $segmentstr/g; 
+	$parstr =~ s/<mock-para-break[^>]*>/$segmentstr/g;
+	$parstr =~ s/<[^>]*>/ /g;
+	# print $parstr . "\n\n";
+
+	# adjust the paragraphs, some can not be a seperate paragraph. 
+	while ($parstr =~ m/($segmentstr( +[a-z]\w*[^\.] ))/g) {
+	    my $segcontext = $1; 
+	    my $segremoved = $2; 
+	    $parstr =~ s/$segcontext/$segremoved/g; 
 	}
+	my @pars = split(/$segmentstr/, $parstr); 
 
-	$parstr =~ s/\Q$parstr/ /g; # remove embeded par. 
+	for $_ (@pars) {
+	    next if (m/^ *$/); 
+
+	    s/  +/ /g; 
+	    s/^ +//g; 
+	    s/(\w) +([\.,])/$1$2/g; # remove space before [\.\,]. 
+	    s/ +\)/\)/g;
+	    s/…/\.\.\./g;    # remove the special characters. 
+
+	    print "\nPARAGRAPH_" . $cnt . "\n" . $_ . "\n";
+
+	    #&preProcess(\$_); 
+	    #&postProcess(\$_); 
+	    $cnt++;
+	}
     }
-
-    # Process the paragraphs, should be sort by order. 
-    for my $key (sort { $a <=> $b } keys %pars) {
-	&processParagraph($pars{$key}); 
-    }
-
     return ;
-}
-
-# ==================================================
-# @brief This routine is used to process the paragraph 
-# text, including getting paragraph ids and and the 
-# text as string. 
-# @param a <p> and </p> bounded pargraph xml string. 
-# @return true/false; and print out the paragraph data
-# into standard output. 
-# ==================================================
-sub processParagraph {
-    my $doc = $_[0];
-    my $i=1;
-    my $parid = "zzz"; 
-    my $parstr = "";
-
-    if ($doc =~ /<ref:anchor id=\"([a-z]+_[0-9]+)\"\/>/) {
-	$parid = $1;
-	print ">>>>>>>>>>Start of $parid>>>>>>>>>>\n";
-	print $parid . "\n";
-    }
-    
-    # extract paragraph data. 
-    if($doc =~ m/<text>(.*)<\/text>/) {
-	$parstr = $1;
-	
-	$parstr =~ s/<[^>]+>//g; # remove xml labels. 
-	$parstr =~ s/  +/ /g; # remove additional space. 
-	$parstr =~ s/ ([,\;\.])/$1/g; # remove space before ending punctuations.
-	$parstr =~ s/^ +//g; # remove leading space. 
-	
-	print $parstr . "\n\n";
-	
-	# do sentence cutting. 
-	&preProcess(\$parstr); 
-	&postProcess(\$parstr); 
-    }
-    print "\n<<<<<<<<<<End of $parid<<<<<<<<<<\n\n";
-    return; 
 }

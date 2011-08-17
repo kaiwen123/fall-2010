@@ -14,12 +14,12 @@
 
 use commonTools ;
 
-( $Root = $ARGV[0] ) =~ s/[_\.].*// ;
+# ( $Root = $ARGV[0] ) =~ s/[_\.].*// ;
 
-if ( ! $Root ) {
-  print "\nUsage : cut2Sentences  BaseName\n\n" ;
-  exit ;
-}
+# if ( ! $Root ) {
+#   print "\nUsage : cut2Sentences  BaseName\n\n" ;
+#   exit ;
+# }
 
 # &getFileNames ;
 
@@ -30,11 +30,11 @@ if ( ! $Root ) {
 # &ask2GoOn ;
 
 &defineCommonITerms ;
-open ( IN, "$ARGV[0]" ) || die "Cannot Open <$FileText>" ;
+# open ( IN, "$ARGV[0]" ) || die "Cannot Open <$FileText>" ;
 # open ( OUT, ">$ARGV[1]" ) || die "Cannot Open <$OutFileText>" ;
 
-LOOP:while (<IN>) {
-  if ( /^ *$/ || /^\$120:/ ) { 
+LOOP:while (<STDIN>) {
+  if ( /^ *$|^\$120:/ ) { 
     next LOOP ; 
   }
   chomp ;
@@ -146,10 +146,13 @@ s/(\b(?:[A-Za-z]{4,}|[a-z]{2,}|\s*\([a-z]|[^:;]\s*\d+[a-z]{0,2}|[CT]_\d\d\d +)(?
 
   # == Now divide the text into Sentences 
   @SentenceArray = split ( / *zZZZ */, $_ ) ;
+for $sentence (@SentenceArray) {
+    print $sentence . "\n\n";
+}
   $ParaCt++ ;
-  push ( @S, "PARAGRAPH$ParaCt" ) ;
-  push ( @S, @SentenceArray ) ;  
-  @{$ref_Sentences} = @S ;
+  # push ( @S, "PARAGRAPH$ParaCt" ) ;
+  # push ( @S, @SentenceArray ) ;  
+  # @{$ref_Sentences} = @S ;
 }
 
 # =======================================================================
