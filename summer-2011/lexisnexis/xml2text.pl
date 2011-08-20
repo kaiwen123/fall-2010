@@ -57,11 +57,6 @@ MAINLOOP:while (<STDIN>) {
     our $docstr = $_; 
     our $lnistr = "";
 
-    s/§/S/g;
-    s/ //g;
-    s/\$ /\$/g;
-    s/\&amp\;/\&/g;
-
     print "\nProcessing file number " . $cnt . ">>>>>\n";
 
     # %metastr is used to store metadata so that every time when I do 
@@ -80,10 +75,11 @@ MAINLOOP:while (<STDIN>) {
     # By comparing with the real document, we only process representation 
     # and opinions part. And ignore case summary and consel part, which include 
     # citations and paragraphs. 
-    if ($_ =~ /<courtcase:representation>(.*?)<\/courtcase:representation>/){
+    $docstr = "";
+    if (m/<courtcase:representation>(.*?)<\/courtcase:representation>/){
 	$docstr = $1; 
     }
-    if ($_ =~ /<courtcase:opinions[^>]*>(.*)<\/courtcase:opinions>/) {
+    if (m/<courtcase:opinions[^>]*>(.*)<\/courtcase:opinions>/) {
 	$docstr .= " " . $1; 
     }
 
@@ -122,6 +118,7 @@ MAINLOOP:while (<STDIN>) {
 # ==================================================
 sub preProcessXml {
     # Eliminate noise and unstandard characters.
+    # $docstr =~ s/§/S/g;
     $docstr =~ s/ //g;
     $docstr =~ s/\$ /\$/g;
     $docstr =~ s/\&amp\;/\&/g;		# transform ascii chars to normal form. 
@@ -281,6 +278,9 @@ sub getSCitations {
 
 # ==================================================
 # @brief extract headnotes from document.
+# Note: <casesum:headnote-grp> is located within the header 
+# of the document, so it will be ignored. Changes can be 
+# made to bring this back when necessary. 
 # @param $docstr, a global variable. 
 # @return none. 
 # ==================================================
@@ -353,7 +353,6 @@ sub getFootnotes {
 	    $i++;
 	}
     }
-    
     return;
 }
 
@@ -370,49 +369,52 @@ sub getText {
 
     print "\n\n" . $lnistr . "\n\n"; # identifier of the document.
 
-    while ($docstr =~ m/(<blockquote[^>]*>(.*?)<\/blockquote[^>]*>)/g) {
-	my $quotestr = $1;	# quoted string with xml tag. 
-	my $quotepar = $2; 	# quoted paragraph. 
-	
-	$quotepar =~ s/<[^>]+>/ /g;
-	# print $parid . "  " . $parstr . "\n\n\n"; 
-	$docstr =~ s/\Q$quotestr/ $segmentstr $quotepar $segmentstr /g;
+    $_ = $docstr; 
+
+    # if counsel does not contain citations(by detecting labels CC_0, SC_0), then ignore them. 
+    while (m/(<courtcase:counsel[^>]*>[^<]*<\/courtcase:counsel[^>]*>)/g) {
+	my $counsel = $1; 
+	if ($counsel !~ /[CS]C_[0-9]+/) {
+	    s/$counsel//g; 
+	}
     }
 
-    # extract all the paragraph data. 
-    while($docstr =~ m/(<p>(.*?)<\/p>|<h>(.*?)<\/h>)/g) {
-	$parstr = $1; 
+    # removed redundant text between opinion and body text, will break structure of xml. 
+    s/<courtcase:opinion[^>]*>.*?<bodytext>//g; 
 
-	# paragraphs embedded within paragraph can be identified by
-	# <\/?blockquote>.
-	# $parstr =~ s/<emph typestyle="bf">(.*?)<\/emph>/$segmentstr $1 $segmentstr/g; 
-	$parstr =~ s/<mock-para-break[^>]*>/$segmentstr/g;
-	$parstr =~ s/<[^>]*>/ /g;
-	# print $parstr . "\n\n";
+    # use </text>, </h> and </courtcase:counsel> to split paragraph. 
+    s/(<\/text[^>]*>|<\/h[^>]*>|<\/courtcase:counsel[^>]*>)/$1$segmentstr/g;
 
-	# adjust the paragraphs, some can not be a seperate paragraph. 
-	while ($parstr =~ m/($segmentstr( +[a-z]\w*[^\.] ))/g) {
-	    my $segcontext = $1; 
-	    my $segremoved = $2; 
-	    $parstr =~ s/$segcontext/$segremoved/g; 
-	}
-	my @pars = split(/$segmentstr/, $parstr); 
+    # Segment the block quote pattern. 
+    s/(<emph typestyle=\"bf\">[iIvVxX]+\.[^<]*<\/emph>)/$1$segmentstr/g;
 
-	for $_ (@pars) {
-	    next if (m/^ *$/); 
+    # The first emphasized line should be a title line/ paragraph. 
+    s/((<p><ref:anchor[^>]*><text>|<mock-para-break[^>]*>)<emph typestyle=\"bf\">[^<]*<\/emph>)/$1$segmentstr/g;
 
-	    s/  +/ /g; 
-	    s/^ +//g; 
-	    s/(\w) +([\.,])/$1$2/g; # remove space before [\.\,]. 
-	    s/ +\)/\)/g;
-	    s/…/\.\.\./g;    # remove the special characters. 
+    # remove the segmentation mark between adjacent emph nodes. 
+    s/$segmentstr( *<emph)/$1/g;
 
-	    print "\nPARAGRAPH_" . $cnt . "\n" . $_ . "\n";
+    # remove segmentation mark between breaking quotations. 
+    s/<\/text[^>]*>( *$segmentstr *)+(<[^>]*>)*([a-z]\w* )/ $3/g;
 
-	    #&preProcess(\$_); 
-	    #&postProcess(\$_); 
-	    $cnt++;
-	}
+    # remove xml nodes. 
+    s/<[^>]*>/ /g;		# remove xml tags. 
+    s/  +/ /g; 
+    
+    $docstr = $_; 
+
+    my @pars = split(/$segmentstr/, $docstr); 
+
+    for $_ (@pars) {
+	next if (m/^ *$/); 
+	s/^ +//g; 
+	s/(\w) +([\.,])/$1$2/g; # remove space before [\.\,]. 
+	s/ +\)/\)/g;
+	s/…/\.\.\./g;    # remove the special characters. 
+
+	print "\nPARAGRAPH_" . $cnt . "\n" . $_ . "\n";
+
+	$cnt++;
     }
     return ;
 }
