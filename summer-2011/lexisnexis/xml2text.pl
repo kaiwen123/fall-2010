@@ -8,7 +8,10 @@
 # @revision 06/16/2011 updated comments by Simon Guo. 
 # @revision 06/23/2011 added sentence cutting part by Simon Guo. 
 # @revision 06/27/2011 added detailed comments. 
-# @revision 07/15/2011 readjust comments to reflect changes on code. 
+# @revision 07/15/2011 re-adjust comments to reflect changes on code. 
+# @revision 08/17/2011 redo the paragraph cutting work to include the missing output. 
+# @revision 08/21/2011 added summaries part into the paragraph output if 
+# there are any citations.
 # Move sentence cutting work into a separate module file. 
 
 # Counting the number of documents processed. 
@@ -76,11 +79,14 @@ MAINLOOP:while (<STDIN>) {
     # and opinions part. And ignore case summary and consel part, which include 
     # citations and paragraphs. 
     $docstr = "";
-    if (m/<courtcase:representation>(.*?)<\/courtcase:representation>/){
-	$docstr = $1; 
+    if (m/(<casesum:summaries[^>]*>.*?<\/casesum:summaries[^>]*>)/) {
+	$docstr .= $1; 
     }
-    if (m/<courtcase:opinions[^>]*>(.*)<\/courtcase:opinions>/) {
-	$docstr .= " " . $1; 
+    if (m/(<courtcase:representation[^>]*]>(.*?)<\/courtcase:representation[^>]*>)/){
+	$docstr .= $1; 
+    }
+    if (m/(<courtcase:opinions[^>]*>(.*)<\/courtcase:opinions[^>]*>)/) {
+	$docstr .= $1; 
     }
 
     # Preprocessing of the document, mainly correct the case citation problems
@@ -371,12 +377,14 @@ sub getText {
 
     $_ = $docstr; 
 
-    # if counsel does not contain citations(by detecting labels CC_0, SC_0), then ignore them. 
-    while (m/(<courtcase:counsel[^>]*>[^<]*<\/courtcase:counsel[^>]*>)/g) {
-	my $counsel = $1; 
-	if ($counsel !~ /[CS]C_[0-9]+/) {
-	    s/$counsel//g; 
-	}
+    # consider summary here. ignore if no citatioins. 
+    if (!/<casesum:summaries[^>]*>.*[CS]C_[0-9]+.*?<\/casesum:summaries[^>]*>/) {
+        s/<casesum:summaries[^>]*>.*?<\/casesum:summaries[^>]*>/ /g;
+    }
+
+    # consider representation here. ignore if no citations. 
+    if (!/<courtcase:representation[^>]*>.*[CS]C_[0-9]+.*<\/courtcase:representation[^>]*>/) {
+	s/<courtcase:representation[^>]*>.*?<\/courtcase:representation[^>]*>/ /g;
     }
 
     # removed redundant text between opinion and body text, will break structure of xml. 

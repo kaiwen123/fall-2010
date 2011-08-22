@@ -13,7 +13,7 @@ LOOP:while (<STDIN>) {
 	print "\n".$parstr . "\n"; 
 	next LOOP; 
     }
-    print $parstr . "\n";
+#    print $parstr . "\n";
     &preProcess(); 
     &postProcess(); 
 }
