@@ -230,7 +230,7 @@ sub loadAbbrev {
     my $cnt = 0; 
     my $abbfile = $_[0];
     my @abbv = ();
-    open(ABBFILE, "$abbfile");
+    open(ABBFILE, "$abbfile") || die("can't open file $abbfile");
 
     LOOP:while (<ABBFILE>) {
 	chomp; 
