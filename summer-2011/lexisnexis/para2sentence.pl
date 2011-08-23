@@ -3,17 +3,21 @@
 # into sentences. This module file will be used by 
 # the xml2text.pl file. 
 # @revision 07/15/2011 initial version by Simon.
+# @revision 08/01/2011 Added code to handle braces. 
+# @revision 08/22/2011 
 
 use Lingua::EN::Sentence qw( get_sentences add_acronyms );
 
+# main loop 
+# ignore special paragraphs and process the rest of the paras. 
 LOOP:while (<STDIN>) {
     $parstr = $_;
     next if (m/^ *$/);
-    if (m/^(PARAGRAPH_[0-9]+|^[A-Z0-9_]{23,})$/g) {
+    if ((/^(PARAGRAPH_[0-9]+|^[A-Z0-9_]{23,})$/) || (/^Processing file number.*$/)) {
 	print "\n".$parstr . "\n"; 
 	next LOOP; 
     }
-#    print $parstr . "\n";
+    # print "\n".$parstr . "\n"; 
     &preProcess(); 
     &postProcess(); 
 }
@@ -39,37 +43,6 @@ sub preProcess {
     s/([\(]) *([^\)]*[^ ]) *([\)])/$1$2$3/g;
     s/O?\&[lg]t;O?//g;		# delete special characters. 
 
-    # book keep braced sentences. 
-    while (m/\.[\"\)]? ([\(\[\{][A-Z]([^\)\]\}]|([\(\[\{][^\)\]\}]*[\)\]\}]))*\.[\)\]\}])([ \"\.])/g) {
-	my $s = $1; 
-	if ($s =~ m/ /g) {
-	    my $key = "BST_".$cnt;
-	    $bracepart{$key} = $s;
-	    s/\Q$s/ $key. /g; 
-	    $cnt++;
-	}
-    }
-
-    # book keep braced non-sentences. --verify (\.?)
-    while (m/([\(\[\{]([^\)\]\]]|([\(\[\{][^\)\]\}]*[\)\]\}]))*[\)\]\}])(\.?)/g){
-	my $p = $1; 
-	my $dot = $4;
-	if ($p =~ m/ /g) {	# more than two words. 
-	    my $key = "BST_".$cnt;
-	    $bracepart{$key} = $p; 
-	    s/\Q$p/$key$dot /g;
-	    $cnt++; 
-	}
-    }
-
-    while (m/([0-9]+[\,\. ](\w+\. )+LEXIS [0-9]+)([\.]?)[,] ?/g){
-	my $lexisid = $1;
-	my $dot = $3;
-	my $key = "BST_" . $cnt; 
-	$bracepart{$key} = $lexisid;
-	s/\Q$lexisid/$key$dot/g;
-	$cnt++; 
-    }
     # Remove quotations in paragraph. 
     # &removeQuotes; 
     # add missing space between sentences. 
@@ -78,16 +51,6 @@ sub preProcess {
 
     # add space in front of numbering. 
     s/[\.]([IVX]+\. )/\. $1/g;
-
-    # handling abbrevations. 
-    # eg. permit on March, 7, 1990. Plf. Summ. J. Ex. 58. In its review ...
-    while (m/\b([A-Za-z]{1,4}\. ?([A-Za-z0-9]{1,4}\. ?){2,})(\w+\.( [A-Z]\w+|$) ?|\w+\W)?/g) {
-    	my $origstr = $1; 	# original string;
-    	my $transtr = $origstr; # transformed string;
-
-    	$transtr =~ s/\./$replstr/g;
-    	s/\Q$origstr/$transtr/g;
-    }
 
     # if dot for the end of the sentence is replaced, bring it back.
     s/$replstr( [A-Z][a-z]+ )/\.$1/g;
@@ -101,20 +64,6 @@ sub preProcess {
     s/( So)\.( [0-9])/$1$replstr$2/g;
     s/(^P[0-9]+)\. /$1$replstr /g;
 
-    # ==================================================
-    # Add acronyms.
-    # ==================================================
-    add_acronyms('art','ab','tit','pen','supp','bhd','indus','civ','j','affd');
-    add_acronyms('seq','cert','disc','etc','cf','ed','ch','fed','cir','sec');
-    add_acronyms('cong','sess','admin','ann','stat','cr','am','pet','mem','br');
-    add_acronyms('nos','commn','syl','constr','serv','app','vol','lb','par','nn','ins');
-    add_acronyms('inc','rel','educ','ex','dep','compl','doc','pp','decl','sup','ct');
-
-    # old style state acronyms. 
-    add_acronyms('Ala','Ark','Ariz','Calif','Colo','Conn','Del','fla','Ga','Ill'); 
-    add_acronyms('Ind','Kan','Ky','La','Mass','Md','Mich','Minn','Mo.','Miss','Mont','Neb'); 
-    add_acronyms('Nev','Okla','Ore','Pa','Tenn','Vt','Va','Wash','Wis','Wyo');
-
     s/(( |^)[iI]d)\./$1$replstr/g; # can not be handled by acronyms because of its location.
 
     s/(\w+)\'(\w*\.\" [A-Z]\w+)/$1$replstr1$2/g;
@@ -125,11 +74,6 @@ sub preProcess {
 
     # Ajust ids. 
     s/([SC]C_[0-9]+[\.\,\;\!\'\"])(\w+)/$1 $2/g; # e.g: S_10,Abc => S_10, Abc
-
-    # adjust marks. like .... ... etc. 
-    # s/\.\.\.\.?( [^A-Z])/, $1/g; # e.g: .... by => , by
-    # s/\.\.\.\.?( [A-Z])/\. $1/g; # e.g: .... By => . By
-    # s/\.\.\.?\.?([^ ])/\.$1/g;	 # e.g: ..., by => ., by
 
     # adjust numbers. 
     s/((^|[\.\?] |")[0-9]+)\. /$1$replstr /g; # numbering of lists. 
@@ -145,9 +89,56 @@ sub preProcess {
     s/( Amendment)\.( [0-9])/$1$2/g; # Amendment ajustment. 
     s/(\'\"|\"\')/\"/g;		    # change double quote to single quote. 
 
-    s/(\w+\.\"\))( [A-Z]\w+)/$1\.$2/g; # add period after \w+\.\"\) and before Xxxx, ...
+    s/([\.\?]\"\))( [A-Z]\w+)/$1\.$2/g; # add period after \.\"\) and before Xxxx, ...
 
-# print $_ . "\n\n";
+    # print $_ . "\n\n";
+
+    # book keep braced sentences. 
+    while (m/[\.\"\)]?( |^)([\(\[\{][A-Z]([^\)\]\}]|([\(\[\{][^\)\]\}]*[\)\]\}]))*\.[\)\]\}])([ \"\.])/g) {
+	my $s = $2; 
+        # ignore those with only one word, and those longer than 100.
+	if (($s =~ m/ /g) && (length($s) <= 100)) { 
+	    my $key = "BST_".$cnt;
+	    $bracepart{$key} = $s;
+	    s/\Q$s/ $key. /g; 
+	    $cnt++;
+	}
+    }
+
+    # book keep braced non-sentences. --verify (\.?)
+    while (m/([\(\[\{]([^\)\]\]]|([\(\[\{][^\)\]\}]*[\)\]\}]))*[\)\]\}])(\.?)/g){
+	my $p = $1; 
+	my $dot = $4;
+        # consider those with more than two words and longer than 100. 
+	if (($p =~ m/ /g) && (length($p) <= 100)) {
+	    my $key = "BST_".$cnt;
+	    $bracepart{$key} = $p; 
+	    s/\Q$p/$key$dot /g;
+	    $cnt++; 
+	}
+    }
+
+    # case anme with lexis string. 
+    while (m/([0-9]+[\,\. ](\w+\. )+LEXIS [0-9]+)([\.]?)[,] ?/g){
+	my $lexisid = $1;
+	my $dot = $3;
+	my $key = "BST_" . $cnt; 
+	$bracepart{$key} = $lexisid;
+	s/\Q$lexisid/$key$dot/g;
+	$cnt++; 
+    }
+
+    # handling abbrevations. 
+    # eg. permit on March, 7, 1990. Plf. Summ. J. Ex. 58. In its review ...
+    while (m/\b([A-Za-z]{1,4}\. ?([A-Za-z0-9]{1,4}\. ?){2,})(\w+\.( [A-Z]\w+|$) ?|\w+\W)?/g) {
+    	my $origstr = $1; 	# original string;
+    	my $transtr = $origstr; # transformed string;
+
+    	$transtr =~ s/\./$replstr/g;
+    	s/\Q$origstr/$transtr/g;
+    }
+
+    #print $_ . "\n\n";
 
     $parstr = $_;
 
@@ -163,25 +154,58 @@ sub preProcess {
 sub postProcess {
     my $cnt = 1; 
     my $file = "abbrev.abb";
-    # &loadAbbrev($file); 
+    my $s1 = "";
+    &loadAbbrev($file); 
     #print $parstr . "\n"; 
     
     my $sentences = get_sentences($parstr); 
-    foreach $_ (@$sentences) {
+    LOOP:foreach $_ (@$sentences) {
+	# replace back the blocks. 
 	while (m/((BST_[0-9]+)\.?)/g) {
 	    my $replace = $1; 
 	    my $key = $2; 
-	    s/\Q$replace/$bracepart{$key}/;
+	    # s/\Q$replace/$bracepart{$key}/;
+	    s/\Q$key/$bracepart{$key}/;
 	}
+	# remove unbalanced quotations. 
+	s/(^[^\"]*)\"([^\"]*$)/$1 $2/g;	# only one quotation.
+
+	# remove unbalanced braces. 
+	s/(^.*)\(([^\)]*$)/$1 $2/g; 
+	s/(^[^\(]*)\)(.*$)/$1 $2/g;
+
 	# post-process the sentence.
+	s/\.\.\./ /g;		# remove ellipses.
+	s/^ +//g;		# leading space removed. 
 	s/\s\s+/ /g;	# remove redundant spaces. 
 	s/ ,/,/g;	# remove space before ,. 
 	s/^\"([^\"]+)/$1/g;	# remove unbalanced quotation. 
 	s/$replstr/\./g;
 	s/$replstr1/\'/g;
-	print "$cnt:  " . $_ . "\n"; 
+	
+	# if there is over split, handle it by splicing the sentence to the previous one. 
+	if ($s1 =~ /^$/) {
+	    $s1 = $_;
+	    next LOOP;
+	}
+
+	if (/^[a-z]\w+ /) {
+	    my $s = $s1 . " " . $_; 
+	    print "$cnt:  " . $s . "\n"; 
+	    $s1 = "";
+	} else {
+	    print "$cnt:  " . $s1 . "\n"; 
+	    $s1 = $_;
+	}
+
 	$cnt++;
     }
+
+    # not empty, then print it out. 
+    if ($s1 !~ /^$/) {
+	print "$cnt:  " . $s1 . "\n"; 
+    }
+
     %bracepart = ();
     return; 
 }
@@ -205,20 +229,15 @@ sub postProcess {
 sub loadAbbrev {
     my $cnt = 0; 
     my $abbfile = $_[0];
+    my @abbv = ();
     open(ABBFILE, "$abbfile");
 
     LOOP:while (<ABBFILE>) {
 	chomp; 
-	s/[0-9]+ +//g; 		# remove counting.
-	# print $_ . " ";
-	push @abbv, "$_"; 
-	$cnt++;
-	if ($cnt >= 600) {
-	    last LOOP;
-	}
+	@abbv = ();
+	@abbv = split(/ /, $_);
+	add_acronyms(@abbv);
     }
-    add_acronyms(@abbv);
-
     close ABBFILE; 
     return; 
 }
