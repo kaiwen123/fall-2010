@@ -7,15 +7,14 @@
 # @revision 04/10/2011 created by Vinayak. 
 # @revision 06/16/2011 updated comments by Simon Guo. 
 # @revision 06/23/2011 added sentence cutting part by Simon Guo. 
+# Move sentence cutting work into a separate module file. 
 # @revision 06/27/2011 added detailed comments. 
 # @revision 07/15/2011 re-adjust comments to reflect changes on code. 
 # @revision 08/17/2011 redo the paragraph cutting work to include the missing output. 
 # @revision 08/21/2011 added summaries part into the paragraph output if 
 # there are any citations.
-# Move sentence cutting work into a separate module file. 
-
-# Counting the number of documents processed. 
-my $cnt = 1;
+# @revision 08/24/2011 added representation into a seperate file. 
+# @revision 08/24/2011 remove the %metastr hash variable, it is not useful. 
 
 # ======================================================================
 # @brief this is the main loop over all the legal documents. It will go 
@@ -41,9 +40,6 @@ my $cnt = 1;
 # @var Global variables : 
 # $lnistr - the doc unique doc as string; 
 # $docstr - courtcase representation string; 
-# %metastr - variable for storing metadata as string; 
-# meta string will be of the form as:
-# key  <--> value. Such as, S_10 <--> State Nat'l Bank v. Farah.
 # 
 # @comments Due to the large size of the input legal document, it is 
 # advisible to pass reference to function by reference rather than by 
@@ -59,15 +55,12 @@ MAINLOOP:while (<STDIN>) {
     # a global string variable. 
     our $docstr = $_; 
     our $lnistr = "";
+    our $segmentstr = "ZZZZZ"; 	# for segmentation of paragraphs. 
 
-    print "\nProcessing file number " . $cnt . ">>>>>\n";
-
-    # %metastr is used to store metadata so that every time when I do 
-    # text extraction and sentence cutting, I can remove the hassle of 
-    # dealing with the large number of abbreviations within the string. 
-    # And then change back the string that was replaced by a label, 
-    # labels in this project include ((|S|L|HN|FN|)_[0-9]+).
-    our %metastr = ();
+    # Counting the number of documents processed. 
+    my $doccnt = 1;
+    
+    print "\nProcessing file number " . $doccnt . ">>>>>\n";
 
     # ==============================
     # Extract text and meta-data. 
@@ -82,7 +75,7 @@ MAINLOOP:while (<STDIN>) {
     if (m/(<casesum:summaries[^>]*>.*?<\/casesum:summaries[^>]*>)/) {
 	$docstr .= $1; 
     }
-    if (m/(<courtcase:representation[^>]*]>(.*?)<\/courtcase:representation[^>]*>)/){
+    if (m/(<courtcase:representation[^>]*>.*?<\/courtcase:representation[^>]*>)/){
 	$docstr .= $1; 
     }
     if (m/(<courtcase:opinions[^>]*>(.*)<\/courtcase:opinions[^>]*>)/) {
@@ -98,7 +91,6 @@ MAINLOOP:while (<STDIN>) {
 
     # Look for all link citations with lni's involved.
     &getCCitations();
-#=begin DEBUG
 
     # Look for statutory citations.
     &getSCitations();
@@ -109,11 +101,17 @@ MAINLOOP:while (<STDIN>) {
     # Look for footnodes. 
     &getFootnotes();
 
+    # last MAINLOOP;
+    # Get summaries part of the document. 
+    &getSummaries(); 
+
+    # Get representations part of the document. 
+    &getRepresentation(); 
+
     # Get text from the document. 
-    &getText();
-#=end DEBUG
-#=cut
-    $cnt++;
+    &getOpinion();
+
+    $doccnt++;
 }
 
 # ==================================================
@@ -178,7 +176,7 @@ sub getCCitations {
 
     # print "\nCase Citations\n";
     # need to verify the structure of original xml file. 
-    while ($docstr =~ /((.{200})(<lnci:cite ID=\"([0-9A-Z]+)\"[^>]*normprotocol=\"lexsee\"[^>]*>(.*?)<\/lnci:cite>))/g) {
+    while ($docstr =~ /((.{200})?(<lnci:cite ID=\"([0-9A-Z]+)\"[^>]*normprotocol=\"lexsee\"[^>]*>(.*?)<\/lnci:cite>))/g) {
 	$destlni = $2;
 	$citestr = $3; 
 	$localciteid = $4; 
@@ -201,8 +199,6 @@ sub getCCitations {
 	$citestr =~ s/^ +//g;
 	$citestr =~ s/  +([,])/,/g; # remove space in front of comma etc. 
 
-	$metastr{$citeid} = $citestr; 
-
 	# handle unbalanced brakets. 
 	if($citestr =~ m/\)\)/g) {
 	    $docstr =~ s/\Q$replstr/ $citeid) /g;
@@ -215,7 +211,7 @@ sub getCCitations {
 	}
 
     	# vinayak print "CASEREFS:$citeid:\t" . $lnistr . ":$localciteid" . "::$destlni:$citestr\n";
-    	# print "CASEREFS:" . $lnistr . ":$citeid" . "::$destlni:$citestr\n";
+    	print $lnistr . ":" . $citeid . "::" . $destlni . ":" . $citestr . "\n";
 	$i++;
     }
 
@@ -273,9 +269,8 @@ sub getSCitations {
 	}
 
 	# vinayak print "CASEREFS:$citeid:\t" . "$lnistr:$localid" . "::$citestr\n";
-	#print "CASEREFS:" . "$lnistr:$citeid" . "::$citestr\n";
+	print $lnistr . ":" . $citeid . "::" . $citestr . "\n";
 
-	$metastr{$citeid} = $citestr; 
 	$i++; 
     }
 
@@ -297,25 +292,21 @@ sub getHeadnotes {
     #print "\nHeadnote:\n";
 
     # extract headnote tag. 
-    while ($docstr =~ /(<casesum:headnote[^>]*>(.*?)<\/casesum:headnote>)/g) {
+    # we need to ignore the headnote-grp within the summaries part. 
+    while ($docstr =~ /(<casesum:headnote [^>]*>.*?<\/casesum:headnote[^>\-]*>)/g) {
 	my $headnotestr = $1; 
 
 	$hnoteid = "HN_$i";
 	$docstr =~ s/\Q$headnotestr/ $hnoteid /g; 
 
-	$headnotestr =~ s/<\/p>/\n/g; 
-	$headnotestr =~ s/<p>//g; 
-
-	if ($headnotestr =~ /(<text>)(.*?)(<\/text>)/) {
+	if ($headnotestr =~ /(<text>(.*?)<\/text>)/) {
 	    my $hnstr = $2;
-	    $hnstr =~ s/<.*?>//g;
-	    $hnstr =~ s/<\/.*?>//g;
-	    $metastr{$hnoteid} = $hnstr;
-	    #print "HEADOUTPUT:" . "$lnistr:$hnoteid:$hnstr\n\n";
+	    $hnstr =~ s/<[^>]*>//g;
+	    $hnstr =~ s/  +/ /g;
+	    print $lnistr . ":" . $hnoteid . "::" . $hnstr . "\n";
 	    $i++;
 	}
     }
-
     return; 
 }
 
@@ -327,65 +318,82 @@ sub getHeadnotes {
 sub getFootnotes {
     my $fnoteid; 
     my $i = 1; 
-
-    #print "\nFootnote:\n";
-
     # Look for all the footnotes within the document.
-    while ($docstr =~ /((<footnote>)(.*?)(<\/footnote>))/g) {
+    while ($docstr =~ /(<footnote>(.*?)<\/footnote>)/g) {
 	my $fnotestr = $1; 
 	$fnoteid = "FN_$i"; 
-	# get footnote id from anchor. 
-	# if ($fnotestr =~ m/<ref:anchor id=\"(fn_fnote[0-9]+)\"/) {
-	#     $fnoteid=$1; 
-	# }
-	$metastr{$fnoteid} = "EMPTY";
 	$docstr =~ s/\Q$fnotestr/$fnoteid /g;
 
-	if ($fnotestr =~ /(<text>)(.*?)(<\/text>)/)	{
-	    $fnote = $2;
-	    $fnote =~ s/<[^>]+>//g; 
-	    $fnote =~ s/  +/ /g;
-	    $fnote =~ s/\( +/\(/g;
-	    
-	    if ( $fnote =~ / \" / ) {
-		$fnote =~ s/ \" ([^"]+\S)\"/ \"$1\"/g ;
-		$fnote =~ s/ \"(\S[^"]+) \" / \"$1\" /g ;
-		$fnote =~ s/ \" ([^"]+) \" / \"$1\" /g ;
-	    }
-	    $metastr{$fnoteid} = $fnote;
-	    # print $metastr{$fnoteid} . "\n";
-
-	    #print "FOOTOUTPUT:" . "$lnistr:$fnoteid:$fnote\n\n";
-	    $i++;
+	while ($fnotestr =~ /(<text>(.*?)<\/text>)/) {
+	    $_ = $2; 
+	    $fnotestr =~ s/\Q$1//g;
+	    s/<[^>]+>//g; 
+	    s/  +/ /g;
+	    s/\( +/\(/g;	# remove space after ( and in front of ).
+	    s/ +\)/\)/g;
+	    print $lnistr. ":" . $fnoteid . "::" . $_ . "\n";
 	}
+	$i++;
     }
     return;
 }
 
+# **************************************************
+# NOTES: summary and representation are text data 
+# that contains citations, but as of the current implementation. 
+# we only need to consider the work of the judicial opinion
+# part, so we output the summaries and representations 
+# into seperate files.
+# **************************************************
+# 
 # ==================================================
 # @brief extract text from the document. 
 # NOTE: paragraphs like clspara_[0-9]+ will be ignored here.
 # @param $docstr, the global document string. 
 # @return none. 
 # ==================================================
-sub getText {
+sub getSummaries {
+    # get summary part of the text. 
+    if ($docstr =~ /(<casesum:summaries[^>]*>.*?<\/casesum:summaries[^>]*>)/) {
+	$_ = $1; 
+	$docstr =~ s/\Q$_/ /g;
+	# if summary does not contain citations, ignore it; or else get it.
+	if (/[CS]C_[0-9]+/) {
+	    s/(<\/text[^>]*>)/$1$segmentstr/g;
+	    $part = "SUMMARY";
+	    &xml2par($_);
+	}
+    }
+}
+
+# ==================================================
+# @brief extract text from representation part of the input. 
+# @param $docstr, the global document string. 
+# @return none. 
+# ==================================================
+sub getRepresentation {
+    if ($docstr =~ /(<courtcase:representation[^>]*>.*?<\/courtcase:representation[^>]*>)/) {
+	$_ = $1; 
+	$docstr =~ s/\Q$_/ /g;
+	if (/[CS]C_[0-9]+/) {
+	    s/(<\/courtcase:counsel[^>]*>)/$1$segmentstr/g;
+	    $part = "REPRESENTATION";
+	    &xml2par($_);
+	}
+    }
+}
+
+# ==================================================
+# @brief extract text from judicial opinions. This part is the 
+# main source of data for building the case citation library. 
+# @param $docstr, 
+# @return none. 
+# ==================================================
+sub getOpinion {
     my $parstr = ""; 
     my $cnt = 1; 
-    my $segmentstr = "ZZZZZ"; 
-
-    print "\n\n" . $lnistr . "\n\n"; # identifier of the document.
 
     $_ = $docstr; 
-
-    # consider summary here. ignore if no citatioins. 
-    if (!/<casesum:summaries[^>]*>.*[CS]C_[0-9]+.*?<\/casesum:summaries[^>]*>/) {
-        s/<casesum:summaries[^>]*>.*?<\/casesum:summaries[^>]*>/ /g;
-    }
-
-    # consider representation here. ignore if no citations. 
-    if (!/<courtcase:representation[^>]*>.*[CS]C_[0-9]+.*<\/courtcase:representation[^>]*>/) {
-	s/<courtcase:representation[^>]*>.*?<\/courtcase:representation[^>]*>/ /g;
-    }
 
     # removed redundant text between opinion and body text, will break structure of xml. 
     s/<courtcase:opinion[^>]*>.*?<bodytext>//g; 
@@ -405,14 +413,25 @@ sub getText {
     # remove segmentation mark between breaking quotations. 
     s/<\/text[^>]*>( *$segmentstr *)+(<[^>]*>)*([a-z]\w* )/ $3/g;
 
+    $part = "OPINION";
+    &xml2par($_);
+}
+
+# ==================================================
+# @brief split xml text into paragraphs using split mark. 
+# @input marked xml text. 
+# @output splitted paragraphs.
+# ==================================================
+sub xml2par {
     # remove xml nodes. 
+    $_ = $_[0]; 
+
     s/<[^>]*>/ /g;		# remove xml tags. 
     s/  +/ /g; 
-    
-    $docstr = $_; 
 
-    my @pars = split(/$segmentstr/, $docstr); 
-
+    my $xmlstr = $_; 
+    my @pars = split(/$segmentstr/, $xmlstr); 
+    my $parcnt = 1; 		# paragraph count.
     for $_ (@pars) {
 	next if (m/^ *$/); 
 	s/^ +//g; 
@@ -420,9 +439,9 @@ sub getText {
 	s/ +\)/\)/g;
 	s/…/\.\.\./g;    # remove the special characters. 
 
-	print "\nPARAGRAPH_" . $cnt . "\n" . $_ . "\n";
+	print $lnistr . ":" . $part . "_PARAGRAPH_" . $parcnt . "::" . $_ . "\n";
 
-	$cnt++;
+	$parcnt++;
     }
     return ;
 }

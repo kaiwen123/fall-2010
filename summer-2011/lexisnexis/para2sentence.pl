@@ -13,7 +13,7 @@ use Lingua::EN::Sentence qw( get_sentences add_acronyms );
 LOOP:while (<STDIN>) {
     $parstr = $_;
     next if (m/^ *$/);
-    if ((/^(PARAGRAPH_[0-9]+|^[A-Z0-9_]{23,})$/) || (/^Processing file number.*$/)) {
+    if ((/^([A-Z]+_PARAGRAPH_[0-9]+|^[A-Z0-9_]{23,})$/) || (/^Processing file number.*$/)) {
 	print "\n".$parstr . "\n"; 
 	next LOOP; 
     }
