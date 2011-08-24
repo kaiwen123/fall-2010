@@ -48,6 +48,8 @@
 # Added 07/15/2011. Although pass by reference can be used to pass parameters 
 # into functions, it is better to use a global variable for parameter passing
 # and eliminate the hassle of handling the function parameters. 
+# Counting the number of documents processed. 
+my $doccnt = 1;
 # ======================================================================
 # The main loop. 
 # ======================================================================
@@ -57,9 +59,6 @@ MAINLOOP:while (<STDIN>) {
     our $lnistr = "";
     our $segmentstr = "ZZZZZ"; 	# for segmentation of paragraphs. 
 
-    # Counting the number of documents processed. 
-    my $doccnt = 1;
-    
     print "\nProcessing file number " . $doccnt . ">>>>>\n";
 
     # ==============================
