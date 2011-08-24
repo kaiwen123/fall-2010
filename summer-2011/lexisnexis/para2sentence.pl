@@ -42,6 +42,7 @@ sub preProcess {
     # remove space before the enclosing symbols(e.g. \(\{\[ etc.). 
     s/([\(]) *([^\)]*[^ ]) *([\)])/$1$2$3/g;
     s/O?\&[lg]t;O?//g;		# delete special characters. 
+    s/&apos;/'/g;
 
     # Remove quotations in paragraph. 
     # &removeQuotes; 
