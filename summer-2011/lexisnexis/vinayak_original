@@ -1,5 +1,11 @@
 #!/usr/bin/perl -w
-
+# This is vanayak's original script for getting meta-data
+# and paragraphs from input xml files. 
+# This file is intacted after Vinayak left this company on 
+# July 11th, 2011. 
+# WARNING::
+# This file has been archived, it is only used for references,
+# if you want to update it, please make your own copy. 
 
 open (FILE,$ARGV[0]);
 open (HEADOUTPUT, ">headnotetokens".$ARGV[1]);

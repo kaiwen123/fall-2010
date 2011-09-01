@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w 
 # 
-# get acronyms from the input file. 
+# This file is used to get acronyms from the input file. 
 # 
 # ==============================
 

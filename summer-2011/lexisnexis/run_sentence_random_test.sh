@@ -18,5 +18,5 @@ XML_SRC=$2 ;
 
 # do the random test. 
 for i in $(seq $NUM); do
-    sed ''"$RANDOM"'q;d' $XML_SRC | tee -a random_sentence_test.xml | perl xml2text.pl 
+    sed ''"$RANDOM"'q;d' $XML_SRC | tee -a random_sentence_test.xml | perl xml2text.pl | perl para2sentences.pl | less 
 done; 

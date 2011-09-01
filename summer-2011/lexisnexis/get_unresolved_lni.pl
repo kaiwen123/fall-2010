@@ -1,6 +1,9 @@
 #!/usr/bin/perl
 # This script is to resolve the unresolved LNI string. 
-
+# The idea to resolve an unresolved LNI string is to build a lookup 
+# dictionary, and then use this dictionary to lookup LNI using the 
+# citation name as key. 
+# 
 while (<STDIN>) {
     while (m/<rfc:anchorcite( lni="[0-9A-Z\-]+")? rfctokenref=\"([A-Z0-9]+)\"[^>]*>(.*?)<\/rfc:anchorcite>/g) {
 # 	print $2 . $1 . "\n";

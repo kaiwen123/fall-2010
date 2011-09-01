@@ -17,7 +17,9 @@ LOOP:while (<STDIN>) {
 	print "\n".$parstr . "\n"; 
 	next LOOP; 
     }
+
     # print "\n".$parstr . "\n"; 
+    &loadAbbrev("abbrev.abb");
     &preProcess(); 
     &postProcess(); 
 }
@@ -154,9 +156,8 @@ sub preProcess {
 # ==================================================
 sub postProcess {
     my $cnt = 1; 
-    my $file = "abbrev.abb";
     my $s1 = "";
-    &loadAbbrev($file); 
+    # &loadAbbrev($file); 
     #print $parstr . "\n"; 
     
     my $sentences = get_sentences($parstr); 
