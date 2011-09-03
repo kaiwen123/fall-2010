@@ -10,6 +10,7 @@ use Lingua::EN::Sentence qw( get_sentences add_acronyms );
 
 # main loop 
 # ignore special paragraphs and process the rest of the paras. 
+&loadAbbrev("abbrev.abb");	# Load only once. 
 LOOP:while (<STDIN>) {
     $parstr = $_;
     next if (m/^ *$/);
@@ -20,7 +21,6 @@ LOOP:while (<STDIN>) {
     # }
 
     # print "\n".$parstr . "\n"; 
-    &loadAbbrev("abbrev.abb");
     &preProcess(); 
     &postProcess(); 
 }
