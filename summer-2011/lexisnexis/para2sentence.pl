@@ -12,15 +12,18 @@ use Lingua::EN::Sentence qw( get_sentences add_acronyms );
 # ignore special paragraphs and process the rest of the paras. 
 &loadAbbrev("abbrev.abb");	# Load only once. 
 LOOP:while (<STDIN>) {
-    $parstr = $_;
-    next if (m/^ *$/);
-    next if (! m/_PARAGRAPH_/); 
-    # if ((/^([A-Z]+_PARAGRAPH_[0-9]+|^[A-Z0-9_]{23,})$/) || (/^Processing file number.*$/)) {
-    # 	print "\n".$parstr . "\n"; 
-    # 	next LOOP; 
-    # }
+    our $parstr = "";		# paragraph data. 
+    our $parid = ""; 		# paragraph id. 
 
-    # print "\n".$parstr . "\n"; 
+    # obtain paragraph id first. 
+    if (m/([0-9A-Z]+:[A-Z]+_PARAGRAPH_[0-9]+::)/g) {
+	$parid = $1; 
+	s/\Q$parid//g; 
+	$parid =~ s/:://g; 
+	print "\n" . $parid . "\n";
+	$parstr = $_;
+    } else { next; }
+
     &preProcess(); 
     &postProcess(); 
 }

@@ -1,16 +1,85 @@
 Files:
 ==========
+Main working files: 
+--------------------
 xml2text.pl - file to convert from xml to text. 
+para2sentence.pl - cut paragraphs into sentences. 
+abbrev.abb - file that contains abbrevations. 
+
+Directories on HDFS: 
+--------------------
+batch1, batch2 and batch3 - input xml files; 
+batch1_out, batch2_out, batch3_out - paragraph output for each input file;
+batch1_sentence, batch2_sentence, batch3_sentence - sentence ouptut for paragraphs. 
+
+Supporing/Debugging files (can be ignored if not interested):
+-------------------------
 xml2text.pl.bak - an alternative implementation of case citation extraction.
+xml2text.pl.bak2 - archived an alternative implementation of case citation extraction.
 get_input_xml.sh - file to randomly extract xml from xml repository. 
 get_doc_names.sh - script to get a pair case name and LNI identifier. 
 get_link_cite.sh - script to get link citations. 
 get_unresolved_lni.sh - script to get unresolved LNI string. 
 get_par_label.sh - file to extract paragraph labels (e.g. para_1). 
+get_citation.pl - file to get citation names of a legal document.
+
 RFC_revsOrder.pl - file to get RFC for text. 
+casecitation.pl - file to extract all the case citations from full
+		  text docs. 
 
 How to Run: 
 ==========
-Follow the steps below to run the script. 
-1, use get_input_xml.sh to extract xml files from xml source. 
-2, run the extracted data over xml2text.pl file. 
+Please follow the steps below to run the script. 
+
+Generating paragraph and meta data: 
+-----------------------------------
+Code is designed with the big data in mind, it is optional that you
+can use the standard input and standard output from input and output. 
+For example, to get meta-data and paragraph data, we can use the
+following command: 
+
+perl xml2text.pl < /path/to/input/files.xml > output.txt 
+
+The output txt file contains not only the paragraph information, but
+also the meta-data extracted from the input xml files. Please see
+examples below: 
++-------------------------------------------------------------------+
+|3RJ6FY10006PF00C0000000:CC_3::UNRESOLVED:49 Fed. Reg. 39,478 (1984)|
+|3RJ6FY10006PF00C0000000:CC_4::UNRESOLVED:51 Fed. Reg. 41,206 (1986)|
+|3RJ6FY10006PF00C0000000:SC_34::1538(a)(1)(B) 			    |
+|3RJ6FY10006PF00C0000000:SC_35::50 C.F.R. § 17.3 (1996)		    |
+|3RJ6FY10006PF00C0000000:HN_12::See SC_45.    	       	       	    |
+|3RJ6FY10006PF00C0000000:FN_21:: SC_46				    | 
+|3RJ6FY10006PF00C0000000:OPINION_PARAGRAPH_1::OPINION		    |
++-------------------------------------------------------------------+
+In the example above, there are five types of records, case citations
+(CC_), statutory citations (SC_), headnotes (HN_), footnotes (FN_),
+and opinion paragraph data (OPINION_PARAGRAPH_). 
+
+Note, if hadoop/mapred is used during this process, the output files
+will be splitted into smaller files. But there is no need to consider
+how these files are splitted, because the order is not important for
+this project and importantly, the output result is the same as the
+output by using the simple command as shown above. 
+
+Commands to run the job using hadoop: 
+
+hadoop jar $HADOOP_HOME/contrib/mapred/streaming/hadoop-streaming.jar
+-input batch1 -output batch1_out -mapper "perl xml2text.pl" -jobconf
+mapred.reduce.tasks=0 -file xml2text.pl
+
+Generating sentences: 
+--------------------
+Please use the following command to split paragraphs into sentences. 
+
+perl para2sentences.pl < paradata.txt > sentence.out 
+
+Examples of sentence output is shown below: 
+
++-------------------------------------------------------+
+|3RJ6FY10006PF00C0000000:SUMMARY_PARAGRAPH_5		|
+|1:  Defendant's motion for summary judgment granted.	|
+|2:  Plaintiff's motion for summary judgment denied.	|
++-------------------------------------------------------+
+
+As shown in the example above, each sentence is numbered as per paragraph from 1 to ..., and 
