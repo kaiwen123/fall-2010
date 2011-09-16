@@ -30,15 +30,17 @@ die unless ($downloader->success);
 # --------------------------------------------------
 # Files to store the data. 
 # --------------------------------------------------
-open(INFODB, ">infodata.txt") || die("File open error."); 
-open(WALLDB, ">walldata.txt") || die("File open error."); 
-open(FNDDB, ">friendsdata.txt") || die("File open error."); 
+# open(INFODB, ">infodata.txt") || die("File open error."); 
+# open(WALLDB, ">walldata.txt") || die("File open error."); 
+# open(FNDDB, ">friendsdata.txt") || die("File open error."); 
 
+my $baseurl = "http://www.facebook.com/shumin.guo";
 # ----------------------------------------
 # download info page. 
 # ----------------------------------------
-$infourl = "http://www.facebook.com/shumin.guo";
+$infourl = $baseurl; 
 $downloader->get($infourl);
+
 my $infocontent = $downloader->content();
 
 $/ = "";			# paragraph mode. 
@@ -46,31 +48,31 @@ $/ = "";			# paragraph mode.
 $infocontent =~ s/\n//g;
 $infocontent =~ s/  +/ /g; 
 $infocontent =~ s/<script[^>]*>.*?<\/script>//g;
-
+$infocontent = decode_utf8($infocontent);
 print INFODB $infocontent . "\n";
 
 # ----------------------------------------
 # download wall page. 
 # ----------------------------------------
-$wallurl = $infourl . '?sk=wall';
+$wallurl = $baseurl . '?sk=wall';
 $downloader->get($wallurl); 
 my $wallcontent = $downloader->content(); 
 $wallcontent =~ s/\n//g;
 $wallcontent =~ s/  +/ /g; 
 $wallcontent =~ s/<script[^>]*>.*?<\/script>//g;
-
+$wallcontent = decode_utf8($wallcontent);
 print WALLDB $wallcontent . "\n";
 
 # ----------------------------------------
 # download friend lists. 
 # ----------------------------------------
-my $fndurl = $infourl . '?sk=friends';
+my $fndurl = $baseurl . '?sk=friends';
 $downloader->get($fndurl); 
 my $fndlstcontent = $downloader->content(); 
 $fndlstcontent =~ s/\n//g;
 $fndlstcontent =~ s/  +/ /g; 
 $fndlstcontent =~ s/<script[^>]*>.*?<\/script>//g;
-
+$fndlstcontent = decode_utf8($fndlstcontent);
 print FNDDB $fndlstcontent . "\n";
 
 
