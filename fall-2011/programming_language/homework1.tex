@@ -1,0 +1,65 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{anysize}
+\marginsize{1cm}{1cm}{0cm}{3cm}
+
+\fontfamily{ptm}\fontsize{14}{14}\selectfont 
+\onehalfspacing
+
+\setlength{\parindent}{0pt}
+% \setlength{\textwidth}{1.5\textwidth}
+\newcommand{\ttt}[1]{\ttfamily\selectfont{#1}\normalfont}
+\begin{document}
+\begin{center}
+\textbf{\large{
+Programming Language (CS784) \\
+Homework 1 \\
+(Due: Friday, Sep. $23^{th}$, 2011) \\}}
+\textsc{\Large{Shumin Guo}}
+\end{center}
+
+\begin{enumerate}
+  \item (10 points) EOPL3 Exercise 1.12. Eliminate the one call to
+    \ttt{subst-in-s-exp} in subst by replacing it by its definition and
+    simplifying the resulting procedure. The result will be a version
+    of subst that does not need \ttt{subst-in-s-exp}. 
+\item (10 points) EOPL3 1.20.  \ttt{(count-occurrences s slist)} returns the
+  number of occurrences of s in slist.
+\item (10 points) EOPL3 Exercise 1.28. \ttt{(merge lon1 lon2)}, where \ttt{lon1}
+  and \ttt{lon2} are lists of numbers that are sorted in ascending order,
+  returns a sorted list of all the numbers in \ttt{lon1} and \ttt{lon2}. 
+\item (20 points) Define the procedure compose such that \ttt{(compose p1
+  p2)}, where \ttt{p1} and \ttt{p2} are procedures of one argument, returns the
+  composition of these procedures, specified by this equation: \\
+  \ttt{
+  ((compose p1 p2) x) = (p1 (p2 x)) \\
+  > ((compose car cdr) '(a b c d)) \\
+  b}
+\item (20 points) \ttt{(car\&cdr s slist errvalue)} returns an expression
+  that, when evaluated, produces the code for a procedure that takes a
+  list with the same structure as slist and returns the value in the
+  same position as the leftmost occurrence of s in slist. If s does
+  not occur in slist, then errvalue is returned. Do this so that it
+  generates procedure compositions. \\
+  \ttt{
+  > (car\&cdr 'a '(a b c) 'fail) \\ 
+  car \\
+  > (car\&cdr 'c '(a b c) 'fail) \\ 
+  (compose car (compose cdr cdr))  \\
+  > (car\&cdr 'dog '(cat lion (fish dog ()) pig) 'fail) \\ 
+  (compose car (compose cdr (compose car (compose cdr cdr)))) \\ 
+  > (car\&cdr 'a '(b c) 'fail) \\
+  fail }
+
+\item (30 points) EOPL3 Exercise 2.30 The procedure parse-expression
+  as defined p53 is fragile: it does not detect several possible
+  syntactic errors, such as \ttt{(a b c)}, and aborts with
+  inappropriate error messages for other expressions, such as
+  \ttt{(lambda)}. Modify it so that it is robust, accepting any
+  \ttt{s-exp} and issuing an appropriate error message if the
+  \ttt{s-exp} does not represent a \ttt{lambda-calculus} expression.
+
+\end{enumerate}
+
+\end{document}
