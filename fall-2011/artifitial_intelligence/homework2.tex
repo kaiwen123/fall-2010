@@ -15,7 +15,8 @@
 \singlespacing
 \newcommand{\solution}[1]{~\\ $\blacksquare$ \sffamily\upshape\selectfont #1
 \normalfont ~\\~ }
-
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}} 
 \setlength{\parindent}{0pt}
 % \setlength{\textwidth}{1.5\textwidth}
 
@@ -545,8 +546,7 @@ structure any more. }
         $P(G|T,F_G)$ & $y$ \\ \midrule
         $P(G|\neg T, F_G)$ & $1-y$ \\ \midrule
         $P(G|T, \neg F_G)$ & $x$ \\ \midrule
-        $P(G|\neg T, F_G)$ & $1-y$ \\ \midrule
-        \bottomrule
+        $P(G|\neg T, F_G)$ & $1-y$ \\ \bottomrule
       \end{tabular}
       \caption{CPT for Nuclear station alarm system Bayesian Network.}
       \label{tbl:ai-hwk2-14-11.1}
@@ -596,6 +596,16 @@ structure any more. }
 
 \section{Execise 14.14}
 Consider the Bayes net shown in Figure \ref{fig:2}.
+% figure 14.23. 
+\begin{figure}[ht]
+  \centering
+  \includegraphics[scale=0.3]{fig14_23.jpg}
+  \caption{A simple Bayes net with Boolean variables $B =
+    BrokeElectionLaw, I = Indicted, M =
+    PoliticallyMotivatedProsecutor, G = FoundGuilty, J = Jailed$. }
+  \label{fig:2}
+\end{figure}
+
 \begin{enumerate}[a.]
 \item Which of the following are asserted by the network structure?
 \begin{enumerate}[i.]
@@ -603,33 +613,75 @@ Consider the Bayes net shown in Figure \ref{fig:2}.
 \item $ P(J|G)=P(J|G,I) $.
 \item $ P(M|G,B,I)=P(M|G,B,I,J) $. 
 \end{enumerate}
+\solution{$(ii) \mbox{ and } (iii) $ will be asserted by the network. \\
+  For $(i)$, node B and M have the common effect of I. So, $P(B,I,M) =
+  P(B)P(M)P(I|B,M)$. \\
+  For $(ii)$, I, G and J has causal chain structure, so when G is given
+  I and J will be independent, which is $P(J|G)=P(J|G,I)$. \\ 
+  For $(iii)$, there exists two path from M to J, one is $M\rightarrow
+  I\rightarrow G\rightarrow J$ and $M\rightarrow G\rightarrow J$. And
+  both are causal chain structure, so when G is given M and J will be
+  independent, that is $P(M|G,B,I)=P(M|G,B,I,J)$.
+}
 
-% figure 14.23. 
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=.7\textwidth]{fig14_23.jpg}
-  \caption{A simple Bayes net with Boolean variables B =
-    $BrokeElectionLaw$, I = $Indicted$ M =
-    $PoliticallyMotivatedProsecutor$, G = $FoundGuilty$, J = $Jailed$.
-  }
-  \label{fig:2}
-\end{figure}
-
-\item Calculate the value of P($b, i, \neg m, g, j$).
-\solution{}
+\item Calculate the value of $P(b, i, \neg m, g, j)$.
+\solution{Using the Bayesian Network joint probability rule, we have 
+\begin{eqnarray*}
+  P(i) & = & P(i|b,m)P(b)P(m) + P(i|\neg b,m)P(\neg b)P(m) \\
+  & + & P(i|b,\neg m)P(b)p(\neg m) + P(i|\neg b,\neg m)P(\neg b,\neg
+  m) \\
+  & = & 0.9*0.9*0.1 + 0.5*0.1*0.1 + 0.5*0.9*0.9 + 0.1*0.1*0.9 \\
+  & = & 0.081 + 0.005 + 0.405 + 0.009 \\
+  & = & 0.5 \\
+  P(b, i, \neg m, g, j) & = & P(b)P(\neg m)P(i|b,\neg m)P(g|b,i,\neg
+  m)P(j|g) \\
+  & = & P(i)P(g|b,i,\neg m)P(j|g) \\
+  & = & 0.5 \times 0.8 \times 0.9 \\
+  & = & 0.36 
+\end{eqnarray*}
+}
 \item Calculate the probability that someone goes to jail given that
   they broke the law, have been indicted, and face a politically
   motivated prosecutor.
-\solution{}
+\solution{We need to calculate $P(J|B,I,M)$. \\
+  \begin{eqnarray*}
+    P(I) & = & P(\neg I) = 0.5 \\
+    P(G|B,I,M) & = & 0.9 \\ 
+    P(G) & = & 0.37 \\
+    P(J) & = & 0.396 \\
+    P(J|B,I,M) & = & \frac{P(J|B,I,M)P(G|J)}{P(G|J)} \\
+    & = & \frac{P(G,J|B,I,M)}{P(G|J)} \\ 
+    & = & \frac{P(J|B,I,M,G)P(G|B,I,M)}{P(G|J)} \\
+    & = & \frac{P(J|G)P(G|B,I,M)}{P(G|J)} (B,I,M\independent{J|G}) \\
+    & = & \frac{P(J)P(G|B,I,M)}{P(G)} \\
+    & = & \frac{0.396\times 0.9}{0.37} \\
+    & = & 0.963 
+  \end{eqnarray*}
+}
 \item A \textbf{context-specific independence} (see page 542) allows a
   variable to be independent of some of its parents given certain
   values of others. In addition to the usual conditional independences
   given by the graph structure, what context-specific independences
-  exist in the Bayes net in Figure 2?
-  \solution{}
-\item Suppose we want to add the variable P = PresidentialPardanto the
+  exist in the Bayes net in Figure \ref{fig:2}?
+  \solution{$
+J\independent{B|G} \\
+J\independent{I|G} \\
+J\independent{M|G} \\
+B\independent{M}
+$}
+\item Suppose we want to add the variable P =  PresidentialPardon the
 network; draw the new network and briefly explain any links you add.
-\solution{}
+\solution{Please see the new Bayesian Network in Figure \ref{fig:14_14}.
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=.5\textwidth]{AI-HWK-2_14_14.pdf}
+    \caption{Bayesian Network with PresidentialPardon.}\label{fig:14_14}
+  \end{figure}
+  In Figure \ref{fig:14_14}, node P is added as parent of J, because
+  presendential pardon will only have direct influence on J, which is
+  when is person is jailed. And other factors will be be affected by
+  it. 
+}
 \end{enumerate}
 
 \section{Execise 14.2}
