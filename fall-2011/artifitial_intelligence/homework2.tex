@@ -9,6 +9,7 @@
 \usepackage{amsthm}
 \usepackage{amsmath}
 \usepackage{booktabs}
+\usepackage{ulem}
 \marginsize{3cm}{3cm}{0cm}{3cm}
 
 \fontfamily{ptm}\fontsize{14}{14}\selectfont 
@@ -23,8 +24,8 @@
 \begin{document}
 \begin{center}
 \textbf{\large{
-HOMEWORK 1 \\
-(Out: Monday, Oct 20th, 2011; Due: Oct. 31, 2011) \\}}
+HOMEWORK 2 \\
+Introduction to Artifitial Intelligence \\}}
 \textsc{\Large{Shumin Guo}}
 \end{center}
 
@@ -36,7 +37,7 @@ from a standard deck of fifty-two cards.
   distribution (i.e., how many five-card hands are there)?
   \solution{Since the order of hands does not matter, the total number
   of hands is a combination of all possiblities choosing five cards
-  from fifty-five cards. 
+  from fifty-two cards. 
   \[ {52 \choose 5} = \frac{52!}{5!\times (52-5)!} =
   \frac{8.06581752\times 10^{67}}{120\times 2.58623242 \times 10^{59}}
   = 2,598,960. \]
@@ -95,7 +96,6 @@ value for the case $\epsilon = 0.001, \delta = 0.01$.
 \end{eqnarray*}
   So, the maximum feasible value of $n$ is approximately 148. 
 }
-
 \section{Execise 13.17}
 Show that the statement of conditional independence
 \[ P(X,Y|Z)=P(X|Z)P(Y|Z) \]
@@ -135,7 +135,6 @@ is equivalent to each of the statements
     P(X,Y|Z) & = & P(X|Z)P(Y|Z) 
   \end{eqnarray*}
 }
-
 \section{Execise 13.18}
 Suppose you are given a bag containing $n$ unbiased coins. You are told
 that $n-1$ of these coins are normal, with heads on one side and tails
@@ -215,14 +214,12 @@ on the other, whereas one coin is a fake, with heads on both sides.
       $k$ is larger, the error rate will become smaller. 
     }
 \end{enumerate}
-
 \section{Execise 13.21}
 (Adapted from Pearl (1988).) Suppose you are a witness to a nighttime
 hit-and-run accident involving a taxi in Athens. All taxis in Athens
 are blue or green. You swear, under oath, that the taxi was
 blue. Extensive testing shows that, under the dim lighting conditions,
 discrimination between blue and green is $75\%$ reliable.
-
 \begin{enumerate}[a.]
 \item Is it possible to calculate the most likely color for the taxi?
   (Hint: distinguish carefully between the proposition that the taxi is
@@ -265,7 +262,6 @@ discrimination between blue and green is $75\%$ reliable.
     \end{eqnarray*}
   }
 \end{enumerate}
-
 \section{Execise 13.22}
 Text categorization is the task of assigning a given document to one
 of a fixed set of categories on the basis of the text it
@@ -274,7 +270,6 @@ models, the query variable is the document category, and the "effect"
 variables are the presence or absence of each word in the language;
 the assumption is that words occur independently in documents, with
 frequencies determined by the document category.
-
 \begin{enumerate}[a.]
 \item Explain precisely how such a model can be constructed, given as
   "training data" a set of documents that have been assigned to
@@ -312,7 +307,7 @@ frequencies determined by the document category.
     $p(f_i|c)$, but we can estimate their values from the given
     training data sets. 
 
-    $p(c)$ is indicates the relative frequency of class $c$, more
+    $p(c)$ indicates the relative frequency of class $c$, more
     frequent classes are more likely to be the correct class than
     infrequent classes. The sum of log prior and term weights is a
     measure of how much evidence there is for the document being in
@@ -320,7 +315,7 @@ frequencies determined by the document category.
     \[ \hat{p}(c)=\frac{N_c}{N} \]
     where $N_c$ is total number of documents in class $c$ and $N$ is
     the total number of documents. \\ 
-    And similarly, the coditional probability $\hat{p}(f|c)$ can be
+    And similarly, the conditional probability $\hat{p}(f|c)$ can be
     estimated as the relative frequency of feature (here are words)
     $f$ in documents belonging to class $c$. 
     \[ \hat{p}(t|c)=\frac{N_{cf}}{\sum_{f^{\prime}\in F}N_{cf^{\prime}}} \]
@@ -367,7 +362,6 @@ frequencies determined by the document category.
   probability over all classes. Thus, although estimate badly, NB
   classifiers can classify very well. }
 \end{enumerate}
-
 \section{Execise 14.1}
 We have a bag of three biased coins $a$, $b$. and $c$ with
 probabilities of coming up heads of $20\%, 60\%$, and $80\%$,
@@ -380,14 +374,17 @@ flipped three times to generate the outcomes $X_1$, $X_2$, and $X_3$.
   \solution{
     Please see Bayesian network in Figure \ref{fig:14_1}. It is
     obvious that $X_1,X_2 \mbox{ and } X_3$ are independent events
-    with the same probability for head(H) and tail(T) events and thus
-    can be represented with a single node (Flip Result) to denote. 
+    with the same probability for head(H) and tail(T) and thus
+    can be represented with a single node (Flip Result) to denote,
+    without any interaction among the three variables. 
     \begin{figure}[ht]
       \centering
       \includegraphics[width=.5\textwidth]{AI-HWK-2_14_1.pdf}
       \caption{Bayesian Network for coin flipping.}\label{fig:14_1}
     \end{figure}
-    Please find the CPT table in Table \ref{tbl:ai-hwk2-14-1}.
+    Please find the CPT in Table \ref{tbl:ai-hwk2-14-1}. Note that,
+    because $X_1,X_2,X_3$ have the same probability tables, so, only
+    the CPT of $X_1$ is listed. 
   \begin{table}[h]
     \centering
     \begin{tabular}{l|l}
@@ -417,11 +414,11 @@ flipped three times to generate the outcomes $X_1$, $X_2$, and $X_3$.
     using the given evidence probability. 
     \[ P(C|H,H,T) \] where $C$ is type of coin, which can be $a,b
     \mbox{ and } c$. We can rewrite the probability based on bayesian
-    rule as \[ P(C|H,H,T) = \frac{P(H,H,T|C)P(C)}{P(H,H,T)} =
+    and independence rule as \[ P(C|H,H,T) = \frac{P(H,H,T|C)P(C)}{P(H,H,T)} =
     \frac{P(H|C)P(H|C)P(T|C)P(C)}{P(H,H,T)}. \]
-    Because denominator $P(H,H,T)$ is independent of class, we can
-    simply ignore it. So, 
-    \[ P(C|H,H,T) \propto P(H|C)P(H|C)P(T|C)P(C). \]
+    Because denominator $P(H,H,T)$ is independent of class, and will
+    be a constant value for all three classes upon given evidence, we
+    can simply ignore it. So, \[ P(C|H,H,T) \propto P(H|C)P(H|C)P(T|C)P(C). \]
     Then, we can calculate the posterior probability for each class as
     \begin{eqnarray*}
       P(a|H,H,T) \propto P(H|a)P(H|a)P(T|a)P(a) & = &
@@ -431,18 +428,17 @@ flipped three times to generate the outcomes $X_1$, $X_2$, and $X_3$.
       P(c|H,H,T) \propto P(H|c)P(H|c)P(T|c)P(c) & = &
       0.8\times 0.8\times 0.2 \times \frac{1}{3} \approx 0.0427 
     \end{eqnarray*}
-    As it is obvious $P(b|H,H,T)$ has the maximum probability among
+    It is obvious that $P(b|H,H,T)$ has the maximum probability among
     three types of coins, so, coin $b$ is the most likely coin to have
     been drawn from the bag. 
   }
 \end{enumerate}
-
 \section{Execise 14.4}
 Consider the Bayesian network in Figure \ref{fig:1}.
 % figure 14.2. 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=.7\textwidth]{fig14_2.jpg}
+  \includegraphics[width=.6\textwidth]{fig14_2.jpg}
   \caption{A typical Bayesian network, showing both the topology and
     the conditional probability tables (CPTs). In the CPTs, the
     letters B, E, A, J, and M stand for $Burglary, Earthquake,
@@ -452,21 +448,20 @@ Consider the Bayesian network in Figure \ref{fig:1}.
 \end{figure}
 \begin{enumerate}[a.]
 \item If no evidence is observed, are Burglary and Earthquake
-independent? Prove this from the numerical semantics and from the
-topological semantics.
-\solution{Yes, they are independent if no evidence is observed. \\ 
-For numerical semantics, we have 
-\begin{eqnarray*}
-  P(Burglary, Earthquake) & = &
-  P(Burglary|parents(Burglary))P(Earthquake|parents(Earthquake))  \\
+  independent? Prove this from the numerical semantics and from the
+  topological semantics.
+  \solution{Yes, they are independent if no evidence is observed. \\ 
+    For numerical semantics, we have 
+    \begin{eqnarray*}
+      P(Burglary, Earthquake) & = &
+      P(Burglary|parents(Burglary))P(Earthquake|parents(Earthquake))  \\
   & = & P(Burglary)P(Earthquake). 
 \end{eqnarray*}
-
 So, Burglary and Earthquake are independent. \\
 The topological semantics specifies that each variable is
 conditionally independent of its non-descendants, given its
 parents. As can be seen from Figure \ref{fig:1}, Burglary is
-non-depcendant of Earthquake, thus they are independent in
+non-decendant of Earthquake, thus they are independent in
 topological semantics. 
 }
 \item If we observe Alarm=true, are Burglary and Earthquake
@@ -480,27 +475,21 @@ P(A) & = & P(A|B,E)P(B)P(E) + P(A|B,\neg E)P(B)P(\neg E) \\
 & + & P(A|\neg B,E)P(\neg B)P(E) + P(A|\neg B,\neg E)P(\neg B)P(\neg E) \\ 
 & = & 0.95\times 0.001\times 0.002 + 0.94\times 0.001\times 0.998 +
 0.29\times 0.999\times 0.002 + 0.001\times 0.999 \times 0.998 \\ 
-& = & 0.0000019 + 0.00093812 + 0.00057942 + 0.00098901 \\
-& = & 0.00251 \\
-P(B|A) & = & \frac{P(A|B)P(B)}{P(A)} \\
-& = & \frac{P(A|B,E)P(B)P(E)+P(A|B,\neg E)P(B)P(\neg E)}{P(A)} \\
+& = & 0.0000019 + 0.00093812 + 0.00057942 + 0.00098901 = 0.00251 \\
+P(B|A) & = & \frac{P(A|B)P(B)}{P(A)} 
+= \frac{P(A|B,E)P(B)P(E)+P(A|B,\neg E)P(B)P(\neg E)}{P(A)} \\
 & = & \frac{0.95\times 0.001\times 0.002 + 0.94\times 0.001\times
   0.998}{0.00251}\\ 
-& = & \frac{0.00094002}{0.00251} \\ 
-& = & 0.37451 \\
-P(E|A) & = & \frac{P(A,E)}{P(A)} \\ 
-& = & \frac{P(A,E|B)P(B)+P(A,E|\neg B)P(\neg B)}{P(A)} \\
+& = & \frac{0.00094002}{0.00251} = 0.37451 \\
+P(E|A) & = & \frac{P(A,E)}{P(A)}
+ = \frac{P(A,E|B)P(B)+P(A,E|\neg B)P(\neg B)}{P(A)} \\
 & = & \frac{P(A|B,E)P(B)P(E)+P(A|\neg B,E)P(\neg B)P(E)}{P(A)} \\
 & = & \frac{0.95\times 0.001\times 0.002 + 0.29\times 0.999\times
   0.002}{0.00251} \\ 
-& = & \frac{0.00058132}{0.00251} \\
-& = & 0.2316 \\
-P(B|A)P(E|A) & = & 0.37451 \times 0.2316 \\
-& = & 0.0867 \\
-P(B,E|A) & = & \frac{P(A|B,E)P(B,E)}{P(A)} \\
-& = & \frac{P(A|B,E)P(B)P(E)}{P(A)} \\
-& = & \frac{0.95\times 0.001\times 0.002}{0.00251} \\ 
-& = & 0.000757 
+& = & \frac{0.00058132}{0.00251} = 0.2316 \\
+P(B|A)P(E|A) & = & 0.37451 \times 0.2316 = 0.0867 \\
+P(B,E|A) & = & \frac{P(A|B,E)P(B,E)}{P(A)}
+ = \frac{P(A|B,E)P(B)P(E)}{P(A)} = \frac{0.95\times 0.001\times 0.002}{0.00251} = 0.000757 
 \end{eqnarray*}
 So, it is clear that $P(B,E|A)\neq P(B|A)P(E|A)$, which means they are
 not independent given Alarm = true. 
@@ -520,11 +509,10 @@ multivalued nodes G (gauge reacting) and T (actual core temperature).
   % solution for the bayesian network. 
   \begin{figure}[ht]
     \centering
-    \includegraphics[width=.7\textwidth]{AI-HWK-2_14_11.pdf}
+    \includegraphics[width=.3\textwidth]{AI-HWK-2_14_11.pdf}
     \caption{Bayesian Network for nuclear power station alarm system.} 
     \label{fig:3}
-  \end{figure}
-}
+  \end{figure} }
 \item Is your network a polytree? Why or why not?
 \solution{No, this is not a polytree structure, because there is a loop
 structure formed by three nodes: $T, G, FG$, which makes it no a tree
@@ -591,15 +579,13 @@ structure any more. }
     \frac{P(G|\neg T,\neg F_G)P(\neg F_G|\neg T)P(\neg T)}{P(\neg F_G,
       G)}. \]
   }
-
 \end{enumerate}
-
 \section{Execise 14.14}
 Consider the Bayes net shown in Figure \ref{fig:2}.
 % figure 14.23. 
 \begin{figure}[ht]
   \centering
-  \includegraphics[scale=0.3]{fig14_23.jpg}
+  \includegraphics[scale=0.2]{fig14_23.jpg}
   \caption{A simple Bayes net with Boolean variables $B =
     BrokeElectionLaw, I = Indicted, M =
     PoliticallyMotivatedProsecutor, G = FoundGuilty, J = Jailed$. }
@@ -674,16 +660,15 @@ network; draw the new network and briefly explain any links you add.
 \solution{Please see the new Bayesian Network in Figure \ref{fig:14_14}.
   \begin{figure}[ht]
     \centering
-    \includegraphics[width=.5\textwidth]{AI-HWK-2_14_14.pdf}
+    \includegraphics[width=.3\textwidth]{AI-HWK-2_14_14.pdf}
     \caption{Bayesian Network with PresidentialPardon.}\label{fig:14_14}
   \end{figure}
   In Figure \ref{fig:14_14}, node P is added as parent of J, because
   presendential pardon will only have direct influence on J, which is
-  when is person is jailed. And other factors will be be affected by
+  when a person is jailed. And other factors will not be affected by
   it. 
 }
 \end{enumerate}
-
 \section{Execise 14.2}
 Equation (14.1) on page 513 defines the joint distribution represented
 by a Bayesian network in terms of the parameters $\theta
@@ -694,29 +679,91 @@ $P(X_i|Parents(X_i))$ from this definition.
 \item Consider a simple network $X \rightarrow Y \rightarrow Z$ with three
   Boolean variables. Use Equations (13.3) and (13.6) (pages 485 and
   492) to express the conditional probability $P(z|y)$ as the ratio of
-  two sums. each over entries in the joint distribution $P(X,Y,Z)$. 
-  \solution{}
+  two sums, each over entries in the joint distribution $P(X,Y,Z)$. 
+  \solution{
+    Equation 13.3 : $P(a|b)=\frac{P(a,b)}{P(b)}$ and 
+    Equation 13.6 : $P(Y)=\sum_zP(Y,z)$. \\
+    The simple network tells us that $X\independent{Z}|Y$, which means
+    $P(X,Z|Y) = P(X|Y)P(Z|Y)$. \\ 
+    Based on knowledge above, we have:
+    \[ P(z|y) = \frac{P(z,y)}{P(y)} =
+    \frac{\sum_xP(x,y,z)}{\sum_x\sum_zP(x,y,z)}.\]
+  }
 \item Now use Equation (14.1) to write this expression in terms of the
   network parameters $\theta (X), \theta (Y|X)$, and $\theta(Z|Y)$.
-  \solution{}
+  \solution{Equation 14.1 says:
+    $P(x_1,x_2,\ldots,x_n)=\prod_{i=1}^n\theta (x_i|parent(x_i))$. \\
+    And \[ \frac{\sum_xP(x,y,z)}{\sum_x\sum_zP(x,y,z)} =
+    \frac{\sum_x\theta(x)\theta(y|x)\theta(z|y)} 
+    {\sum_x\sum_z\theta(x)\theta(y|x)\theta(z|y)} \]
+  }
 \item Next, expand out the summations in your expression from part
   (b), writing out explicitly the terms for the true and false values
   of each summed variable. Assuming that all network parameters
   satisfy the constraint $\sum_{x_i}\theta (x_i|parents(X_i))=1$, show
-  that the resulting expression reduces to $\theta(x|y)$. 
-  \solution{}
-\item Geneialize this derivation to show that $\theta
+  that the resulting expression reduces to \sout{$\theta(x|y)$}, (I
+  think here should be $\theta(z|y)$). 
+  \solution{
+    First, we have $\sum_x\theta(x) = 1$ and
+    $\sum_x\sum_z\theta(x)\theta(z|y) = 1\times 1 = 1$. \\
+    So, 
+    \[ \frac{\sum_x\theta(x)\theta(y|x)\theta(z|y)} 
+    {\sum_x\sum_z\theta(x)\theta(y|x)\theta(z|y)} = 
+    \frac{\theta(y|x)\theta(z|y)}{\theta(y|x)} = \theta(z|y).\]
+}
+\item Generalize this derivation to show that $\theta
   (X_i|Parents(X_i))=P(X_i|Parents(X_i))$ for any Bayesian network.
-  \solution{}
+  \solution{In any Bayesian Network, the joint probability can be
+    represented with $P(x_1,x_2,\ldots,x_n)=
+    \prod_{i=1}^n\theta(x_i|parents(x_i))$, which is Equation 14.1. 
+    And according to the joint probability theorem and the
+    independence property in Bayesian networks, we can also write the
+    joint probability of network variables as
+    $\prod_{i=1}^nP(x_i|parents(x_i))$.
+    So, it is easy to observe that $\theta
+    (X_i|Parents(X_i))=P(X_i|Parents(X_i))$. 
+}
 \end{enumerate}
-
 \section{Execise 14.7}
 The Markov blanket of a variable is defined on page 517. Prove that a
 variable is independent of all other variables in the network, given
 its Markov blanket and derive Equation (14.12) (page 538).
 
-\[ P(X_i^{\prime}|mb(X_i))=\alpha P(X_i^{\prime}|parents(X_i))\times
-\prod_{Y_j\in Children(X_i)}P(y_j|parents(Y_j)) \]
-\solution{}
+\[ P(x_i^{\prime}|mb(X_i))=\alpha P(x_i^{\prime}|parents(X_i))\times
+\prod_{y_j\in Children(X_i)}P(y_j|parents(Y_j)) \]
+\solution{
+\begin{proof}
+  According to the theorem of d-speration and topological independence
+  theorem, and simply considering the polytree structure of a Bayesian
+  Network, we have the folloiwng assertions: \\
+  \[ P(x_i|ancestors(X_i)) = P(x_i|parents(X_i)) \] which says $X_i$
+  will be independent of its other ancestor nodes given its parents. 
+
+  If given children of $X_i$, then for any decendents of
+  $Children(X_i)$, we have:
+  \[ P(x_i|decendents(X_i)) = P(x_i|children(X_i)) \] 
+  
+  If a node is connected with $X_i$ through $v$ structure with
+  $Children(X_i)$ as mid-point, then we have 
+  \[ P(x_i|decendents(X_i) =
+  P(x_i|children(X_i),(parents(children(X_i))-X_i)) \]
+
+  If for a node $X_j$, there is no path between $X_i$ and $X_j$. then
+  they are simply independent. 
+
+  All the four cases above covers all possible relationships between a
+  node and another different node. And generalize the polytree
+  structure to a directed acyclic graph (DAG) structure, in which
+  case, there can be multiple paths between node $X_i$ and any other
+  node. And by denoting Markov Blanket as 
+  \[ MB(X_i)=parents(X_i)\cup children(X_i) \cup [parents(children(X_i))-X_i] \]
+  we have that a variable is independent of all other variables given
+  its Markov Blanket. 
+
+  And \[P(x_i^{\prime}|mb(X_i))=\alpha P(x_i^{\prime}|parents(X_i))\times
+  \prod_{y_j\in Children(X_i)}P(y_j|parents(Y_j)). \] 
+
+\end{proof}
+}
 
 \end{document}
