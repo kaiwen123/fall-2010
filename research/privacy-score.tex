@@ -3,38 +3,256 @@
 \documentclass[a4paper]{article}
 \usepackage{geometry}
 \usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{booktabs}
 \geometry{top=1.3in, bottom=1.3in, left=1.2in, right=1.2in}
 
 % Start of doc. 
 \begin{document}
 
 \begin{center}
-\textbf{\LARGE{Quantifying Privacy Risk for Web Based Social Networks}}
+\textbf{\LARGE{Quantifying Privacy Risk for Online Social Networks}}
 \end{center}
 
-\section{Introduction\label{sec:intro}}
-Privacy protection of Web Based Social Network(WBSN) has attracted
-great concern in recent years. But how to quantify the privacy risks
-faced by WBSN users is still a challenging problem. Past work on this
-topic has been attempted by Justin et al.\cite{measure-privacy-risk},
-Tran Hong et al. \cite{SN-quantify-privacy} and Kun et
+\section{Abstract\label{sec:intro}}
+With the fast development of Online Social Networks (OSN), privacy
+issue has become a great concern. Among all the research attempts of
+social network privacy, quantification of OSN user risks is an
+important attempt to deal with this problem. But how to quantify the
+privacy risks faced by OSN users is a challenging problem. Past work
+on this topic has been done by Justin et
+al.\cite{measure-privacy-risk}, Tran Hong et
+al. \cite{SN-quantify-privacy} and Kun et
 al. \cite{SN-privacy-score}. Kun et al. proposed a model to calculate
-the privacy score of WBSN users. The model uses two intuitive metrics,
+the privacy score of OSN users. The model uses two intuitive metrics,
 sensitivity and visibility, as the factors for privacy score
-calculation. But we argue that the model proposed by Kun et al. are
-problematic both in interpretation of sensitivity and visibility and
-experimental evaluation. And based on the arguments, we propose
-methods for better calculation and interpretation of these two
-factors.
+calculation. Inspired by the work done by Kun et al., we propose a
+model to quantify the privacy risks of OSN users, our model assume
+that OSN users intent to enjoy the benefits of OSNs, but on the other
+hand, the disclosure of personal information also brings risks to the
+social network users which are potentially hidden.
+
+The social benefits is determined by the number of users who can view
+an item. The more viewer, the higher social benefit. On the other
+hand, the implied privacy risks by disclosing an item is determined by
+how sensitive the item is as well as the potential users. The
+networked environment of OSN determines the potential audiences of a
+profile item.
+
+And we argue that the privacy risk is also based on the probability
+that a certain profile item is visited by another OSN user. We model
+this probability as a random walk process over all the potential
+social network users. 
+
+In summary, by integrating social benefits and potential risks, our
+model tells the relative privacy risks of social network users for
+specific profile setting. 
+
+\section{Introduction}
+% background of social networks. 
+In recent years, online social network sites are becoming more and
+more popular, it provides people a virtual world for social relations
+and entertainments. Millions of people are providing their personal
+information to enjoy the benefits of these social sites. While, on the
+other hand, the risks of privacy breach through social network becomes
+and urgent and a more and more of public concern. 
+
+% privacy risks caused by using of social networks. 
+And several social network accidents also tells the truth of privacy
+risks of online social networks. Years ago, facebook's
+Beacon\cite{facebook-turnoff-beacon}, which correlate users' shopping
+activities on other websites with their Facebook profiles, had to be
+closed because of the protests of users' personal privacy
+violation. Google buzz\cite{googlebuzz}, a social networking, microblogging and
+messaging tool from Google integrated into Gmail, was sued because of
+compromising users' privacy by sharing their email contacts to
+maximize influence of this service. These and other similar social
+network privacy breach incidents have educated people to have more
+concern on the privacy of their private information, for example, they
+may ask\ref{user_privacy}, what benefits and risks can I have if I disclose my personal
+information on the social network? And people are unwilling
+to risk losing control of their personal information.
+
+% what is our model of privacy score and our contributions.
+In this paper, we are making attempt to answer this particular
+question, to quantify the benefits and risks of engaging in social
+networks. Without loss of generality, we use Facebook as our main
+target for analysis. Similar models can be extend to other social
+networks. 
+
+We argue that the main driving force for people to join in a social
+network is the benefit provided by such networks, and the disclosure
+of personal sensitive information to social networks poses privacy
+risks which is negative from a user's point of view. We try to
+integrate these two together and define privacy as combination of
+positive social network benefits as well as negative social network
+privacy risks. 
+
+We define privacy as a probablistic problem , which considers user as
+in a network and privacy risks happens when the user is visited by
+another user. We call this model realized privacy or probablistic
+privacy. 
+
+% Contribution of our work. 
+The main contribution of our model is, on one hand, we consider we
+consider social network privacy as both positive and negative parts,
+which are two intuitive concerns of using social networks; and on the
+other hand, we consider the probablistically realized privacy, which
+puts user in a social network and privacy can be realized when another
+user visits him. We use real data extracted from facebook to fit our
+model. 
+
+% orgnization of the whole paper. 
+Organization of the paper is as follows. Part II introduces related
+with of social network privacy. Part III defines notations of our
+social network privacy model. Part IV presents our model and part V
+presents our data and experimental results. And part VI concludes the
+paper by pointing out our future work and related issues. 
 
 \section{Related Work\label{sec:relatedwork}}
-Kun et al. \cite{SN-privacy-score} proposed a framework to estimate
-the privacy score for each social network user. Intuitively, the
-privacy score increases with the sensitivity of the information being
-revealed and with the visibility of the information gets in the social
-network. And the privacy score calculated for each user is a
+In recent years, research community has been trying hard to deal with
+privacy issues of online social networks, related topics include
+spamming and phishing \ref{twitter-spam} \ref{SN-explore-spam}
+\ref{SN-automated-cheap-spam} \ref{social-spam-detection}
+\ref{video-spam-youtube}, attack analysis \ref{neighborhood-attack}
+\ref{1658958} \ref{group-deanonymization-attack}
+\ref{anony-link-attack} \ref{identity-theft-attack} \ref{sybil-attack}
+\ref{1608132} etc.  Fang et al. \ref{privacy-wizard} proposes a
+classification model to help social network users automate the privacy
+related settings. Social network privacy control is also considered an
+access control problem. Carminati et al. \ref{crypto-collaborative-ac}
+\ref{rule-based-ac} propose client-based semi-decentralized access
+control model, access is granted based on the attestation of access
+authorization by the access requestor. Mohd et
+al. \ref{Anwar_visualizingprivacy} proposes a reflective policy
+assessmenst method based on visualization to help user understand the
+implications of access control policies. Another research branch
+related to social network privacy is related to the social network
+platform, which targets privacy risks by third party application and
+social network providers. Adrienne et
+al. \ref{Felt08privacyprotection} addresses the privacy risks
+associated with social network APIs through proxy. Singh et
+al. \ref{xbook-social-platform} propose an information flow model to
+control what untrusted applications can do with the information they
+receive. 
+
+Justin et al. \ref{measure-privacy-risk} propose a model to quantify
+privacy risks of a social network user by infering from his/her
+friends. Kun et al. \cite{SN-privacy-score} proposed a framework to
+estimate the privacy score for a social network user. They calculate
+the potential privacy risks by considering two factors, one is
+sensitivity, which is a measure of private level of an profile item
+and another is visibility, which measures how many people will view
+the profile item.
+
+% how to differentiate our work with other people's work? 
+Our work is most related to the work done by Kun et al.. However, our
+work provides novel contribution to the research of this field. First,
+we consider the social network privacy as well as social network
+benefits. So, our privacy model composes the two controdicting
+concerns from the point view of social network users. And this
+considerations are pratical in reality. Second, we proposed realized
+privacy, which considers the fact that privacy risk happens when
+another user visits this private information. And we make attempt to
+use real data from facebook to fit our model. 
+
+% defining social network. 
+\section{Modeling Social Network}
+% priliminaries of the social network structure. 
+We model social network as a graph $\mathcal{G}$, which consists of
+a number of nodes $\mathcal{N}$. Every node $j\in 
+\{1,2,\ldots, \mathcal{N}\}$ corresponds to a user in the social
+network. Nodes in graph $\mathcal{G}$ are connected through 
+links, which correspondes to friendships in social networks. And for
+simplicity purposes, we denote friendships as a directed link denoted
+as $f|u_i\rightarrow u_j, i,j\in \{1,2,\ldots,N\}$. 
+
+% modeling social friendship network as micro-communities. 
+In a social network, user $u_i$ has $N_i$ friends, and these friends
+form a micro-community donoted as $C_F=\{u_j|\exists u_i\rightarrow
+u_j, 1\leq j\leq N_i\}$, and friends of these friends form a even larger
+micro-community denoted as $C_{FOF} = \{u_k|\exists u_i\rightarrow
+u_j\rightarrow u_k, 1\leq j\leq N_i \mbox{ and } 1\leq k \leq
+\sum_{m=1}^{N_i}N_j \}$, and the extreme larger community consists of
+all users in the given social network, and we denote it as $C_{ALL} =
+\{ u_i|u_i\in\mathcal{G} \}$. And for comparison, we also denote the
+smallest micro-community, the user him/her-self, for user $u_i$ as
+$C_{USER} = u_i$. 
+
+% modeling social network profiles and items. 
+Every node $u_i$ in social network $\mathcal{G}$ has $P_i$ number of
+features denoted as $f_{ij} \mbox{ for } 1\leq j\leq P_i$. These
+features, in social network, corresponds to the profile items of a
+user, e.g. name, day of birth, address, education etc., which are the
+identities of user $u_i$ in the social network. Profile items
+are basic information for social interaction and can also be used by
+social network providers to provide personalized 
+services such as friends recommendation, search and targetted
+advertising. 
+
+Usually, social networks require a minimum number of items upon
+registration, for example, sex, birthday etc.. And other optional
+items can be updated later. Because profile items are carriers of
+personal private information, social network sites provide
+configuration options for user to change their targetted audience for
+each item. For example, Facebook provides settings that include only
+me, friends only, friends of friends and everybody from the most
+conservative to the most open. Although Facebook also provide finer
+grained privacy setting by specify specific users to view a certain
+profile item, in our model we ignore this situation and will leave it
+for future work. The meaning and corresponding audiences of each
+privacy settings are listed in Table \ref .
+
+% a table showing the meaning of each privacy level and related
+% audiences. 
+\begin{table}[h]
+  \centering
+  \begin{tabular}{l|l}
+    \toprule 
+    \textbf{Access Setting} & \textbf{Audiences} \\ \toprule
+    Only Me($S_{me}$) & $C_{USER}$\\ \midrule 
+    Friends ($S_f$) & $C_F$ \\ \midrule 
+    Friends of Friends ($S_{fof}$) & $C_{FOF}$ \\ \midrule 
+    Everybody $(S_{ALL})$ & $C_{ALL}$ \\ \bottomrule 
+  \end{tabular}
+  \caption{Profile Item Access Setting and Corresponding Audiences.}
+  \label{tbl:setting}
+\end{table}
+
+% what is realized privacy. 
+Online Social network is a complex system, and there are many factors
+that can cause privacy breach, for example, malicious users who aim to
+obtain your personal information for advertising etc. On the other
+hand, social interactions between friends also have many forms, one
+such obvious factor is the importance of friendship, which corresponds
+to the weight of links in our social graph model $\mathcal{G}$; another
+example is the weighted importance of social interactions, which are
+the way how social benefits are realized in reality. In order to make
+the problem simple and manageable, we make the following assumption in
+our social network model, (a) all 
+
+
+Due to the fact that, it is difficult to model the privacy in real
+social network, such as adversaries and malicious users, etc., we
+only consider the 
+
+
+% privacy model. 
+\section{The Social Network Privacy Model} 
+% 
+
+% experiments. 
+\section{Experimental Results }
+
+% conclusions. 
+\section{Conclusion and Feature work}
+
+Intuitively,
+the privacy score increases with the sensitivity of the information
+being revealed and with the visibility of the information gets in the
+social network. And the privacy score calculated for each user is a
 combination of each partial privacy score of each one of the user's
-profile item settings e.g. name, address, hometown, ssn etc.. 
+profile item settings e.g. name, address, hometown, ssn etc..
 
 The primary input of this framework is an $n\times N$ response matrix,
 where n is the number of profile items user can set and N is number of
