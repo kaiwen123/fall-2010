@@ -86,7 +86,7 @@ void Usage() {
        << "\n"
        << "datafile - The file that contains the gene data.\n" 
        << "minSup   - The minimum support for association rule.\n"
-       << "           Should be within (1,MAX).\n" 
+       << "           Should be within (0,1).\n" 
        << "minConf  - The minimum confidence for assoc rule. \n" 
        << "           Should be within (0.1.0]\n" 
        << "g        - The number of genes to process. \n" 
