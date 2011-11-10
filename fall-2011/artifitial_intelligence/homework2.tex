@@ -26,7 +26,8 @@
 \textbf{\large{
 HOMEWORK 2 \\
 Introduction to Artifitial Intelligence \\}}
-\textsc{\Large{Shumin Guo}}
+\textsc{\Large{Shumin Guo}}\\
+\line(3,0){400}
 \end{center}
 
 \section{Execise 13.7}
@@ -62,6 +63,9 @@ from a standard deck of fifty-two cards.
     
     And the possibility of being dealt a royal straight flush is 
     \[ \frac{4}{2,598,960}=1.53907717 \times 10^{-6}. \] 
+    Four of a kind can have 13 possibilility for four cards and the fifth
+    card can be any of 48 cards, thus the possibility is 
+    \[ \frac{13\times 48}{2,598,960} = 0.000024010. \]
   }
 \end{enumerate}
 
@@ -86,15 +90,15 @@ value for the case $\epsilon = 0.001, \delta = 0.01$.
   \[ P(1) = {n+1 \choose 1}\times \epsilon ^{1}\times (1-\epsilon)^{n}
   = (n+1)\times \epsilon \times (1-\epsilon)^n \]
   and the maximum acceptable total error rate is: 
-  \[ P(0) + P(1) = 1 - \delta \]
-\begin{eqnarray*}
-  (1+n\epsilon)(1-\epsilon)^n & = & 1-\delta \\
-  \mbox{for } \epsilon = 0.001, \mbox{ and } \delta =  0.01, && \\
-  (1+0.001n)(1-0.001)^n & = & 1-0.01 \\
-  (1+0.001n)0.999^n & = & 0.99  \\
-  n & \approx & 148. 
-\end{eqnarray*}
-  So, the maximum feasible value of $n$ is approximately 148. 
+  \[ P(0) + P(1) \geq 1 - \delta \]
+\begin{align*}
+  (1+n\epsilon)(1-\epsilon)^n & \geq 1-\delta \\
+  \mbox{for } \epsilon = 0.001, \mbox{ and } \delta & = 0.01,  \\
+  (1+0.001n)(1-0.001)^n & \geq 1-0.01 \\
+  (1+0.001n)0.999^n & \geq 0.99  \\
+  \Rightarrow n & \approx 147. 
+\end{align*}
+  So, the maximum feasible value of $n$ is approximately 147. 
 }
 \section{Execise 13.17}
 Show that the statement of conditional independence
@@ -105,35 +109,35 @@ is equivalent to each of the statements
   For equivalence of $P(X,Y|Z)=P(X|Z)P(Y|Z) \mbox{ and }
   P(X|Y,Z)=P(X|Z)$:  \\  
   (a) $P(X,Y|Z)=P(X|Z)P(Y|Z) \Longrightarrow P(X|Y,Z)=P(X|Z)$:
-  \begin{eqnarray*}
-    P(X,Y|Z) & = & P(X|Z)P(Y|Z) \\ 
-    \frac{P(X,Y,Z)}{P(Z)} & = & P(X|Z)P(Y|Z) \\
-    P(X|Y,Z)P(Y|Z) & = & P(X|Z)P(Y|Z) \\
-    P(X|Y,Z) & = & P(X|Z)
-  \end{eqnarray*}
+  \begin{align*}
+    P(X,Y|Z) & = P(X|Z)P(Y|Z) \\ 
+    \frac{P(X,Y,Z)}{P(Z)} & = P(X|Z)P(Y|Z) \\
+    P(X|Y,Z)P(Y|Z) & = P(X|Z)P(Y|Z) \\
+    P(X|Y,Z) & = P(X|Z)
+  \end{align*}
   (b) $P(X|Y,Z)=P(X|Z) \Longrightarrow P(X,Y|Z)=P(X|Z)P(Y|Z)$: 
-  \begin{eqnarray*}
-    P(X|Y,Z) & = & P(X|Z) \\ 
-    \frac{P(X,Y,Z)}{P(Y,Z)} & = & P(X|Z) \\
-    \frac{P(X,Y|Z)}{P(Y|Z)} & = & P(X|Z) \\ 
-    P(X,Y|Z) & = & P(X|Z)P(Y|Z)
-  \end{eqnarray*}
+  \begin{align*}
+    P(X|Y,Z) & = P(X|Z) \\ 
+    \frac{P(X,Y,Z)}{P(Y,Z)} & = P(X|Z) \\
+    \frac{P(X,Y|Z)}{P(Y|Z)} & = P(X|Z) \\ 
+    P(X,Y|Z) & = P(X|Z)P(Y|Z)
+  \end{align*}
   
   For evalence of $P(X,Y|Z)=P(X|Z)P(Y|Z) \mbox{ and }
   P(Y|X,Z)=P(Y|Z)$: \\   
   (a) $P(X,Y|Z)=P(X|Z)P(Y|Z) \Longrightarrow P(Y|X,Z)=P(Y|Z)$:  
-  \begin{eqnarray*}
-    P(X,Y|Z) & = & P(X|Z)P(Y|Z) \\
-    \frac{P(X,Y,Z)}{P(Z)} & = & P(X|Z)P(Y|Z) \\
-    P(Y|X,Z)P(X|Z) & = & P(X|Z)P(Y|Z) \\
-    P(Y|X,Z) & = & P(Y|Z) 
-  \end{eqnarray*}
+  \begin{align*}
+    P(X,Y|Z) & = P(X|Z)P(Y|Z) \\
+    \frac{P(X,Y,Z)}{P(Z)} & = P(X|Z)P(Y|Z) \\
+    P(Y|X,Z)P(X|Z) & = P(X|Z)P(Y|Z) \\
+    P(Y|X,Z) & = P(Y|Z) 
+  \end{align*}
   (b) $P(Y|X,Z)=P(Y|Z) \Longrightarrow P(X,Y|Z)=P(X|Z)P(Y|Z)$:  
-  \begin{eqnarray*}
-    P(Y|X,Z) & = & P(Y|Z) \\
-    \frac{P(X,Y|Z)}{P(X|Z)} & = & P(Y|Z) \\
-    P(X,Y|Z) & = & P(X|Z)P(Y|Z) 
-  \end{eqnarray*}
+  \begin{align*}
+    P(Y|X,Z) & = P(Y|Z) \\
+    \frac{P(X,Y|Z)}{P(X|Z)} & = P(Y|Z) \\
+    P(X,Y|Z) & = P(X|Z)P(Y|Z) 
+  \end{align*}
 }
 \section{Execise 13.18}
 Suppose you are given a bag containing $n$ unbiased coins. You are told
@@ -147,29 +151,29 @@ on the other, whereas one coin is a fake, with heads on both sides.
       $C_{normal}$ to denote normal coin and $C_{fake}$ to denote fake
       coin. Because all the coins are unbiased, we can calculate the
       prior probability as follows:  
-      \begin{eqnarray*}
-        P(C_{normal}) & = & \frac{n-1}{n} \\ 
-        P(C_{fake}) & = & \frac{1}{n} \\
-        P(H|C_{normal}) & = & 0.5 \\ 
-        P(T|C_{normal}) & = & 0.5 \\
-        P(H|C_{fake}) & = & 1 \\ 
-        P(T|C_{fake}) & = & 0
-      \end{eqnarray*}
+      \begin{align*}
+        P(C_{normal}) & = \frac{n-1}{n} \\ 
+        P(C_{fake}) & = \frac{1}{n} \\
+        P(H|C_{normal}) & = 0.5 \\ 
+        P(T|C_{normal}) & = 0.5 \\
+        P(H|C_{fake}) & = 1 \\ 
+        P(T|C_{fake}) & = 0
+      \end{align*}
       By using the above prior probabilities we can calculate the
       following probabilities: 
-      \begin{eqnarray*}
-        P(H) & = & P(H|C_{normal})P(C_{normal}) + P(H|C_{fake})P(C_{fake})  \\
-        & = & 0.5\times \frac{n-1}{n} + 1\times \frac{1}{n} \\
-        & = & \frac{0.5(n+1)}{n} \\
-      \end{eqnarray*}
+      \begin{align*}
+        P(H) & = P(H|C_{normal})P(C_{normal}) + P(H|C_{fake})P(C_{fake})  \\
+        & = 0.5\times \frac{n-1}{n} + 1\times \frac{1}{n} \\
+        & = \frac{0.5(n+1)}{n} \\
+      \end{align*}
       And, the probability of choosing a fake coin after getting
       head from a random chosen coin toss can be represented by
       $P(C_{fake}|H)$. And we have: 
-      \begin{eqnarray*}
-        P(C_{fake}|H) & = & \frac{P(H|C_{fake})P(C_{fake})}{P(H)} \\
-        & = & \frac{1\times \frac{1}{n}}{\frac{0.5(n+1)}{n}} \\
-        & = & \frac{2}{n+1}
-      \end{eqnarray*}
+      \begin{align*}
+        P(C_{fake}|H) & = \frac{P(H|C_{fake})P(C_{fake})}{P(H)} \\
+        & = \frac{1\times \frac{1}{n}}{\frac{0.5(n+1)}{n}} \\
+        & = \frac{2}{n+1}
+      \end{align*}
 } 
   \item Suppose you continue flipping the coin for a total of $k$ times
     after picking it and see $k$ heads. Now what is the conditional
@@ -178,38 +182,42 @@ on the other, whereas one coin is a fake, with heads on both sides.
       be represented as $P(C_{fake}|\overbrace{H,\ldots,H}^\text{total
         k Hs})$. \\
       And by using Baysian rule, we have: \\
-      \begin{eqnarray*}
-        P(C_{fake}|\overbrace{H,\ldots,H}^\text{total k Hs}) & = &
+      \begin{align*}
+        P(C_{fake}|\overbrace{H,\ldots,H}^\text{total k Hs}) & =
         \frac{P(C_{fake},\overbrace{H,\ldots,H}^\text{total k
             Hs})}{P(\underbrace{H,\ldots,H}_\text{total k Hs})} \\
-        & = & \frac{\prod_{i=1}^k P(H|C_{fake})P(C_{fake})}
+        & = \frac{\prod_{i=1}^k P(H|C_{fake})P(C_{fake})}
         {P(\underbrace{H,\ldots,H}_{\mbox{total k Hs}}|C_{normal})P(C_{normal}) 
           + P(\underbrace{H,\ldots,H}_{\mbox{total k Hs}}|C_{fake})P(C_{fake})} \\
-        & = & \frac{P(C_{fake})}{{k \choose
+        & = \frac{P(C_{fake})}{{k \choose
             k}P(H|C_{normal})^kP(T|C_{normal})^0 + {k \choose
             k}P(H|C_{fake})^kP(T|C_{fake})^0}  \\
-        & = & \frac{\frac{1}{n}}{0.5^k\frac{n-1}{n}+1^k\frac{1}{n}} \\
-        & = & \frac{1}{0.5^k(n-1)+1} \\
-        & = & \frac{2^k}{2^k+n-1}
-      \end{eqnarray*}
+        & = \frac{\frac{1}{n}}{0.5^k\frac{n-1}{n}+1^k\frac{1}{n}} \\
+        & = \frac{1}{0.5^k(n-1)+1} \\
+        & = \frac{2^k}{2^k+n-1}
+      \end{align*}
 } 
   \item Suppose you wanted to decide whether the chosen coin was fake by
     flipping it $k$ times.  The decision procedure returns $fake$ if all $k$
     flips come up heads; otherwise it returns $normal$. What is the
     (unconditional) probability that this procedure makes an error?
-    \solution{Error will happen when the randomly picked coin is
-      actually a normal coin rather than a fake one when we get $k$
-      heads. So, it can be represented with
-      $P(C_{normal}|\overbrace{H,\ldots,H}^{\mbox{total k Hs}})$.
+    \solution{Error happens if and only if a fair coin is chosen and
+      turns up heads $k$ times in a row. The probability of this is 
+
+      \[ P(\overbrace{H,\ldots,H}^{\mbox{total k
+          Hs}}|C_{normal})P(C_{normal}) = \frac{n-1}{2^kn} \]
+
+      Wrong answer: \\ 
+      \sout{$P(C_{normal}|\overbrace{H,\ldots,H}^{\mbox{total k Hs}})$.}
 
       By using the result from the last equestion, we can calculate
       the error rate as: \\
-      \begin{eqnarray*}
-        P(C_{normal}|\overbrace{H,\ldots,H}^{\mbox{total k Hs}}) & = & 
+      \begin{align*}
+        P(C_{normal}|\overbrace{H,\ldots,H}^{\mbox{total k Hs}}) & = 
         1 - P(C_{fake}|\overbrace{H,\ldots,H}^{\mbox{total k Hs}}) \\
-        & = & 1 - \frac{2^k}{2^k+n-1} \\
-        & = & \frac{n-1}{2^k+n-1}
-      \end{eqnarray*}
+        & = 1 - \frac{2^k}{2^k+n-1} \\
+        & = \frac{n-1}{2^k+n-1}
+      \end{align*}
       This result tells us that given finite number of coins $n$, when
       $k$ is larger, the error rate will become smaller. 
     }
@@ -228,16 +236,16 @@ discrimination between blue and green is $75\%$ reliable.
     to denote blue taxi, $G$ to denote green taxi, $LB$ to denote taxi
     that is likely blue and $LG$ to denote taxi that is likely green,
     we can have prior probabilities as follows: \\ 
-    \begin{eqnarray*}
+    \begin{align*}
       \mbox{Prior probability of blue and green is unknow: } \\
-      P(B) & = & ? \\
-      P(G) & = & ? \\
+      P(B) & = ? \\
+      P(G) & = ? \\
       \mbox{Discrimination between Blue and Green: } \\
-      P(LB|B) & = & 0.75 \\ 
-      P(LG|B) & = & 0.25 \\
-      P(LG|G) & = & 0.75 \\
-      P(LB|G) & = & 0.25
-    \end{eqnarray*}
+      P(LB|B) & = 0.75 \\ 
+      P(LG|B) & = 0.25 \\
+      P(LG|G) & = 0.75 \\
+      P(LB|G) & = 0.25
+    \end{align*}
     So, the likely color for the taxi can be reprented as $P(B|LB)$. 
     And according to bayes rule, we have: \\ 
     \[ P(B|LB)=\frac{P(LB|B)P(B)}{P(LB)} \]
@@ -249,17 +257,17 @@ discrimination between blue and green is $75\%$ reliable.
   \solution{Now, we have $P(B)=0.1$ and $P(G)=0.9$. And we can
     calculate the probability of the most likely color of taxi as
     follows: \\ 
-    \begin{eqnarray*}
-      P(B|LB) & = & \frac{P(LB|B)P(B)}{P(LB)} \\
-      & = & \frac{P(LB|B)P(B)}{P(LB|B)P(B) + P(LB|G)P(G)} \\
-      & = & \frac{0.75\times 0.1}{0.75\times 0.1 + 0.25\times 0.9} \\
-      & = & \frac{0.075}{0.075+0.225} \\ 
-      & = & \frac{0.075}{0.3} \\
-      & = & 0.25 \\ 
-      \mbox{So, we have: } P(G|LB) & = & 1-P(B|LB) \\
-      & = & 1-0.25 \\
-      & = & 0.75
-    \end{eqnarray*}
+    \begin{align*}
+      P(B|LB) & = \frac{P(LB|B)P(B)}{P(LB)} \\
+      & = \frac{P(LB|B)P(B)}{P(LB|B)P(B) + P(LB|G)P(G)} \\
+      & = \frac{0.75\times 0.1}{0.75\times 0.1 + 0.25\times 0.9} \\
+      & = \frac{0.075}{0.075+0.225} \\ 
+      & = \frac{0.075}{0.3} \\
+      & = 0.25 \\ 
+      \mbox{So, we have: } P(G|LB) & = 1-P(B|LB) \\
+      & = 1-0.25 \\
+      & = 0.75
+    \end{align*}
   }
 \end{enumerate}
 \section{Execise 13.22}
@@ -327,14 +335,13 @@ frequencies determined by the document category.
     classifier using the given training data set, we need to do the
     following things.  \\ 
     \begin{enumerate}
-    \item Extract a bag of words that appear in training data set. 
+    \item Extract a bag of words $W$ that appear in training data set. 
     \item Count total docs and docs that occur in class $c$. 
     \item Count occurrances of words in each class. 
     \item Calculate the prior probability of $\hat{p}(c)$ and
       $\hat{p}(f_i|c)$. 
-    \item Calculate log-summed posterior probability using
-      $[\mbox{log}\hat{p}(c)+\sum_{1\leq i \leq
-        n}\mbox{log}\hat{p}(f_i|c)]$. 
+    \item Keep $W, \hat{p}(c) \mbox{ and } \hat{p}(f_i|c)$ as
+      parameters of Naive Bayesian classifier parameters. 
      \end{enumerate}
   }
 \item Explain precisely how to categorize a new document. 
@@ -342,13 +349,12 @@ frequencies determined by the document category.
     below: \\ 
   \begin{itemize}
     \item Extract words from new document. 
-    \item Calculate logged prior probability of $\hat{p}(c)$ for each class
+    \item For each word (feature) from the document, calculate
+      aggregated probability $\hat{p}(c)\hat{p}(f_i|c)$ for each class
       $c$. 
-    \item Calculate logged sum conditional probability of words using
-      $\sum_{1\leq i \leq n}\mbox{log}\hat{p}(f_i|c)$ for each class. 
-    \item Return the class that can maximize $p(c|f_1,f_2,\ldots,f_n)$,
-      which is the most likely class of the new document based on the
-      training data set. 
+    \item Return the class that can maximize $p(c|f_1,f_2,\ldots,f_n)
+      \propto \hat{p}(c)\hat{p}(f_i|c)$, which is the most likely class of
+      the new document based on the training data set. 
   \end{itemize}
 }
 \item Is the conditional independence assumption reasonable? Discuss. 
@@ -398,8 +404,7 @@ flipped three times to generate the outcomes $X_1$, $X_2$, and $X_3$.
       $P(X_1=H|b)$ & 0.6 \\ \midrule
       $P(X_1=T|b)$ & 0.4 \\ \midrule 
       $P(X_1=H|c)$ & 0.8 \\ \midrule 
-      $P(X_1=T|c)$ & 0.2 \\
-      \bottomrule
+      $P(X_1=T|c)$ & 0.2 \\ \bottomrule
     \end{tabular}
     \caption{CPT for Bayesian Network.}
     \label{tbl:ai-hwk2-14-1}
@@ -410,7 +415,7 @@ flipped three times to generate the outcomes $X_1$, $X_2$, and $X_3$.
   \solution{
     We can calculate the estimated probability with the given
     information $P(H)=\frac{2}{3} \mbox{ and } P(T)=\frac{1}{3}$. We
-    need to calculate the posterior probability of three types of coin
+    need to calculate the posterior probability for three types of coins
     using the given evidence probability. 
     \[ P(C|H,H,T) \] where $C$ is type of coin, which can be $a,b
     \mbox{ and } c$. We can rewrite the probability based on bayesian
@@ -420,14 +425,14 @@ flipped three times to generate the outcomes $X_1$, $X_2$, and $X_3$.
     be a constant value for all three classes upon given evidence, we
     can simply ignore it. So, \[ P(C|H,H,T) \propto P(H|C)P(H|C)P(T|C)P(C). \]
     Then, we can calculate the posterior probability for each class as
-    \begin{eqnarray*}
-      P(a|H,H,T) \propto P(H|a)P(H|a)P(T|a)P(a) & = &
+    \begin{align*}
+      P(a|H,H,T) \propto P(H|a)P(H|a)P(T|a)P(a) & =
       0.2\times 0.2\times 0.8 \times \frac{1}{3} \approx 0.0107 \\
-      P(b|H,H,T) \propto P(H|b)P(H|b)P(T|b)P(b) & = &
+      P(b|H,H,T) \propto P(H|b)P(H|b)P(T|b)P(b) & =
       0.6\times 0.6\times 0.4 \times \frac{1}{3} = 0.048 \\
-      P(c|H,H,T) \propto P(H|c)P(H|c)P(T|c)P(c) & = &
+      P(c|H,H,T) \propto P(H|c)P(H|c)P(T|c)P(c) & =
       0.8\times 0.8\times 0.2 \times \frac{1}{3} \approx 0.0427 
-    \end{eqnarray*}
+    \end{align*}
     It is obvious that $P(b|H,H,T)$ has the maximum probability among
     three types of coins, so, coin $b$ is the most likely coin to have
     been drawn from the bag. 
@@ -452,11 +457,11 @@ Consider the Bayesian network in Figure \ref{fig:1}.
   topological semantics.
   \solution{Yes, they are independent if no evidence is observed. \\ 
     For numerical semantics, we have 
-    \begin{eqnarray*}
-      P(Burglary, Earthquake) & = &
+    \begin{align*}
+      P(Burglary, Earthquake) & =
       P(Burglary|parents(Burglary))P(Earthquake|parents(Earthquake))  \\
-  & = & P(Burglary)P(Earthquake). 
-\end{eqnarray*}
+  & = P(Burglary)P(Earthquake). 
+\end{align*}
 So, Burglary and Earthquake are independent. \\
 The topological semantics specifies that each variable is
 conditionally independent of its non-descendants, given its
@@ -470,27 +475,27 @@ probabilities involved satisfy the definition of conditional
 independence.
 \solution{No, they are not independent. \\
 We need to test if $P(B,E|A) = P(B|A)P(E|A)$ holds. 
-\begin{eqnarray*}
-P(A) & = & P(A|B,E)P(B)P(E) + P(A|B,\neg E)P(B)P(\neg E) \\ 
-& + & P(A|\neg B,E)P(\neg B)P(E) + P(A|\neg B,\neg E)P(\neg B)P(\neg E) \\ 
-& = & 0.95\times 0.001\times 0.002 + 0.94\times 0.001\times 0.998 +
+\begin{align*}
+P(A) & = P(A|B,E)P(B)P(E) + P(A|B,\neg E)P(B)P(\neg E) \\ 
+& + P(A|\neg B,E)P(\neg B)P(E) + P(A|\neg B,\neg E)P(\neg B)P(\neg E) \\ 
+& = 0.95\times 0.001\times 0.002 + 0.94\times 0.001\times 0.998 +
 0.29\times 0.999\times 0.002 + 0.001\times 0.999 \times 0.998 \\ 
-& = & 0.0000019 + 0.00093812 + 0.00057942 + 0.00098901 = 0.00251 \\
-P(B|A) & = & \frac{P(A|B)P(B)}{P(A)} 
+& = 0.0000019 + 0.00093812 + 0.00057942 + 0.00098901 = 0.00251 \\
+P(B|A) & = \frac{P(A|B)P(B)}{P(A)} 
 = \frac{P(A|B,E)P(B)P(E)+P(A|B,\neg E)P(B)P(\neg E)}{P(A)} \\
-& = & \frac{0.95\times 0.001\times 0.002 + 0.94\times 0.001\times
+& = \frac{0.95\times 0.001\times 0.002 + 0.94\times 0.001\times
   0.998}{0.00251}\\ 
-& = & \frac{0.00094002}{0.00251} = 0.37451 \\
-P(E|A) & = & \frac{P(A,E)}{P(A)}
+& = \frac{0.00094002}{0.00251} = 0.37451 \\
+P(E|A) & = \frac{P(A,E)}{P(A)}
  = \frac{P(A,E|B)P(B)+P(A,E|\neg B)P(\neg B)}{P(A)} \\
-& = & \frac{P(A|B,E)P(B)P(E)+P(A|\neg B,E)P(\neg B)P(E)}{P(A)} \\
-& = & \frac{0.95\times 0.001\times 0.002 + 0.29\times 0.999\times
+& = \frac{P(A|B,E)P(B)P(E)+P(A|\neg B,E)P(\neg B)P(E)}{P(A)} \\
+& = \frac{0.95\times 0.001\times 0.002 + 0.29\times 0.999\times
   0.002}{0.00251} \\ 
-& = & \frac{0.00058132}{0.00251} = 0.2316 \\
-P(B|A)P(E|A) & = & 0.37451 \times 0.2316 = 0.0867 \\
-P(B,E|A) & = & \frac{P(A|B,E)P(B,E)}{P(A)}
+& = \frac{0.00058132}{0.00251} = 0.2316 \\
+P(B|A)P(E|A) & = 0.37451 \times 0.2316 = 0.0867 \\
+P(B,E|A) & = \frac{P(A|B,E)P(B,E)}{P(A)}
  = \frac{P(A|B,E)P(B)P(E)}{P(A)} = \frac{0.95\times 0.001\times 0.002}{0.00251} = 0.000757 
-\end{eqnarray*}
+\end{align*}
 So, it is clear that $P(B,E|A)\neq P(B|A)P(E|A)$, which means they are
 not independent given Alarm = true. 
 }
@@ -514,27 +519,30 @@ multivalued nodes G (gauge reacting) and T (actual core temperature).
     \label{fig:3}
   \end{figure} }
 \item Is your network a polytree? Why or why not?
-\solution{No, this is not a polytree structure, because there is a loop
-structure formed by three nodes: $T, G, FG$, which makes it no a tree
-structure any more. }
+\solution{No, this is not a polytree structure, because there are two
+  paths from $T$ to $G$, which makes it not a tree structure any more.}
 \item Suppose there are just two possible actual and measured
   temperatures, normal and high; the probability that the gauge gives
   the correct temperature is $x$ when it is working, but $y$ when it is
   faulty. Give the conditional probability table associated with G.
   \solution{Let's use $T$ to denote normal temperature, $\neg T$ to
-    denote high temperature, $G$ to denote guage works normally, and
-    $\neg G$ to denote gauge works abnormally; $F_G$ denote guage
-    fault and $\neg F_G$ to denote guage non-fault. 
+    denote high temperature, $G$ to denote gauge reads a normal
+    temperature, and $\neg G$ to denote gauge reads an abnormal
+    temperature; $F_G$ denote gauge fault and $\neg F_G$ to denote
+    guage non-fault. \\
     Please see the CPT in Table \ref{tbl:ai-hwk2-14-11.1}.
     \begin{table}[h]
       \centering
-      \begin{tabular}{lc}
+      \begin{tabular}{lclc}
         \toprule
-        \textbf{Probability} & \textbf{Value} \\ \toprule
-        $P(G|T,F_G)$ & $y$ \\ \midrule
-        $P(G|\neg T, F_G)$ & $1-y$ \\ \midrule
-        $P(G|T, \neg F_G)$ & $x$ \\ \midrule
-        $P(G|\neg T, F_G)$ & $1-y$ \\ \bottomrule
+        \textbf{Probability} & \textbf{Value} & \textbf{Probability} &
+        \textbf{Value} \\ \toprule
+        $P(G|T,F_G)$ & $y$ & $P(\neg G|T,F_G)$ & $1-y$ \\ \midrule
+        $P(G|T,\neg F_G)$ & $x$ & $P(\neg G|T,\neg F_G)$ & $1-x$ \\ \midrule
+        $P(G|\neg T,F_G)$ & $1-y$ & $P(\neg G|\neg T,F_G)$ & $y$ \\ \midrule
+        $P(G|\neg T,\neg F_G)$ & $1-x$ & $P(\neg G|\neg T,\neg F_G)$ &
+        $x$ \\ 
+        \bottomrule
       \end{tabular}
       \caption{CPT for Nuclear station alarm system Bayesian Network.}
       \label{tbl:ai-hwk2-14-11.1}
@@ -543,8 +551,11 @@ structure any more. }
 \item Suppose the alarm works correctly unless it is faulty, in which
   case it never sounds.  Give the conditional probability table
   associated with A.
-  \solution{
-    Please see the CPT table in Table \ref{tbl:ai-hwk2-14-11.2}.
+  \solution{According to the description, we know that the alarm will
+    sound only when the gauge has a high temperature reading $\neg G$
+    and when the gauge is not faulty, which means $\neg F_G$. And for
+    all the other combinations, the alarm will not sound. 
+    So, we have CPT table in Table \ref{tbl:ai-hwk2-14-11.2}.
     \begin{table}[h]
       \centering
       \begin{tabular}{ccccc}
@@ -570,14 +581,19 @@ structure any more. }
     ignore both of them and only consider the influence of $G$ and
     $F_G$ on $T$. And the probability that is of interests include
     $P(T|\neg F_G,G)$, which means the probability of normal
-    temperature when guage is non-fault and guage reading is normal. 
+    temperature when gauge is non-fault and gauge reading is normal. 
     By using the Bayesian Rule, and also because we have the
-    conditional probability table of $G$, we have \[ P(T|\neg F_G,G) =
-    \frac{P(G|T,\neg F_G)P(\neg F_G|T)P(T)}{P(\neg F_G, G)}. \]
-    And similarly, we can get conditional probability for high
-    temperature $\neg T$. \[ P(\neg T|\neg F_G,G) =
-    \frac{P(G|\neg T,\neg F_G)P(\neg F_G|\neg T)P(\neg T)}{P(\neg F_G,
-      G)}. \]
+    conditional probability table of $G$, we have 
+    \begin{align*}
+      P(T|\neg F_G,G) 
+      & =\frac{P(G|T,\neg F_G)P(\neg F_G|T)P(T)}{P(\neg F_G, G)} \\
+      & =\frac{P(G|T,\neg F_G)P(\neg F_G|T)P(T)}{P(T,G,\neg
+        F_G)+P(\neg T,G,\neg F_G)} \\
+      & =\frac{P(G|T,\neg F_G)P(\neg F_G|T)P(T)}{P(G|T,\neg F_G)P(\neg
+        F_G|T)P(T) + P(G|\neg T,\neg F_G)P(\neg F_G|\neg T)P(\neg T)} \\
+      & =\frac{P(\neg F_G|T)P(T)(1-x)}{P(\neg F_G|T)P(T)(1-x)+P(\neg
+        F_G|\neg T)P(\neg T)x}
+    \end{align*}
   }
 \end{enumerate}
 \section{Execise 14.14}
@@ -591,7 +607,6 @@ Consider the Bayes net shown in Figure \ref{fig:2}.
     PoliticallyMotivatedProsecutor, G = FoundGuilty, J = Jailed$. }
   \label{fig:2}
 \end{figure}
-
 \begin{enumerate}[a.]
 \item Which of the following are asserted by the network structure?
 \begin{enumerate}[i.]
@@ -599,65 +614,87 @@ Consider the Bayes net shown in Figure \ref{fig:2}.
 \item $ P(J|G)=P(J|G,I) $.
 \item $ P(M|G,B,I)=P(M|G,B,I,J) $. 
 \end{enumerate}
-\solution{$(ii) \mbox{ and } (iii) $ will be asserted by the network. \\
-  For $(i)$, node B and M have the common effect of I. So, $P(B,I,M) =
+\solution{(ii) and (iii) will be asserted by the network. \\
+  For (i), node B and M have the common effect of I. So, $P(B,I,M) =
   P(B)P(M)P(I|B,M)$. \\
-  For $(ii)$, I, G and J has causal chain structure, so when G is given
+  For (ii), I, G and J has causal chain structure, so when G is given
   I and J will be independent, which is $P(J|G)=P(J|G,I)$. \\ 
-  For $(iii)$, there exists two path from M to J, one is $M\rightarrow
+  For (iii), there exists two path from M to J, one is $M\rightarrow
   I\rightarrow G\rightarrow J$ and $M\rightarrow G\rightarrow J$. And
   both are causal chain structure, so when G is given M and J will be
   independent, that is $P(M|G,B,I)=P(M|G,B,I,J)$.
 }
-
 \item Calculate the value of $P(b, i, \neg m, g, j)$.
 \solution{Using the Bayesian Network joint probability rule, we have 
-\begin{eqnarray*}
-  P(i) & = & P(i|b,m)P(b)P(m) + P(i|\neg b,m)P(\neg b)P(m) \\
-  & + & P(i|b,\neg m)P(b)p(\neg m) + P(i|\neg b,\neg m)P(\neg b,\neg
-  m) \\
-  & = & 0.9*0.9*0.1 + 0.5*0.1*0.1 + 0.5*0.9*0.9 + 0.1*0.1*0.9 \\
-  & = & 0.081 + 0.005 + 0.405 + 0.009 \\
-  & = & 0.5 \\
-  P(b, i, \neg m, g, j) & = & P(b)P(\neg m)P(i|b,\neg m)P(g|b,i,\neg
+\begin{align*}
+  P(b, i, \neg m, g, j) & = P(b)P(\neg m)P(i|b,\neg m)P(g|b,i,\neg
   m)P(j|g) \\
-  & = & P(i)P(g|b,i,\neg m)P(j|g) \\
-  & = & 0.5 \times 0.8 \times 0.9 \\
-  & = & 0.36 
-\end{eqnarray*}
+  & = 0.9\times 0.9\times 0.5\times 0.8\times 0.9 \\
+  & = 0.2916 
+\end{align*}
 }
 \item Calculate the probability that someone goes to jail given that
   they broke the law, have been indicted, and face a politically
   motivated prosecutor.
-\solution{We need to calculate $P(J|B,I,M)$. \\
-  \begin{eqnarray*}
-    P(I) & = & P(\neg I) = 0.5 \\
-    P(G|B,I,M) & = & 0.9 \\ 
-    P(G) & = & 0.37 \\
-    P(J) & = & 0.396 \\
-    P(J|B,I,M) & = & \frac{P(J|B,I,M)P(G|J)}{P(G|J)} \\
-    & = & \frac{P(G,J|B,I,M)}{P(G|J)} \\ 
-    & = & \frac{P(J|B,I,M,G)P(G|B,I,M)}{P(G|J)} \\
-    & = & \frac{P(J|G)P(G|B,I,M)}{P(G|J)} (B,I,M\independent{J|G}) \\
-    & = & \frac{P(J)P(G|B,I,M)}{P(G)} \\
-    & = & \frac{0.396\times 0.9}{0.37} \\
-    & = & 0.963 
-  \end{eqnarray*}
+\solution{
+  Since $B,I,M$ are fixed true in the evidence, we can treat $G$ as
+  having a prior of 0.9 and just look at the submodel of G,J:
+  \begin{align*}
+    P(J|b,i,m)=\alpha\sum_gP(J,g) &= \alpha[P(J,g)+P(J,\neg g)] \\
+    &= \alpha\langle P(j,g),P(\neg j,g) \rangle+\langle P(j,\neg
+    g),P(\neg j,\neg g) \rangle \\
+    & = \alpha[\langle 0.81,0.09 \rangle + \langle 0,0.1\rangle] \\
+    & = \langle 0.81,0.19 \rangle
+  \end{align*}
+
+  So, the probability of going to gail is 0.81.  \\
+
+  \sout{Wrong Answer: }\\ 
+  We need to calculate $P(J|B,I,M)$. \\
+  \begin{align*}
+    P(I) & = P(\neg I) = 0.5 \\
+    P(G|B,I,M) & = 0.9 \\ 
+    P(G) & = 0.37 \\
+    P(J) & = 0.396 \\
+    P(J|B,I,M) & = \frac{P(J|B,I,M)P(G|J)}{P(G|J)} \\
+    & = \frac{P(G,J|B,I,M)}{P(G|J)} \\ 
+    & = \frac{P(J|B,I,M,G)P(G|B,I,M)}{P(G|J)} \\
+    & = \frac{P(J|G)P(G|B,I,M)}{P(G|J)} (B,I,M\independent{J|G}) \\
+    & = \frac{P(J)P(G|B,I,M)}{P(G)} \\
+    & = \frac{0.396\times 0.9}{0.37} \\
+    & = 0.963 
+  \end{align*}
 }
 \item A \textbf{context-specific independence} (see page 542) allows a
   variable to be independent of some of its parents given certain
   values of others. In addition to the usual conditional independences
   given by the graph structure, what context-specific independences
-  exist in the Bayes net in Figure \ref{fig:2}?
-  \solution{$
-J\independent{B|G} \\
-J\independent{I|G} \\
-J\independent{M|G} \\
-B\independent{M}
-$}
+  exist in the Bayes net in Figure \ref{fig:2}? \\
+  \solution{
+  \uline{Intuitively, a person can not be found guilty if not
+    indicated, regardless of whether they broke the law and regardless of
+    the prosecutor. This is what the CPT for G says; so G is
+    context-specifically independent of B and M given I = false.}
+
+  \sout{Wrong answer} \\
+  $ J\independent{B|G} \\
+  J\independent{I|G} \\
+  J\independent{M|G} \\
+  B\independent{M} $
+}
 \item Suppose we want to add the variable P =  PresidentialPardon the
 network; draw the new network and briefly explain any links you add.
-\solution{Please see the new Bayesian Network in Figure \ref{fig:14_14}.
+\solution{
+A pardon is unnecessary if the person is not indicated or not found
+guilt; so I and G are parents of P. One could also add B and M as
+parents of P, since a pardon is more likely if the person is actually
+innocent and if the prosecutor is politically motivated. (There are
+other causes of $Pardon$, such as $LargeDonationToPresidentsParty$,
+but such variables are not currently in teh model.) The pardon
+(presumably) is a get out-of-gail-free card, so P is a parent of J. 
+
+\sout{Wrong Answer: \\} 
+  Please see the new Bayesian Network in Figure \ref{fig:14_14}.
   \begin{figure}[ht]
     \centering
     \includegraphics[width=.3\textwidth]{AI-HWK-2_14_14.pdf}
@@ -666,8 +703,7 @@ network; draw the new network and briefly explain any links you add.
   In Figure \ref{fig:14_14}, node P is added as parent of J, because
   presendential pardon will only have direct influence on J, which is
   when a person is jailed. And other factors will not be affected by
-  it. 
-}
+  it. }
 \end{enumerate}
 \section{Execise 14.2}
 Equation (14.1) on page 513 defines the joint distribution represented
@@ -704,18 +740,56 @@ $P(X_i|Parents(X_i))$ from this definition.
   that the resulting expression reduces to \sout{$\theta(x|y)$}, (I
   think here should be $\theta(z|y)$). 
   \solution{
-    First, we have $\sum_x\theta(x) = 1$ and
-    $\sum_x\sum_z\theta(x)\theta(z|y) = 1\times 1 = 1$. \\
+    First, we have $\sum_z\theta(z|y) = 1$. \\
     So, 
     \[ \frac{\sum_x\theta(x)\theta(y|x)\theta(z|y)} 
     {\sum_x\sum_z\theta(x)\theta(y|x)\theta(z|y)} = 
-    \frac{\theta(y|x)\theta(z|y)}{\theta(y|x)} = \theta(z|y).\]
+    \frac{\theta(z|y)\sum_x\theta(x)\theta(y|x)}
+    {\sum_x\theta(x)\theta(y|x)} = \theta(z|y).\]
 }
 \item Generalize this derivation to show that $\theta
   (X_i|Parents(X_i))=P(X_i|Parents(X_i))$ for any Bayesian network.
-  \solution{In any Bayesian Network, the joint probability can be
-    represented with $P(x_1,x_2,\ldots,x_n)=
-    \prod_{i=1}^n\theta(x_i|parents(x_i))$, which is Equation 14.1. 
+  \solution{
+
+the general case is a bit more difficult - the key to a simple proof
+is figuring out how to split up all the variables. First, however, we
+need a little lemma: for any set of variables $V$, we have 
+\[ \sum_v\prod_i\theta(v_i|pa(V_i))=1\]
+This generalizes the sum-to-1 rule for a single variable, and is
+easily proved by induction given any topological ordering for the
+variables in $V$. 
+
+One of the principal rules for manipulating nested summatioons is that
+a particular summation can be pushed to the right as long as all
+occurrences of that variable remain to the right of the summation. For
+this reason, the descendants of Z, which we will call U, are a very
+useful subset of the variables in the network. In particular, they
+have the property that they cannot be parents of any other variable in
+the network. (If there was such a variable, it wouuld be a descendant
+of Z by definition!) We will divide the variables into Z, Y(the
+parents of Z), U(the descendants of Z), and X(all other variables). We
+know that variables in X and Y have no parents in Z and U. So we have 
+
+\begin{align*}
+  P(z|y) &= \frac{\sum_{x,u}P(x,y,z,u)}{\sum_{x,z^{\prime},u}P(x,y,z^{\prime},u)}\\
+  &=\frac{\sum_{x,u}\prod_i\theta(x_i|pa(X_i))\prod_j\theta(y_j|pa(Y_j))\theta(z|y)\prod_k\theta(u_k|pa(U_k))}
+  {\sum_{x,z^{\prime},u}\prod_i\theta(x_i|pa(X_i))\prod_j\theta(y_j|pa(Y_j))\theta(z^{\prime}|y)\prod_k\theta(u_k|pa(U_k))} \\
+  &=\frac{\sum_{x}\prod_i\theta(x_i|pa(X_i))\prod_j\theta(y_j|pa(Y_j))\theta(z|y)\sum_u\prod_k\theta(u_k|pa(U_k))}
+  {\sum_x\prod_i\theta(x_i|pa(X_i))\prod_j\theta(y_j|pa(Y_j))\sum_{z^{\prime}}\theta(z^{\prime}|y)\sum_u\prod_k\theta(u_k|pa(U_k))} \\
+  & \mbox{(moving the sums in as far as possible.) } \\
+  &=\frac{\sum_{x}\prod_i\theta(x_i|pa(X_i))\prod_j\theta(y_j|pa(Y_j))\theta(z|y)}
+  {\sum_x\prod_i\theta(x_i|pa(X_i))\prod_j\theta(y_j|pa(Y_j))\sum_{z^{\prime}}\theta(z^{\prime}|y)} \\
+  &\mbox{(using the generalized sum-to-1 rule for u.)}\\ 
+  &= \frac{\sum_{x}\prod_i\theta(x_i|pa(X_i))\prod_j\theta(y_j|pa(Y_j))\theta(z|y)}
+  {\sum_x\prod_i\theta(x_i|pa(X_i))\prod_j\theta(y_j|pa(Y_j))} \\
+  & \mbox{(Using the sum-to-1 rule for } z^{\prime}.) \\
+  &=\theta(z|y).
+\end{align*}
+
+\sout{Wrong answer: \\}
+    In any Bayesian Network, the joint probability can be
+    represented with \[ P(x_1,x_2,\ldots,x_n)=
+    \prod_{i=1}^n\theta(x_i|parents(x_i)) \], which is Equation 14.1. 
     And according to the joint probability theorem and the
     independence property in Bayesian networks, we can also write the
     joint probability of network variables as
@@ -728,14 +802,12 @@ $P(X_i|Parents(X_i))$ from this definition.
 The Markov blanket of a variable is defined on page 517. Prove that a
 variable is independent of all other variables in the network, given
 its Markov blanket and derive Equation (14.12) (page 538).
-
 \[ P(x_i^{\prime}|mb(X_i))=\alpha P(x_i^{\prime}|parents(X_i))\times
 \prod_{y_j\in Children(X_i)}P(y_j|parents(Y_j)) \]
-\solution{
 \begin{proof}
-  According to the theorem of d-speration and topological independence
-  theorem, and simply considering the polytree structure of a Bayesian
-  Network, we have the folloiwng assertions: \\
+  According to the theorem of d-speration and topological
+  independence, and simply considering the polytree structure of a
+  Bayesian Network, we have the folloiwng assertions: \\
   \[ P(x_i|ancestors(X_i)) = P(x_i|parents(X_i)) \] which says $X_i$
   will be independent of its other ancestor nodes given its parents. 
 
@@ -762,8 +834,5 @@ its Markov blanket and derive Equation (14.12) (page 538).
 
   And \[P(x_i^{\prime}|mb(X_i))=\alpha P(x_i^{\prime}|parents(X_i))\times
   \prod_{y_j\in Children(X_i)}P(y_j|parents(Y_j)). \] 
-
 \end{proof}
-}
-
 \end{document}
