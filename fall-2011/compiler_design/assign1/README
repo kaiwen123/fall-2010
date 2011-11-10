@@ -1,0 +1,67 @@
+
+README file for Programming Assignment 1
+========================================
+
+Your directory should now contain the following files:
+
+ Makefile -> [cool dir]/assignments/PA1/Makefile
+ README
+ type.cl
+ type.test -> [cool dir]/assignments/PA1/type.test
+ type_eg.s -> [cool dir]/assignments/PA1/type_eg.s
+
+	The Makefile contains targets for compiling and running your
+	program, as well as handing it in.
+
+	The README contains this info. Part of the assignment is to
+	answer the questions at the end of this README file.
+	Just edit this file.
+
+	type.cl is the skeleton file which you should fill in with
+	your program.
+
+	type.test is a short test input. It is run through your program 
+        when you hand it in, and the output is also handed in.
+
+        type_eg.s contains the assembly code for a correct solution to 
+        the assignment. You can execute it using CSPIM to verify how the 
+        program should run for a given set of inputs.
+
+
+Instructions
+------------
+
+	To compile and run your program, type:
+
+	% /usr/local/bin/make test
+
+        To turnin your work, type the following from the directory containing 
+        the assignment files:
+
+        % /usr/local/bin/make turnin
+
+        This will collect the files type.cl and README. Do not forget
+        to edit the README file and to answer the questions.
+
+        You may turn in the assignment as many times as you like.  However,
+        only the last version will be retained for grading.
+
+	GOOD LUCK!
+
+---8<------8<------8<------8<---cut here---8<------8<------8<------8<---
+
+Questions on PA1
+----------------
+
+1. List two things you like about the Cool programming language.
+
+A: This language is cool as its name tells, it has features of modern object 
+   oriented programming languages such as inheritence etc. 
+B: The syntax is simply enough to learn in a very limited amonut of time. 
+
+2. List two things you dislike about the Cool programming language.
+
+A: The functionality is not so full featured. 
+B: Some of the syntax is weired at first sight, such as the declaring of a 
+   varible and variable assignments etc. 
+
