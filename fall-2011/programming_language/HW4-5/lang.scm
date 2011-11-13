@@ -79,6 +79,7 @@
       (class-decl                         
         ("class" identifier 
           "extends" identifier    
+          (arbno "static" identifier) ;; added static fields. hw5
           (arbno "field" identifier)
           (arbno method-decl)
           )

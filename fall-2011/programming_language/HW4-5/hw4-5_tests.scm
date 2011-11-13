@@ -38,3 +38,39 @@ class c2 extends c1
  public method m2() super m2() 
 let o1 = new c2()
 in send o1 m2()"))
+
+;;; test static fields. 
+(value-of-program (scan&parse "
+class c1 extends object
+static s
+field x 
+ method initialize () 1
+ method m2() 12
+let o1 = new c1()
+in send o1 m2()"))
+
+;;; operations on static fields.
+(value-of-program (scan&parse "
+class c1 extends object 
+  field y 
+  method gety()y 33 "))
+
+;test from the homework description. 
+; there are errors in the original example. 
+; one: there is no add1 declared in the classes language, i changed to + operation. 
+; the syntax of begin ... end has error, there should be no ";" at the end of 
+; the last expression. 
+(value-of-program (scan&parse "
+class c1 extends object
+  static next_serial_number
+  field my_serial_number
+  method get_serial_number() my_serial_number
+  method initialize()
+     begin
+      set my_serial_number = next_serial_number;
+      set next_serial_number = +(next_serial_number,1)
+     end
+  let o1 = new c1()
+      o2 = new c1()
+  in list (send o1 get_serial_number(),
+           send o2 get_serial_number())"))

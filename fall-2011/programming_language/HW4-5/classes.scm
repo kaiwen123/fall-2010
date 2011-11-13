@@ -174,7 +174,8 @@
     (a-class
       (super-name (maybe symbol?))
       (field-names (list-of symbol?))
-      (method-env method-environment?)))
+      (method-env method-environment?)
+      (static-field-names (list-of symbol?))))
 
   ;;;;;;;;;;;;;;;; class environments ;;;;;;;;;;;;;;;;
 
@@ -212,14 +213,14 @@
     (lambda (c-decls)
       (set! the-class-env 
         (list
-          (list 'object (a-class #f '() '()))))
+          (list 'object (a-class #f '() '() '())))) ;; added '() for sf-names for hw5.
       (for-each initialize-class-decl! c-decls)))
 
   ;; initialize-class-decl! : ClassDecl -> Unspecified
   (define initialize-class-decl!
     (lambda (c-decl)
       (cases class-decl c-decl
-        (a-class-decl (c-name s-name f-names m-decls) ;; added sf-names (static fields) for hwk5. 
+        (a-class-decl (c-name s-name sf-names f-names m-decls) ;; added sf-names (static fields) for hwk5. 
           (let ((f-names
                   (append-field-names
                     (class->field-names (lookup-class s-name))
@@ -230,7 +231,9 @@
                 (merge-method-envs
                   (class->method-env (lookup-class s-name)) ; get env of super class.
                   (method-decls->method-env ;get env of new class. 
-                    m-decls s-name f-names)))))))))  
+                   ;; added sf-names static fields to the end of strcture so that it will not affect the 
+                   ;; interpretation of methods.
+                    m-decls s-name f-names)) sf-names))))))) 
 
   ;; exercise:  rewrite this so there's only one set! to the-class-env.
 
@@ -256,19 +259,26 @@
   (define class->super-name
     (lambda (c-struct)
       (cases class c-struct
-        (a-class (super-name field-names method-env)
+        (a-class (super-name field-names method-env sf-names);;added sf-names for hw5.
           super-name))))
 
   (define class->field-names
     (lambda (c-struct)
       (cases class c-struct
-        (a-class (super-name field-names method-env)
+        (a-class (super-name field-names method-env sf-names);; added sf-names for hw5.
           field-names))))
+  
+  ;; function to get static fields. 
+  (define class->static-field-names
+    (lambda (c-struct)
+      (cases class c-struct
+        (a-class (super-name field-names method-env sf-names);; added sf-names for hw5.
+          sf-names))))
 
   (define class->method-env
     (lambda (c-struct)
       (cases class c-struct
-        (a-class (super-name field-names method-env)
+        (a-class (super-name field-names method-env sf-names);; added sf-names for hw5.
           method-env))))
 
 

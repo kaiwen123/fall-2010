@@ -132,8 +132,6 @@
               (find-method class-name 'initialize)
               obj
               args)
-            (display obj)
-            (newline)
             obj))
 
         (self-exp ()
