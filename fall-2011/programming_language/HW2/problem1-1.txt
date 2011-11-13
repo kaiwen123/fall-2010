@@ -1,0 +1,130 @@
+#lang racket
+
+;; This file contains problem1-1 of homework2. 
+;; Author Shumin Guo (U00617724)
+;; Revision version 1.0 10/12/2011. 
+The specification of a program is about defining
+the behavorial aspect of a program rather than the 
+implementation details. 
+The specification of an ADT will include the following
+things: 
+Operations on the ADT: constructors, observers etc. 
+Axioms: True statements about the ADT. 
+Algebraic Equitional Axioms: LHS=RHS.
+LHS: Application of operations. 
+RHS: similar to LHS but can also include if-expr.
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Syntatic specification of map data structure. 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+map: -> map
+clear : map -> map
+containsKey : key x map -> boolean
+containsValue : value x map -> boolean
+equals : map1 x map2 -> boolean
+get : key x map -> value 
+isEmpty : map -> boolean
+put : key x value x map -> map
+remove : key x map -> map 
+size : map -> size
+
+;;;;; Constructors. 
+map, put
+
+from the functional programming paradigm, put and remove
+will not set the value of existing object, rather, they 
+clone a new object and modify the copy, so in this sense
+they are both constructors, although remove makes the map
+smaller. But on the other hand, remove and be represented
+using put, so I just leave put in the constructor group.  
+
+;;;;; Non-constructors.
+clear, remove 
+
+clear is non-constructor because it has the same "effect"
+as map(), so in order to keep consistency and soundness, I
+just treated clear as a non-constructor. And remove can be 
+represented using put. 
+
+;;;;; Observers. 
+get, containsKey, containsValue, equals, isEmpty, size
+
+These functions will not change the state of existing map 
+object, other than "observing" information from the object, 
+so they are observers. 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; True statements (Axioms) about the map ADT. 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; In the following axioms, map1 is an non-empty map; 
+;;; key, key1 and key2 are different keys; 
+;;; value, value1 and value2 are different values.
+
+clear(map1) = map() 
+
+;;; 
+;;; isEmpty(map)  
+isEmpty(map()) = true
+isEmpty(put(key, value, map())) = false
+
+;;; size(map)
+size(map()) = 0
+size(put(key, value, map())) = 1 
+size(put(key, value, map1)) = 
+    if containsKey(key, map1) then size(map1)
+    else size(map1)+1 
+
+;;; remove(key, map)
+remove(key, put(key1, value1, map())) = 
+    if key = key1 then map() else
+    error 
+remove(key, put(key1, value1, map1)) = 
+    if key = key1 then remove(key, map1) else 
+    put(key1, value1, remove(key, map1))
+
+;;; containsKey(key, map) 
+containsKey(key, map()) = false
+containsKey(key, put(key1, value, map1)) = 
+    if key = key1 then true 
+    else containsKey(key, map1)
+
+;;; containsKey(value, map)
+containsValue(value, map()) = false
+containsValue(value, put(key, value1, map1)) = 
+    if value = value1 then true 
+    else containsValue(value, map1)
+
+;;; get(key, map)
+get(key, map()) = error
+get(key, put(key1, value, map1)) = 
+    if key = key1 then value else get(key, map1)
+
+;;; equals(map1, map2)
+equals(map(), map()) = true
+equals(map(), put(key, value, map())) = false 
+equals(put(key1, value1, map()), put(key2, value2, map())) = 
+    if key1 = key2 and value1 = value2 then true else false
+equals(put(key1, value1, map1), put(key2, value2, map2)) = 
+    if containsKey(key1, map2) and get(key1, map2) = value1
+    then equals(remove(key1, value1, map1), map2) else false
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Correctness and completeness proof.  
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+1, constructor map() can create an empty map as starting point; 
+2, we can use put add new key-value pair into the existing map; 
+3, we can use put the update the value of an existing pair; 
+4, so for any given map, we can construct it using the above 
+   mentioned operations as long as the keys are unique, which 
+   is specified in my implementation of the map ADT. 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Concrete representation of the map data structure. 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+In my implementation, I will use the following representation
+for the map: 
+empty map: '()
+map with one pair : ((a 100))
+map with two pairs: ((a 100) (b 1000))
+generic: ((key1 value1) (key2 value2) ... (keyn valuen))
+the keys are unique through out the whole map. 
