@@ -23,13 +23,10 @@
   ;; Page: 336
   (define value-of-program 
     (lambda (pgm)
-      (initialize-store!)             
+      (initialize-store!)            
       (cases program pgm
         (a-program (class-decls body) ;; class-decls contains definitions of classes. 
           (initialize-class-env! class-decls)
-;          (display "\n\nEEEEEEEEEEEEEEEEEEEEEEEEE-----\n")
-;          (display the-class-env)
-;          (display "\nENVENVNVENNNVVVVVVVVVVVVVVVV\n")
           (value-of body (init-env))))))
   
   ;; value-of : Exp * Env -> ExpVal
@@ -41,12 +38,6 @@
         (const-exp (num) (num-val num))
 
         (var-exp (var) ;(deref (apply-env env var))) ;; comented original.
-;                 (display "VVVVVVVAAAAAAAAAAAARRRRRRRR\n")
-;                 (display var)
-;                 (newline)
-;                 (display (get-store-as-list))
-;                 (display "VVVVVVVAAAAAAAAAAAARRRRRRRR\n")
-;                 (display (deref (apply-env env var)))
                  (let ((val (deref (apply-env env var))))
                    (if (number? val)
                        (num-val val)
@@ -63,13 +54,6 @@
 	      (- val1 val2))))
         
         (sum-exp (exp1 exp2)
-;                 (display "\n\nSSSSSSSSSSSSSSSSSSSSSSS")
-;                 (display exp1)
-;                 (display "---->")
-;                 (display env)
-;                 (display "---->")
-;                 (display exp2)
-;                 (newline)
           (let ((val1
 		  (expval->num
 		    (value-of exp1 env)))
@@ -78,11 +62,6 @@
 		    (value-of exp2 env))))              
             (num-val
 	      (+ val1 val2))))
-;           (let ((val1 (value-of exp1 env))
-;               (val2 (value-of exp2 env)))
-;             (num-val
-;             (+ (if (expval? val1) (expval->num val1) val1)
-;                (if (expval? val2) (expval->num val2) val2))))
 
         (zero?-exp (exp1)
 	  (let ((val1 (expval->num (value-of exp1 env))))
@@ -141,12 +120,6 @@
             (setref!
               (apply-env env x)
               (value-of e env))))
-;            (display e) (newline)
-;            (display x) (newline)
-;            (display (apply-env env x))
-;            (display (value-of e env))
-;            (num-val 27)))
-
 
         (list-exp (exps)
           (list-val
@@ -241,14 +214,6 @@
     (lambda (m self args)
       (cases method m
         (a-method (vars body super-name field-names)
-;                  (display "TTTTTTTTTTTTTTTTTTTTTTTTTTTTT....-->\n")
-;                  (display "VVVVVVVVVVVVVVVVVVVVVVVV\n")
-;                  (display (get-store-as-list))
-;                  (display "------")
-;                  (display args)
-;                  (display "------")
-;                  (display body)
-;                  (display "TTTTTTTTTTTTTTTTTTTTTTTTTTTTT....-->\n")
           (value-of body
             (extend-env vars (map newref args)
               (extend-env-with-self-and-super
@@ -275,7 +240,6 @@
                                  (cadr (class->static-fields
                                         (lookup-class (object->class-name self))))
                                  (empty-env)))))
-        ;;(deref (apply-env env1 f)))))
         ;;; setref! first will obtain store reference value from env, and then set the newval to the store location.
         env1)))
 

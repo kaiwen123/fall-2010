@@ -35,7 +35,7 @@
           (lambda (field-name)
             (newref (list 'uninitialized-field field-name)))
           (class->field-names (lookup-class class-name))))))
-
+  
 ;;;;;;;;;;;;;;;; methods and method environments ;;;;;;;;;;;;;;;;
 
   (define-datatype method method?
@@ -91,11 +91,6 @@
             (let ((maybe-pair (assq name m-env)))
               (if (not (null? maybe-pair))
                   (cadr maybe-pair)))))))
-  
-  ;;; find-field-modifier : c-name x name -> modifier. 
-;  (define find-field-modifier 
-;    (lambda (c-name name)
-      
     
   (define report-method-not-found
     (lambda (name)
@@ -109,9 +104,6 @@
   ;; Page: 345
   (define merge-method-envs
     (lambda (super-m-env new-m-env)
-;      (display "\n\nMerging method-envs........")
-;      (display new-m-env)
-;      (display "Merging method-envsxxxxxxxxxxxx\n\n")
       (append new-m-env super-m-env)))
 
   ;; method-decls->method-env :
