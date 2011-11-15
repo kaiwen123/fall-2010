@@ -2,6 +2,7 @@
 
   (require "store.scm")
   (require "lang.scm")
+  ;(require "environments.scm")
 
   ;; object interface
   (provide object object? new-object object->class-name object->fields)
@@ -10,7 +11,7 @@
   (provide method method? a-method find-method find-method-modifier)
   
   ;; class interface
-  (provide lookup-class initialize-class-env!)
+  (provide lookup-class the-class-env class->static-field-names initialize-class-env!)
 
 ;;;;;;;;;;;;;;;; objects ;;;;;;;;;;;;;;;;
 
@@ -103,6 +104,9 @@
   ;; Page: 345
   (define merge-method-envs
     (lambda (super-m-env new-m-env)
+;      (display "\n\nMerging method-envs........")
+;      (display new-m-env)
+;      (display "Merging method-envsxxxxxxxxxxxx\n\n")
       (append new-m-env super-m-env)))
 
   ;; method-decls->method-env :
@@ -175,7 +179,7 @@
       (super-name (maybe symbol?))
       (field-names (list-of symbol?))
       (method-env method-environment?)
-      (static-field-names (list-of symbol?))))
+      (static-field-names (list-of list?))))
 
   ;;;;;;;;;;;;;;;; class environments ;;;;;;;;;;;;;;;;
 
@@ -222,17 +226,24 @@
       (cases class-decl c-decl
         (a-class-decl (c-name s-name sf-names f-names m-decls) ;; added sf-names (static fields) for hwk5. 
           (let ((f-names
-                  (append-field-names
-                    (class->field-names (lookup-class s-name))
-                    f-names)))
+                 (append-field-names
+                  (class->field-names (lookup-class s-name))
+                  f-names))
+                ;; append the store location to the static fields so that it can be easily applied
+                ;; to envs during the evaluation process. --> hw5. 
+                (sf-names  
+                 (cons sf-names (cons (map
+                   (lambda (sf-name)
+                     (newref 0)) ;(num-val 0))) ;; num-val problem, can access constructor. 
+                   sf-names) '()))))
             (add-to-class-env!
               c-name
               (a-class s-name f-names
                 (merge-method-envs
                   (class->method-env (lookup-class s-name)) ; get env of super class.
-                  (method-decls->method-env ;get env of new class. 
+                  (method-decls->method-env ;; get env of new class. 
                    ;; added sf-names static fields to the end of strcture so that it will not affect the 
-                   ;; interpretation of methods.
+                   ;; interpretation of methods. hw5.
                     m-decls s-name f-names)) sf-names))))))) 
 
   ;; exercise:  rewrite this so there's only one set! to the-class-env.

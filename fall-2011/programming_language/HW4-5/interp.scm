@@ -25,10 +25,13 @@
     (lambda (pgm)
       (initialize-store!)             
       (cases program pgm
-        (a-program (class-decls body)
+        (a-program (class-decls body) ;; class-decls contains definitions of classes. 
           (initialize-class-env! class-decls)
+;          (display "\n\nEEEEEEEEEEEEEEEEEEEEEEEEE-----\n")
+;          (display the-class-env)
+;          (display "\nENVENVNVENNNVVVVVVVVVVVVVVVV\n")
           (value-of body (init-env))))))
-
+  
   ;; value-of : Exp * Env -> ExpVal
   ;; Page: 336 and 337
   (define value-of
@@ -37,7 +40,17 @@
 
         (const-exp (num) (num-val num))
 
-        (var-exp (var) (deref (apply-env env var)))
+        (var-exp (var) ;(deref (apply-env env var))) ;; comented original.
+;                 (display "VVVVVVVAAAAAAAAAAAARRRRRRRR\n")
+;                 (display var)
+;                 (newline)
+;                 (display (get-store-as-list))
+;                 (display "VVVVVVVAAAAAAAAAAAARRRRRRRR\n")
+;                 (display (deref (apply-env env var)))
+                 (let ((val (deref (apply-env env var))))
+                   (if (number? val)
+                       (num-val val)
+                       val)))
 
         (diff-exp (exp1 exp2)
           (let ((val1
@@ -50,14 +63,26 @@
 	      (- val1 val2))))
         
         (sum-exp (exp1 exp2)
+;                 (display "\n\nSSSSSSSSSSSSSSSSSSSSSSS")
+;                 (display exp1)
+;                 (display "---->")
+;                 (display env)
+;                 (display "---->")
+;                 (display exp2)
+;                 (newline)
           (let ((val1
 		  (expval->num
 		    (value-of exp1 env)))
                 (val2
 		  (expval->num
-		    (value-of exp2 env))))
+		    (value-of exp2 env))))              
             (num-val
 	      (+ val1 val2))))
+;           (let ((val1 (value-of exp1 env))
+;               (val2 (value-of exp2 env)))
+;             (num-val
+;             (+ (if (expval? val1) (expval->num val1) val1)
+;                (if (expval? val2) (expval->num val2) val2))))
 
         (zero?-exp (exp1)
 	  (let ((val1 (expval->num (value-of exp1 env))))
@@ -116,6 +141,10 @@
             (setref!
               (apply-env env x)
               (value-of e env))
+;            (display e) (newline)
+;            (display x) (newline)
+;            (display (apply-env env x))
+;            (display (value-of e env))
             (num-val 27)))
 
 
@@ -188,20 +217,39 @@
                 (eopl:printf "store =~%")
                 (pretty-print (store->readable (get-store-as-list)))
                 (eopl:printf "~%")))
-            (value-of body new-env))))))
+            (value-of body new-env)))))) 
 
   
   ;; apply-method : Method * Obj * Listof(ExpVal) -> ExpVal
   (define apply-method                    
     (lambda (m self args)
+;      (display "\n\nApplying method ...... ")
+;      (display m)
+;      (newline)
       (cases method m
         (a-method (vars body super-name field-names)
+;                  (display "TTTTTTTTTTTTTTTTTTTTTTTTTTTTT....-->\n")
+;                  (display "VVVVVVVVVVVVVVVVVVVVVVVV\n")
+;                  (display (get-store-as-list))
+;                  (display "------")
+;                  (display args)
+;                  (display "------")
+;                  (display body)
+;                  (display "TTTTTTTTTTTTTTTTTTTTTTTTTTTTT....-->\n")
           (value-of body
             (extend-env vars (map newref args)
               (extend-env-with-self-and-super
                 self super-name
                 (extend-env field-names (object->fields self)
-                  (empty-env)))))))))
+                            
+                  ;;; extend env for static fields. 
+                  (extend-env 
+                   (car (class->static-field-names
+                         (lookup-class (object->class-name self))))
+                   (cadr (class->static-field-names
+                          (lookup-class (object->class-name self))))
+               
+                  (empty-env))))))))))
 
   (define values-of-exps
     (lambda (exps env)
@@ -219,5 +267,4 @@
             (car p)
             (expval->printable (cadr p))))
         l)))
-
   )
