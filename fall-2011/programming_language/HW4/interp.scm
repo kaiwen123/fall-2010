@@ -140,12 +140,12 @@
           (begin
             (setref!
               (apply-env env x)
-              (value-of e env))
+              (value-of e env))))
 ;            (display e) (newline)
 ;            (display x) (newline)
 ;            (display (apply-env env x))
 ;            (display (value-of e env))
-            (num-val 27)))
+;            (num-val 27)))
 
 
         (list-exp (exps)
@@ -187,7 +187,23 @@
             (apply-method
               (find-method class-name method-name)
               obj
-              args)))                    
+              args))) 
+        
+        ;;; field-ref-exp ---> for field references.
+        ;;; should return the value of field. 
+        ;;; to be done. 
+        (field-ref-exp (obj-exp field-name)
+          (let ((env1 (get-field-op-env field-name (value-of obj-exp env))))
+            (value-of field-name env1)))
+            
+        ;;; field-set-exp ---> for field sets. 
+        ;;; will set the value of the field. 
+        (field-set-exp (obj-exp field-name value)
+          (let ((env1 (get-field-op-env field-name (value-of obj-exp env))))
+          (setref! (apply-env env1 
+                              (cases expression field-name
+                                (var-exp (var) var) (else 'x)));(expval->printable field-name))
+              (value-of value env1))))
       
         (super-call-exp (method-name rands)
           (let ((args (values-of-exps rands env))
@@ -195,7 +211,7 @@
             (apply-method
               (find-method (apply-env env '%super) method-name)
               obj
-              args)))        
+              args)))
         )))
 
   ;; apply-procedure : Proc * Listof(ExpVal) -> ExpVal
@@ -223,9 +239,6 @@
   ;; apply-method : Method * Obj * Listof(ExpVal) -> ExpVal
   (define apply-method                    
     (lambda (m self args)
-;      (display "\n\nApplying method ...... ")
-;      (display m)
-;      (newline)
       (cases method m
         (a-method (vars body super-name field-names)
 ;                  (display "TTTTTTTTTTTTTTTTTTTTTTTTTTTTT....-->\n")
@@ -240,16 +253,31 @@
             (extend-env vars (map newref args)
               (extend-env-with-self-and-super
                 self super-name
-                (extend-env field-names (object->fields self)
-                            
+                (extend-env field-names (object->fields self)        
                   ;;; extend env for static fields. 
                   (extend-env 
-                   (car (class->static-field-names
+                   (car (class->static-fields
                          (lookup-class (object->class-name self))))
-                   (cadr (class->static-field-names
+                   (cadr (class->static-fields
                           (lookup-class (object->class-name self))))
-               
                   (empty-env))))))))))
+  
+  ;; this is for homework 4-2. field references. 
+  ;; it will obtain value of field. 
+   (define get-field-op-env
+    (lambda (f self)
+      (let* ((field-names (object->field-names self))
+            (env1 (extend-env field-names (object->fields self) ;;; add all fields to env. 
+                                ;;; extend env for static fields. 
+                                (extend-env 
+                                 (car (class->static-fields
+                                       (lookup-class (object->class-name self))))
+                                 (cadr (class->static-fields
+                                        (lookup-class (object->class-name self))))
+                                 (empty-env)))))
+        ;;(deref (apply-env env1 f)))))
+        ;;; setref! first will obtain store reference value from env, and then set the newval to the store location.
+        env1)))
 
   (define values-of-exps
     (lambda (exps env)

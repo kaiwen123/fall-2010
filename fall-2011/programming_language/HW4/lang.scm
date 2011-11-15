@@ -18,6 +18,7 @@
         symbol)
       (number (digit (arbno digit)) number)
       (number ("-" digit (arbno digit)) number)
+      (modifier ((or "static" "public" "protected" "private" "final")) string) ;; added for homework4-5.
       ))
   
   (define the-grammar
@@ -79,12 +80,12 @@
       (class-decl                         
         ("class" identifier 
           "extends" identifier    
-          (arbno "static" identifier) ;; added static fields. hw5
-          (arbno "field" identifier)
+          (arbno modifier "field" identifier) ;; added static fields. hw5
           (arbno method-decl)
           )
         a-class-decl)
       
+     
       ;;;;;;;;;;;;;;;;;;;;;;;Execise 9.11 Start from here;;;;;;;;;;;;;;;;;;;;;;;;
       ;;; Modifying method to accept public, private and protected modifiers. 
       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -93,7 +94,7 @@
       (method-decl
         ("method" identifier 
           "("  (separated-list identifier ",") ")" ; method formals
-          expression 
+          expression
           )
         a-method-decl)
       
@@ -156,8 +157,25 @@
        ("named-send" identifier expression identifier
                      "(" (separated-list expression ",") ")")
        named-method-call-exp)
-                     
+      
+      ;; field references. for homework 4-2.
+      ;; the first expression should be evaluated to an object; 
+      ;; and the second one should be evaluated to the field id in the 
+      ;; objecct. 
+      (expression
+       (
+       "field-ref" "(" expression "," expression ")"
+             )
+       field-ref-exp)
+      
+      ;; field set. for homework 4-2. 
+      (expression 
+       (
+        "field-set" "(" expression "," expression "," expression ")"
+                    )
+       field-set-exp)
 
+      ;;super call expression.
       (expression                                
         ("super" identifier    "("  (separated-list expression ",") ")")
         super-call-exp)
