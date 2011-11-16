@@ -12,6 +12,12 @@
   
   ;; class interface
   (provide lookup-class the-class-env class->static-fields initialize-class-env!)
+  
+  ;; the scoping framework. 
+  (provide the-scope get-scope set-scope get-field-modifier)
+  
+  ;; error reporting. 
+  (provide report-unauthorized-field-access)
 
 ;;;;;;;;;;;;;;;; objects ;;;;;;;;;;;;;;;;
 
@@ -35,6 +41,24 @@
           (lambda (field-name)
             (newref (list 'uninitialized-field field-name)))
           (class->field-names (lookup-class class-name))))))
+  
+  ;;;;;;;;;;;;;;;;; Scoping mechanism ;;;;;;;;;;;;;;;;;;;;
+  
+  ;; the global scope structure. 
+  ;; default scope is program. in this scope only public fields and 
+  ;; methods can be accessed within a class. 
+  (define the-scope '(program)) 
+  
+  ;; get scope 
+  (define get-scope 
+    (lambda () 
+      (car the-scope)))
+  
+  ;; set scope 
+  (define set-scope 
+    (lambda (spe) 
+      (if (not (eqv? 'superclass (get-scope)))
+          (set! the-scope (cons spe '())))))
 
 ;;;;;;;;;;;;;;;; methods and method environments ;;;;;;;;;;;;;;;;
 
@@ -101,9 +125,15 @@
     (lambda (name)
       (eopl:error 'find-method "unknown method ~s" name)))
   
+  ;; unauthorized method call error.
   (define report-unauthorized-call
     (lambda (name)
-      (eopl:error "operation ~s not permited!" name)))
+      (eopl:error "method call operation ~s not permited!" name)))
+  
+  ;; field access error. 
+  (define report-unauthorized-field-access
+    (lambda (name)
+      (eopl:error "Field access ~s failed!" name)))
   
   ;; merge-method-envs : MethodEnv * MethodEnv -> MethodEnv
   ;; Page: 345
@@ -337,6 +367,28 @@
       (cases class c-struct
         (a-class (super-name field-names-with-modifiers method-env sf-names);; changed field-names to field-names-with-modifiers.
           (cadr field-names-with-modifiers)))))
+  
+  ;;; get field modifier. private, public or protected.
+  (define get-field-modifier 
+    (lambda (c-struct field-name)
+      (cases class c-struct
+        (a-class (super-name field-names-with-modifiers method-env sf-names)
+           (let ((f-names (car field-names-with-modifiers))
+                 (f-modifiers (cadr field-names-with-modifiers)))
+             ;(display f-names) (newline) (display f-modifiers) (newline) (display field-name) (newline)
+             (letrec ((get-modifier
+                       (lambda (fnames fmodifiers)
+                         (if (null? fnames) 
+                             (report-field-not-found field-name)
+                             (if (eqv? field-name (car fnames))
+                                 (car fmodifiers)
+                                 (get-modifier (cdr fnames) (cdr fmodifiers)))))))
+               (get-modifier f-names f-modifiers)))))))
+  
+  ;; field not found. 
+  (define report-field-not-found
+    (lambda (field-name) 
+      (eopl:error "Field ~s not found." field-name)))
   
   ;;; sperate the static fields out to seperate list. 
   (define seperate-static-fields

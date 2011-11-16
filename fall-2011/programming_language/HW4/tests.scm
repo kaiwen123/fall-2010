@@ -1,4 +1,9 @@
 #lang eopl
+;;
+;; Author : Shumin Guo (U00617724)
+;; Date : 11/15/2011. 
+;; Notes: Test cases for Homework 4 of programming languages. 
+;;
 
 (require "top.scm")
 
@@ -31,7 +36,7 @@ class c1 extends object
 let o1 = new c1()
 in field-ref (o1, f1)")
 
-(display "\nTesting for field reference and field set......")
+(display "\nAnother test for field reference and field set......")
 (run "
 class c1 extends object
  public field f1
@@ -41,58 +46,61 @@ let o1 = new c1()
 in begin field-set (o1, f1, 111); field-ref (o1, f1); 
 field-set (o1, f1, 999); field-ref (o1, f1) end ")
 
-;; compile time modifier check. 
-;(run "
-;class c1 extends object
-; method initialize () 1
-; private method m2() 12
-;class c2 extends c1
-; method initialize () 2
-; public method m2() super m2() 
-;let o1 = new c2()
-;in send o1 m2()")
-
-;;; test static fields. 
-(display "\nTesting for static fields......\n")
-;test from the homework description. 
-; there are errors in the original example. 
-; one: there is no add1 declared in the classes language, i changed to + operation. 
-; the syntax of begin ... end has error, there should be no ";" at the end of 
-; the last expression. 
-(run "
-class c1 extends object
-  static field next_serial_number
-  public field my_serial_number
-  method get_serial_number() my_serial_number
-  method initialize()
-     begin
-      set my_serial_number = next_serial_number;
-      set next_serial_number = +(next_serial_number,1)
-     end
-  let o1 = new c1()
-      o2 = new c1()
-  in list (send o1 get_serial_number(),
-           send o2 get_serial_number())")
-
 ;;; This test case will test the modifiers for methods and fields. 
 ;;; method modifiers include "public final private protected"
 ;;; field modifiers include "static public private protected"
-(display "\nTesting for method modifiers.......\n")
-(display (run "
+;;; This one should not work, because getf1() private, objects outside 
+;;; of the class can not access it. 
+(display "\nTesting for method modifiers (private).......\n")
+#|(display (run "
 class c1 extends object
   static field f11
-  static field f12 
-  method initialize() begin set f11 = 11; set f12 = 12 end
-  method getf11() f11
-class c2 extends c1 
-  protected field f21
-  private field f22
-  method getf11() f11 
-let o = new c2() 
-in send o getf11()
-"))
+  method initialize() set f11 = 11
+  private method getf1() f11 
+  method getf2() f11
+let o = new c1() 
+in send o getf1()
+"))|#
+(newline)
 
+;;; while this one should be able to work, because getf2() is 
+;;; public method and it can call private method getf1() within 
+;;; the same class. 
+(display "\nTesting for method modifiers (private).......\n")
 (display (run "
+class c1 extends object
+  static field f11
+  method initialize() set f11 = 11
+  private method getf1() f11 
+  method getf2() f11
+let o = new c1() 
+in send o getf2()
+"))
+(newline)
+
+;;; test for protected methods.
+;;; in this test case, it should that decendant methods in classes
+;;; can call protected methods in super class.
+(display "\nTesting for method modifiers (protected).......\n")
+(display (run "
+class c1 extends object
+  static field f11
+  static field f12 
+  method initialize() begin set f11 = 11; set f12 = 12 end
+  protected method getf11() f11
+class c2 extends c1 
+  protected field f21
+  private field f22
+  method getf11() super getf11() 
+let o = new c2() 
+in send o getf11()
+"))
+(newline) 
+
+;;; while this one should not be able to work, because protected method getf11()
+;;; in class c2 should only be called by methods within the same class or decendent 
+;;; class methods. 
+#|(display (run "
 class c1 extends object
   static field f11
   static field f12 
@@ -101,7 +109,71 @@ class c1 extends object
 class c2 extends c1 
   protected field f21
   private field f22
-  method getf11() f11 
+  protected method getf11() f11 
 let o = new c2() 
 in send o getf11()
-"))
+"))|#
+
+;;; Here is the test for the final method, which prohibit the overriding
+;;; of super class methods. 
+;;; in this test case, method even in class oddeven is declared as final, 
+;;; so, semantically it can not be overriden. And in its child class bogus-oddeven
+;;; we are trying to override this method even(), it will encounter an error.
+(display "Testing for final method overriding.....\n")
+#|(display (run "
+class oddeven extends object 
+  method initialize()1
+  final method even(n)if zero?(n) then 1 else send self odd (-(n,1))
+  method odd(n) if zero?(n) then 0 else send self even (-(n,1))
+
+class bogus-oddeven extends oddeven
+  method even(n)if zero?(n) then 0 else send self odd (-(n,1))
+  method odd(n) if zero?(n) then 1 else send self even (-(n,1))
+let o1 = new bogus-oddeven() in 
+list (send o1 odd(18), send o1 odd(13), send o1 odd(20), send o1 odd(15))"))|#
+
+(newline)
+
+;;; Testing for field modifiers. 
+(display "Testing for private fields (should have an error) .....")
+#|(display (run "
+class c1 extends object
+ private field f1
+ method initialize () set f1 = +(1,5555)
+class c2 extends c1 
+ method m2() let o1 = new c2()
+in field-ref (o1, f1)
+let o2 = new c2()
+in send o2 m2()"))|#
+
+(newline)
+
+;;; testing for static fields. 
+(display "Testing for static fields (see homework 5.) .....")
+(newline)
+
+;;; testing for protected fields. 
+(display "Testing for protected fields (should not work, because f1 of c1 is protected field......")
+#|(display (run "
+class c1 extends object
+ protected field f1
+ method initialize () set f1 = +(1,5555)
+ method get() f1
+class c2 extends c1 
+ method m2() super get()
+let o2 = new c2()
+in field-ref (o2, f1)"))|#
+(newline)
+
+;;; test for protected again.
+(display "Testing for protected fields (should work......")
+(display (run "
+class c1 extends object
+ protected field f1
+ method initialize () set f1 = +(1,1234)
+ method get() f1
+class c2 extends c1 
+ method m2() super get()
+let o2 = new c2()
+in send o2 m2()"))
+(newline)

@@ -23,7 +23,8 @@
   ;; Page: 336
   (define value-of-program 
     (lambda (pgm)
-      (initialize-store!)             
+      (initialize-store!)
+      (set-scope 'program) ;; the global scope for the program. 
       (cases program pgm
         (a-program (class-decls body) ;; class-decls contains definitions of classes. 
           (initialize-class-env! class-decls)
@@ -136,17 +137,16 @@
                      (value-of-begins (car es) (cdr es)))))))
             (value-of-begins exp1 exps)))
 
-        (assign-exp (x e)
+        (assign-exp (lhs rhs-exp)
           (begin
             (setref!
-              (apply-env env x)
-              (value-of e env))))
+              (apply-env env lhs)
+              (value-of rhs-exp env))))
 ;            (display e) (newline)
 ;            (display x) (newline)
 ;            (display (apply-env env x))
 ;            (display (value-of e env))
 ;            (num-val 27)))
-
 
         (list-exp (exps)
           (list-val
@@ -206,12 +206,13 @@
               (value-of value env1))))
       
         (super-call-exp (method-name rands)
-          (let ((args (values-of-exps rands env))
-                (obj (apply-env env '%self)))
-            (apply-method
-              (find-method (apply-env env '%super) method-name)
-              obj
-              args)))
+          (begin ;(set-scope 'superclass) ;; set scope to super class. 
+                 (let ((args (values-of-exps rands env))
+                       (obj (apply-env env '%self)))
+                   (apply-method
+                    (find-method (apply-env env '%super) method-name)
+                    obj
+                    args))))
         )))
 
   ;; apply-procedure : Proc * Listof(ExpVal) -> ExpVal
@@ -234,11 +235,12 @@
                 (pretty-print (store->readable (get-store-as-list)))
                 (eopl:printf "~%")))
             (value-of body new-env)))))) 
-
   
   ;; apply-method : Method * Obj * Listof(ExpVal) -> ExpVal
+  ;; scope checking should be done here.
   (define apply-method                    
     (lambda (m self args)
+      ;(set-scope 'class) ;; in the scope of class where self belongs to. 
       (cases method m
         (a-method (vars body super-name field-names)
 ;                  (display "TTTTTTTTTTTTTTTTTTTTTTTTTTTTT....-->\n")
@@ -263,9 +265,23 @@
                   (empty-env))))))))))
   
   ;; this is for homework 4-2. field references. 
+  ;; For the purpose of applying the field modifiers, I implemented some scoping check 
+  ;; before obtaining the environment for the evaluation of method.
   ;; it will obtain value of field. 
    (define get-field-op-env
-    (lambda (f self)
+    (lambda (field-name self)     
+      (let* ((f-name (cases expression field-name
+                      (var-exp (var) var) (else ())))
+            (modifier (get-field-modifier (lookup-class (object->class-name self)) f-name)))
+        (cond 
+          ((eqv? (get-scope) 'program) 
+           (if (not (eqv? modifier 'public))
+               (report-unauthorized-field-access f-name)))
+          ((eqv? (get-scope) 'class) ()) ;; currently in the class, everything accessible. 
+          ((eqv? (get-scope) 'superclass) 
+           (if (not (or (eqv? modifier 'public) (eqv? modifier 'protected)))
+               (report-unauthorized-field-access f-name)))
+          (else ())))          
       (let* ((field-names (object->field-names self))
             (env1 (extend-env field-names (object->fields self) ;;; add all fields to env. 
                                 ;;; extend env for static fields. 
@@ -275,8 +291,6 @@
                                  (cadr (class->static-fields
                                         (lookup-class (object->class-name self))))
                                  (empty-env)))))
-        ;;(deref (apply-env env1 f)))))
-        ;;; setref! first will obtain store reference value from env, and then set the newval to the store location.
         env1)))
 
   (define values-of-exps
