@@ -139,9 +139,6 @@
   ;; Page: 345
   (define merge-method-envs
     (lambda (super-m-env new-m-env)
-;      (display "\n\nMerging method-envs........")
-;      (display new-m-env)
-;      (display "Merging method-envsxxxxxxxxxxxx\n\n")
       (append new-m-env super-m-env)))
 
   ;; method-decls->method-env :
