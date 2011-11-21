@@ -2,7 +2,7 @@
 # Author Simon Guo. 
 # Instructor Shaojun Wang. 
 
-TMPS=*.aux *.log *~ *.dvi 
+TMPS=*.aux *.log *~ *.dvi homework1.pdf homework2.pdf homework3.pdf final.pdf
 SRC_HWK1=homework1.tex AI-HWK-1_11.pdf AI-HWK-1_1.pdf \
 	AI-HWK-1_3c.pdf AI-HWK-1_3.pdf AI-HWK-1_4b.pdf \
 	AI-HWK-1_4c.pdf AI-HWK-1_8a.pdf 
