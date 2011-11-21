@@ -87,12 +87,6 @@ structure we could use?
   P(G|EF)P(H|G)P(I|G)P(J|H)P(K|I)P(L|J)P(M|K) \]
   By removing node $G$, we can consider that $G$ becomes evident
   node. So, in this case, 
-
-% \begin{align*}
-%   P(A,H|G) & = P(A|G)P(H|G) \\ 
-%   P(M,H|G) & = P(M|G)P(H|G) \\ 
-  
-% \end{align*}
 }
 
 \textbf{Problem 3.} (25 points) Let $H_x$ be a random variable
@@ -105,14 +99,14 @@ an individual possesses. Furthermore, perhaps the gene itself is
 equally likely to be inherited from either of an individual’s parents,
 with a small probability $m = 0.05$ of a random mutation flipping the
 handedness.
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=\textwidth]{AI-FINAL-3_1.pdf}
-  \caption{Bayesian Network for problem 2.}\label{fig:final_3.1}
-\end{figure}
 \begin{enumerate}[(a)]
 \item Which of the three networks in Figure \ref{fig:final_3.1} claim
   the following?
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=.8\textwidth]{AI-FINAL-3_1.pdf}
+    \caption{Bayesian Network for problem 3.}\label{fig:final_3.1}
+  \end{figure}
   \[ P(G_{father}, G_{mother}, G_{child}) =
   P(G_{father})P(G_{mother})P(G_{child}) \]
   Please explain.
@@ -293,7 +287,7 @@ equal to $\frac{1}{3}$. (Assume initial state probabilities of $\frac{1}{3}$).
   We need to calculate the forward message: 
   \begin{align*}
     \alpha_t(i) & = P(O_1,O_2,\ldots,O_t \wedge q_t) = S_i|\lambda, 
-    $1\leq t \leq T$. \\ 
+    1\leq t \leq T. \\ 
     & = \sum_iP(q_{t+1}=S_j|q_t=S_i)P(O_{t+1}|q_{t+1}=S_j)\alpha_t(i) \\ 
     & = \sum_i\alpha_{ij}b_j(O_{t+1})\alpha_t(i) \\
     & = 0.00010.
