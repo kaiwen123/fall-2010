@@ -103,7 +103,7 @@ bool DataSet::doItemMap() {
   }// for cols.
 }
 
-// // Scan level one frequent sets.
+// Scan level one frequent sets.
 void DataSet::scanLevelOne(Itemset set) {
   if(freqsets.find(set) == freqsets.end()) {
     freqsets[set] = 1;
@@ -112,16 +112,29 @@ void DataSet::scanLevelOne(Itemset set) {
   }
 }
 
+// do filtering to the level one data. 
+// This process will eliminate the itemset with lower support 
+// than the minimum. 
+void DataSet::filterLevelOne() {
+  map<Itemset, int>::iterator itset; 
+  // filter out itemsets with lower than minimum support. 
+  for(itset = freqsets.begin(); itset != freqsets.end(); itset++) {
+    float support = (float)(*itset).second/numTrans; 
+    if(support < minSupport) {
+#ifdef DEBUG_LEVEL_TWO
+      cout << "support : " << support << " Min support : " <<
+	minSupport << " erased ...... " << endl; 
+#endif
+      freqsets.erase(itset->first); 
+    }
+  }
+}
+
 // Scan level two item sets. 
 void DataSet::scanLevelTwo(){
   // A new version. 
-  map<Itemset, int>::iterator itset; 
-  for(itset = freqsets.begin(); itset != freqsets.end(); itset++) {
-    float spt = (float)(*itset).second/numTrans;
-    if(spt < minSupport) {
-      freqsets.erase(itset->first);
-    }
-  }
+  // added the function to filter itemsets with low support. 
+  filterLevelOne(); 
 
   // Now, scan and get level two frequent itemsets. 
   map<Itemset, int>::iterator itfst; 
@@ -237,7 +250,12 @@ bool DataSet::saveFreqItemSets(string fname) {
   }
   map<Itemset, int>::iterator it; 
   for(it = freqsets.begin(); it != freqsets.end(); it++) {
-    fdata << it->first << ":" << (float)(*it).second/numTrans << endl; 
+    float support = (float)(*it).second/numTrans; 
+    if(support > minSupport) {
+      fdata << it->first << ":" << support << endl; 
+    } else {
+      freqsets.erase(it->first);
+    }
   }
 
   fdata.close();

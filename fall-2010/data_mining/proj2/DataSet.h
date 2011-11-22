@@ -26,6 +26,7 @@ class DataSet {
 
   /* Scanners. */
   void scanLevelOne(Itemset set);
+  void filterLevelOne();
   void scanLevelTwo();
 
   /**
