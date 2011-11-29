@@ -1,0 +1,225 @@
+\begin{thebibliography}{10}
+
+\bibitem{measure-privacy-risk}
+Justin Becker and Hao Chen.
+\newblock {Measuring Privacy Risk in Online Social Networks}.
+\newblock In {\em Proceedings of the Web 2.0 Security and Privacy 2009 Workshop
+  (W2SP)}, May 2009.
+
+\bibitem{SN-quantify-privacy}
+Tran~Hong Ngoc, I.~Echizen, K.~Komei, and H.~Yoshiura.
+\newblock New approach to quantification of privacy on social network sites.
+\newblock In {\em Advanced Information Networking and Applications (AINA), 2010
+  24th IEEE International Conference on}, pages 556 --564, April 2010.
+
+\bibitem{SN-privacy-score}
+Kun Liu and Evimaria Terzi.
+\newblock A framework for computing the privacy scores of users in online
+  social networks.
+\newblock {\em ACM Trans. Knowl. Discov. Data}, 5:6:1--6:30, December 2010.
+
+\bibitem{facebook-turnoff-beacon}
+B.Schiffman.
+\newblock Facebook ceo apologizes, lets users turn off beacon, 2007.
+
+\bibitem{googlebuzz}
+Wikipedia.
+\newblock Google buzz, 2011.
+
+\bibitem{user_privacy}
+Elena Zheleva and Lise Getoor.
+\newblock To join or not to join: the illusion of privacy in social networks
+  with mixed public and private user profiles.
+\newblock In {\em WWW '09: Proceedings of the 18th international conference on
+  World wide web}, pages 531--540, New York, NY, USA, 2009. ACM.
+
+\bibitem{barnes:privacy}
+Susan~B. Barnes.
+\newblock A privacy paradox: Social networking in the {United States}.
+\newblock {\em First Monday}, 11(9), September 2006.
+
+\bibitem{twitter-spam}
+Chris Grier, Kurt Thomas, Vern Paxson, and Michael Zhang.
+\newblock @spam: the underground on 140 characters or less.
+\newblock In {\em Proceedings of the 17th ACM conference on Computer and
+  communications security}, CCS '10, pages 27--37, New York, NY, USA, 2010.
+  ACM.
+
+\bibitem{SN-explore-spam}
+Markus Huber, Martin Mulazzani, Edgar Weippl, Gerhard Kitzler, and Sigrun
+  Goluch.
+\newblock Exploiting social networking sites for spam.
+\newblock In {\em Proceedings of the 17th ACM conference on Computer and
+  communications security}, CCS '10, pages 693--695, New York, NY, USA, 2010.
+  ACM.
+
+\bibitem{SN-automated-cheap-spam}
+Markus Huber, Martin Mulazzani, Sebastian Schrittwieser, and Edgar Weippl.
+\newblock Cheap and automated socio-technical attacks based on social
+  networking sites.
+\newblock In {\em Proceedings of the 3rd ACM workshop on Artificial
+  intelligence and security}, AISec '10, pages 61--64, New York, NY, USA, 2010.
+  ACM.
+
+\bibitem{social-spam-detection}
+Benjamin Markines, Ciro Cattuto, and Filippo Menczer.
+\newblock Social spam detection.
+\newblock In {\em Proceedings of the 5th International Workshop on Adversarial
+  Information Retrieval on the Web}, AIRWeb '09, pages 41--48, New York, NY,
+  USA, 2009. ACM.
+
+\bibitem{video-spam-youtube}
+Fabricio Benevenuto, Tiago Rodrigues, Virgilio Almeida, Jussara Almeida, Chao
+  Zhang, and Keith Ross.
+\newblock Identifying video spammers in online social networks.
+\newblock In {\em Proceedings of the 4th international workshop on Adversarial
+  information retrieval on the web}, AIRWeb '08, pages 45--52, New York, NY,
+  USA, 2008. ACM.
+
+\bibitem{neighborhood-attack}
+Bin Zhou and Jian Pei.
+\newblock Preserving privacy in social networks against neighborhood attacks.
+\newblock In {\em ICDE '08: Proceedings of the 2008 IEEE 24th International
+  Conference on Data Engineering}, pages 506--515, Washington, DC, USA, 2008.
+  IEEE Computer Society.
+
+\bibitem{1658958}
+Krishna~P.N. Puttaswamy, Alessandra Sala, and Ben~Y. Zhao.
+\newblock Starclique: guaranteeing user privacy in social networks against
+  intersection attacks.
+\newblock In {\em CoNEXT '09: Proceedings of the 5th international conference
+  on Emerging networking experiments and technologies}, pages 157--168, New
+  York, NY, USA, 2009. ACM.
+
+\bibitem{group-deanonymization-attack}
+Gilbert Wondracek, Thorsten Holz, Engin Kirda, and Christopher Kruegel.
+\newblock A practical attack to de-anonymize social network users.
+\newblock {\em Security and Privacy, IEEE Symposium on}, 0:223--238, 2010.
+
+\bibitem{anony-link-attack}
+Lars Backstrom, Cynthia Dwork, and Jon Kleinberg.
+\newblock Wherefore art thou r3579x?: anonymized social networks, hidden
+  patterns, and structural steganography.
+\newblock In {\em WWW '07: Proceedings of the 16th international conference on
+  World Wide Web}, pages 181--190, New York, NY, USA, 2007. ACM.
+
+\bibitem{identity-theft-attack}
+Leyla Bilge, Thorsten Strufe, Davide Balzarotti, and Engin Kirda.
+\newblock All your contacts are belong to us: automated identity theft attacks
+  on social networks.
+\newblock In {\em WWW '09: Proceedings of the 18th international conference on
+  World wide web}, pages 551--560, New York, NY, USA, 2009. ACM.
+
+\bibitem{sybil-attack}
+John~R. Douceur.
+\newblock The sybil attack.
+\newblock In {\em Revised Papers from the First International Workshop on
+  Peer-to-Peer Systems}, IPTPS '01, pages 251--260, London, UK, 2002.
+  Springer-Verlag.
+
+\bibitem{1608132}
+Arvind Narayanan and Vitaly Shmatikov.
+\newblock De-anonymizing social networks.
+\newblock In {\em SP '09: Proceedings of the 2009 30th IEEE Symposium on
+  Security and Privacy}, pages 173--187, Washington, DC, USA, 2009. IEEE
+  Computer Society.
+
+\bibitem{privacy-wizard}
+Lujun Fang and Kristen LeFevre.
+\newblock Privacy wizards for social networking sites.
+\newblock In {\em WWW '10: Proceedings of the 19th international conference on
+  World wide web}, pages 351--360, New York, NY, USA, 2010. ACM.
+
+\bibitem{crypto-collaborative-ac}
+Barbara Carminati and Elena Ferrari.
+\newblock Privacy-aware collaborative access control in web-based social
+  networks.
+\newblock In Vijay Atluri, editor, {\em Data and Applications Security XXII},
+  volume 5094 of {\em Lecture Notes in Computer Science}, pages 81--96.
+  Springer Berlin / Heidelberg, 2008.
+
+\bibitem{rule-based-ac}
+Barbara Carminati, Elena Ferrari, and Andrea Perego.
+\newblock Rule-based access control for social networks.
+\newblock In Robert Meersman, Zahir Tari, and Pilar Herrero, editors, {\em On
+  the Move to Meaningful Internet Systems 2006: OTM 2006 Workshops}, volume
+  4278 of {\em Lecture Notes in Computer Science}, pages 1734--1744. Springer
+  Berlin / Heidelberg, 2006.
+
+\bibitem{Anwar_visualizingprivacy}
+Mohd Anwar, Philip W.~L. Fong, Xue dong Yang, and Howard Hamilton.
+\newblock Visualizing privacy implications of access control policies in social
+  network systems.
+
+\bibitem{Felt08privacyprotection}
+Adrienne Felt and David Evans.
+\newblock Privacy protection for social networking apis, 2008.
+
+\bibitem{xbook-social-platform}
+Kapil Singh, Sumeer Bhola, and Wenke Lee.
+\newblock xbook: redesigning privacy control in social networking platforms.
+\newblock In {\em Proceedings of the 18th conference on USENIX security
+  symposium}, SSYM'09, pages 249--266, Berkeley, CA, USA, 2009. USENIX
+  Association.
+
+\bibitem{social-spammer-machine-learning}
+Kyumin Lee, James Caverlee, and Steve Webb.
+\newblock Uncovering social spammers: social honeypots + machine learning.
+\newblock In {\em Proceeding of the 33rd international ACM SIGIR conference on
+  Research and development in information retrieval}, SIGIR '10, pages
+  435--442, New York, NY, USA, 2010. ACM.
+
+\bibitem{SN-detect-spam}
+Gianluca Stringhini, Christopher Kruegel, and Giovanni Vigna.
+\newblock Detecting spammers on social networks.
+\newblock In {\em Proceedings of the 26th Annual Computer Security Applications
+  Conference}, ACSAC '10, pages 1--9, New York, NY, USA, 2010. ACM.
+
+\bibitem{SN-spam-campaigns}
+Hongyu Gao, Jun Hu, Christo Wilson, Zhichun Li, Yan Chen, and Ben~Y. Zhao.
+\newblock Detecting and characterizing social spam campaigns.
+\newblock In {\em Proceedings of the 10th annual conference on Internet
+  measurement}, IMC '10, pages 35--47, New York, NY, USA, 2010. ACM.
+
+\bibitem{social-phishing}
+Tom~N. Jagatic, Nathaniel~A. Johnson, Markus Jakobsson, and Filippo Menczer.
+\newblock {Social phishing}.
+\newblock {\em Commun. ACM}, 50(10):94--100, 2007.
+
+\bibitem{ppdp-survey}
+Benjamin C.~M. Fung, Ke~Wang, Rui Chen, and Philip~S. Yu.
+\newblock Privacy-preserving data publishing: A survey of recent developments.
+\newblock {\em ACM Comput. Surv.}, 42:14:1--14:53, June 2010.
+
+\bibitem{user-interaction-social-link}
+Christo Wilson, Bryce Boe, Alessandra Sala, Krishna~P.N. Puttaswamy, and Ben~Y.
+  Zhao.
+\newblock User interactions in social networks and their implications.
+\newblock In {\em Proceedings of the 4th ACM European conference on Computer
+  systems}, EuroSys '09, pages 205--218, New York, NY, USA, 2009. ACM.
+
+\bibitem{privacy-sensitive-edge}
+Lian Liu, Jie Wang, Jinze Liu, and Jun Zhang.
+\newblock Privacy preservation in social networks with sensitive edge weights.
+\newblock In {\em SDM}, pages 954--965, 2009.
+
+\bibitem{real-life-social-network}
+Paul Adams.
+\newblock The real life social network.
+\newblock 2010.
+
+\bibitem{SN-seven-deadly-attacks}
+Carl Timm and Richard Perez.
+\newblock {\em Seven Deadliest Social Network Attacks}.
+\newblock Syngress Publishing, 2010.
+
+\bibitem{socialnet:setting}
+Amanda Lenhart.
+\newblock Adults and social network websites, January 2009.
+
+\bibitem{privacy:paradox:revisit}
+Nicole~Krämer Sonja~Utz.
+\newblock The privacy paradox on social network sites revisited: The role of
+  individual characteristics and group norms, 2009.
+
+\end{thebibliography}
