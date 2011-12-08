@@ -1,5 +1,5 @@
-%% this is the bib file by simon; 
-%% Created on June 28th, 2010; 
+%% this is the bib file by simon;
+%% Created on June 28th, 2010;
 \documentclass[a4paper]{article}
 \usepackage{geometry}
 \usepackage{fancyhdr}
@@ -7,17 +7,18 @@
 \usepackage{booktabs}
 \usepackage{graphicx}
 \usepackage{amsthm}
+\usepackage{array}
 \geometry{top=1.3in, bottom=1.3in, left=1.2in, right=1.2in}
 
 % defs.
 \newtheorem{simondef}{Definition}
 
-% Start of doc. 
+% Start of doc.
 \begin{document}
 
 \title{Perceived and Realized Risk of Online Social Networks}
 
-\maketitle 
+\maketitle
 
 \begin{abstract}
 With the fast development of Online Social Networks (OSN), privacy
@@ -75,30 +76,30 @@ profile items according to potential benefits and risks.
 % And we argue that the privacy risk is also based on the probability
 % that a certain profile item is visited by another OSN user. We model
 % this probability as a random walk process over all the potential
-% social network users. 
+% social network users.
 
 % In summary, by integrating social benefits and potential risks, our
 % model tells the relative privacy risks of social network users for
-% specific profile setting. 
+% specific profile setting.
 
 \section{Introduction}
-% background of social networks. 
+% background of social networks.
 In recent years, online social networking is becoming a popular life
 style for many users. [rewrite benefits of social networking, it
 provides people a virtual world for social relations. In order to
 enjoy these benefits, users have to disclose their personal
-information to allow other users search, identify and link them. 
+information to allow other users search, identify and link them.
 
 % people are providing their personal
 % information to enjoy the benefits of these social sites. While, on the
 % other hand, the risks of privacy breach through social network becomes
-% and urgent and a more and more of public concern. 
+% and urgent and a more and more of public concern.
 
 % privacy risks caused by using of social networks.
 Disclosing private information also raises certain risks such as
 information spam \cite{}, insurance discrimination \cite{}, and
 finacial fraud \cite{identity-theft-attack}. \textbf{[some examples
-  show how malicious 
+  show how malicious
 parties can use the private information to damage users' interests.]
 To be added later} These examples may educate people how risk to
 disclose personal information. People are more and more aware of the
@@ -135,7 +136,7 @@ the damages caused by disclosing them. A comprehensive approach is to
 understand all the possible attacks that utilize the exposed personal
 information and then evaluate the overall damages of disclosing a
 profile item. We refer the privacy risk defined by this approach as
-\emph{real privacy risk}, which is our long-term goal. 
+\emph{real privacy risk}, which is our long-term goal.
 
 Alternatively, it is also useful to learn what people feel about
 privacy risks. The hypothesis is that most people have taken the risk
@@ -149,29 +150,29 @@ The privacy risk is not \emph{realized}, if the profile item is not
 seen by another user. We argue that the probability of a profile item
 is seen is determined by the user's privacy setting and the structure
 of his/her social network. Therefore, we also study how network
-structure affects the realized privacy risk. 
+structure affects the realized privacy risk.
 
 In this paper, we study the perceived privacy risk with real facebook
 data and build a model for estimating the expectation of realized
-privacy risk. This paper has three unique contributions. 
+privacy risk. This paper has three unique contributions.
 \begin{itemize}
 \item We believe that privacy setting of social network profile items
   is not only a personal preference, but also related to the risks
   associated with exposing the specific profile items. A better
   understanding of the privacy risk can be built around the concepts
   such as real privacy risks, perceived privacy risk, and realized
-  privacy risk. 
+  privacy risk.
 
 \item We propose an empirical method to study users' implicit
   judgements on the privacy risk, with which we can guide new users of
   social networks or existing users unaware of privacy risks to
-  evaluate their privacy settings. 
+  evaluate their privacy settings.
 
 \item We propose a network based model fro estimating the expected
   realized privacy risk. With this model and the privacy risk measure
   (either real or perceived), a user can estimate the potential
   privacy risk by disclosing one specific item to different levels of
-  audience. 
+  audience.
 \end{itemize}
 
 %% what is our model of privacy score and our contributions.
@@ -179,7 +180,7 @@ privacy risk. This paper has three unique contributions.
 % question, to quantify the benefits and risks of engaging in social
 % networks. Without loss of generality, we use Facebook as our main
 % target for analysis. Similar models can be extend to other social
-% networks. 
+% networks.
 
 % We argue that the main driving force for people to join in a social
 % network is the benefit provided by such networks, and the disclosure
@@ -187,13 +188,13 @@ privacy risk. This paper has three unique contributions.
 % risks which is negative from a user's point of view. We try to
 % integrate these two together and define privacy as combination of
 % positive social network benefits as well as negative social network
-% privacy risks. 
+% privacy risks.
 
 % We define privacy as a probablistic problem , which considers user as
 % in a network and privacy risks happens when the user is visited by
-% another user. We call this model realized privacy. 
+% another user. We call this model realized privacy.
 
-% % Contribution of our work. 
+% % Contribution of our work.
 % It has been shown that users of social network state that they are
 % worried about their privacy, but put at the same time detailed
 % personal information on their profiles\cite{barnes:privacy}. We are
@@ -203,14 +204,14 @@ privacy risk. This paper has three unique contributions.
 % networks; and on the other hand, we consider the probablistically
 % realized privacy, which puts user in a social network and privacy can
 % be realized when another user visits him. We use real data extracted
-% from facebook to fit our model. 
+% from facebook to fit our model.
 
-% % orgnization of the whole paper. 
+% % orgnization of the whole paper.
 % Organization of the paper is as follows. Part II introduces related
 % with of social network privacy. Part III defines notations of our
 % social network privacy model. Part IV presents our model and part V
 % presents our data and experimental results. And part VI concludes the
-% paper by pointing out our future work and related issues. 
+% paper by pointing out our future work and related issues.
 
 % \section{Related Work\label{sec:relatedwork}}
 % In recent years, research community has been trying hard to deal with
@@ -220,13 +221,13 @@ privacy risk. This paper has three unique contributions.
 % attack analysis \cite{neighborhood-attack, 1658958,
 %   group-deanonymization-attack, anony-link-attack,
 %   identity-theft-attack, sybil-attack, 1608132} etc., which are also
-% directly related to traditional 
+% directly related to traditional
 % web privacy and security. Fang et al. \cite{privacy-wizard} proposes a
 % classification model to help social network users automate the privacy
 % related settings. Social network privacy control is also considered an
 % access control problem. Carminati et
 % al. \cite{crypto-collaborative-ac, rule-based-ac} propose client-based
-% semi-decentralized access 
+% semi-decentralized access
 % control model, access is granted based on the attestation of access
 % authorization by the access requestor. Mohd et
 % al. \cite{Anwar_visualizingprivacy} proposes a reflective policy
@@ -239,9 +240,9 @@ privacy risk. This paper has three unique contributions.
 % associated with social network APIs through proxy. Singh et
 % al. \cite{xbook-social-platform} propose an information flow model to
 % control what untrusted applications can do with the information they
-% receive. 
+% receive.
 
-% Attempts to quantify social network risks have also been tried. 
+% Attempts to quantify social network risks have also been tried.
 % Justin et al. \cite{measure-privacy-risk} propose a model to quantify
 % privacy risks of a social network user by infering from his/her
 % friends. Kun et al. \cite{SN-privacy-score} proposed a framework to
@@ -251,7 +252,7 @@ privacy risk. This paper has three unique contributions.
 % and another is visibility, which measures how many people will view
 % the profile item.
 
-% % how to differentiate our work with other people's work? 
+% % how to differentiate our work with other people's work?
 % Our work is most related to the work done by Kun et al.. However, our
 % work provides novel contribution to the research of this field. First,
 % we consider the social network privacy as well as social network
@@ -260,9 +261,9 @@ privacy risk. This paper has three unique contributions.
 % considerations are pratical in reality. Second, we propose realized
 % privacy, which considers the fact that privacy risk happens when
 % another user visits this private information. And we make attempt to
-% use real data from facebook to fit our model. 
+% use real data from facebook to fit our model.
 
-% defining social network. 
+% defining social network.
 \section{Definitions and Notations}
 % define social network structure,
 % define profile items, notations, and the choice of setting and its
@@ -272,14 +273,14 @@ We define social network as a directed graph $\mathcal{G}=(U,F)$,
 where $U$ is the set of users in the social network, and we use $N$ to
 denote the number of users of the social network, and $F$ is a set of
 edges that represent friendship in social networks. We use $u_i, 1\leq
-i\leq N$ to represent a user in social network, 
+i\leq N$ to represent a user in social network,
 $f_{ij}:u_i\rightarrow u_j, i,j\in \{1,2,\ldots,N\}$ to represent the
 friendship between user $u_i$ and user $u_j$.
-% Nodes in graph $\mathcal{G}$ are connected through 
+% Nodes in graph $\mathcal{G}$ are connected through
 %links, which correspondes to friendships in social networks. And for
 %simplicity purposes, we consider friendships as a directed link denoted
 
-% modeling social friendship network as micro-communities. 
+% modeling social friendship network as micro-communities.
 In a social network, user $u_i$ has $N_i$ friends, and these friends
 form a micro-community denoted as $\mathcal{C}_F=\{u_j|\exists u_i\rightarrow
 u_j, 1\leq j\leq N_i\}$, and friends of these friends form a even larger
@@ -298,16 +299,16 @@ $\mathcal{C}_{USER} = u_i$. The community is illustrated in Figure
   \label{fig:social_circle}
 \end{figure}
 
-% modeling social network profiles and items. 
+% modeling social network profiles and items.
 Every node $u_i$ in social network $\mathcal{G}$ has $P_i$ number of
 features $F_{i}=\{f_{ij}|1\leq j\leq P_i\}$. These
 features, in social network, corresponds to the profile items of a
 user, e.g. name, date of birth, address, education etc., which are the
 identities of user $u_i$ in the social network. Profile items
 are basic information for social interaction and can also be used by
-social network providers to provide personalized 
+social network providers to provide personalized
 services such as friends recommendation, search and targetted
-advertising. 
+advertising.
 
 Usually, social networks require a minimum number of items upon
 registration, for example, sex, birthday etc.. And other optional
@@ -319,7 +320,7 @@ profile item $f_{ij}$ as $s_{ij}$. For example, Facebook provides
 settings that include only me, friends only, friends of friends and
 everybody from the most conservative to the most open. So for the case
 of facebook, we have $s_{ij}\in \{S_{me},S_f,S_{fof},S_{all}\}$. And
-we will use these levels of settings in our privacy model. 
+we will use these levels of settings in our privacy model.
 Although Facebook also provide finer grained privacy setting by
 specifying specific users to view a certain profile item, in our model
 we ignore this situation and will leave it for future work. The
@@ -327,41 +328,96 @@ meaning and corresponding audiences of each privacy settings are
 listed in Table \ref{tbl:setting}.
 
 % a table showing the meaning of each privacy level and related
-% audiences. 
+% audiences.
 \begin{table}[h]
   \centering
   \begin{tabular}{l|l}
-    \toprule 
+    \toprule
     \textbf{Access Setting} & \textbf{Audiences} \\ \toprule
-    Only Me($S_{me}$) & $\mathcal{C}_{USER}$\\ \midrule 
-    Friends ($S_f$) & $\mathcal{C}_F$ \\ \midrule 
-    Friends of Friends ($S_{fof}$) & $\mathcal{C}_{FOF}$ \\ \midrule 
-    Everybody $(S_{all})$ & $\mathcal{C}_{ALL}$ \\ \bottomrule 
+    Only Me($S_{me}$) & $\mathcal{C}_{USER}$\\ \midrule
+    Friends ($S_f$) & $\mathcal{C}_F$ \\ \midrule
+    Friends of Friends ($S_{fof}$) & $\mathcal{C}_{FOF}$ \\ \midrule
+    Everybody $(S_{all})$ & $\mathcal{C}_{ALL}$ \\ \bottomrule
   \end{tabular}
   \caption{Profile Item Access Setting and Corresponding Audiences.}
   \label{tbl:setting}
 \end{table}
 
+\section{The Item Response Theory Model}
+In this section, we will have a brief review of the item response theory(IRT). The original IRT model is only used to model dichotomous tests, which include only correct or incorrect outcomes. The polytomous model was proposed to handle cases with multiple outcomes.
+
+Item Response Theory is a paradigm for the design, analysis, scoring of tests and questionnaires measuring abilities, attitudes and other variables. It is based on the idea that the probability of a correct response to an item is mathematically determined by some parameters of persons and items. The person parameter is usually called latent trait, ability or the strength of an attitude.
+
+The common approach to test the ability of an examinee is to develop a test consisting a number of items, each item is used to test a certain ability of interest, the items are dichotomously scored such that correct answers with get score of ones and zeros for incorrect answers. The probability that an examinees can correctly answers an question is determined on the one hand by the ability of the examinee, and by the item difficulty on the other hand. The ability is denoted as $\theta$ and the probability of answering an question item correct with ability $\theta$ is $P(\theta)$. And for a specific test item $P(\theta)$ will be larger for high ability examinees and lower for low ability examinees.
+
+%How to use IRT for test analysis.
+\subsection{Application of test analysis of IRT model}
+Two general processes are involved for IRT to be used in test analysis.
+\begin{enumerate}
+    \item Test calibration.
+        The test calibration stage is used to determine the item characteristic curve(ICC) for a specific test item. Alan Birnbaum proposed a two stage iterative method with maximum likelihood estimation. In one stage the parameters of N items in a test are estimated and in the second stage, the ability parameters of the M examinees are estimated. These two stages are performed iteratively until a stable set of parameter sets are obtained. At that point, a test has been calibrated and a ability scale metric defined.
+
+    \item Examinee ability prediction with the IRT model.
+        The task of this step is to estimate the ability of an examinee with a test. Let's suppose a test with N item is given a an examinee, and the examinee responses to each of these questions resulting in a dichotomous score vector for this test. By using the test score as a prior ability of the examinee and along with the parameters of each item, we can iteratively estimate the ability of an examinee with maximum likelihood estimation with the following formula.
+        \[ \hat{\theta}_{s+1} = \hat{\theta}_{s} + \frac{\sum_{i=1}^N-a_i[u_i - P_i(\hat{\theta}_s)]}{\sum_{i=1}^Na_i^2P_i(\hat{\theta}_s)Q_i(\hat{\theta}_s) } \]
+        where $\hat{\theta}_s$ is the estimated ability of the examinee within iteration $s$; $a_i$ is the discrimination parameter of item $i\in \{1,2,\ldots,N\}$; $u_i$ is the response made by the examinee to item $i$; $P_i(\hat{\theta}_s)$ is the probability of item $i$ under the given item characteristic curve model, at ability level $\hat{\theta}$ within iteration $s$; and $Q_i(\hat{\theta}_s)=1-P_i(\hat{\theta}_s)$ is the probability of incorrect response to item $i$, under the given item characteristic model, at ability level $\hat{\theta}$ within iteration $s$.
+        An example is shown shown in figure \ref{fig:predict-ability}.
+        \begin{figure}
+            \includegraphics{ability.jpg}
+            \caption{Ability estimation using a test with five items.}
+            \label{fig:predict-ability}
+        \end{figure}
+\end{enumerate}
+
+\textbf{The One parameter IRT model} \\
+This IRT model has only one parameter $b$, and can be shown as in Eq \ref{eqn:1pl}.
+\begin{equation}
+    P(\theta|b) = \frac{1}{1+e^{-(\theta - b)}}
+    \label{eqn:1pl}
+\end{equation}
+
+\textbf{The Two parameter IRT model}\\
+This model has an ability parameter and a discrimination parameter. 
+\begin{equation}
+    P(\theta|a,b) = \frac{1}{1+e^{-a(\theta - b)}}
+    \label{eqn:2pl}
+\end{equation}
+
+\textbf{The Three Parametric Model} \\ 
+\begin{equation}
+    P(\theta|a,b,c) = c + (1-c)\frac{1}{1+e^{-a(\theta - b)}}
+    \label{eqn:3pl}
+\end{equation}
+
+\subsection{Concrete example}
+\[\begin{array}{ccccc}
+  1 & 1 & 1 & 1 & 1 \\
+  0 & 1 & 1 & 1 & 1 \\
+  0 & 0 & 1 & 1 & 1 \\
+  0 & 0 & 0 & 1 & 1 \\
+  0 & 0 & 0 & 0 & 1 
+\end{array}
+\]
 \section{Exploring Perceived Privacy Risk}
-% describe real privacy risk and perceived privacy risk. 
-% why do we want to study perceived privacy risk. 
+% describe real privacy risk and perceived privacy risk.
+% why do we want to study perceived privacy risk.
 % how do we do that? Procedure/algorithm, the use of IRT model to
-% derive latent variables. 
+% derive latent variables.
 % users' settings is a tradeoff between risk and benefit - how to
-% incorporate this tradeoff into the model. 
-% what is social network works and how to get it from data? 
+% incorporate this tradeoff into the model.
+% what is social network works and how to get it from data?
 Risks and attacks of online social network reflect the potential
 damage to social network users. And users are learning, they start to
 make careful decisions about what information to put online under
 which circumstances, at the same time, more and more people are
-changing to a more restrictive privacy setting \cite{socialnet:setting}. 
+changing to a more restrictive privacy setting \cite{socialnet:setting}.
 Usually, social network users will have risk considerations in
-mind when disclosing their private information 
+mind when disclosing their private information
 on the social network. And it has been shown
-\cite{privacy:paradox:revisit} that stronger privacy 
-concerns resulted in more restrictive profile settings. 
+\cite{privacy:paradox:revisit} that stronger privacy
+concerns resulted in more restrictive profile settings.
 
-% defining perceived risk. 
+% defining perceived risk.
 \begin{simondef}
 Perceived risk is the direct reflection of
 user's opinion on how sensitive a specific profile item is to
@@ -372,68 +428,68 @@ on social network.
 \section{Modeling Realized Privacy Risk}
 % argument: privacy risk is not realized until the user exposes the
 % profile item to other users. The user setting (F,FoF, E) determines
-% different levels of realized privacy risk. 
+% different levels of realized privacy risk.
 % a Bayesian model: expected realized privacy risk = privacy risk
-% measure * Prob(user attacks) 
-% Prob(user attacks) = 
-% case 1. Expose to F only. sum Prob(friend i attacks)  
+% measure * Prob(user attacks)
+% Prob(user attacks) =
+% case 1. Expose to F only. sum Prob(friend i attacks)
 % case 2. Expose to FoF. Sum Prob(friend i attacks) + sum Prob(FoF i attacks)
 % case 3. Expose to everybody. Sum Prob(friend i attacks) + sum
-% Prob(FoF i attacks) + sum Prob(everybody else i attacks) 
+% Prob(FoF i attacks) + sum Prob(everybody else i attacks)
 
 % Prob(user attacks) = Prob(user attacks|user visits your profile
-% item)* prob(user visits).  
+% item)* prob(user visits).
 
 % prob(user visits) is defined by the network structure
 % i.e., prob(friend i visits) is determined by how many friends that
-% friend i has (n_{f_i}) and make it uniform (1/ n_{f_i}) 
+% friend i has (n_{f_i}) and make it uniform (1/ n_{f_i})
 % prob (fof i visits) = \sum prob(fof i visits neighbor j) prob (from
-% neighbor j to you)  
+% neighbor j to you)
 % prob (everybody else visits) = prob(search your name) + prob(find
 % you through the f/fof/fofof/… links)
 % analyze each probs and you may make assumption on some probs such as
-% prob(search your name).  
-% The realized social network privacy. 
+% prob(search your name).
+% The realized social network privacy.
 \subsection{Realized Social Network Privacy}
-% definition of privacy realized upon .... 
+% definition of privacy realized upon ....
 \begin{simondef}
 The social benefits and/or social risks
 of user $u_i$ are realized when user $u_j, j\neq i$ visits the profile
 item $f_{ij}$ of $u_i$, and we call the the social network privacy of
-$u_i$ is realized upon event $e_{u_j\rightarrow u_i}$. 
+$u_i$ is realized upon event $e_{u_j\rightarrow u_i}$.
 \end{simondef}
 
-% probabilistic realization of privacy. 
+% probabilistic realization of privacy.
 We define the probability that the profile item $f_{im}$ of user $u_i$
-is visited by user $u_j$ as $p_{jim}$. 
+is visited by user $u_j$ as $p_{jim}$.
 
 Use $b_{jim}$ to denote benefit of $u_j$ access profile item $f_{im}$
-of $u_i$. 
+of $u_i$.
 
 % defining realized social benefits.
-The realized benefit of user $u_i$ is defined as: 
+The realized benefit of user $u_i$ is defined as:
 
 \[ \mathcal{B}_i = \alpha_i \sum_{m\in \{1,2,\ldots,N_i\}}\sum_{j\in
-  \mathcal{C}}b_{jim}\times p_{jim} \] 
+  \mathcal{C}}b_{jim}\times p_{jim} \]
 
 where $\alpha_i$ is parameter specific to each user, $N$ is the number
 of items that user $u_i$ has, and $\mathcal{C}\in \{\mathcal{C}_{USER},
 \mathcal{C}_{F}, \mathcal{C}_{FOF} \mbox{ and } \mathcal{C}_{ALL}\}$
-is the community of friendship. 
+is the community of friendship.
 
-% defining realized risk. 
+% defining realized risk.
 
-The realized risk of user $u_i$ is defined as: 
+The realized risk of user $u_i$ is defined as:
 
 \[ \mathcal{R}_i = \beta_i \sum_{m\in \{1,2,\ldots,N_i\}}\sum_{j\in
-  \mathcal{C}} r_{jim}\times p_{jim} \] 
+  \mathcal{C}} r_{jim}\times p_{jim} \]
 
 where $\beta_i$ is the risk factor for user $u_i$, $r_{jim}$ is the
 risk when $u_j$ visits profile item $f_{im}$ of user $u_i$, and
 $p_{jim}$ is the probability of user $u_j$ visits profile item
-$f_{im}$ of user $u_i$. 
+$f_{im}$ of user $u_i$.
 
-% defining the probability of visiting. 
+% defining the probability of visiting.
 For every friend $u_j,j\in \{1,\ldots,N_i\}$ of
 user $u_i$, the probability that $u_j$ visits $u_i$ is determined by
 the number of friends $u_j$ has. And by assuming the simplest equal
@@ -444,7 +500,7 @@ For every friend of friend $u_j,j\in \{1,\ldots,N_i\}$ of
 user $u_i$, the probability that $u_j$ visits $u_i$ is determined by
 the number of friends of friends $u_j$ has. And by assuming the simplest equal
 probability model we have $p_{ji}=\frac{1}{\sum_{k=1}^{N_j}N_k}$,
-where $N_k$ is the number of friends of $u_j$'s friend $u_k$ has. 
+where $N_k$ is the number of friends of $u_j$'s friend $u_k$ has.
 
 \subsection{Deriving Benefit $b_{jim}$ From Perceived Benefit}
 Social network benefit should be a perception of $u_i$ about the
@@ -452,7 +508,7 @@ benefit he can get by setting a certain privacy level. So, it is user
 specific. So, $b_{jim} = o_{jim}$, where $o_{jim}$ is the observed
 benefit when $u_j$ visits profile item $f_{im}$ of $u_i$, which is
 actually the specific setting of privacy level for profile item
-$f_{im}$ of user $u_i$. 
+$f_{im}$ of user $u_i$.
 
 \subsection{Deriving Risk $r_{jim}$ From Perceived Risk}
 Social network risk $r_{jim}$, is a natural property of a profile item
@@ -461,22 +517,22 @@ profile items are more risky than others in nature. Example,
 \emph{phone number} is more risky than \emph{education}. So, by this
 defnition, we can rewrite $r_{jim}$ as $r_m$. We say that profile item
 $f_m$ is more \emph{risky} when more people set this item to be a more
-restrictive privacy level. 
+restrictive privacy level.
 
 % A linear model to derive profile item risk from observed privacy
 % setting.
 By using linear model, assign integer values to each privacy level
 $\mathcal{S}\in \{\mathcal{S}_{me}=1, \mathcal{S}_{f}=2,
 \mathcal{S}_{fof}=3, \mathcal{S}_{all}=4\}$, we can define $r_m$ as
-mean value of aggregated privacy level settings. 
+mean value of aggregated privacy level settings.
 \[ r_m = \frac{1}{N} \sum_{i=1}^No_{im} \]
 where $o_{im}$ is observed privacy setting of profile item $f_{im}$
-of $u_i$. 
+of $u_i$.
 
-% Exponetial model 
+% Exponetial model
 \subsection{Item Response Theory (IRT) model}
-IRT 
-We use the two parametric logistic model to fit our privacy framework. 
+IRT
+We use the two parametric logistic model to fit our privacy framework.
 
 \[ P_{ij}(\theta) = \frac{e^{\alpha_i(\theta - \beta_j)}}
 {1+e^{\alpha_i(\theta - \beta_j)}} \]
@@ -484,7 +540,7 @@ We use the two parametric logistic model to fit our privacy framework.
 $P_{ij}(\theta)$ is the probability that the privacy setting for
 profile item $f_{ij}$ of user $u_i$
 can satisfy his/her expectation of using social network,
-$\alpha_i$ is the social network benefit expectation 
+$\alpha_i$ is the social network benefit expectation
 factor, which can be seen as a factor of openness of user $u_i$ and/or
 benefit expectation of using the social network; $\beta_j$ is the risk
 level for profile item $f_j$. And $\theta$ is the observed privacy
@@ -494,18 +550,18 @@ We expect that, when fixed risk levels $\beta_j$, the higher
 $\alpha_i$, the harder to get satisfied; and when fixed $\alpha_i$,
 less risky profile items can be easily satisfied. Figure \ref{fig:irta}
 and Figure \ref{fig:irtb} have better illustration of these
-expectations. 
+expectations.
 \begin{figure}[H]
   \centering
   \includegraphics[width=.7\textwidth]{IRT-a.jpg}
-  \caption{Satisfaction With different perception level.} 
+  \caption{Satisfaction With different perception level.}
   \label{fig:irta}
-\end{figure} 
+\end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=.7\textwidth]{IRT-b.jpg}
-  \caption{Satisfaction With different profile risk level.} 
+  \caption{Satisfaction With different profile risk level.}
   \label{fig:irtb}
 \end{figure}
 
@@ -514,7 +570,7 @@ benefit expectation factor $\alpha_i$ and risk $\beta_j$.
 
 \section{Experiments}
 % describe how you derive the perceived privacy risk with the data
-% from facebook. 
+% from facebook.
 % use some materials in your previous reports.
 Facebook is one of the largest social networking sites, with more than
 800 million users\cite{facebookwiki} and it provides a very
@@ -560,19 +616,19 @@ al. \cite{xbook-social-platform} propose an information flow model to
 control what untrusted applications can do with the information they
 receive.
 
-% Privacy attacks. 
+% Privacy attacks.
 Spamming, phishing and attack of social network sites is another topic
-that is related with 
+that is related with
 privacy. Kyumin Lee et al. \cite{social-spammer-machine-learning},
 Stringhini et al. \cite{SN-detect-spam}, Gao, Hongyu et
 al. \cite{SN-spam-campaigns} and Huber, Markus et
-al. \cite{SN-explore-spam}. It is found that the 
+al. \cite{SN-explore-spam}. It is found that the
 identified spam data contains contents that are strongly correlated
 with observable profile features. Tom Jagatic et al. \cite{social-phishing}
 studied phishing attacks by using the publicly available personal
 information from social networks. They find that the phishing attack
 was easy and effective with a success rate of $72\%$. Bilge, Leyla et
-al.\cite{identity-theft-attack} studied identity 
+al.\cite{identity-theft-attack} studied identity
 theft attacks, and find that existing users of OSN can be
 compromised, and their identity can be used to request friendship with
 other cloned victims. Lars Backstrom et al. \cite{anony-link-attack}
@@ -582,9 +638,9 @@ context of anonymized data publication. Besides, social network
 friendship can also bring privacy threats to social network
 users. \cite{user-interaction-social-link} and
 \cite{neighborhood-attack} studied the risks that social interaction
-and frienship can bring. 
+and frienship can bring.
 
-% privacy setting problems. 
+% privacy setting problems.
 With the increasing concern of users and various social network
 incidents, social network sites are pressed to provide more and more
 finer grained privacy control configurations. For example, facebook
@@ -593,9 +649,9 @@ hand, although user awareness of social network users are increasing,
 and more and more users change their privacy settings. It is hard for
 them to fully understand and configure these settings. Fang Lujun et
 al. \cite{privacy-wizard} propose a machine learning based method to
-help users automatically make the settings. 
+help users automatically make the settings.
 
-% Attempts to quantify social network risks have also been tried. 
+% Attempts to quantify social network risks have also been tried.
 % Justin et al. \cite{measure-privacy-risk} propose a model to quantify
 % privacy risks of a social network user by infering from his/her
 % friends. Kun et al. \cite{SN-privacy-score} proposed a framework to
@@ -605,7 +661,7 @@ help users automatically make the settings.
 % and another is visibility, which measures how many people will view
 % the profile item.
 
-% % how to differentiate our work with other people's work? 
+% % how to differentiate our work with other people's work?
 % Our work is most related to the work done by Kun et al.. However, our
 % work provides novel contribution to the research of this field. First,
 % we consider the social network privacy as well as social network
@@ -614,9 +670,9 @@ help users automatically make the settings.
 % considerations are pratical in reality. Second, we propose realized
 % privacy, which considers the fact that privacy risk happens when
 % another user visits this private information. And we make attempt to
-% use real data from facebook to fit our model. 
+% use real data from facebook to fit our model.
 
-% what is realized privacy. 
+% what is realized privacy.
 
 % Online Social network is a complex system, and there are many factors
 % that can cause privacy breach, for example, malicious users who aim to
@@ -630,43 +686,43 @@ help users automatically make the settings.
 % our social network model, (a) all friends of user $u_i$ which is in
 % $\mathcal{C}_F$ have equal importance to user $u_i$; (b) user $u_i$
 % has equal probability to visit his/her friends $\mathcal{C}_F$ and
-% friends of friends $\mathcal{C}_{FOF}$. 
+% friends of friends $\mathcal{C}_{FOF}$.
 
-% % privacy model. 
-% \section{The Social Network Privacy Model} 
+% % privacy model.
+% \section{The Social Network Privacy Model}
 % % defining and modeling social network benefits with regard to profile
-% % item settings. 
+% % item settings.
 % \subsection{Social Benefits}
-% % defining social network benefits. 
+% % defining social network benefits.
 % \begin{simondef}
 % Benefits of social network is the positive gain by using
-% social networks, such as keeping contact between friends. 
+% social networks, such as keeping contact between friends.
 % \end{simondef}
 
-% % defining social risks with profile item settings. 
+% % defining social risks with profile item settings.
 % \subsection{A Review of Social Networks Risks}
 % Risks of social network is about the potential privacy damage cause by
 % using social networks. Such as the lost of private information
 % e.g. SSN. Usually, malicious users use various social attacks to
 % achieve this goal. In this section, we will review attacks of social
-% networks. 
+% networks.
 
-% % Spamming 
+% % Spamming
 % Spammers and content polluters are threatening privacy of OSN
 % users. Studies on the features of social spam and measures to
-% effectively filter out these spams has been studied by Kyumin Lee et 
+% effectively filter out these spams has been studied by Kyumin Lee et
 % al. \cite{social-spammer-machine-learning}, Stringhini et
 % al. \cite{SN-detect-spam}, Gao, Hongyu et
 % al. \cite{SN-spam-campaigns} and Huber, Markus et
-% al. \cite{SN-explore-spam}. They find that the 
+% al. \cite{SN-explore-spam}. They find that the
 % identified spam data contains contents that are strongly correlated
 % with observable profile features. This finding tells us that spammers
 % are trying to improve their spamming success rate by gleaning user
 % profile information using various ways, and then do context based
 % spamming. Once successful, users' OSN account can be compromised and
-% more sensitive or even private information might be stolen. 
+% more sensitive or even private information might be stolen.
 
-% % Phishing. 
+% % Phishing.
 % Phishing is a form of social engineering in which attackers attempts
 % to fraudulently acquire sensitive information by impersonating a
 % trustworthy third party. Phishing messages with malicious URL links or
@@ -680,7 +736,7 @@ help users automatically make the settings.
 
 % \textbf{Identity Threft Attacks}
 
-% % literature by Bilge. 
+% % literature by Bilge.
 % Bilge, Leyla et al.\cite{identity-theft-attack} studied identity
 % theft attacks. They proposed that existing users of OSN can be
 % compromised, and their identity can be used to request friendship with
@@ -688,9 +744,9 @@ help users automatically make the settings.
 % five most popular social networking sites by means of automated
 % profile cloning and cross-site profile cloning. And further experiments
 % results on real social network users confirm that this type of attack
-% can achieve a high success rate. 
+% can achieve a high success rate.
 
-% % anonymization can cause de-anonymization attacks. 
+% % anonymization can cause de-anonymization attacks.
 % Social network providers hosts large amount of sensitive data from
 % OSNs users. The sensitive data provides a good source both for the
 % research and for the business, so there is a require that data be
@@ -699,20 +755,20 @@ help users automatically make the settings.
 % \cite{ppdp-survey} have proposed several methods to deal with this
 % issue. But for concern of simplicity, current data publishing of
 % social network data usually use the anonymization method to shield
-% sensitive information. But research by Lars Backstrom 
+% sensitive information. But research by Lars Backstrom
 % et al. \cite{anony-link-attack} and Gilbert Wondracek et al.
 % \cite{group-deanonymization-attack} who that anonymization methods can
-% cause breach of user privacy. 
+% cause breach of user privacy.
 
-% % De-anonymizing social links. 
+% % De-anonymizing social links.
 % Lars Backstrom et al. \cite{anony-link-attack} show that adversaries
 % can use anonymized social data to infer links between social network
 % users. Both passive and active attack are shown to be effective to do
 % this de-anonymization attack. With prior knowledge of the the social
 % network and the de-anonymized links, attackers can identify a specific
-% user. 
+% user.
 
-% % threats of link deanoymization. 
+% % threats of link deanoymization.
 % Also, the de-anonymization of social links brings privacy threats to
 % social network users.  \cite{user-interaction-social-link} proposes
 % the use of interaction graph to impart meaning of social links by
@@ -728,14 +784,14 @@ help users automatically make the settings.
 % methods based on randomization and purtabation for privacy
 % preservation.
 
-% \textbf{Sybil Attack} 
+% \textbf{Sybil Attack}
 
 % In large scale peer-to-peer systems, redundancy can be used to combat
 % scurity threats from malious remote systems, but John et
 % al. \cite{sybil-attack} show that the identity of these systems can
 % be forged to undermine this redundancy, which is called Sybil
 % attack. And they also show that Sybil attacks can always be possible
-% for a system without a trustable centralized authority. 
+% for a system without a trustable centralized authority.
 
 % \textbf{Auxilliary Data Attacks}
 
@@ -756,7 +812,7 @@ help users automatically make the settings.
 
 % \textbf{Third Party Attacks}
 
-% % third party risks. 
+% % third party risks.
 % Third parties can pose serious threats to the privacy of OSN
 % users. They can use various attacks\cite{SN-seven-deadly-attacks},
 % such as spamming and phishing attacks, infrastructure attacks, malware
@@ -765,9 +821,9 @@ help users automatically make the settings.
 % we will discuss spamming, phishing, identity theft and neighbor
 % attacks in detail.
 
-% implications of perceived risk. 
+% implications of perceived risk.
 %Although privacy settings of social network can be used as an indicator
-%of how sensitive a profile item is to the user, on the other hand, 
+%of how sensitive a profile item is to the user, on the other hand,
 
 % It is obvious that when a user $u_i$ considers a profile
 % item $f_{ij}$ sensitive to him/her, he/she will set it to a lower
@@ -776,7 +832,7 @@ help users automatically make the settings.
 
 % We define perceived risk of an profile item $f_i, \mbox{ where } i\in
 % \{1,2,\ldots,P_i\}$, as $\theta_i$, and it depends on the nature of the
-% item itself. 
+% item itself.
 
 \bibliographystyle{unsrt}
 \bibliography{privacy}

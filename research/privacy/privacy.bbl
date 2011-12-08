@@ -1,42 +1,24 @@
 \begin{thebibliography}{10}
 
-\bibitem{measure-privacy-risk}
-Justin Becker and Hao Chen.
-\newblock {Measuring Privacy Risk in Online Social Networks}.
-\newblock In {\em Proceedings of the Web 2.0 Security and Privacy 2009 Workshop
-  (W2SP)}, May 2009.
-
-\bibitem{SN-quantify-privacy}
-Tran~Hong Ngoc, I.~Echizen, K.~Komei, and H.~Yoshiura.
-\newblock New approach to quantification of privacy on social network sites.
-\newblock In {\em Advanced Information Networking and Applications (AINA), 2010
-  24th IEEE International Conference on}, pages 556 --564, April 2010.
-
-\bibitem{SN-privacy-score}
-Kun Liu and Evimaria Terzi.
-\newblock A framework for computing the privacy scores of users in online
-  social networks.
-\newblock {\em ACM Trans. Knowl. Discov. Data}, 5:6:1--6:30, December 2010.
-
-\bibitem{facebook-turnoff-beacon}
-B.Schiffman.
-\newblock Facebook ceo apologizes, lets users turn off beacon, 2007.
-
-\bibitem{googlebuzz}
-Wikipedia.
-\newblock Google buzz, 2011.
-
-\bibitem{user_privacy}
-Elena Zheleva and Lise Getoor.
-\newblock To join or not to join: the illusion of privacy in social networks
-  with mixed public and private user profiles.
+\bibitem{identity-theft-attack}
+Leyla Bilge, Thorsten Strufe, Davide Balzarotti, and Engin Kirda.
+\newblock All your contacts are belong to us: automated identity theft attacks
+  on social networks.
 \newblock In {\em WWW '09: Proceedings of the 18th international conference on
-  World wide web}, pages 531--540, New York, NY, USA, 2009. ACM.
+  World wide web}, pages 551--560, New York, NY, USA, 2009. ACM.
 
-\bibitem{barnes:privacy}
-Susan~B. Barnes.
-\newblock A privacy paradox: Social networking in the {United States}.
-\newblock {\em First Monday}, 11(9), September 2006.
+\bibitem{socialnet:setting}
+Amanda Lenhart.
+\newblock Adults and social network websites, January 2009.
+
+\bibitem{privacy:paradox:revisit}
+Nicole~Krämer Sonja~Utz.
+\newblock The privacy paradox on social network sites revisited: The role of
+  individual characteristics and group norms, 2009.
+
+\bibitem{facebookwiki}
+Wikipedia.
+\newblock Facebook wiki, 2011.
 
 \bibitem{twitter-spam}
 Chris Grier, Kurt Thomas, Vern Paxson, and Michael Zhang.
@@ -102,13 +84,6 @@ Lars Backstrom, Cynthia Dwork, and Jon Kleinberg.
   patterns, and structural steganography.
 \newblock In {\em WWW '07: Proceedings of the 16th international conference on
   World Wide Web}, pages 181--190, New York, NY, USA, 2007. ACM.
-
-\bibitem{identity-theft-attack}
-Leyla Bilge, Thorsten Strufe, Davide Balzarotti, and Engin Kirda.
-\newblock All your contacts are belong to us: automated identity theft attacks
-  on social networks.
-\newblock In {\em WWW '09: Proceedings of the 18th international conference on
-  World wide web}, pages 551--560, New York, NY, USA, 2009. ACM.
 
 \bibitem{sybil-attack}
 John~R. Douceur.
@@ -186,40 +161,11 @@ Tom~N. Jagatic, Nathaniel~A. Johnson, Markus Jakobsson, and Filippo Menczer.
 \newblock {Social phishing}.
 \newblock {\em Commun. ACM}, 50(10):94--100, 2007.
 
-\bibitem{ppdp-survey}
-Benjamin C.~M. Fung, Ke~Wang, Rui Chen, and Philip~S. Yu.
-\newblock Privacy-preserving data publishing: A survey of recent developments.
-\newblock {\em ACM Comput. Surv.}, 42:14:1--14:53, June 2010.
-
 \bibitem{user-interaction-social-link}
 Christo Wilson, Bryce Boe, Alessandra Sala, Krishna~P.N. Puttaswamy, and Ben~Y.
   Zhao.
 \newblock User interactions in social networks and their implications.
 \newblock In {\em Proceedings of the 4th ACM European conference on Computer
   systems}, EuroSys '09, pages 205--218, New York, NY, USA, 2009. ACM.
-
-\bibitem{privacy-sensitive-edge}
-Lian Liu, Jie Wang, Jinze Liu, and Jun Zhang.
-\newblock Privacy preservation in social networks with sensitive edge weights.
-\newblock In {\em SDM}, pages 954--965, 2009.
-
-\bibitem{real-life-social-network}
-Paul Adams.
-\newblock The real life social network.
-\newblock 2010.
-
-\bibitem{SN-seven-deadly-attacks}
-Carl Timm and Richard Perez.
-\newblock {\em Seven Deadliest Social Network Attacks}.
-\newblock Syngress Publishing, 2010.
-
-\bibitem{socialnet:setting}
-Amanda Lenhart.
-\newblock Adults and social network websites, January 2009.
-
-\bibitem{privacy:paradox:revisit}
-Nicole~Krämer Sonja~Utz.
-\newblock The privacy paradox on social network sites revisited: The role of
-  individual characteristics and group norms, 2009.
 
 \end{thebibliography}
