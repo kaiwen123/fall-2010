@@ -6,14 +6,11 @@ int main() {
   double a=0.0, b=0.0, c=0.0; 
   printf("Please enter length of three size of the triangle:\n");
   //  printf("a = "); 
-  scanf("%f %f %f", &a, &b, &c); 
+  scanf("%lf %lf %lf", &a, &b, &c); 
   /* printf("b = ");  */
   /* scanf("%f", &b);  */
   /* printf("c = ");  */
   /* scanf("%f", &c);  */
-
-  // debugging. 
-  printf("a = %d\n", test); 
 
   double s, area; 
   s = (a + b + c) / 2; 
@@ -26,10 +23,19 @@ int main() {
   if(a > s) { printf("a should be less than s\n"); return -1; }
   if(b > s) { printf("b should be less than s\n"); return -1; }
   if(c > s) { printf("c should be less than s\n"); return -1; }
-
-  printf("%f, %f, %f, %f\n", a, b, c, s); 
+  
   area = sqrt(s*(s-a)*(s-b)*(s-c)); 
 
-  printf("The area of the triangle is : %f\n", area); 
+  printf("The area of the triangle is : %lf\n", area); 
+  system("pause");
   return area; 
 }
+// tricks. 
+// the format string for scanf should match the variable definition, or 
+// else unpredicated consequence might happen. 
+/*test cases;
+3 4 5  --> 6.0000 
+10 10 10 --> 43.3012 
+-1 2 3 --> a should be bigger than 0. 
+10 20 1000 --> c should be smaller than s. 
+*/ 
