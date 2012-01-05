@@ -1,0 +1,289 @@
+\documentclass{beamer}
+
+% packages. 
+% \usepackage[usenames]{color}
+% \usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{textcomp}
+%\usepackage[utf8]{fontenc}
+\usepackage{amssymb}
+\usepackage{color}
+
+% colors 
+\definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Green}{rgb}{0.3,1,0.5}
+\definecolor{Red}{rgb}{1,0,0}
+
+\fontfamily{ptm}\selectfont
+\setbeamerfont{frametitle}{family=\rmfamily,series=\bfseries,size={\fontsize{18}{18}}}
+% to produce handouts. 
+% \usepackage{pgfpages}
+% \pgfpagesuselayout{4 on 1}[a4paper,landscape,border shrink=0.5cm]
+
+% beamer configuration. 
+%%% Presentation themes
+%% Without navigation bars
+% \usetheme{Boadilla}			% full page, bottom bar, light blue			
+% \usetheme{Pittsburg}			% full page, default colors
+%% Tree like navigation    	
+% \usetheme{JuanLesPins}		% top tree, dark blue
+%% Table of contents side bar
+\usetheme{Hannover}			% left bar, light blue
+% \usetheme{Goaettingen}		% right bar, light blue
+%% Mini frame navigation   	
+% \usetheme{Dresden}				% top frame, sober text, dark blue
+% \usetheme{Singapore} 			% top frame with gradient, light blue
+%% Section and subsection tables
+% \usetheme{Warsaw} 				% circles, gradients, dark blue
+% \usetheme{Luebeck} 			% rectangles, no gradient, dark blue
+
+%%% Inner themes (lists, environments)
+% \useinnertheme{circles}		% list elements in circles  
+\useinnertheme{rectangles}	% list elements in rectangles  
+% \useinnertheme{rounded}		% list elements in 3D spheres  
+% \useinnertheme{inmargin}		% list elements and titles in left margin 
+
+%%% Outer themes (head- footline, sidebars, frame title)
+% \useoutertheme{infolines}	% lines at top and bottom, 3 parts each
+% \useoutertheme{split}			% lines at top and bottom, 2
+% parts each
+% \useoutertheme{miniframes}	% navigation with points
+% \useoutertheme{tree}			% navigation with a tree structure
+\useoutertheme{sidebar}		% navigation in sidebar
+% \useoutertheme{smoothbars}	% gradients on bars
+% \useoutertheme{shadow}		% gradients under bars
+
+%%% Colors themes 
+%% Complete
+% \usecolortheme{beetle}		% dark blue, grey background
+% \usecolortheme{seagull}		% light grey
+%% Inner                		
+\usecolortheme{rose}			% light blue
+% \usecolortheme{orchid}		% dark blue
+%%	Outer                		
+% \usecolortheme{seahorse}		% light blue
+% \usecolortheme{whale}			% dark blue
+
+%%% Dynamic display (of lists, environments...)
+%% Default transition between successive items
+% \beamerdefaultoverlayspecification{<+->}
+%% How uncovered items are displayed
+\setbeamercovered{invisible}	% not displayed
+\setbeamercovered{transparent}	% transparent
+% \setbeamercovered{dynamic}		% increased transparency away
+% from the current item
+
+% SHORTCUTS
+% --------------------------------------------------------------------
+\newcommand\defi[2]{\noindent\emph{\underline{Def}.} \texttt{#1}: #2}
+\setcounter{tocdepth}{3}
+
+\begin{document}
+
+%% Document metadata
+\title[]{\Huge{CEG 220 - C programming for Engineers}}
+\subtitle{\scriptsize{Lab 1}}
+\author[]{\fontfamily{ptm}\selectfont{Shumin Guo}\normalfont}
+%\institute{Wright State University}
+\date[\today]{\today}
+
+%% Title frame
+\frame[plain]{\titlepage}
+
+%% Table of contents
+% \begin{frame}[c]\frametitle{Outline}
+%   \tableofcontents
+% \end{frame}
+
+\begin{frame}
+\section{Objective} 
+
+\end{frame}
+
+/****************************************************************************
+Author: your name         
+Project: 1         
+Class: CEG XXX
+      File Name: rsmith-Proj-N.c        
+Instructor: DeJongh                     
+Due Date: [due date of current assignment]         
+         
+Overview:  A short statement of what the program does.  e.g.  This program accepts a series 
+of numbers from standard input, displays them, calculates the average and standard deviation, 
+and displays the result.
+
+
+Program Structure:  A paragraph or two that describes how the program
+works. 
+\note{It, essentially, should provide a short walk-through of the
+code.  e.g. The user is prompted for inputs; the data is read from the
+keyboard using a while loop which checks for valid input; a series of
+if statements (or perhaps a switch statement) are used to perform
+tasks selected by the user; a set of functions is used to perform the
+major tasks required; results are sent to the screen, formatted as a
+table; the user is asked whether to write the data to a text file as
+well.  etc, etc.}
+
+The goal of this section is to give a reader a top level road map through your program.        
+         
+Major Variables:
+        
+Var1 represents xxxxx         
+       Var2 represents xxxxx
+etc.
+Results/Observations (when required)
+I observed …..etc…….
+
+functions:
+ /*******************************************************************
+This function calculates the area of a circle, given the radius of the circle.
+          It does this by multiplying the radius squared by pi.
+Inputs:       radius of the circle
+Outputs:    area of the circle with the given radius
+      ********************************************************************/
+double circleArea(double radius)
+
+Insert comments to explain the algorithm used in major subsections, or any part, of a 
+program where the logic of what you are doing is not obvious.  
+\note{The goal is to allow someone 
+(including you) to read your code and understand what the code is doing.
+Precede single-line comments with //  
+Use /*         .............               */ for multi-line comments (but do not use multi-line 
+comments where they will distract from the code).}
+
+Use meaningful identifier names (variables, function names, etc.). This means using names that 
+describe the purpose of what they represent. \note{Identifiers should begin with a lowercase letter, and 
+the subsequent “words” in the identifier name should begin with uppercase (such as lastName or 
+calcSquareFootage).  Variables should be commented to explain their
+use (eg applicable units).}
+
+Coding Guidelines:
+Be sure that variables are initialized before the program attempts to use their value.  This can be 
+done when the variable is declared or with an assignment statement before the variable is first 
+used.
+Use enough parentheses in arithmetic expressions to make the order of operations clear.
+Always include a prompt line in a program whenever the user is expected to enter data from the 
+keyboard, and always echo the user’s input.
+Names of symbolic constants and variables declared as constants should be all UPPERCASE.
+Never hardcode numerical values; always use variables or symbolic
+constants.
+
+Code Readability:
+All code within a block should be indented (generally 3 to 6 spaces, but be consisten); for 
+example, indent all code within functions (including main), within if statements, and within 
+loops.  This often means several levels of indenting within a block of code.  Follow the pattern 
+used in your textbook.
+Always place braces {} on a separate line, indented an equal amount to the previous line of code. 
+Further indent all lines of code between brace pairs.  See your text for examples.
+
+
+\begin{frame}{Policy}
+\begin{enumerate}
+\item Projects are due at the time and date specified on Pilot. 
+\end{enumerate}
+
+Although lab exercises are 
+“officially due” Friday evening, your goal should be to turn them in
+by the end of your lab section each week. 
+
+If you do, you will earn 5 extra credit points for that lab, as long
+as you earn at least 60\% on the material itself.
+  
+Your lab instructor will explain these procedures in lab during the
+first week. 
+
+Projects:  Projects are due on Saturday evenings by 11:55 pm. 
+
+Late projects will be accepted up to 24 hours after the due time/date with a 
+20\% grade penalty. No makeup exams unless there is a verifiable emergency. Exceptions to the late policy may 
+be made only under the most unusual circumstances. All work must be your own; sharing of program code will 
+result in a grade of "zero" for all involved. However, sharing ideas and general computer skills with others 
+outside of class is encouraged. Students are expected to read and follow the Academic Integrity Policy: 
+http://www.wright.edu/students/judicial/integrity.html
+
+PROJECTS:
+Project assignments will be posted on the Pilot Content Tab, usually at 8:00am on Sunday of the 
+assignment week.  
+All projects must be submitted through the Pilot drop box for the particular project, by the 
+due date/time shown in Pilot.  Projects will normally be due Saturday, 11:55pm, of the due week 
+as shown in Pilot.
+To complete a submission on Pilot you must upload your files, and then submit them.  Failure
+to click the submit button means they have not been submitted.  You should always verify that 
+your files have been submitted correctly by checking your submission history.
+Projects that are not submitted on time may be submitted up to 24 hours late, but they will incur 
+a 20\% penalty.  IF you need to submit a project after its due date, but within the 24 late period, 
+you must submit project to the Late Box.  This allows us to track late submissions.
+If you feel that extenuating circumstances may justify a submittal outside these parameters, you 
+should submit the file(s) to the Late Box, and email the course instructor immediately with your 
+justification.  DO NOT EMAIL YOUR PROJECT FILES TO YOUR TA OR TO THE 
+COURSE INSTRUCTOR.  
+
+LABS:
+Project assignments will be posted on the Pilot Content Tab, usually at 8:00am on Sunday of 
+each week.  
+All labs must be submitted through the Pilot drop box for the particular lab, by the due 
+date/time shown in Pilot. To complete a submission on Pilot you must upload your files, and 
+then submit them.  Failure to click the submit button means they have not been submitted. You 
+should always verify that your files have been submitted correctly by checking your submission 
+history.
+Labs that are not submitted by the due date/time will receive no credit.
+\end{frame}
+
+Compilation (pick one)
+Code Compiles
+Serious Attempt but Doesn't Compile
+Doesn't Compile
+25%
++25
++15
++0
+Execution (pick one)
+Runs for all cases 
+runs for some cases 
+runs for no cases
+15%
++15
++8
++0
+Output (pick one)
+Produces All Correct Output 
+Produces mostly Correct Output 
+Produces some correct output 
+Produces no correct output
+20%
++20
+12
++5
++0
+Programming (sum)
+Logic and structure
+Meaningful prompts for input
+Use of functions when appropriate
+use of control structures when appropriate
+Well structured output
+Error handling when appropriate
+25%
++10
++3
++3
++3
++3
++3
+Documentation
+-------------------
+(sum)
+Complete header information
+Meaningful identifiers and use of constants
+Algorithm outline comments throughout
+----------------------------------------------------
+15%
++5
++5
++5
+----
+
+\begin{frame}
+\section{Office Hours}
+\end{frame}
+
+\end{document}
