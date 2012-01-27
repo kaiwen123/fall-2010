@@ -18,12 +18,12 @@ sneg <- sneg[,2:27];
 # buiding models.  #
 ####################
 # rasch model, with discriminate parameter setting as one. 
-spos.rasch <- rasch(spos, constraint = cbind(ncol(spos) + 1, 1)); 
-sneg.rasch <- rasch(sneg, constraint = cbind(ncol(sneg) + 1, 1)); 
+spos.rasch <- rasch(spos, constraint = cbind(ncol(spos) + 1, 1), IRT.param=TRUE); 
+sneg.rasch <- rasch(sneg, constraint = cbind(ncol(sneg) + 1, 1), IRT.param=TRUE); 
 
 # ltm model, using one latent variable z1. 
-spos.ltm <- ltm(spos ~ z1); 
-sneg.ltm <- ltm(sneg ~ z1); 
+spos.ltm <- ltm(spos ~ z1, IRT.param=TRUE); 
+sneg.ltm <- ltm(sneg ~ z1, IRT.param=TRUE); 
 
 ####################
 # get parameters.  #
@@ -68,6 +68,6 @@ sneg.ltm.score1 <- t(t(sneg)) %*% t(t(sneg.ltm.dscrmn));
 
 plot(spos.ltm.score1, sneg.ltm.score1, 
      xlab="Utility Scores", ylab="Risk Scores", 
-     main="Utility vs. Privacy Scores for Friends Data");
+     main="Utility vs. Risk Scores for Friends Data");
 
 grid();

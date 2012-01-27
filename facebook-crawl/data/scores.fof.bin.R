@@ -68,7 +68,6 @@ sneg.ltm.score1 <- t(t(sneg)) %*% t(t(sneg.ltm.dscrmn));
 
 plot(spos.ltm.score1, sneg.ltm.score1, 
      xlab="Utility Scores", ylab="Risk Scores", 
-     main="Utility vs. Privacy Scores for Friends of Friends Data",
-     pch=5, col="blue"); 
+     main="Utility vs. Risk Scores for Friends of Friends Data")#    pch=5, col="blue"); 
 
 grid();
