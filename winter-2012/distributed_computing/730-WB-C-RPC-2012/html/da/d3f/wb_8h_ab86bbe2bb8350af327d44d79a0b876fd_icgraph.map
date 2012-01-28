@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$dd/d93/client_8c.html#a9a91ca3f855c01330888852ae8cc4d8e" title="Client window got exposed. Redraw the lines." alt="" coords="129,7,249,36"/>
-<area shape="rect" id="node11" href="$dd/d93/client_8c.html#a03676c04f14a0ce32568ca4ed638beaa" title="Invoked via callbackfromwbs/SIGUSR1 when a new line comes from the server to the svc_run()&#45;ning proce..." alt="" coords="307,59,395,88"/>
-<area shape="rect" id="node5" href="$dd/d93/client_8c.html#a03d7bab0ddc58a6cfda6ddd2a8d01ed2" title="Watch for mouse input. Button 3 (right) ends this routine. Pressing buttons 1 (left) or 2 (middle) se..." alt="" coords="300,5,401,35"/>
-<area shape="rect" id="node7" href="$da/d1a/client__s_8c.html#a25c9a3d2f4037ff0620e09b20f0a099f" title="Called by client_s.c. See ./ed&#45;script. Start the client." alt="" coords="452,32,537,61"/>
-<area shape="rect" id="node9" href="$da/d1a/client__s_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="588,32,641,61"/>
-</map>
