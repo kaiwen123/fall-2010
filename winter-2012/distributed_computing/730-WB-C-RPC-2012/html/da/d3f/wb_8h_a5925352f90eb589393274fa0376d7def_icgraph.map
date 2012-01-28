@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$d1/d20/server_8c.html#a05bb609c42cce1d3784e522d63d06a78" title="Delete a client. If this is the last client on a whiteboard, delete the board too. If no more boards left, kill yourself. This func is similar to addclient_1_svc." alt="" coords="156,5,273,35"/>
+<area shape="rect" id="node9" href="$da/d1a/client__s_8c.html#a25c9a3d2f4037ff0620e09b20f0a099f" title="Called by client_s.c. See ./ed&#45;script. Start the client." alt="" coords="172,59,257,88"/>
+<area shape="rect" id="node5" href="$d3/dea/server__svc_8c.html#acde3c33d68707aeec08ec239f1f7ad40" title="whiteboardserver_1" alt="" coords="323,5,469,35"/>
+<area shape="rect" id="node7" href="$d3/dea/server__svc_8c.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="519,5,572,35"/>
+<area shape="rect" id="node11" href="$da/d1a/client__s_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="369,59,423,88"/>
+</map>

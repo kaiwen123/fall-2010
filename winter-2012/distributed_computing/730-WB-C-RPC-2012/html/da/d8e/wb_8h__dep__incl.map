@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$dd/d93/client_8c.html" title="A &quot;white board client&quot; is a pair of processes. The forked child receives server call&#45;backs to callbac..." alt="" coords="5,83,72,112"/>
+<area shape="rect" id="node5" href="$d2/d03/deregall_8c.html" title="deregall.c" alt="" coords="96,83,179,112"/>
+<area shape="rect" id="node7" href="$d1/d20/server_8c.html" title="This file implements the server side routines, such as services implementation by the server etc..." alt="" coords="203,83,275,112"/>
+<area shape="rect" id="node9" href="$d9/d3c/transient_8c.html" title="transient.c" alt="" coords="299,83,389,112"/>
+<area shape="rect" id="node11" href="$db/d89/wbadmin_8c.html" title="wbadmin.c" alt="" coords="413,83,504,112"/>
+</map>

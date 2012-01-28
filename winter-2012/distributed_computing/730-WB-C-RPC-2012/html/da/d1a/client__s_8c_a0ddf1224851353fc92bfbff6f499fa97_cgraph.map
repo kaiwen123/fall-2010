@@ -1,0 +1,37 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$da/d1a/client__s_8c.html#a78fa380bd0e7d69c880a3230638e1427" title="getTransientProgNumber" alt="" coords="109,5,291,35"/>
+<area shape="rect" id="node9" href="$d4/de2/pmap__clnt_8h.html#afbd9367c9175e39d2df95af20b633942" title="pmap_unset" alt="" coords="568,151,669,180"/>
+<area shape="rect" id="node11" href="$dd/d93/client_8c.html#ac7ff8adb3b0f6634210d807bc78f27e6" title="Called by client_s.c. See ./ed&#45;script. Start the client." alt="" coords="157,643,243,672"/>
+<area shape="rect" id="node51" href="$d8/d7b/svc_8h.html#ad4170627a2ecdf1f5b5b3071db0227d9" title="svc_register" alt="" coords="151,696,249,725"/>
+<area shape="rect" id="node53" href="$d8/d7b/svc_8h.html#a6585cc09a141f751eb7181d09959c7d3" title="svc_run" alt="" coords="165,749,235,779"/>
+<area shape="rect" id="node55" href="$d8/d7b/svc_8h.html#a8be1fcaa5cfbf340ffd983480e9c8047" title="svctcp_create" alt="" coords="145,803,255,832"/>
+<area shape="rect" id="node57" href="$d8/d7b/svc_8h.html#a6ec01d29b358e4407128d3edc5c9e46d" title="svcudp_create" alt="" coords="143,856,257,885"/>
+<area shape="rect" id="node59" href="$da/d1a/client__s_8c.html#a63e2b0eb1cc649e568f43d8768076ae1" title="whiteboardclient_1" alt="" coords="129,296,271,325"/>
+<area shape="rect" id="node5" href="$d9/d3c/transient_8c.html#aa537e67a6d3afc054ecb5808847713fc" title="findTransient" alt="" coords="373,5,475,35"/>
+<area shape="rect" id="node7" href="$d4/de2/pmap__clnt_8h.html#aab53492545fd929e21936896ce525d7d" title="pmap_set" alt="" coords="576,5,661,35"/>
+<area shape="rect" id="node13" href="$d8/dc3/server_8h.html#a6703c8fd1465ae088c55c757991f0d31" title="addclient_1" alt="" coords="377,907,471,936"/>
+<area shape="rect" id="node15" href="$da/d3f/wb_8h.html#a7c8d6ca04cd7cdafd7d2917a78ba4f51" title="atoir" alt="" coords="399,960,449,989"/>
+<area shape="rect" id="node17" href="$d3/d30/clnt_8h.html#a18d566f96966bf51c08ec64b340b03d9" title="clnt_create" alt="" coords="377,536,471,565"/>
+<area shape="rect" id="node19" href="$dd/d93/client_8c.html#a9eb47fbd918ce48e09b1b8d86d4b4980" title="Terminate the client. Remove all traces of the parent+child." alt="" coords="373,483,475,512"/>
+<area shape="rect" id="node28" href="$da/d3f/wb_8h.html#a97682b5596c36bcac6dd87ffd4ebd085" title="gethostname" alt="" coords="371,589,477,619"/>
+<area shape="rect" id="node30" href="$dd/d93/client_8c.html#a03d7bab0ddc58a6cfda6ddd2a8d01ed2" title="Watch for mouse input. Button 3 (right) ends this routine. Pressing buttons 1 (left) or 2 (middle) se..." alt="" coords="373,643,475,672"/>
+<area shape="rect" id="node42" href="$da/d3f/wb_8h.html#a39a7d0b12d7be4b49ae01788e81c44d6" title="openxwindow" alt="" coords="371,747,477,776"/>
+<area shape="rect" id="node44" href="$dd/d93/client_8c.html#a03676c04f14a0ce32568ca4ed638beaa" title="Invoked via callbackfromwbs/SIGUSR1 when a new line comes from the server to the svc_run()&#45;ning proce..." alt="" coords="575,736,663,765"/>
+<area shape="rect" id="node47" href="$da/d3f/wb_8h.html#af845ce1e49804632091187ddc45a166b" title="sigaction" alt="" coords="385,800,463,829"/>
+<area shape="rect" id="node49" href="$da/d3f/wb_8h.html#a5925352f90eb589393274fa0376d7def" title="sigemptyset" alt="" coords="373,853,475,883"/>
+<area shape="rect" id="node21" href="$da/d3f/wb_8h.html#ab45ce906c6c876b7d9a0a44083a22eaa" title="closexwindow" alt="" coords="565,456,672,485"/>
+<area shape="rect" id="node23" href="$d8/dc3/server_8h.html#ac91c6ab17f245fef60e240d4fc4cef36" title="delclient_1" alt="" coords="573,509,664,539"/>
+<area shape="rect" id="node25" href="$da/d3f/wb_8h.html#a4539db972bcf3dd8c8b429af0dc3789d" title="kill" alt="" coords="600,296,637,325"/>
+<area shape="rect" id="node32" href="$d8/dc3/server_8h.html#a7761a75c9c6913e9793c62f9ab720e4b" title="addline_1" alt="" coords="577,576,660,605"/>
+<area shape="rect" id="node34" href="$dd/d93/client_8c.html#a9a91ca3f855c01330888852ae8cc4d8e" title="Client window got exposed. Redraw the lines." alt="" coords="559,629,679,659"/>
+<area shape="rect" id="node40" href="$da/d3f/wb_8h.html#ae7957c279209dfc005467834f56b8f0b" title="trackpointer" alt="" coords="569,683,668,712"/>
+<area shape="rect" id="node36" href="$da/d3f/wb_8h.html#ab86bbe2bb8350af327d44d79a0b876fd" title="drawline" alt="" coords="756,709,831,739"/>
+<area shape="rect" id="node38" href="$d8/dc3/server_8h.html#a75516378c9b22c5889b6c5f76c82385c" title="sendallmylines_1" alt="" coords="728,629,859,659"/>
+<area shape="rect" id="node61" href="$dd/d93/client_8c.html#a2423e5ec7c8ebc810f4ee337eef6978b" title="Get the call back from the server who is sending the coordinates of a line to draw. We simply write these four integers into the xwinio pipe, and raise the signal so the parent can read. This routine is actually a service provided by the client to the server, so *callback* here means a call from the server to the client, which is unusual. And of course the routine name can be more specific such as drawline_1_svc." alt="" coords="339,163,509,192"/>
+<area shape="rect" id="node64" href="$d8/d7b/svc_8h.html#a80a1335dccae5aad8d1510ba0d7110e3" title="svc_sendreply" alt="" coords="368,216,480,245"/>
+<area shape="rect" id="node66" href="$d8/d7b/svc_8h.html#ab986c936589930491150e1b2d160f992" title="svcerr_decode" alt="" coords="367,269,481,299"/>
+<area shape="rect" id="node68" href="$d8/d7b/svc_8h.html#ac196f45766a3b7d921be429125d22a09" title="svcerr_noproc" alt="" coords="368,323,480,352"/>
+<area shape="rect" id="node70" href="$d8/d7b/svc_8h.html#ac9597b6e82362c33afb5776893978350" title="svcerr_systemerr" alt="" coords="357,376,491,405"/>
+<area shape="rect" id="node72" href="$d8/de1/client_8h.html#af1c1a790027cdc576ce69d9462c3dbb3" title="xdr_OneLn" alt="" coords="379,429,469,459"/>
+<area shape="rect" id="node74" href="$d0/ddf/xdr_8h.html#a4c3bf092a79bafb8e0eb2e9cdf2ffafb" title="xdr_void" alt="" coords="387,109,461,139"/>
+</map>
