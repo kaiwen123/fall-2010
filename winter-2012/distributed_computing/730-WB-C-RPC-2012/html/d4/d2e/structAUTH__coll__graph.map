@@ -1,5 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node18" href="$d4/d18/structopaque__auth.html" title="{opaque_auth\n|+ oa_flavor\l+ oa_base\l+ oa_length\l|}" alt="" coords="137,209,244,329"/>
-<area shape="rect" id="node4" href="$db/d0f/structAUTH_1_1auth__ops.html" title="{AUTH::auth_ops\n|+ ah_nextverf\l+ ah_marshal\l+ ah_validate\l+ ah_refresh\l+ ah_destroy\l|}" alt="" coords="283,192,408,347"/>
-<area shape="rect" id="node10" href="$d6/dc7/uniondes__block.html" title="{des_block\n|+ high\l+ low\l+ key\l+ c\l|}" alt="" coords="579,201,664,338"/>
-</map>
