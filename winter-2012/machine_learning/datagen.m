@@ -1,7 +1,9 @@
 % This function is used to generate test data using three
 % generative models. 
 % This function is used to generate test data using three
-% generative models. 
+% generative models.
+% X is t * n matrix.
+% y is t * 1 matrix. 
 function [X, y] = datagen(n, t, sigma, model)
     u = [0; ones(n-1, 1)];
     X = [ones(t,1) rand(t, n-1)];
@@ -11,4 +13,5 @@ function [X, y] = datagen(n, t, sigma, model)
         y = X * u + randn(t, 1) ./ randn(t, 1) * sigma;
     else 
         y = X * u + randn(t, 1) .* randn(t, 1) * sigma;
-    endif
+    end
+    %X = X'; 
