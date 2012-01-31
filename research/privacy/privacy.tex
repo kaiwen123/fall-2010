@@ -1,4 +1,3 @@
-%% this is the bib file by simon;
 %% Created on June 28th, 2010;
 \documentclass[a4paper]{article}
 \usepackage{geometry}
@@ -99,13 +98,12 @@ information to allow other users search, identify and link them.
 Disclosing private information also raises certain risks such as
 information spam \cite{}, insurance discrimination \cite{}, and
 finacial fraud \cite{identity-theft-attack}. \textbf{[some examples
-  show how malicious
-parties can use the private information to damage users' interests.]
-To be added later} These examples may educate people how risk to
-disclose personal information. People are more and more aware of the
-risk of disclosing private information. As a result, hiding or
-disclosing a profile item is a personal tradeoff between privacy risks
-and social benefits.
+show how malicious parties can use the private information to damage
+users' interests.]  To be added later} These examples may educate
+people how risk to disclose personal information. People are more and
+more aware of the risk of disclosing private information. As a result,
+hiding or disclosing a profile item is a personal tradeoff between
+privacy risks and social benefits.
 
 % [the following examples are not about the risk of disclosing private
 % information. They represent the importance of taking users' privacy
@@ -116,7 +114,8 @@ and social benefits.
 % Beacon\cite{facebook-turnoff-beacon}, which correlate users' shopping
 % activities on other websites with their Facebook profiles, had to be
 % closed because of the protests of users' personal privacy
-% violation. Google buzz\cite{googlebuzz}, a social networking, microblogging and
+% violation. Google buzz\cite{googlebuzz}, a social networking,
+% microblogging and 
 % messaging tool from Google integrated into Gmail, was sued because of
 % compromising users' privacy by sharing their email contacts to
 % maximize influence of this service. These and other similar social
@@ -344,33 +343,78 @@ listed in Table \ref{tbl:setting}.
 \end{table}
 
 \section{The Item Response Theory Model}
-In this section, we will have a brief review of the item response theory(IRT). The original IRT model is only used to model dichotomous tests, which include only correct or incorrect outcomes. The polytomous model was proposed to handle cases with multiple outcomes.
+In this section, we will have a brief review of the item response
+theory(IRT). The original IRT model is only used to model dichotomous
+tests, which include only correct or incorrect outcomes. The
+polytomous model was proposed to handle cases with multiple outcomes. 
 
-Item Response Theory is a paradigm for the design, analysis, scoring of tests and questionnaires measuring abilities, attitudes and other variables. It is based on the idea that the probability of a correct response to an item is mathematically determined by some parameters of persons and items. The person parameter is usually called latent trait, ability or the strength of an attitude.
+Item Response Theory is a paradigm for the design, analysis, scoring
+of tests and questionnaires measuring abilities, attitudes and other
+variables. It is based on the idea that the probability of a correct
+response to an item is mathematically determined by some parameters of
+persons and items. The person parameter is usually called latent
+trait, ability or the strength of an attitude. 
 
-The common approach to test the ability of an examinee is to develop a test consisting a number of items, each item is used to test a certain ability of interest, the items are dichotomously scored such that correct answers with get score of ones and zeros for incorrect answers. The probability that an examinees can correctly answers an question is determined on the one hand by the ability of the examinee, and by the item difficulty on the other hand. The ability is denoted as $\theta$ and the probability of answering an question item correct with ability $\theta$ is $P(\theta)$. And for a specific test item $P(\theta)$ will be larger for high ability examinees and lower for low ability examinees.
+The common approach to test the ability of an examinee is to develop a
+test consisting a number of items, each item is used to test a certain
+ability of interest, the items are dichotomously scored such that
+correct answers with get score of ones and zeros for incorrect
+answers. The probability that an examinees can correctly answers an
+question is determined on the one hand by the ability of the examinee,
+and by the item difficulty on the other hand. The ability is denoted
+as $\theta$ and the probability of answering an question item correct
+with ability $\theta$ is $P(\theta)$. And for a specific test item
+$P(\theta)$ will be larger for high ability examinees and lower for
+low ability examinees. 
 
 %How to use IRT for test analysis.
 \subsection{Application of test analysis of IRT model}
 Two general processes are involved for IRT to be used in test analysis.
 \begin{enumerate}
-    \item Test calibration.
-        The test calibration stage is used to determine the item characteristic curve(ICC) for a specific test item. Alan Birnbaum proposed a two stage iterative method with maximum likelihood estimation. In one stage the parameters of N items in a test are estimated and in the second stage, the ability parameters of the M examinees are estimated. These two stages are performed iteratively until a stable set of parameter sets are obtained. At that point, a test has been calibrated and a ability scale metric defined.
+\item Test calibration.
+  The test calibration stage is used to determine the item
+  characteristic curve(ICC) for a specific test item. Alan
+  Birnbaum proposed a two stage iterative method with maximum
+  likelihood estimation. In one stage the parameters of N items
+  in a test are estimated and in the second stage, the ability
+  parameters of the M examinees are estimated. These two stages
+  are performed iteratively until a stable set of parameter sets
+  are obtained. At that point, a test has been calibrated and a
+  ability scale metric defined. 
 
-    \item Examinee ability prediction with the IRT model.
-        The task of this step is to estimate the ability of an examinee with a test. Let's suppose a test with N item is given a an examinee, and the examinee responses to each of these questions resulting in a dichotomous score vector for this test. By using the test score as a prior ability of the examinee and along with the parameters of each item, we can iteratively estimate the ability of an examinee with maximum likelihood estimation with the following formula.
-        \[ \hat{\theta}_{s+1} = \hat{\theta}_{s} + \frac{\sum_{i=1}^N-a_i[u_i - P_i(\hat{\theta}_s)]}{\sum_{i=1}^Na_i^2P_i(\hat{\theta}_s)Q_i(\hat{\theta}_s) } \]
-        where $\hat{\theta}_s$ is the estimated ability of the examinee within iteration $s$; $a_i$ is the discrimination parameter of item $i\in \{1,2,\ldots,N\}$; $u_i$ is the response made by the examinee to item $i$; $P_i(\hat{\theta}_s)$ is the probability of item $i$ under the given item characteristic curve model, at ability level $\hat{\theta}$ within iteration $s$; and $Q_i(\hat{\theta}_s)=1-P_i(\hat{\theta}_s)$ is the probability of incorrect response to item $i$, under the given item characteristic model, at ability level $\hat{\theta}$ within iteration $s$.
-        An example is shown shown in figure \ref{fig:predict-ability}.
-        \begin{figure}
-            \includegraphics{ability.jpg}
-            \caption{Ability estimation using a test with five items.}
-            \label{fig:predict-ability}
-        \end{figure}
+\item Examinee ability prediction with the IRT model.
+  The task of this step is to estimate the ability of an
+  examinee with a test. Let's suppose a test with N item is
+  given a an examinee, and the examinee responses to each of
+  these questions resulting in a dichotomous score vector for
+  this test. By using the test score as a prior ability of the
+  examinee and along with the parameters of each item, we can
+  iteratively estimate the ability of an examinee with maximum
+  likelihood estimation with the following formula. 
+  \[ \hat{\theta}_{s+1} = \hat{\theta}_{s} +
+  \frac{\sum_{i=1}^N-a_i[u_i -
+    P_i(\hat{\theta}_s)]}{\sum_{i=1}^Na_i^2P_i(\hat{\theta}_s)Q_i(\hat{\theta}_s)
+  } \] 
+  where $\hat{\theta}_s$ is the estimated ability of the examinee
+  within iteration $s$; $a_i$ is the discrimination parameter of item
+  $i\in \{1,2,\ldots,N\}$; $u_i$ is the response made by the examinee
+  to item $i$; $P_i(\hat{\theta}_s)$ is the probability of item $i$
+  under the given item characteristic curve model, at ability level
+  $\hat{\theta}$ within iteration $s$; and
+  $Q_i(\hat{\theta}_s)=1-P_i(\hat{\theta}_s)$ is the probability of
+  incorrect response to item $i$, under the given item characteristic
+  model, at ability level $\hat{\theta}$ within iteration $s$. 
+  An example is shown shown in figure \ref{fig:predict-ability}.
+  \begin{figure}
+    \includegraphics{ability.jpg}
+    \caption{Ability estimation using a test with five items.}
+    \label{fig:predict-ability}
+  \end{figure}
 \end{enumerate}
 
 \textbf{The One parameter IRT model} \\
-This IRT model has only one parameter $b$, and can be shown as in Eq \ref{eqn:1pl}.
+This IRT model has only one parameter $b$, and can be shown as in Eq
+\ref{eqn:1pl}. 
 \begin{equation}
     P(\theta|b) = \frac{1}{1+e^{-(\theta - b)}}
     \label{eqn:1pl}
