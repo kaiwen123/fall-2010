@@ -27,7 +27,7 @@ while (<STDIN>)  {
 		  "activities", "interests", "employers", "grad_school", "college",
 		  "high_school");
 
-    @items = split(/ /); 
+    @items = split(/,/); 
     @defaultsetting =
     ("3","3","3","1","3","x","1","1","x","3","x","3",
     "x","x","x","3","1","3","3","3","3","3","3","3", 
@@ -61,13 +61,13 @@ while (<STDIN>)  {
 	# print $sens_setting[$i][$setting] . " ";
 	$i++; 
     }
-    # print $change_count . "\n";
+    print $change_count . "\n";
     $change_count = 0; 
-    $sens_setting[2][3] = 989;
+    # $sens_setting[2][3] = 989;
 }
 
 # print the result.
-print @sens_setting; 
+# print @sens_setting; 
 print "\n";  
 for my $i (0 .. 26) {
     for my $j (0 .. 3) {
@@ -75,4 +75,4 @@ for my $i (0 .. 26) {
     }
     print "\n";
 }
-print $sens_setting[$i][$j] . "\n";
+#print $sens_setting[$i][$j] . "\n";
