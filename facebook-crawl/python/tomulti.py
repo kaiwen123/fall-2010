@@ -55,7 +55,7 @@ for key in userdata.keys():
                 if bu == 'N' and bn == 'N': result += '0,'
             # filter out the errous items. 
             if result.find('x') < 0: 
-                print result, key
+                print result#, key
         else:
             print 'binary data is of wrong format.'
             continue
