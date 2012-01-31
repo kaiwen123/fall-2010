@@ -7,6 +7,7 @@
 \usepackage{graphicx}
 \usepackage{amsthm}
 \usepackage{array}
+\usepackage{subfigure}
 \geometry{top=1.3in, bottom=1.3in, left=1.2in, right=1.2in}
 
 % defs.
@@ -382,34 +383,17 @@ Two general processes are involved for IRT to be used in test analysis.
   are obtained. At that point, a test has been calibrated and a
   ability scale metric defined. 
 
-\item Examinee ability prediction with the IRT model.
-  The task of this step is to estimate the ability of an
-  examinee with a test. Let's suppose a test with N item is
-  given a an examinee, and the examinee responses to each of
-  these questions resulting in a dichotomous score vector for
-  this test. By using the test score as a prior ability of the
-  examinee and along with the parameters of each item, we can
-  iteratively estimate the ability of an examinee with maximum
-  likelihood estimation with the following formula. 
-  \[ \hat{\theta}_{s+1} = \hat{\theta}_{s} +
-  \frac{\sum_{i=1}^N-a_i[u_i -
-    P_i(\hat{\theta}_s)]}{\sum_{i=1}^Na_i^2P_i(\hat{\theta}_s)Q_i(\hat{\theta}_s)
-  } \] 
-  where $\hat{\theta}_s$ is the estimated ability of the examinee
-  within iteration $s$; $a_i$ is the discrimination parameter of item
-  $i\in \{1,2,\ldots,N\}$; $u_i$ is the response made by the examinee
-  to item $i$; $P_i(\hat{\theta}_s)$ is the probability of item $i$
-  under the given item characteristic curve model, at ability level
-  $\hat{\theta}$ within iteration $s$; and
-  $Q_i(\hat{\theta}_s)=1-P_i(\hat{\theta}_s)$ is the probability of
-  incorrect response to item $i$, under the given item characteristic
-  model, at ability level $\hat{\theta}$ within iteration $s$. 
-  An example is shown shown in figure \ref{fig:predict-ability}.
-  \begin{figure}
-    \includegraphics{ability.jpg}
-    \caption{Ability estimation using a test with five items.}
-    \label{fig:predict-ability}
-  \end{figure}
+    \item Examinee ability prediction with the IRT model.
+        The task of this step is to estimate the ability of an examinee with a test. Let's suppose a test with N item is given a an examinee, and the examinee responses to each of these questions resulting in a dichotomous score vector for this test. By using the test score as a prior ability of the examinee and along with the parameters of each item, we can iteratively estimate the ability of an examinee with maximum likelihood estimation with the following formula.
+        \[ \hat{\theta}_{s+1} = \hat{\theta}_{s} + \frac{\sum_{i=1}^N-a_i[u_i - P_i(\hat{\theta}_s)]}{\sum_{i=1}^Na_i^2P_i(\hat{\theta}_s)Q_i(\hat{\theta}_s) } \]
+        where $\hat{\theta}_s$ is the estimated ability of the examinee within iteration $s$; $a_i$ is the discrimination parameter of item $i\in \{1,2,\ldots,N\}$; $u_i$ is the response made by the examinee to item $i$; $P_i(\hat{\theta}_s)$ is the probability of item $i$ under the given item characteristic curve model, at ability level $\hat{\theta}$ within iteration $s$; and $Q_i(\hat{\theta}_s)=1-P_i(\hat{\theta}_s)$ is the probability of incorrect response to item $i$, under the given item characteristic model, at ability level $\hat{\theta}$ within iteration $s$.
+        An example is shown shown in figure \ref{fig:predict-ability}.
+        \begin{figure}
+            \centering 
+            \includegraphics[scale=.5]{ability.jpg}
+            \caption{Ability estimation using a test with five items.}
+            \label{fig:predict-ability}
+        \end{figure}
 \end{enumerate}
 
 \textbf{The One parameter IRT model} \\
@@ -421,27 +405,54 @@ This IRT model has only one parameter $b$, and can be shown as in Eq
 \end{equation}
 
 \textbf{The Two parameter IRT model}\\
-This model has an ability parameter and a discrimination parameter. 
+This model has an ability parameter and a discrimination parameter.
 \begin{equation}
     P(\theta|a,b) = \frac{1}{1+e^{-a(\theta - b)}}
     \label{eqn:2pl}
 \end{equation}
 
-\textbf{The Three Parametric Model} \\ 
+\textbf{The Three Parametric Model} \\
 \begin{equation}
     P(\theta|a,b,c) = c + (1-c)\frac{1}{1+e^{-a(\theta - b)}}
     \label{eqn:3pl}
 \end{equation}
 
 \subsection{Concrete example}
-\[\begin{array}{ccccc}
-  1 & 1 & 1 & 1 & 1 \\
-  0 & 1 & 1 & 1 & 1 \\
-  0 & 0 & 1 & 1 & 1 \\
-  0 & 0 & 0 & 1 & 1 \\
-  0 & 0 & 0 & 0 & 1 
+Consider the following binary test result, each row is the response score vector of an examinee, and each column is one item. 
+\[\begin{array}{lccccc}
+Examinee & Item1 & Item2 & Item3 & Item4 & Item5 \\ 
+1 & 1 & 1 & 1 & 1 & 1 \\
+2 & 0 & 1 & 1 & 1 & 1 \\
+3 & 0 & 0 & 1 & 1 & 1 \\
+4 & 0 & 0 & 0 & 1 & 1 \\
+5 & 0 & 0 & 0 & 0 & 1
 \end{array}
 \]
+The result of three models are shown in figures below:
+\begin{figure}[ht]
+\centering
+\subfigure[One Parametric]{
+\includegraphics[scale=.3]{rasch.pdf}
+\label{fig:subfig1}
+}
+\subfigure[Two Parametric]{
+\includegraphics[scale=.3]{2pl.pdf}
+\label{fig:subfig2}
+}
+\subfigure[Three Parametric]{
+\includegraphics[scale=.3]{3pl.pdf}
+\label{fig:subfig3}
+}
+\label{fig:subfigureExample}
+\caption[Three types of IRT Models]{Modeling Comparison of Three IRT Models.}
+\end{figure}
+
+\subsection{Polytomous IRT Model}
+The graded response model by Samejima is a type of polytomous IRT model, it is designed for test cases with multiple ordinal levels of response options. The model is defined as 
+\[ log(\frac{\gamma_{ik}}{1-\gamma_{ik}}) = \beta_iz - \beta_ik \]
+where $\gamma_{ik}$ denotes the cumulative probability of a response in category $k$th or lower to the $i$th item, given the latent ability $z$. 
+
+
 \section{Exploring Perceived Privacy Risk}
 % describe real privacy risk and perceived privacy risk.
 % why do we want to study perceived privacy risk.
