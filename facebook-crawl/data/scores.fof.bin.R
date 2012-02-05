@@ -52,6 +52,19 @@ fofneg.rasch.dscrmn <- fofneg.rasch.params[,2];
 # fofneg.ltm.dffclt <- fofneg.ltm.params[,1]; 
 # fofneg.ltm.dscrmn <- fofneg.ltm.params[,2]; 
 
+# select items that are interesting for example [-3,3]; 
+# a is the lower bound and b is the upper bound. 
+a <- -3; 
+b <- 3; 
+lower <- fofpos.rasch.dffclt > a; 
+upper <- fofpos.rasch.dffclt < b; 
+
+# manually get subset of data. 
+fof <- subset(fofpos, select=c(1:13, 15:22, 26)); 
+fofr <- rasch(fof, constraint = cbind(ncol(fof) + 1, 1)); 
+
+# plot the graph with item selected data. 
+
 ####################
 # obtaining scores.# 
 ####################
