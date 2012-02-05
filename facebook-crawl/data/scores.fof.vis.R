@@ -64,8 +64,23 @@ fofpos.grm.score1 <- data.matrix(fofpos) %*% data.matrix(fofpos.grm.dscrmn);
 #fofneg.rasch.score1 <- t(t(fofneg)) %*% t(t(fofneg.rasch.dscrmn)); 
 fofneg.grm.score1 <- data.matrix(fofneg) %*% data.matrix(fofneg.grm.dscrmn);
 
+# personalized scores. 
+wgt <- fofpos.grm.dscrmn; 
+wgt[24,] <- 100; 
+wgt[25,] <- 100; 
+wgt[26,] <- 100;
+fofpos.grm.score2 <- data.matrix(fofpos) %*% data.matrix(wgt); 
+fofneg.grm.score2 <- data.matrix(fofneg) %*% data.matrix(wgt);
+
 plot(fofpos.grm.score1, fofneg.grm.score1, 
      xlab="Utility Scores", ylab="Risk Scores", 
-     main="Utility vs. Risk Scores for Friends of Friends Data");
+     main="Discriminative Utility vs. Risk Scores for Friends of Friends Data");
+savePlot("discrmnt.util.risk.vis"); 
+
+plot(fofpos.grm.score2, fofneg.grm.score2, 
+     xlab="Utility Scores", ylab="Risk Scores", 
+     main="Personalized Discriminative Utility vs. Risk Scores for Friends of Friends Data");
+savePlot("personalized.util.risk.vis"); 
+
 
 grid();
