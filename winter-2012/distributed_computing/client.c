@@ -94,9 +94,7 @@ static void mousewatch(CLIENT * clp)
 	  btn = 0;
 	  break;
 	default:
-	  //printf("Disabling the pointer tracking at %s, line %d.\n",
-	  // 	 __FILE__, __LINE__); 
-	  // btn = trackpointer(&me.ln, 0);
+	  btn = trackpointer(&me.ln, 0);
 	  break;
     }
 }
@@ -162,15 +160,12 @@ void startclient
   }
 
   close(xwinio[1]);
-  printf("opening xwindow disabled at file %s, with line %d.\n",
-	 __FILE__, __LINE__); 
-  // int x = openxwindow(me.clientdata.xdisplaynm, xwintitle);
-  /* if (x < 0) { */
-  /*   fprintf(stderr, "client730: openxwindow(%s, %s) == %d, failed\n", */
-  /* 	    me.clientdata.xdisplaynm, xwintitle, x); */
-  /*   exit(4); */
-  /* } */
-  
+  int x = openxwindow(me.clientdata.xdisplaynm, xwintitle);
+  if (x < 0) {
+    fprintf(stderr, "client730: openxwindow(%s, %s) == %d, failed\n",
+	    me.clientdata.xdisplaynm, xwintitle, x);
+    exit(4);
+  }
 
   addclient_1(&me.clientdata, clp);
   mousewatch(clp);	    /* returns only when button3 is clicked */
