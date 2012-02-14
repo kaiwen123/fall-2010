@@ -66,7 +66,7 @@ program WhiteBoardServer {
     int delclient(ClientData) = 2; /* on right click. */
     int addline(AddLineArg) = 3;   /* when left clicked. */
     Linep sendallmylines(ClientData) = 4; /* when new client registered. */
-    BBoard query(ClientData) = 5;	  /* when webadmin queries server. */
+    BBoard query(int) = 5;	  /* when webadmin queries server. */
   } = 1;
 } = 0x20000099;			/* change to your own last 4 digits */
 
