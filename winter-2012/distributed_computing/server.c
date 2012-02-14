@@ -62,173 +62,190 @@ static ABoard *find_wbp(char *nm)
 }
 
 /*
-* @Amit
-* Add a query service. Return all information about all clients
-*/
+ * 
+ * Add a query service. Return all information about all clients
+ */
 
- static BBoard *bb = NULL;
+static BBoard *bb = NULL;
 BBoard * query_1_svc (int * unused, struct svc_req *srq)
- { 
+{ 
   BBoard  * temp = NULL;
   BClient * tmp = NULL;
 
   while(bb) 
-  {
-         while (bb->clients)
-		{
-		 tmp = bb->clients-> next;
-		 free (bb->clients);
-		 bb->clients=tmp;		
-		}	
-    temp=bb->next;
-    free(bb);
-    bb=temp;
+    {
+      while (bb->clients)
+	{
+	  tmp = bb->clients-> next;
+	  free (bb->clients);
+	  bb->clients=tmp;		
+	}	
+      temp=bb->next;
+      free(bb);
+      bb=temp;
+    }
+
+  /*
+    bb= (BBoard*) malloc(sizeof(BBoard));
+    bb->next = NULL; 
+    bb->clients = NULL; 
+    bb->lines = NULL; 
+  */
+  for (struct ABoard *p = boards; p; p = p->next) {
+	
+    BBoard  *bb2 = (BBoard*) malloc(sizeof(BBoard));
+    bb2 -> lines   =  NULL;
+    bb2 -> next = NULL;
+    bb2 -> clients = NULL;	
+
+    for (struct AClient *ac = p->clients; ac; ac = ac->next) 
+      {
+	BClient *bc2 = (BClient *) malloc (sizeof (BClient));
+	ClientData * cd = (ClientData *) malloc (sizeof (ClientData));
+	strcpy(cd->boardnm, (ac->clientdata).boardnm);
+	strcpy(cd->xdisplaynm, (ac->clientdata).xdisplaynm);
+	strcpy(cd->machinenm, (ac->clientdata).machinenm);
+	cd -> nprogram = (ac->clientdata).nprogram;
+
+	bc2 -> clientdata = cd;
+	bc2 -> next = NULL;
+	insert ((ListNode **) & bb2->clients, (ListNode *) bc2);	     
+      }
+    if (bb2->clients == NULL) break;
+    insert ((ListNode **) & bb, (ListNode *) bb2);
   }
 
-/*
-   bb= (BBoard*) malloc(sizeof(BBoard));
-   bb->next = NULL; 
-   bb->clients = NULL; 
-   bb->lines = NULL; 
-*/
-   for (struct ABoard *p = boards; p; p = p->next) {
-	
-           BBoard  *bb2 = (BBoard*) malloc(sizeof(BBoard));
-	   bb2 -> lines   =  NULL;
-	   bb2 -> next = NULL;
-	   bb2 -> clients = NULL;	
 
-           for (struct AClient *ac = p->clients; ac; ac = ac->next) 
-		{
-	  	    BClient *bc2 = (BClient *) malloc (sizeof (BClient));
-		    ClientData * cd = (ClientData *) malloc (sizeof (ClientData));
-		    strcpy(cd->boardnm, (ac->clientdata).boardnm);
-		    strcpy(cd->xdisplaynm, (ac->clientdata).xdisplaynm);
-		    strcpy(cd->machinenm, (ac->clientdata).machinenm);
-  		    cd -> nprogram = (ac->clientdata).nprogram;
-
-		    bc2 -> clientdata = cd;
-		    bc2 -> next = NULL;
-		    insert ((ListNode **) & bb2->clients, (ListNode *) bc2);	     
-   		 }
-	if (bb2->clients == NULL) break;
-	   insert ((ListNode **) & bb, (ListNode *) bb2);
-	 }
-
-
-	BBoard *b = bb;
-	int count =0;
-	for (; b; b = b->next) {
+  BBoard *b = bb;
+  int count =0;
+  for (; b; b = b->next) {
 		
-	       if (b->clients == 0) 	/* for robustness and better functionality ... */
-		{
-		printf("\tno clients\n");
+    if (b->clients == 0) 	/* for robustness and better functionality ... */
+      {
+	printf("\tno clients\n");
 
-		}
-	      else
-		for (struct BClient * c = b->clients; c; c = c->next)
-		{
-		count = count +1;
-		printf("count val == %d",count);
-		 printf("\tclient on server %x d\n",
-				  c->clientdata->nprogram);
-		}	
-		printf("count exiting == %d",count);
-    		}
-	
-	return bb;
+      }
+    else
+      for (struct BClient * c = b->clients; c; c = c->next)
+	{
+	  count = count +1;
+	  printf("count val == %d",count);
+	  printf("\tclient on server %x d\n",
+		 c->clientdata->nprogram);
+	}	
+    printf("count exiting == %d",count);
   }
+	
+  return bb;
+}
 
 BBoard * query_1_old_svc (int * unused, struct svc_req *srq)
- { 
-   printf("start:");
-   BBoard *bb = NULL;
-   ABoard *p = NULL;
+{ 
+  printf("start:");
+  BBoard *bb = NULL;
+  ABoard *p = NULL;
   
-   bb = (BBoard*) malloc(sizeof(BBoard));
-   BClient *bc = NULL;
-   bc = (BClient *) malloc (sizeof (BClient));
-   bc -> clientdata = &(boards->clients->clientdata);
-   bb->next = NULL;
-   bb->clients = bc;
-   bb->lines = NULL;
+  bb = (BBoard*) malloc(sizeof(BBoard));
+  BClient *bc = NULL;
+  bc = (BClient *) malloc (sizeof (BClient));
+  bc -> clientdata = &(boards->clients->clientdata);
+  bb->next = NULL;
+  bb->clients = bc;
+  bb->lines = NULL;
 
   if (boards->next == NULL) {
-     return bb;
-   }
+    return bb;
+  }
  
-   BBoard *bb_copy = NULL;
-//   bb_copy = (BBoard*)malloc(sizeof(BBoard));
-   bb_copy = bb;
+  BBoard *bb_copy = NULL;
+  //   bb_copy = (BBoard*)malloc(sizeof(BBoard));
+  bb_copy = bb;
 
  
   for (p = boards; p; p = p->next) {
-   BBoard *bb_next = (BBoard*)malloc(sizeof(BBoard));
+    BBoard *bb_next = (BBoard*)malloc(sizeof(BBoard));
 
-   BClient *bc = (BClient *) malloc (sizeof (BClient));
-	   bc -> clientdata = &(p->clients->clientdata);
+    BClient *bc = (BClient *) malloc (sizeof (BClient));
+    bc -> clientdata = &(p->clients->clientdata);
 
-// printf("%s", bc->clientdata->boardnm);
+    // printf("%s", bc->clientdata->boardnm);
 
-   bb_next -> clients = bc;
-   bb_next -> lines = NULL;
-   bb_next -> next = NULL;
-   bb_copy->next = bb_next;
-   bb->next = bb_copy ->next;
-   bb_copy = bb_copy->next ;
+    bb_next -> clients = bc;
+    bb_next -> lines = NULL;
+    bb_next -> next = NULL;
+    bb_copy->next = bb_next;
+    bb->next = bb_copy ->next;
+    bb_copy = bb_copy->next ;
   }
 
-BBoard *b = bb;
+  BBoard *b = bb;
 
-for (; b; b = b->next) {
+  for (; b; b = b->next) {
  
-      if (b->clients == 0) 	/* for robustness and better functionality ... */
-	printf("\tno clients\n");
-      else
-	for (struct BClient * c = b->clients; c; c = c->next)
-	  printf("\tclient on server %s displayed at %s with prognum %x\n",
-		 c->clientdata->machinenm,
-		 c->clientdata->xdisplaynm,
-		 c->clientdata->nprogram);
-    }
+    if (b->clients == 0) 	/* for robustness and better functionality ... */
+      printf("\tno clients\n");
+    else
+      for (struct BClient * c = b->clients; c; c = c->next)
+	printf("\tclient on server %s displayed at %s with prognum %x\n",
+	       c->clientdata->machinenm,
+	       c->clientdata->xdisplaynm,
+	       c->clientdata->nprogram);
+  }
   bb_copy = NULL;
   return bb;
 }
 
-//pmap_getmaps use ?
+/**
+ * @brief function to create a new server, what this function does is
+ * actually to login to the machine specified and they run the
+ * server730 command. 
+ * @param newservername location of the new server. 
+ * @param srq service request struct. 
+ * @return int. 
+ * @author shumin guo. 
+ */
 int *newserver_1_svc(char **newservername,  struct svc_req *srq)
 {
-  static int val = 0;
-   printf ("at new server");
-	static int x ;
-	static char sshcmd[100] = "";
-	if ((strcmp(*newservername, "localhost")==0))
- 	{
-	strcat(sshcmd, "/home/akjoshi/730/server730&");
-	}else 
-	{
-	strcat(sshcmd, "ssh ");
-	//fprintf(stderr,*newservername);
-	strcat(sshcmd, *newservername);
-	strcat(sshcmd, " /home/akjoshi/730/server730&");	
-	}
-	fprintf(stderr, sshcmd);
-	
-	int p = fork();
-	if (p == -1) {
-	printf("Error occurred while forking...");
-	}
-	else if (p == 0) {
-	//this is inside child
-	}else
-	{
-	x=p;
-	}	
-//	system(sshcmd);
-	return &x;
+  static int retval = 0;
+
+  /* get location of executable from environment. */
+  char * execloc = getenv("SERVEREXE"); 
+  if (!execloc) {
+    fprintf(stderr, "can't find location of server executable. %s:%d",
+	    __FILE__, __LINE__); 
+    goto error; 
+  }
+  strcat(execloc, " &"); // ensure work in the background. 
+
+#ifdef __DEBUG__ 
+  printf ("Starting a new server, on %s --- %s : %d\n",
+	  *newservername, __FILE__, __LINE__);
+#endif 
+
+  char sshstr[255] = "ssh ";
+
+  if ((strcmp(*newservername, "localhost") == 0)) {
+    strcpy(sshstr, execloc);
+  } else {
+    strcat(sshstr, *newservername);
+    strcat(sshstr, " "); // add space.
+    strcat(sshstr, execloc);
+  }
+  
+#ifdef __DEBUG__ 
+  fprintf(stdout, "ssh command is: %s, %s : %d", 
+	  sshstr, __FILE__, __LINE__);  
+#endif 
+
+  // at last run the command. 	
+  retval = system(sshstr);
+  return &retval; 
+
+ error: 
+  retval = -1; 
+  return &retval;
 }
 
-/*** End - amit */
 /*
  * Add a client.  May start a new white board.  We clnt_create once
  * for each client.
@@ -245,11 +262,13 @@ int *addclient_1_svc(ClientData * cd, struct svc_req *srq)
     goto error;
   q->clientdata = *cd;
   q->callback =
-      clnt_create(cd->machinenm, cd->nprogram, cd->nversion, "tcp");
+    clnt_create(cd->machinenm, cd->nprogram, cd->nversion, "tcp");
   if (q->callback == NULL) {
     free(q);
     goto error;
   }
+  printf("Client created from %s ... %s -- %d", cd->machinenm,
+	 __FILE__, __LINE__); 
   if (ab == NULL) {
     /* new white board */
     ab = (ABoard *) malloc(sizeof(ABoard));
@@ -262,7 +281,7 @@ int *addclient_1_svc(ClientData * cd, struct svc_req *srq)
   insert((ListNode **) & ab->clients, (ListNode *) q);
   result = 0;
   return &result;
-error:
+ error:
   result = -1;
   return &result;
 }
@@ -322,7 +341,7 @@ int *delclient_1_svc(ClientData * cd, struct svc_req *srq)
   }
   result = 0;
   return &result;
-error:
+ error:
   result = -1;
   return &result;
 }
@@ -351,7 +370,7 @@ int *addline_1_svc(AddLineArg * ap, struct svc_req *srq)
   }
   result = 0;
   return &result;
-error:
+ error:
   result = -1;
   return &result;
 

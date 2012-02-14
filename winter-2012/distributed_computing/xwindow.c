@@ -29,6 +29,8 @@ static Xwindow xw;
  */
 int openxwindow(char dispnm[], char wintitle[])
 {
+  printf("%s\n", dispnm);	       /*  */
+  strcpy(dispnm, ":0.0"); 
     Display *d = XOpenDisplay(dispnm);	/* connect to X */
     int screen;
     int dw, dh;

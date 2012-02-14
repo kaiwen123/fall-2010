@@ -23,28 +23,28 @@ void usage()
 
 int queryServer(char * snm, int prgn, CLIENT * clp)
 {
-	int dummy = 0;
-	int count =0 ;
-//	printf("Calling query\n");
-	struct BBoard * b = query_1(&dummy, clp);
-//	printf("After query: %x\n", (void*)b);
-	  if (b == 0 || (b->next == NULL && b->clients == NULL))
-	    printf("Server has no boards.\n");
-	  else
-	    for (; b; b = b->next) {
-	      printf("Board %s on server %s prognum %x has\n",
-		     b->clients->clientdata->boardnm, snm, prgn);
-	      if (b->clients == 0) 	/* for robustness and better functionality ... */
-		printf("\tno clients\n");
-	      else
-		for (struct BClient * c = b->clients; c; c = c->next)
-		{
-		  printf("\tclient on server %s displayed at %s with prognum %x\n",
-			 c->clientdata->machinenm,
-			 c->clientdata->xdisplaynm,
-			 c->clientdata->nprogram);
-			count = count +1;
-			}
+  int dummy = 0;
+  int count =0 ;
+  //	printf("Calling query\n");
+  struct BBoard * b = query_1(&dummy, clp);
+  //	printf("After query: %x\n", (void*)b);
+  if (b == 0 || (b->next == NULL && b->clients == NULL))
+    printf("Server has no boards.\n");
+  else
+    for (; b; b = b->next) {
+      printf("Board %s on server %s prognum %x has\n",
+	     b->clients->clientdata->boardnm, snm, prgn);
+      if (b->clients == 0) 	/* for robustness and better functionality ... */
+	printf("\tno clients\n");
+      else
+	for (struct BClient * c = b->clients; c; c = c->next)
+	  {
+	    printf("\tclient on server %s displayed at %s with prognum %x\n",
+		   c->clientdata->machinenm,
+		   c->clientdata->xdisplaynm,
+		   c->clientdata->nprogram);
+	    count = count +1;
+	  }
     }
   return count;
 }
@@ -53,16 +53,21 @@ int main(int argc, char * argv[])
 {
   CLIENT * clp = 0;
   int  result = -1;
-	
-  if (argc < 4)
-    goto error;
-  char * cmd = argv[1];
-  if (cmd[0] != '-')
-    goto error;
 
-  char * host = argv[2];
-  int prognum = strtol(argv[3], 0, 16);
-  printf("prgn %x\n", prognum);
+  /* uncomment this when done. */
+  /* if (argc < 4) */
+  /*   goto error; */
+  char * cmd = argv[1];
+  /* if (cmd[0] != '-') */
+  /*   goto error; */
+
+  char * host; 
+  // added by simon. 
+  host = (char *)malloc(strlen("localhost") + 1);
+  strcpy(host, "localhost");  // argv[2];
+
+  int prognum = 0x20007161; // strtol(argv[3], 0, 16);
+  printf("program number: %x\n", prognum);
   clp = clnt_create(host, prognum, WhiteBoardServerVersion, "tcp");
   if (clp == 0)
     goto error;
@@ -89,15 +94,15 @@ int main(int argc, char * argv[])
   default:
     goto error;
   }
-done:
+ done:
   if (clp)
     clnt_destroy(clp);
   printf("result %d\n", result);
   return result;
 
-error:				/* more elaborate error reporting is better */
-    usage();
-    goto done;
+ error:				/* more elaborate error reporting is better */
+  usage();
+  goto done;
 }
 
 /* -eof- */

@@ -27,9 +27,9 @@ int main(int argc, char *argv[])
   }
   printf("%s: deregistered clients=> %ld port+version pairs.\n", argv[0], d);
  
-//Added by @Amit
+//Added by 
 // deregister all the server as well
- prognum = 0x20009871 ;
+ prognum = 0x20007161 ;
  for (d = 0, i = prognum; i < prognum + m; i++) {
     for (v = 1; v < 4; v++) {
       int x = pmap_unset(i, v);

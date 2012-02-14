@@ -30,8 +30,8 @@ static unsigned long findTransient(int version)
     goto error;
   }
 
-  for (unsigned long prognum = 0x20009871; 
-       prognum < 0x20009871 + NPROGNUMSTOTRY; prognum ++)
+  for (unsigned long prognum = 0x20007161; 
+       prognum < 0x20007161 + NPROGNUMSTOTRY; prognum ++)
     if (pmap_set(prognum, version, IPPROTO_TCP, ad.sin_port))
 	 { 
 	printf ("program number:%l",prognum);
