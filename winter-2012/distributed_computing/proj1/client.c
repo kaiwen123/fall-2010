@@ -102,8 +102,7 @@ static void mousewatch(CLIENT * clp)
 /*
  * Called by client_s.c.  See ./ed-script. Start the client.
  */
-void startclient
-    (int nprogram, int nversion,
+void startclient (int nprogram, int nversion,
      char *servermcnm, char *boardnm, char *xdisplaynm, char *pmcolor) {
   /* clients own details -- once set, these do not change */
   me.clientdata.color = atoir(pmcolor, 16);
@@ -112,7 +111,7 @@ void startclient
   gethostname(me.clientdata.machinenm, sizeof(me.clientdata.machinenm));
   strcpy(me.clientdata.boardnm, boardnm);
   strcpy(me.clientdata.xdisplaynm, xdisplaynm);
-  strcat(me.clientdata.xdisplaynm, ":0.0");
+  strcat(me.clientdata.xdisplaynm, getenv("DISPLAY"));
 
   char xwintitle[100];
   sprintf(xwintitle, "%s@%s color=%lx",
@@ -172,4 +171,21 @@ void startclient
   endtheclient(0);
 }
 
+/**
+ * @brief Transfer the client to the newly created server by the old
+ * server. What the old server provides is the location of the new
+ * machine and the program number for the new machine. And what the
+ * client does is actually deregister with the old server and register
+ * itself with the new server. 
+ * @param targ transfer argument. 
+ * @param srq service request struct. 
+ * @return -1 on failure and > 0 otherwise. 
+ */
+int * clienttransfer_1_svc(XferWBArg *targ, struct svc_req *srq) {
+  static int retval = 0; 
+
+  // when
+
+  return retval; 
+}
 /* -eof- */

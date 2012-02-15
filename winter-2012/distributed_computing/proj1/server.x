@@ -55,7 +55,7 @@ program WhiteBoardServer {
     Linep sendallmylines(ClientData) = 4;
     BBoard query(int) = 5;
     int newserver(string) = 6;
-    int transferwhiteboard(string) = 7;    
+    int transferwhiteboard(XferWBArg) = 7;    
   } = 1;
 } = 0x20007161;			/* change to your own last 4 digits */
 

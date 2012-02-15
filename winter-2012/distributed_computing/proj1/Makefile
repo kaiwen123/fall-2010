@@ -8,7 +8,7 @@ SOBJ = server.o server_svc.o client_clnt.o server_xdr.o
 COBJ = client.o transient.o server_clnt.o client_s.o server_xdr.o xwindow.o
 WOBJ = wbadmin.o server_clnt.o server_xdr.o
 CFLAGS =  -Wall -pedantic -ansi -std=c99 -ggdb3 -D__DEBUG__ # -DBSD_SIGNALS 
-CC = gcc $(CFLAGS)
+CC = gcc
 
 all: server730 client730 deregall730 xwindow730 wbadmin730 
 	@ ls -l server730 client730 xwindow730 deregall730
@@ -36,7 +36,12 @@ client.h client_xdr.c client_svc.c client_clnt.c: client.x wb.h
 
 client_s.c: client_svc.c
 	cp -f client_svc.c client_s.c
-	ed client_s.c < ed-script 2> /dev/null > /dev/null
+	ed client_s.c < ed-script-client 2> /dev/null > /dev/null
+
+server_s.c: server_svc.c
+	cp -f server_svc.c server_s.c
+	ed server_s.c < ed-script-server 2> /dev/null > /dev/null
+
 print:
 	enscript -B -fCourier8 -2r Makefile 0README.txt \
 		server.x server.c client.x  client.c
