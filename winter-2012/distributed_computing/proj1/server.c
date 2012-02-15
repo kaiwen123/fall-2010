@@ -166,8 +166,8 @@ int *delclient_1_svc(ClientData * cd, struct svc_req *srq)
   return &result;
 }
 
-/*
- * A clients gives us a new line.  Get the coordinates of the line and
+/**
+ * @brief A clients gives us a new line.  Get the coordinates of the line and
  * distribute among the clients.
  */
 int *addline_1_svc(AddLineArg * ap, struct svc_req *srq)
@@ -209,6 +209,7 @@ Linep *sendallmylines_1_svc(ClientData * cd, struct svc_req * srq)
  * @brief Query service. Return all information about all clients
  * @param unused a dummy integer. 
  * @param srq the service request struct.
+ * @return A pointer to the list of boards. 
  */
 BBoard * query_1_svc (int * unused, struct svc_req *srq)
 {
@@ -234,83 +235,82 @@ BBoard * query_1_svc (int * unused, struct svc_req *srq)
   }
 #endif
 
-  // Copy all the abords information to the BBoards. 
+  // Copy all the ABoards boards to the BBoards bboards. 
   while(abp) {
     bbp = (BBoard *)malloc(sizeof(BBoard)); 
-    if(!bboards) bboards = bbp; // bboards point to first b board.
+    if(!bbp) goto error; 
+
+    // bboards point to first b board.
+    if(!bboards) bboards = bbp;
   
-    // copy info from abp to bbp. 
-    
-  }
+    /* copy info from abp to bbp. */
+    // copy clients data. 
+    AClient *aclnt = abp->clients; 
+    BClient *bclnt = NULL; 
 
-  /* /\* work done by amit from here. *\/ */
-  /* //  */
-  /* while(bb) { // each board.  */
-  /*   while (bb->clients) { // clients connected to this board. */
-  /*     BClient * tmp; */
-  /*     tmp = bb->clients-> next; */
-  /*     free (bb->clients); */
-  /*     bb->clients=tmp;		 */
-  /*   }	 */
-  /*   BBoard  * temp = NULL; */
-  /*   temp=bb->next; */
-  /*   free(bb); */
-  /*   bb=temp; */
-  /* } */
+    //////////////////////
+    // copy clients linked list. 
+    //////////////////////
+    while(aclnt) {
+      bclnt = (BClient *)malloc(sizeof(BClient)); 
 
-  /* for (struct ABoard *p = boards; p; p = p->next) { */
-  /*   BBoard  *bb2 = (BBoard*) malloc(sizeof(BBoard)); */
-  /*   bb2 -> lines   =  NULL; */
-  /*   bb2 -> next = NULL; */
-  /*   bb2 -> clients = NULL;	 */
+      // deep copy of client object data from abp to bbp.
+      if(!bclnt) {
+	fprintf(stderr, "%s %s:%d\n", "can't create BClient object",
+		__FILE__, __LINE__); 
+	goto error; 
+      }
 
-  /*   for (struct AClient *ac = p->clients; ac; ac = ac->next)  */
-  /*     { */
-  /* 	BClient *bc2 = (BClient *) malloc (sizeof (BClient)); */
-  /* 	ClientData * cd = (ClientData *) malloc (sizeof (ClientData)); */
-  /* 	strcpy(cd->boardnm, (ac->clientdata).boardnm); */
-  /* 	strcpy(cd->xdisplaynm, (ac->clientdata).xdisplaynm); */
-  /* 	strcpy(cd->machinenm, (ac->clientdata).machinenm); */
-  /* 	cd -> nprogram = (ac->clientdata).nprogram; */
+      // assign the clients pointer of the client list.
+      if(!bbp->clients) bbp->client = bclnt; 
+      // copy client data from aclnt to bclnt.
+      bclnt -> clientdata = aclnt -> clientdata;
+      bclnt -> next = NULL; 
 
-  /* 	bc2 -> clientdata = cd; */
-  /* 	bc2 -> next = NULL; */
-  /* 	insert ((ListNode **) & bb2->clients, (ListNode *) bc2);	      */
-  /*     } */
-  /*   if (bb2->clients == NULL) break; */
-  /*   insert ((ListNode **) & bb, (ListNode *) bb2); */
-  /* } */
+      // insert into list. 
+      insert(bbp->clients, bclnt); 
 
-  /* BBoard *b = bb; */
-  /* int count =0; */
-  /* for (; b; b = b->next) {		 */
-  /*   if (b->clients == NULL) { */
-  /*     printf("\tno clients\n");   */
-  /*     return bb;  */
-  /*   }  */
-  /*   for (struct BClient * c = b->clients; c; c = c->next) { */
-  /*     count = count +1; */
-  /*   }	 */
-  /* } */
+      aclnt = aclnt -> next; 
+    } // while, copy client list. 
 
-#ifdef __DEBUG__ 
-  printf("count val == %d",count);
-  printf("\tclient on server %x d\n", c->clientdata->nprogram);
-#endif 
+    //////////////////////
+    // copy lines data. 
+    //////////////////////
+    Aline * aln = abp -> lines; 
+    Aline * bln = NULL;
+    while(aln) {
+      bln = (ALine *)malloc(sizeof(ALine)); 
+      if(!bln) {
+	fprintf(stderr, "%s %s : %d.\n", 
+		"Error creating new ALine object", 
+		__FILE__, __LINE__); 
+	goto error; 
+      }
+      bln -> ln = aln -> ln; 
+      insert(bbp -> lines, bln) ;
 
-  return bb;
+      aln = aln -> next; 
+    } // while, copying a list of lines for board abp to board bbp. 
+
+    // insert the board node into the list. 
+    insert(bboards, bbp);
+
+    abp = abp -> next;
+  } // while, copy ABoard abp to BBoard bbp. 
+
+  return bboards; 
+
+ error: 
+  bboards = NULL; 
+  return bboards; 
 }
 
 /**
-*******************************************************************
 * @brief function to create a new server, what this function does is
 * actually to login to the machine specified and they run the
 * server730 command. 
 * @param newservername location of the new server. 
 * @param srq service request struct. 
-* @return int. 
-* @author shumin guo. 
-*******************************************************************
 */
 int *newserver_1_svc(char **newservername,  struct svc_req *srq)
 {
