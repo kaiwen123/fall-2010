@@ -382,7 +382,9 @@ int * transferwhiteboard_1_svc(XferWBArg *xfarg, struct svc_req *srq) {
   AClient *acp = wbp -> clients; 
   while(acp) {
     fprintf(stdout, "Client: %s - %x - %d.\n", 
-	    acp->clientdata.machinenm, nprogram, nversion); 
+	    acp->clientdata.machinenm, 
+	    acp->clientdata.nprogram, 
+	    acp->clientdata.nversion); 
 
     // call the client to transfer to the new board. 
     retval = clienttransfer_1(xfarg, acp -> callback); 
@@ -393,7 +395,7 @@ int * transferwhiteboard_1_svc(XferWBArg *xfarg, struct svc_req *srq) {
   // should delete the existing named board. 
   delboard(wbp); 
 
-  return retval; 
+  return &retval; 
 
  error:
   retval = -1; 
