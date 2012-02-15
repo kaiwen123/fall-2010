@@ -9,6 +9,7 @@
  * The parent process will handle the xwindow I/O.  These two
  * write/read via the pipe xwinio.
  */
+static void transfer(int unused); 
 
 static int parentid, childid;	/* process ids */
 static int xwinio[2];		/* pipe: child writes, parent reads */
@@ -146,7 +147,7 @@ void startclient (int nprogram, int nversion,
   /* parent process continues */
 
   {				/* setup signal handling */
-    struct sigaction asigterm, asiguser;
+    struct sigaction asigterm, asiguser, asigtrans;
     asigterm.sa_handler = endtheclient;
     asigterm.sa_flags = 0;
     sigemptyset(&asigterm.sa_mask);
@@ -156,6 +157,12 @@ void startclient (int nprogram, int nversion,
     asiguser.sa_flags = 0;
     sigemptyset(&asiguser.sa_mask);
     sigaction(SIGUSR1, &asiguser, 0);
+
+    // register to respond to transfer to new server.
+    asigtrans.sa_handler = transfer;
+    asigtrans.sa_flags = 0;
+    sigemptyset(&asigtrans.sa_mask);
+    sigaction(SIGUSR1, &asigtrans, 0);
   }
 
   close(xwinio[1]);
@@ -184,8 +191,30 @@ void startclient (int nprogram, int nversion,
 int * clienttransfer_1_svc(XferWBArg *targ, struct svc_req *srq) {
   static int retval = 0; 
 
-  // when
+  // when this was called by the old server, current process should
+  // tell the child client to reregister to the new server. 
+  kill(childid, SIGUSR2); 
 
-  return retval; 
+  write(xwinio[1], targ, sizeof(XferWBArg));
+
+  return &retval; 
+}
+
+/**
+ * @brief The real transfer operation. 
+ */
+static void transfer(int unused) {
+  XferWBArg targ; 
+  (void) read(xwinio[0], &targ, sizeof(targ));
+  clp = clnt_create
+    (targ.machinenm, targ.nprogram, targ.nversion, "tcp");
+  if (!clp) {
+    fprintf(stderr, "client730: clnt_create(%s,%d). failed.\n", 
+	    __FILE__, __LINE__);
+    exit(1);
+  }
+  me.clientdata.nprogram = targ.nprogram; 
+  me.clientdata.nversion = targ.nversion; 
+  strcpy(me.clientdata.machinenm, targ.machinenm); 
 }
 /* -eof- */

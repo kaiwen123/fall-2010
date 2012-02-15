@@ -7,7 +7,7 @@ CURRENT_DIR=730-WB-C-RPC-2012
 SOBJ = server.o server_svc.o client_clnt.o server_xdr.o
 COBJ = client.o transient.o server_clnt.o client_s.o server_xdr.o xwindow.o
 WOBJ = wbadmin.o server_clnt.o server_xdr.o
-CFLAGS =  -Wall -pedantic -ansi -std=c99 -ggdb3 -D__DEBUG__ # -DBSD_SIGNALS 
+CFLAGS = -pedantic -ansi -std=c99 -ggdb3 -D__DEBUG__ # -Wall -DBSD_SIGNALS 
 CC = gcc
 
 all: server730 client730 deregall730 xwindow730 wbadmin730 
