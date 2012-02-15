@@ -29,8 +29,8 @@ static Xwindow xw;
  */
 int openxwindow(char dispnm[], char wintitle[])
 {
-  printf("%s\n", dispnm);	       /*  */
-  strcpy(dispnm, ":0.0"); 
+  // printf("%s\n", dispnm);	       /*  */
+  // strcpy(dispnm, ":0.0"); 
     Display *d = XOpenDisplay(dispnm);	/* connect to X */
     int screen;
     int dw, dh;
@@ -110,7 +110,7 @@ int trackpointer(LineCoords * newseg, int pending)
     int rootx, rooty, wx, wy;
     unsigned int keys_buttons;
     static XPoint points[2000] = { {0}, {0} };
-    static int index = 0, npts;
+    static int index = 0, npts = 0;
 
     if (pending && !XPending(xw.display)) {
 	return 0;

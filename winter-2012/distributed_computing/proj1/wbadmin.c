@@ -7,8 +7,8 @@
 
 #include "wb.h"
 #define NMSZ 50
-//int newserver_1(char * machineName, CLIENT * clp) { return 0; }
-int transferwhiteboard_1(struct XferWBArg a, CLIENT * clp) { return 0; }
+// int newserver_1(char * machineName, CLIENT * clp) { return 0; }
+// int transferwhiteboard_1(struct XferWBArg a, CLIENT * clp) { return 0; }
 
 void usage()
 {
@@ -21,34 +21,55 @@ void usage()
      "wbadmin -t <from-server-machine-nm> <prognum-in-hex> <wb-nm> <to-server-machine-nm> <prognum>\n");
 }
 
+/**
+ * @brief server querying function, which querys the server and get a
+ * list of boards from the server. Then we iterate over the list and
+ * print out the clients and lines attached to the boards.
+ * @param snm server name to query. 
+ * @param prgn program number for the server. 
+ * @param clp client pointer, which indicates we need to create a new
+ * client to the server before doing the querying thing. 
+ * @return number of boards on the given server with progn.
+ */
 int queryServer(char * snm, int prgn, CLIENT * clp)
 {
   int dummy = 0;
   int count =0 ;
-  //	printf("Calling query\n");
+  // printf("Calling query\n");
   struct BBoard * b = query_1(&dummy, clp);
-  //	printf("After query: %x\n", (void*)b);
-  if (b == 0 || (b->next == NULL && b->clients == NULL))
+  // printf("After query: %x\n", (void*)b);
+  if (b == 0 || (b->next == NULL && b->clients == NULL)) {
     printf("Server has no boards.\n");
-  else
-    for (; b; b = b->next) {
-      printf("Board %s on server %s prognum %x has\n",
-	     b->clients->clientdata->boardnm, snm, prgn);
-      if (b->clients == 0) 	/* for robustness and better functionality ... */
-	printf("\tno clients\n");
-      else
-	for (struct BClient * c = b->clients; c; c = c->next)
-	  {
-	    printf("\tclient on server %s displayed at %s with prognum %x\n",
-		   c->clientdata->machinenm,
-		   c->clientdata->xdisplaynm,
-		   c->clientdata->nprogram);
-	    count = count +1;
-	  }
+    return 0; 
+  }
+  // no boards returned from the server.
+  while(b) {
+    printf("Board %s on server %s prognum %x has\n",
+    	   b->clients->clientdata.boardnm, snm, prgn);
+
+    // print clients information for the current board.
+    struct BClient * clnt = b->clients;
+    while(clnt) {
+      printf("\tclient on server %s displayed at %s with prognum %x\n",
+	     clnt->clientdata.machinenm, clnt->clientdata.xdisplaynm,
+	     clnt->clientdata.nprogram);
+      clnt = clnt -> next; 
     }
+
+    // print the lines in this board.
+    struct ALine * lnp = b -> lines; 
+    while(lnp) {
+      fprintf(stdout, "Line: (%d, %d) to (%d, %d), color %l.\n", 
+	      lnp->ln.x1, lnp->ln.y1, lnp->ln.x2, lnp->ln.y2, lnp->ln.color); 
+      lnp = lnp -> next;
+    }
+    count = count +1;
+    b = b->next;
+  } // for, loop around the board list. 
   return count;
 }
 
+// main function to start the white board admin. 
 int main(int argc, char * argv[])
 {
   CLIENT * clp = 0;
@@ -69,8 +90,11 @@ int main(int argc, char * argv[])
   int prognum = 0x20007161; // strtol(argv[3], 0, 16);
   printf("program number: %x\n", prognum);
   clp = clnt_create(host, prognum, WhiteBoardServerVersion, "tcp");
-  if (clp == 0)
+  if (clp == 0) {
+    fprintf(stderr, "%s %s : %d. \n", "Can't create client. ", 
+	    __FILE__, __LINE__); 
     goto error;
+  }
 
   switch (cmd[1]) {
   case 'q':
@@ -89,7 +113,7 @@ int main(int argc, char * argv[])
     strcpy(xa.machinenm, argv[5]);
     xa.nprogram = strtol(argv[6], 0, 16);
     xa.nversion = WhiteBoardServerVersion;
-    result = transferwhiteboard_1(xa, clp);
+    result = transferwhiteboard_1(&xa, clp);
     break;
   default:
     goto error;

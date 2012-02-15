@@ -169,6 +169,9 @@ int *delclient_1_svc(ClientData * cd, struct svc_req *srq)
 /**
  * @brief A clients gives us a new line.  Get the coordinates of the line and
  * distribute among the clients.
+ * @param ap add line argument.
+ * @param srq service request struct pointer. 
+ * @return -1 on failure, else >= 0; 
  */
 int *addline_1_svc(AddLineArg * ap, struct svc_req *srq)
 {
@@ -221,12 +224,12 @@ BBoard * query_1_svc (int * unused, struct svc_req *srq)
   // print out the boards and clients connected to the boards. 
   if (!boards) {
     fprintf(stderr, "No boards are created on the server.");
-    return bb; 
+    return bboards; 
   }
   
   // if boards are no empty, then print out the boards names and
   // client names; 
-  fprintf("Existing boards and clients. \n");
+  fprintf(stdout, "%s\n", "Existing boards and clients. \n");
   while (abp) {
     fprintf(stdout, "board: %s\t client: %s\n", 
 	    abp->clients->clientdata.boardnm, 
@@ -262,13 +265,13 @@ BBoard * query_1_svc (int * unused, struct svc_req *srq)
       }
 
       // assign the clients pointer of the client list.
-      if(!bbp->clients) bbp->client = bclnt; 
+      if(!bbp->clients) bbp->clients = bclnt; 
       // copy client data from aclnt to bclnt.
       bclnt -> clientdata = aclnt -> clientdata;
       bclnt -> next = NULL; 
 
       // insert into list. 
-      insert(bbp->clients, bclnt); 
+      insert((ListNode **) & bbp->clients, (ListNode *) bclnt); 
 
       aclnt = aclnt -> next; 
     } // while, copy client list. 
@@ -276,8 +279,8 @@ BBoard * query_1_svc (int * unused, struct svc_req *srq)
     //////////////////////
     // copy lines data. 
     //////////////////////
-    Aline * aln = abp -> lines; 
-    Aline * bln = NULL;
+    ALine * aln = abp -> lines; 
+    ALine * bln = NULL;
     while(aln) {
       bln = (ALine *)malloc(sizeof(ALine)); 
       if(!bln) {
@@ -287,13 +290,13 @@ BBoard * query_1_svc (int * unused, struct svc_req *srq)
 	goto error; 
       }
       bln -> ln = aln -> ln; 
-      insert(bbp -> lines, bln) ;
+      insert((ListNode **) & bbp -> lines, (ListNode *) bln) ;
 
       aln = aln -> next; 
     } // while, copying a list of lines for board abp to board bbp. 
 
     // insert the board node into the list. 
-    insert(bboards, bbp);
+    insert((ListNode **) & bboards, (ListNode *) bbp);
 
     abp = abp -> next;
   } // while, copy ABoard abp to BBoard bbp. 
@@ -306,12 +309,13 @@ BBoard * query_1_svc (int * unused, struct svc_req *srq)
 }
 
 /**
-* @brief function to create a new server, what this function does is
-* actually to login to the machine specified and they run the
-* server730 command. 
-* @param newservername location of the new server. 
-* @param srq service request struct. 
-*/
+ * @brief function to create a new server, what this function does is
+ * actually to login to the machine specified and they run the
+ * server730 command. 
+ * @param newservername location of the new server. 
+ * @param srq service request struct. 
+ * @return -1 on failure and positive number on success. 
+ */
 int *newserver_1_svc(char **newservername,  struct svc_req *srq)
 {
   static int retval = 0;
@@ -353,5 +357,47 @@ int *newserver_1_svc(char **newservername,  struct svc_req *srq)
   retval = -1; 
   return &retval;
 }
+
+/**
+ * @brief Transfer white board from one server to another server. 
+ * @param bname the name of board to be transfered. 
+ * @param srq service request struct. 
+ * @return -1 on failure, and number of clients transfered on success. 
+ */
+int * transferwhiteboard_1_svc(XferWBArg *xfarg, struct svc_req *srq) {
+  static int retval = 0 ;
+
+  // find board with the given board name. 
+  char bname[255]; 
+  strcpy(bname, xfarg -> boardnm); 
+  ABoard * wbp = find_wbp(bname); 
+
+  if(!wbp) {
+    fprintf(stderr, "%s %s.\n", "No board named", bname); 
+    goto error; 
+  }
+
+  // if white board exists, then print the name of clients connected
+  // to this board. 
+  AClient *acp = wbp -> clients; 
+  while(acp) {
+    fprintf(stdout, "Client: %s - %x - %d.\n", 
+	    acp->clientdata.machinenm, nprogram, nversion); 
+
+    // call the client to transfer to the new board. 
+    retval = clienttransfer_1(xfarg, acp -> callback); 
+
+    acp = acp -> next; 
+  }
+  // after transfering the clients to the new server, the old server
+  // should delete the existing named board. 
+  delboard(wbp); 
+
+  return retval; 
+
+ error:
+  retval = -1; 
+  return &retval ;
+} // transfer white boards. 
 
 /* -eof- */
