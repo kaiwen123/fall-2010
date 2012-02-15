@@ -1,10 +1,10 @@
-
+// Author: Shumin Guo.
 /* client.c */
 
 #include "wb.h"
 
-/*
- * A "white board client" is a pair of processes.  The forked child
+/**
+ * @brief A "white board client" is a pair of processes.  The forked child
  * receives server call-backs to callbackfromwbs() via its svc_run().
  * The parent process will handle the xwindow I/O.  These two
  * write/read via the pipe xwinio.

@@ -34,10 +34,9 @@ struct BBoard {			/* cf with ABoard */
 
 /* The declarations for BClient, BBoard, XferWBArg, query, newserver,
  * and transferwhiteboard should go into the new server.x */
-
 struct BClient {		/* cf with AClient */
   struct BClient *next;
-  ClientData * clientdata;
+  ClientData clientdata;
 				/* CLIENT *callback; removed */
 };
 
