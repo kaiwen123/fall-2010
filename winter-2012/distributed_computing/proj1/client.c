@@ -81,21 +81,21 @@ static void mousewatch(CLIENT * clp)
 
   for (;;)
     switch (btn) {
-	case 1:
-	case 2:
-	  me.ln.color = me.clientdata.color;
-	  addline_1(&me, clp);
-	  btn = 0;
-	  break;
-	case 3:
-	  return;		/* <== */
-	case 5:
-	  exposedwindow(clp);
-	  btn = 0;
-	  break;
-	default:
-	  btn = trackpointer(&me.ln, 0);
-	  break;
+    case 1:
+    case 2:
+      me.ln.color = me.clientdata.color;
+      addline_1(&me, clp);
+      btn = 0;
+      break;
+    case 3:
+      return;		/* <== */
+    case 5:
+      exposedwindow(clp);
+      btn = 0;
+      break;
+    default:
+      btn = trackpointer(&me.ln, 0);
+      break;
     }
 }
 
@@ -103,7 +103,7 @@ static void mousewatch(CLIENT * clp)
  * Called by client_s.c.  See ./ed-script. Start the client.
  */
 void startclient (int nprogram, int nversion,
-     char *servermcnm, char *boardnm, char *xdisplaynm, char *pmcolor) {
+		  char *servermcnm, char *boardnm, char *xdisplaynm, char *pmcolor) {
   /* clients own details -- once set, these do not change */
   me.clientdata.color = atoir(pmcolor, 16);
   me.clientdata.nprogram = nprogram;
@@ -118,7 +118,7 @@ void startclient (int nprogram, int nversion,
 	  boardnm, me.clientdata.machinenm, me.clientdata.color);
 
   clp = clnt_create
-      (servermcnm, WhiteBoardServer, WhiteBoardServerVersion, "tcp");
+    (servermcnm, WhiteBoardServer, WhiteBoardServerVersion, "tcp");
   if (!clp) {
     fprintf(stderr,
 	    "client730: clnt_create(%s,0x%x,0x%x,%s) failed.\n",
