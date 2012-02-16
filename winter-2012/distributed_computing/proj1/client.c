@@ -1,5 +1,11 @@
-// Author: Shumin Guo.
-/* client.c */
+/**
+ * @file client.c The client program, which is responsible for
+ * managing all the lines on the board, if there are any changes from
+ * the server, it will responsed accordingly, such as the transfer of
+ * itself to the new server (actually to reregister itself). 
+ * @version 1.0 
+ * @author Shumin Guo. 
+ */
 
 #include "wb.h"
 
@@ -9,8 +15,7 @@
  * The parent process will handle the xwindow I/O.  These two
  * write/read via the pipe xwinio.
  */
-static int transfer(int unused); 
-
+static int transfer(int unused); /* transfer client to new server. */
 static int parentid, childid;	/* process ids */
 static int xwinio[2];		/* pipe: child writes, parent reads */
 static AddLineArg me;		/* all the info there is about this client */
@@ -18,8 +23,9 @@ static CLIENT *clp;		/* librpc clnt_create()-ed */
 
 /**
  * @brief Terminate the client.  Remove all traces of the parent+child
- * @pre All the clients were terminated.
- * @post 
+ * @pre client struct object me should be properly set with correct
+ * information about the client to terminate. 
+ * @post client is ended and the rpc map reset.
  * @param unused dummy integer. 
  * @return void.
  */
@@ -68,6 +74,11 @@ static void readndraw(int unused)
 
 /**
  * @brief Client window got exposed.  Redraw the lines.
+ * @pre window was exposed clp point to a correct CLIENT object that
+ * identifies the client associated with the window exposure event.
+ * @post lines belonging to this whiteboard be drawn and displayed. 
+ * @param clp client pointer. 
+ * @return void. 
  */
 static void exposedwindow(CLIENT * clp)
 {
@@ -86,6 +97,12 @@ static void exposedwindow(CLIENT * clp)
  * @brief Watch for mouse input.  Button 3 (right) ends this routine.
  * Pressing buttons 1 (left) or 2 (middle) sends the line to the
  * server who will distribute it to all member white boards.
+ * @pre the user interface, and the signal handling procedures
+ * properly set. And a mouse button was clicked. 
+ * @post mouse events properly handled with registered handler. Or
+ * simply dropped if no handlers were registered for some events. 
+ * @param clp pointer to the client struct. 
+ * @return void. 
  */
 static void mousewatch(CLIENT * clp)
 {
@@ -111,8 +128,21 @@ static void mousewatch(CLIENT * clp)
     }
 }
 
-/*
- * Called by client_s.c.  See ./ed-script. Start the client.
+/**
+ * @brief Called by client_s.c.  See ./ed-script-client. Start the
+ * client.
+ * @pre all the arguments passed to this function were properly set
+ * with valid value. 
+ * @post client specified with given parameter was started. 
+ * @param nprogram the program number used by the client.
+ * @param nversion the version number of the client .
+ * @param servermcnm the name of the server machine. 
+ * @param boardnm the name of the board that this client will be
+ * associated with. 
+ * @param xdisplaynm the x server location where the user interface
+ * window will be displayed. 
+ * @param pmcolor the color of the display color.
+ * @return void. 
  */
 void startclient (int nprogram, int nversion,
 		  char *servermcnm, char *boardnm, char *xdisplaynm, char *pmcolor) {

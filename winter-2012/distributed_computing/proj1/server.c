@@ -1,10 +1,16 @@
-// Author Shumin Guo. 
-// UID : U00617724
-/* server.c */
+/**
+ * @file server.c The implementation of server services including adding and
+ * deleting clients, boards and lines on the whiteboard. 
+ * @version 1.0 
+ * @author Shumin Guo. 
+ */
 
 #include "wb.h"
 static AddLineArg wblines;
-static CLIENT *sclp; 
+/* when transfering a board from old server to the new server, keep track of the
+   client pointer to the old server. */
+static CLIENT *sclp; 		
+
 /*
  * Generic node in a singly-linked list
  */
@@ -183,6 +189,9 @@ static void die(int dummy)
 
 /**
  * @brief Delete the boards. 
+ * @pre ab should point to a valid ABorad object with all the fields properly
+ * set. 
+ * @post board is deleted. 
  * @param ab ABoard object pointer. 
  * @return void. 
  */
@@ -411,7 +420,6 @@ BBoardp * query_1_svc (int * unused, struct svc_req *srq)
   } // while, copy ABoard abp to BBoard bbp. 
 
   return &bboards; 
-    //  }
   
  error: 
   bboards = NULL; 
@@ -450,13 +458,9 @@ int *newserver_1_svc(char **newservername,  struct svc_req *srq)
 
   char sshstr[255] = "ssh -f ";
 
-  /* if ((strcmp(*newservername, "localhost") == 0)) { */
-  /*   strcpy(sshstr, execloc); */
-  /* } else { */
   strcat(sshstr, *newservername);
-  strcat(sshstr, " "); // add space.
+  strcat(sshstr, " "); // add space between hostname and cmd. 
   strcat(sshstr, execloc);
-    //  }
   
 #ifdef __DEBUG__ 
   fprintf(stdout, "ssh command: %s, %s : %d.\n", 
@@ -514,8 +518,10 @@ int * transferwhiteboard_1_svc(XferWBArg *xfarg, struct svc_req *srq) {
   // if white board exists, copy the board to a new object including
   // all the clients and lines and then print the name of clients
   // connected to this board.
-  BBoard bbd; 
+  struct BBoard bbd; 
   bbd.next = NULL; 
+  bbd.lines = NULL; 
+  bbd.clients = NULL; 
   AClient *acp = wbp -> clients; // clients. 
   BClient *bcp = bbd.clients; 
   while(acp) {
@@ -604,17 +610,31 @@ int * sendwbtonewserver_1_svc(BBoard *bdfromold, struct svc_req *srq) {
 
   // copy the clients linked to this board.  
   BClient * bcp = bdfromold -> clients; 
-  AClient * acp = (AClient *) malloc (sizeof(AClient));
-  if(!acp) goto error; 
-  acp -> next = NULL; 
-  acp -> callback = NULL; 
+  AClient * acp = NULL; 
   while(bcp) {
+    acp = (AClient *) malloc (sizeof(AClient));
+    if(!acp) goto error;
+    acp -> next = NULL; 
+    acp -> callback = NULL;
+
     strcpy(acp->clientdata.boardnm, bcp->clientdata.boardnm); 
     strcpy(acp->clientdata.xdisplaynm, bcp->clientdata.xdisplaynm); 
     strcpy(acp->clientdata.machinenm, bcp->clientdata.machinenm); 
     acp->clientdata.nprogram = bcp->clientdata.nprogram; 
     acp->clientdata.nversion = bcp->clientdata.nversion; 
+    acp->clientdata.color = bcp->clientdata.color; 
 
+    // re-create the callback function for the client struct. 
+    acp->callback = clnt_create(bcp->clientdata.machinenm,
+				bcp->clientdata.nprogram, 
+				bcp->clientdata.nversion, "tcp"); 
+    if(!acp->callback) {
+      fprintf(stderr, "Error creating callback from the new server %s.\n",
+	      bcp->clientdata.machinenm); 
+      goto error; 
+    }
+
+    // insert the copied client into the client list in the board. 
     insert((ListNode **) &abd->clients, (ListNode *) acp); 
 
     bcp = bcp -> next; 
@@ -622,11 +642,13 @@ int * sendwbtonewserver_1_svc(BBoard *bdfromold, struct svc_req *srq) {
 
   // copy the lines linked to the board. 
   ALine * blp = bdfromold -> lines; 
-  ALine * alp = (ALine *) malloc (sizeof(ALine)); 
-  if(!alp) goto error; 
-  alp -> next = NULL; 
+  ALine * alp = NULL;
   while(blp) {
+    alp = (ALine *) malloc (sizeof(ALine)); 
+    if(!alp) goto error; 
+    alp -> next = NULL; 
     alp->ln = blp->ln; 
+
     insert((ListNode **) &abd->lines, (ListNode *) alp); 
     blp = blp->next; 
   }

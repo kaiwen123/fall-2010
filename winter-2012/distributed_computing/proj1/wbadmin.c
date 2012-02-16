@@ -62,7 +62,7 @@ int queryServer(char * snm, int prgn, CLIENT * clp)
     // print the lines in this board.
     struct ALine * lnp = b -> lines; 
     while(lnp) {
-      fprintf(stdout, "Line: (%d, %d) to (%d, %d), color %l.\n", 
+      fprintf(stdout, "Line: (%d, %d) to (%d, %d), color 0x%x.\n", 
 	      lnp->ln.x1, lnp->ln.y1, lnp->ln.x2, lnp->ln.y2, lnp->ln.color); 
       lnp = lnp -> next;
     }
