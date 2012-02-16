@@ -27,6 +27,7 @@ whiteboardserver_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		int query_1_arg;
 		char *newserver_1_arg;
 		XferWBArg transferwhiteboard_1_arg;
+		BBoard sendwbtonewserver_1_arg;
 	} argument;
 	char *result;
 	xdrproc_t _xdr_argument, _xdr_result;
@@ -77,6 +78,12 @@ whiteboardserver_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		_xdr_argument = (xdrproc_t) xdr_XferWBArg;
 		_xdr_result = (xdrproc_t) xdr_int;
 		local = (char *(*)(char *, struct svc_req *)) transferwhiteboard_1_svc;
+		break;
+
+	case sendwbtonewserver:
+		_xdr_argument = (xdrproc_t) xdr_BBoard;
+		_xdr_result = (xdrproc_t) xdr_int;
+		local = (char *(*)(char *, struct svc_req *)) sendwbtonewserver_1_svc;
 		break;
 
 	default:

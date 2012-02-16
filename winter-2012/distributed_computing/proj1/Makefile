@@ -4,7 +4,7 @@
 # end-of-line comments are helpful in non-Linux OS
 
 CURRENT_DIR=730-WB-C-RPC-2012
-SOBJ = server.o transient.o server_s.o client_clnt.o server_xdr.o
+SOBJ = server.o transient.o server_s.o server_clnt.o client_clnt.o server_xdr.o
 COBJ = client.o transient.o server_clnt.o client_s.o server_xdr.o xwindow.o
 WOBJ = wbadmin.o server_clnt.o server_xdr.o
 CFLAGS = -ggdb -pedantic -ansi -std=c99 -ggdb3 -D__DEBUG__ # -Wall -DBSD_SIGNALS 

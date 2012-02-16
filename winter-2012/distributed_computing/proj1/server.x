@@ -57,6 +57,7 @@ program WhiteBoardServer {
     BBoardp query(int) = 5;
     int newserver(string) = 6;
     int transferwhiteboard(XferWBArg) = 7;
+    int sendwbtonewserver(BBoard) = 8; 
   } = 1;
 } = 0x20007161;			/* change to your own last 4 digits */
 

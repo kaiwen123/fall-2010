@@ -93,7 +93,8 @@ int main(int argc, char * argv[])
   if (!clp) {
     fprintf(stderr, "%s %s : %d. \n", "Can't create client. ", 
 	    __FILE__, __LINE__); 
-    goto error;
+    printf("Maybe your server with given program number was not started.\n"); 
+    goto done;
   }
 
   switch (cmd[1]) {
@@ -103,7 +104,8 @@ int main(int argc, char * argv[])
   case 'n':
     if (argc < 5)
       goto error;
-    result = *(newserver_1(&argv[4], clp)); /* result == prog num of new server */
+    /* result == prog num of new server */
+    result = *(newserver_1(&argv[4], clp));
     break;
   case 't':
     if (argc < 6)
@@ -113,7 +115,7 @@ int main(int argc, char * argv[])
     strcpy(xa.machinenm, argv[5]);
     xa.nprogram = strtol(argv[6], 0, 16);
     xa.nversion = WhiteBoardServerVersion;
-    result = transferwhiteboard_1(&xa, clp);
+    result = *(transferwhiteboard_1(&xa, clp));
     break;
   default:
     goto error;
