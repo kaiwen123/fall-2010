@@ -4,3 +4,4 @@
   rpcinfo -p
 
 rpcinfo -t localhost 536899937
+./deregall730 536901478
