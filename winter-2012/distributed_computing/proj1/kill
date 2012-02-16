@@ -1,0 +1,6 @@
+ killall -9 server730 client730
+  ./deregall730 536899937 # change this to your server num
+  ./deregall730
+  rpcinfo -p
+
+rpcinfo -t localhost 536899937
