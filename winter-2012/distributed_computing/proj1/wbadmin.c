@@ -34,16 +34,17 @@ void usage()
 int queryServer(char * snm, int prgn, CLIENT * clp)
 {
   int dummy = 0;
-  int count =0 ;
+  int ccnt = 0, bcnt = 0 ;
   // printf("Calling query\n");
-  struct BBoard * b = query_1(&dummy, clp);
+  BBoardp b, * bp = query_1(&dummy, clp);
   // printf("After query: %x\n", (void*)b);
-  if (b == 0 || (b->next == NULL && b->clients == NULL)) {
+  if (!bp) {
     printf("Server has no boards.\n");
     return 0; 
   }
   // no boards returned from the server.
-  while(b) {
+  fprintf(stdout, "\nQuery Results: \n"); 
+  for (b = *bp; b; b = b->next) {
     printf("Board %s on server %s prognum %x has\n",
     	   b->clients->clientdata.boardnm, snm, prgn);
 
@@ -53,6 +54,8 @@ int queryServer(char * snm, int prgn, CLIENT * clp)
       printf("\tclient on server %s displayed at %s with prognum %x\n",
 	     clnt->clientdata.machinenm, clnt->clientdata.xdisplaynm,
 	     clnt->clientdata.nprogram);
+
+      ccnt++; 
       clnt = clnt -> next; 
     }
 
@@ -63,10 +66,12 @@ int queryServer(char * snm, int prgn, CLIENT * clp)
 	      lnp->ln.x1, lnp->ln.y1, lnp->ln.x2, lnp->ln.y2, lnp->ln.color); 
       lnp = lnp -> next;
     }
-    count = count +1;
-    b = b->next;
+    bcnt++;
   } // for, loop around the board list. 
-  return count;
+
+  // print results.
+  fprintf(stdout, "\nTotal Boards: %d, total clients %d.\n\n", bcnt, ccnt);
+  return bcnt; 
 }
 
 // main function to start the white board admin. 
@@ -75,22 +80,17 @@ int main(int argc, char * argv[])
   CLIENT * clp = 0;
   int  result = -1;
 
-  /* uncomment this when done. */
-  /* if (argc < 4) */
-  /*   goto error; */
+  if (argc < 4)
+    goto error;
   char * cmd = argv[1];
-  /* if (cmd[0] != '-') */
-  /*   goto error; */
+  if (cmd[0] != '-')
+    goto error;
 
-  char * host; 
-  // added by simon. 
-  host = (char *)malloc(strlen("localhost") + 1);
-  strcpy(host, "localhost");  // argv[2];
-
-  int prognum = 0x20007161; // strtol(argv[3], 0, 16);
+  char * host = argv[2];
+  int prognum = strtol(argv[3], 0, 16);
   printf("program number: %x\n", prognum);
   clp = clnt_create(host, prognum, WhiteBoardServerVersion, "tcp");
-  if (clp == 0) {
+  if (!clp) {
     fprintf(stderr, "%s %s : %d. \n", "Can't create client. ", 
 	    __FILE__, __LINE__); 
     goto error;
@@ -121,7 +121,7 @@ int main(int argc, char * argv[])
  done:
   if (clp)
     clnt_destroy(clp);
-  printf("result %d\n", result);
+  // printf("result %d\n", result);
   return result;
 
  error:				/* more elaborate error reporting is better */

@@ -5,7 +5,8 @@
 
 #include "oneln.h"
 
-typedef struct ALine *Linep;
+typedef struct ALine * Linep;
+typedef struct BBoard * BBoardp; 
 
 struct ALine {
   struct ALine *next;		/* generic singly-linked list */
@@ -53,9 +54,9 @@ program WhiteBoardServer {
     int delclient(ClientData) = 2;
     int addline(AddLineArg) = 3;
     Linep sendallmylines(ClientData) = 4;
-    BBoard query(int) = 5;
+    BBoardp query(int) = 5;
     int newserver(string) = 6;
-    int transferwhiteboard(XferWBArg) = 7;    
+    int transferwhiteboard(XferWBArg) = 7;
   } = 1;
 } = 0x20007161;			/* change to your own last 4 digits */
 

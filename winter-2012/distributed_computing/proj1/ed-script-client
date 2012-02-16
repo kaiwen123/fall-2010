@@ -1,15 +1,17 @@
 /main.*/
 -1,+3d
 i
-#undef WhiteBoardClient
-int getTransientProgNumber(int version);
+// #undef WhiteBoardClient
+int getTransientProgNumber(int startprgn, int version);
 void startclient(int, int, char *, char *, char *, char *);
 
 
 int main(int argc, char *argv[])
 {
 	SVCXPRT *transp;
-	int WhiteBoardClient;
+	int WhiteBoardClient1 = WhiteBoardClient;
+        #undef WhiteBoardClient
+        int WhiteBoardClient = WhiteBoardClient1;
 
 	if (argc < 5) {
 	    fprintf(stderr, "usage: %s <server-hostname> <wb-name> <X11-display-hostname> <color-integer>\n",
@@ -17,9 +19,9 @@ int main(int argc, char *argv[])
 	    exit(1);
 	}
              
-	WhiteBoardClient = getTransientProgNumber(WhiteBoardClientVersion);
+	WhiteBoardClient = getTransientProgNumber(WhiteBoardClient, WhiteBoardClientVersion);
 	if (WhiteBoardClient <= 0) {
-	    fprintf(stderr, "%s: getTransientProgNumber(%d) returned %d!\n",
+	    fprintf(stderr, "%s: getTransientProgNumber returned %d!\n",
 		    argv[0], WhiteBoardClientVersion, WhiteBoardClient);
 	    exit(2);
 	}
