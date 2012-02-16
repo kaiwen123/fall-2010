@@ -1,0 +1,11 @@
+  ./server730 &
+  echo -n Servert started, press Return to continue; read
+  ./client730 localhost b0 localhost ff0000 & # RGB=ff0000 = red
+  echo -n client started, press Return to continue; read
+  ./client730 localhost b0 localhost ff00 & # RGB=00ff00 = green
+  echo -n client started; press Return to continue; read
+  ./client730 localhost b0 localhost ff & # RGB=0000ff = blue
+  echo -n client started, press Return to continue; read
+  rpcinfo -p
+
+rpcinfo -t localhost 536899937

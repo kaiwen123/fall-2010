@@ -9,7 +9,7 @@
  * The parent process will handle the xwindow I/O.  These two
  * write/read via the pipe xwinio.
  */
-static void transfer(int unused); 
+static int transfer(int unused); 
 
 static int parentid, childid;	/* process ids */
 static int xwinio[2];		/* pipe: child writes, parent reads */
@@ -227,9 +227,9 @@ int * clienttransfer_1_svc(XferWBArg *targ, struct svc_req *srq) {
  * that the afterward operations on the client should use the new
  * server rather than the old server. 
  * @param unused a dummy integer which is not used in the function. 
- * @return void. 
+ * @return -1 on failure and 0 on success.
  */
-static void transfer(int unused) {
+static int transfer(int unused) {
   XferWBArg targ; 
   (void) read(xwinio[0], &targ, sizeof(XferWBArg));
 
