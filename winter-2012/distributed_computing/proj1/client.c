@@ -33,10 +33,17 @@ static void endtheclient(int unused)
   exit(0);
 }
 
-/*
- * Get the call back from the server who is sending the coordinates of
- * a line to draw.  We simply write these four integers into the
- * xwinio pipe, and raise the signal so the parent can read.
+/**
+ * @brief Get the call back from the server who is sending the
+ * coordinates of a line to draw.  We simply write these four integers
+ * into the xwinio pipe, and raise the signal so the parent can read.
+ * @pre pointer to OneLn struct should be properly set with valid
+ * data.
+ * @post the client got the line info from the server and was notified
+ * by a USR signal. and integer pointer to integer with 0 was
+ * returned. 
+ * @param p Pointer to the OneLn structure. 
+ * @return void. 
  */
 void *callbackfromwbs_1_svc(OneLn * p)
 {
@@ -47,9 +54,9 @@ void *callbackfromwbs_1_svc(OneLn * p)
   return (void *) &i;
 }
 
-/*
- * Invoked via callbackfromwbs/SIGUSR1 when a new line comes from the
- * server to the svc_run()-ning process.
+/**
+ * @brief Invoked via callbackfromwbs/SIGUSR1 when a new line comes
+ * from the server to the svc_run()-ning process.
  */
 static void readndraw(int unused)
 {
@@ -59,8 +66,8 @@ static void readndraw(int unused)
   drawline(&lc);
 }
 
-/*
- * Client window got exposed.  Redraw the lines.
+/**
+ * @brief Client window got exposed.  Redraw the lines.
  */
 static void exposedwindow(CLIENT * clp)
 {
@@ -75,8 +82,8 @@ static void exposedwindow(CLIENT * clp)
   }
 }
 
-/*
- * Watch for mouse input.  Button 3 (right) ends this routine.
+/**
+ * @brief Watch for mouse input.  Button 3 (right) ends this routine.
  * Pressing buttons 1 (left) or 2 (middle) sends the line to the
  * server who will distribute it to all member white boards.
  */
@@ -188,38 +195,61 @@ void startclient (int nprogram, int nversion,
  * machine and the program number for the new machine. And what the
  * client does is actually deregister with the old server and register
  * itself with the new server. 
- * @param targ transfer argument. 
+ * @param targ client transfer argument. 
  * @param srq service request struct. 
  * @return -1 on failure and > 0 otherwise. 
  */
 int * clienttransfer_1_svc(XferWBArg *targ, struct svc_req *srq) {
   static int retval = 0; 
 
+#ifdef __DEBUG__ 
+  fprintf(stdout, "clienttransfer: %s . %s . %x . %d\n",
+	  targ->machinenm, targ->boardnm, 
+	  targ->nprogram, targ->nversion);
+#endif 
+
+  write(xwinio[1], targ, sizeof(XferWBArg));
+
   // when this was called by the old server, current process should
   // tell the child client to reregister to the new server. 
   kill(childid, SIGUSR2); 
-
-  write(xwinio[1], targ, sizeof(XferWBArg));
 
   return &retval; 
 }
 
 /**
- * @brief The real transfer operation. 
+ * @brief The transfer operation on the client side. Actually the
+ * client will update the its own client pointer by recreating the
+ * connection to the new server using clnt_create rpc call. 
+ * @pre unused has a valid value and the pipe named xwinio should be
+ * filled with the new server information corrected. 
+ * @post client connectioin to the new server should be updated so
+ * that the afterward operations on the client should use the new
+ * server rather than the old server. 
+ * @param unused a dummy integer which is not used in the function. 
+ * @return void. 
  */
 static void transfer(int unused) {
   XferWBArg targ; 
-  (void) read(xwinio[0], &targ, sizeof(targ));
+  (void) read(xwinio[0], &targ, sizeof(XferWBArg));
+
   clp = clnt_create
     (targ.machinenm, targ.nprogram, targ.nversion, "tcp");
-  if (!clp) {
-    fprintf(stderr, "client730: clnt_create(%s,%d). failed.\n", 
-	    __FILE__, __LINE__);
-    exit(1);
-  }
-  me.clientdata.nprogram = targ.nprogram; 
-  me.clientdata.nversion = targ.nversion; 
-  strcpy(me.clientdata.machinenm, targ.machinenm); 
 
+#ifdef __DEBUG__
+  fprintf(stdout, "Transfering client from %s to %s.\n",
+	  me.clientdata.machinenm, targ.machinenm); 
+#endif 
+
+  if (!clp) {
+    fprintf(stderr, "client730: clnt_create to %s failed %s : %d.\n", 
+	    targ.machinenm, __FILE__, __LINE__);
+    goto error;
+  }
+
+  return 0; 
+
+ error: 
+  return -1; 
 }
 /* -eof- */

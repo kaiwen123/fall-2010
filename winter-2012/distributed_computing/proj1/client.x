@@ -9,7 +9,6 @@ struct XferWBArg {
 	int nprogram;
 	int nversion;
 };
-typedef struct XferWBArg XferWBArg;
 
 program WhiteBoardClient {
   version WhiteBoardClientVersion {
