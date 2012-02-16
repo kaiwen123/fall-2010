@@ -26,6 +26,7 @@ whiteboardserver_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		ClientData sendallmylines_1_arg;
 		int query_1_arg;
 		char *newserver_1_arg;
+		XferWBArg transferwhiteboard_1_arg;
 	} argument;
 	char *result;
 	xdrproc_t _xdr_argument, _xdr_result;
@@ -62,7 +63,7 @@ whiteboardserver_1(struct svc_req *rqstp, register SVCXPRT *transp)
 
 	case query:
 		_xdr_argument = (xdrproc_t) xdr_int;
-		_xdr_result = (xdrproc_t) xdr_BBoard;
+		_xdr_result = (xdrproc_t) xdr_BBoardp;
 		local = (char *(*)(char *, struct svc_req *)) query_1_svc;
 		break;
 
@@ -70,6 +71,12 @@ whiteboardserver_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		_xdr_argument = (xdrproc_t) xdr_wrapstring;
 		_xdr_result = (xdrproc_t) xdr_int;
 		local = (char *(*)(char *, struct svc_req *)) newserver_1_svc;
+		break;
+
+	case transferwhiteboard:
+		_xdr_argument = (xdrproc_t) xdr_XferWBArg;
+		_xdr_result = (xdrproc_t) xdr_int;
+		local = (char *(*)(char *, struct svc_req *)) transferwhiteboard_1_svc;
 		break;
 
 	default:
@@ -92,19 +99,19 @@ whiteboardserver_1(struct svc_req *rqstp, register SVCXPRT *transp)
 	return;
 }
 
-#undef WhiteBoardServer
-int getTransientProgNumber(int version);
-//void startserver(int, int);
-
+//#undef WhiteBoardServer
+int getTransientProgNumber(int startprgn, int version);
 
 int main(int argc, char *argv[])
 {
-	SVCXPRT *transp;
-	int WhiteBoardServer;
-
-	WhiteBoardServer = getTransientProgNumber(WhiteBoardServerVersion);
+	register SVCXPRT *transp;
+	int WhiteBoardServer1 =  WhiteBoardServer;
+        #undef WhiteBoardServer
+	int WhiteBoardServer = WhiteBoardServer1; 
+     
+	WhiteBoardServer = getTransientProgNumber(WhiteBoardServer, WhiteBoardServerVersion);
 	if (WhiteBoardServer <= 0) {
-	    fprintf(stderr, "%s: getTransientProgNumber(%d) returned %d!\n",
+	    fprintf(stderr, "%s: getTransientProgNumber %d!\n",
 		    argv[0], WhiteBoardServerVersion, WhiteBoardServer);
 	    exit(2);
 	}
@@ -129,10 +136,6 @@ int main(int argc, char *argv[])
 		fprintf (stderr, "%s", "unable to register (WhiteBoardServer, WhiteBoardServerVersion, tcp).");
 		exit(1);
 	}
-
-	fprintf(stderr,	"startserver(%d, %d)\n",
-			WhiteBoardServer, WhiteBoardServerVersion);
-//	startserver(WhiteBoardServer, WhiteBoardServerVersion);
 
 	svc_run ();
 	fprintf (stderr, "%s", "svc_run returned");

@@ -16,8 +16,12 @@ static int xwinio[2];		/* pipe: child writes, parent reads */
 static AddLineArg me;		/* all the info there is about this client */
 static CLIENT *clp;		/* librpc clnt_create()-ed */
 
-/*
- * Terminate the client.  Remove all traces of the parent+child
+/**
+ * @brief Terminate the client.  Remove all traces of the parent+child
+ * @pre All the clients were terminated.
+ * @post 
+ * @param unused dummy integer. 
+ * @return void.
  */
 static void endtheclient(int unused)
 {
@@ -162,7 +166,7 @@ void startclient (int nprogram, int nversion,
     asigtrans.sa_handler = transfer;
     asigtrans.sa_flags = 0;
     sigemptyset(&asigtrans.sa_mask);
-    sigaction(SIGUSR1, &asigtrans, 0);
+    sigaction(SIGUSR2, &asigtrans, 0);
   }
 
   close(xwinio[1]);
@@ -216,5 +220,6 @@ static void transfer(int unused) {
   me.clientdata.nprogram = targ.nprogram; 
   me.clientdata.nversion = targ.nversion; 
   strcpy(me.clientdata.machinenm, targ.machinenm); 
+
 }
 /* -eof- */

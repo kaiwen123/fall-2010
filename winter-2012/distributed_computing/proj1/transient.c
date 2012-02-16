@@ -8,7 +8,7 @@
 #define NPROGNUMSTOTRY 1000
 #define NATTEMPTS 10
 
-static unsigned long findTransient(int version)
+static unsigned long findTransient(int startprgn, int version)
 {
   int skt = socket(AF_INET, SOCK_STREAM, 0);
   if (skt < 0) {
@@ -30,8 +30,8 @@ static unsigned long findTransient(int version)
     goto error;
   }
 
-  for (unsigned long prognum = 0x40000000; 
-       prognum < 0x40000000 + NPROGNUMSTOTRY; prognum ++)
+  for (unsigned long prognum = startprgn; //0x40000000; 
+       prognum < startprgn /*0x40000000*/ + NPROGNUMSTOTRY; prognum ++)
     if (pmap_set(prognum, version, IPPROTO_TCP, ad.sin_port))
       return prognum;
 
@@ -41,11 +41,11 @@ error:
   return 0;
 }
 
-int getTransientProgNumber(int version)
+int getTransientProgNumber(int startprgn, int version)
 {
   unsigned long prognum, i;
   for (i = 0; i < NATTEMPTS;) {
-    prognum = findTransient(version);
+    prognum = findTransient(startprgn, version);
     if (prognum > 0)
       return prognum;
 
