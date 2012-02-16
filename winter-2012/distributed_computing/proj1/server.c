@@ -58,12 +58,31 @@ static void delete(ListNode ** hdr, ListNode * d) {
   }
 }
 
+/**
+ * @class AClient The client node that form the client list in the
+ * white board structure. 
+ * @property next pointer to the next AClient node. 
+ * @property clientdata The client data for RPC operations. 
+ * @property callback The call back function used by the server
+ * callback. 
+ * @pre none. 
+ * @post none. 
+ */
 typedef struct AClient {
   struct AClient *next;
   ClientData clientdata;
   CLIENT *callback;		/* rpc.h */
 } AClient;
 
+/**
+ * @class ABoard The white board node that forms the client list in the
+ * white board structure. 
+ * @property next pointer to the next ABoard node. 
+ * @property clients all the clients connected to this board. 
+ * @property lines all the lines on the current board. 
+ * @pre none. 
+ * @post none. 
+ */
 typedef struct ABoard {
   struct ABoard *next;
   /* name of the board is in clients->clientdata.boardnm */
@@ -71,9 +90,18 @@ typedef struct ABoard {
   ALine *lines;			/* list of LINEs that it has */
 } ABoard;
 
+// The list of boards kept by the server. 
 static ABoard *boards = NULL;	/* list of boards that server has */
 
-/* Find the white board with name nm[].  */
+/**
+ * @brief Find the white board with name nm[]. 
+ * @pre given nm should not be empty string.
+ * @post The board was either found and returned or NULL was returned
+ * and the existing board lists structure will not be changed. 
+ * @param nm A string that contains the name of board. 
+ * @return NULL if no board was found having given board name nm; and
+ * a pointer to the found ABoard structure if found. 
+ */
 static ABoard *find_wbp(char *nm) {
   ABoard *p;
 
@@ -84,9 +112,20 @@ static ABoard *find_wbp(char *nm) {
   return p;
 }
 
-/*
- * Add a client.  May start a new white board.  We clnt_create once
- * for each client.
+/**
+ * @brief Add a client. May start a new white board. We clnt_create once
+ * for each client. If the board the client is trying to connect to
+ * does not yet exist, it will be created. 
+ * @pre the clientdata object pointer cd contains sufficient and good
+ * data about the client, such as the client machine name, the program
+ * number and etc.
+ * @post client and/or board was successfully created/registered with the
+ * server and the function evaluates to a non-negative number. 
+ * @param cd the clientdata structure that contains info for the
+ * client.
+ * @param srq service request structure. 
+ * @return pointer to integer, the value will be -1 on failure and
+ * non-negative otherwise. 
  */
 int *addclient_1_svc(ClientData * cd, struct svc_req *srq)
 {
@@ -160,9 +199,19 @@ static void delboard(ABoard * ab)
 }
 
 /**
- * @brief Delete a client.  If this is the last client on a
- * whiteboard, delete the board too.  If no more boards left, kill
- * yourself. 
+ * @brief Delete a client. If this is the last client on a
+ * whiteboard, delete the board too. If no more boards left, kill
+ * yourself. This function will first search the board with the given
+ * board name in the clientdata struct, and then delete the client
+ * from the result structure. If no board was found, return -1.
+ * @pre pointer cd should point to a good clientdata object, with
+ * sufficient information about the client. 
+ * @post the client be deleted from the clients list of the board, or
+ * return -1 on error. 
+ * @param cd the clientdata structure that contains the info about
+ * client. 
+ * @param srq the service request structure. 
+ * @return pointer to integer, -1 on failure and 0 on success.
  */
 int *delclient_1_svc(ClientData * cd, struct svc_req *srq)
 {
@@ -253,10 +302,18 @@ Linep *sendallmylines_1_svc(ClientData * cd, struct svc_req * srq)
 }
 
 /**
- * @brief Query service. Return all information about all clients
+ * @brief Query service. Return all information about all clients and
+ * boards. This function will copy current board list to a new list,
+ * and the copy will be a deep copy containing all the clients list
+ * and lines list and then return the copied list. 
+ * @pre unused be given a valid integer number and the srq be the
+ * proper service request client.
+ * @post A list of BBoards returned if there are any and NULL returned
+ * if no board exists on *this* server. 
  * @param unused a dummy integer. 
  * @param srq the service request struct.
- * @return A pointer to the list of boards. 
+ * @return A pointer to the list of boards if there are any and NULL
+ * otherwise. 
  */
 BBoardp * query_1_svc (int * unused, struct svc_req *srq)
 {
@@ -366,9 +423,13 @@ BBoardp * query_1_svc (int * unused, struct svc_req *srq)
  * @brief function to create a new server, what this function does is
  * actually to login to the machine specified and they run the
  * server730 command. 
+ * @pre newsservername contains a valid name of the new server; and
+ * srq points to a valid service request struct. 
+ * @post a new server was created and 0 returned or -1 returned on
+ * error. 
  * @param newservername location of the new server. 
  * @param srq service request struct. 
- * @return -1 on failure and positive number on success. 
+ * @return -1 on failure and a positive number on success. 
  */
 int *newserver_1_svc(char **newservername,  struct svc_req *srq)
 {
@@ -413,13 +474,32 @@ int *newserver_1_svc(char **newservername,  struct svc_req *srq)
 }
 
 /**
- * @brief Transfer white board from one server to another server. 
+ * @brief Transfer white board from one server to another
+ * server. Specifically, the function first finds the board with given
+ * board name and tells all the clients connected to the current board
+ * to transfer itself to the new server. And then send all the lines
+ * on this board to the new server. And at last will delete the board
+ * from the current server. 
+ * @pre xfarg should point to a valid XferWBArg object with sufficient
+ * and correct information. And srq should point to a valid service
+ * request struct. 
+ * @post The designated board was transfered to the new server with
+ * all the clients and lines properly set. And return -1 in case of
+ * error. 
  * @param bname the name of board to be transfered. 
  * @param srq service request struct. 
  * @return -1 on failure, and number of clients transfered on success. 
  */
 int * transferwhiteboard_1_svc(XferWBArg *xfarg, struct svc_req *srq) {
   static int retval = 0 ;
+
+#ifdef __DEBUG__
+  fprintf(stdout, "Board Transfer Arguments:\n " \
+	  "Transfer To: %s.\nBoard Name : %s.\n" \
+	  "Progrm Num : %x.\nProgrm Ver : %d.\n",
+	  xfarg->machinenm, xfarg->boardnm, 
+	  xfarg->nprogram, xfarg->nversion); 
+#endif 
 
   // find board with the given board name. 
   char bname[255]; 
