@@ -498,10 +498,8 @@ int * transferwhiteboard_1_svc(XferWBArg *xfarg, struct svc_req *srq) {
   static int retval = 0 ;
 
 #ifdef __DEBUG__
-  fprintf(stdout, "Board Transfer Arguments:\n " \
-	  "Transfer To: %s.\nBoard Name : %s.\n" \
-	  "Progrm Num : %x.\nProgrm Ver : %d.\n",
-	  xfarg->machinenm, xfarg->boardnm, 
+  fprintf(stdout, "Transfering %s To: %s . %x . %d.\n",
+	  xfarg->boardnm, xfarg->machinenm,
 	  xfarg->nprogram, xfarg->nversion); 
 #endif 
 
@@ -509,7 +507,7 @@ int * transferwhiteboard_1_svc(XferWBArg *xfarg, struct svc_req *srq) {
   char bname[255]; 
   strcpy(bname, xfarg -> boardnm); 
   ABoard * wbp = find_wbp(bname); 
-
+  //BBoard *b1;
   if(!wbp) {
     fprintf(stderr, "%s %s.\n", "No board named", bname); 
     goto error; 
@@ -518,64 +516,62 @@ int * transferwhiteboard_1_svc(XferWBArg *xfarg, struct svc_req *srq) {
   // if white board exists, copy the board to a new object including
   // all the clients and lines and then print the name of clients
   // connected to this board.
-  struct BBoard bbd; 
-  bbd.next = NULL; 
-  bbd.lines = NULL; 
-  bbd.clients = NULL; 
+  struct BBoard * bbd = (BBoard *) malloc(sizeof(BBoard)); 
+  if(!bbd) goto error; 
+  bbd->next = NULL; 
+  bbd->lines = NULL; 
+  bbd->clients = NULL; 
+  //insert((ListNode **) &b1, (ListNode *) bbd);
+
   AClient *acp = wbp -> clients; // clients. 
-  BClient *bcp = bbd.clients; 
+  BClient *bcp;
+  printf("copying clients to bboard....\n"); 
   while(acp) {
     fprintf(stdout, "Client: %s - %x - %d.\n", 
 	    acp->clientdata.machinenm, 
 	    acp->clientdata.nprogram, 
 	    acp->clientdata.nversion); 
 
-    static struct XferWBArg xarg; 
-    strcpy(xarg.boardnm, acp->clientdata.boardnm);
-    strcpy(xarg.machinenm, acp->clientdata.machinenm);
-    xarg.nprogram = acp->clientdata.nprogram; 
-    xarg.nversion = acp->clientdata.nversion;
-
     // tell the client to transfer to the new board. 
-    retval = clienttransfer_1(&xarg, acp -> callback); 
+    retval = clienttransfer_1(xfarg, acp->callback); 
 
     // copy the client info to new struct. 
     bcp = (BClient *)malloc(sizeof(BClient)); 
     bcp->next = NULL; 
-    if (!bcp) goto error; 
-    strcpy(bcp->clientdata.boardnm, acp->clientdata.boardnm); 
-    strcpy(bcp->clientdata.xdisplaynm, acp->clientdata.xdisplaynm); 
-    strcpy(bcp->clientdata.machinenm, acp->clientdata.machinenm); 
-    bcp->clientdata.nprogram = acp->clientdata.nprogram; 
-    bcp->clientdata.nversion = acp->clientdata.nversion; 
-    bcp->clientdata.color = acp->clientdata.color; 
-
-    insert((ListNode **) & bbd.clients, (ListNode *) bcp);
+    if (!bcp) goto error;
+    bcp->clientdata = acp->clientdata; 
+    
+    insert((ListNode **) & bbd->clients, (ListNode *) bcp);
 
     acp = acp->next; 
   }
 
   // copy the lines. 
   ALine * alp = wbp -> lines; // lines. 
-  ALine * blp = bbd.lines; 
+  ALine * blp = NULL; 
   while(alp) {
-    blp->next = NULL;
+    blp = (ALine *) malloc (sizeof(ALine)); 
+    if (!blp) goto error; 
+    //blp->next = NULL;
     blp->ln = alp->ln; 
-    insert((ListNode **) & bbd.lines, (ListNode *) blp); 
+    insert((ListNode **) & bbd->lines, (ListNode *) blp); 
     alp = alp->next; 
   }
 
+  printf("copying lines to bboard....\n"); 
   // After copying the to be transfered board to a new struct, then
   // send it to the new server. 
   sclp = clnt_create(xfarg->machinenm, xfarg->nprogram,
 		     xfarg->nversion, "tcp"); 
+  printf("000000000copying lines to bboard....\n"); 
+
   if(!sclp) {
     fprintf(stderr, "Can't create connection to new server on %s : %d.\n",
 	    xfarg->machinenm, xfarg->nprogram); 
     goto error; 
   }
-  retval = *(sendwbtonewserver_1(&bbd, sclp));
-
+  retval = *(sendwbtonewserver_1(bbd, sclp));
+  printf("111111111copying lines to bboard....\n"); 
   // delete board from current server. 
   delboard(wbp); 
 
@@ -601,33 +597,40 @@ int * transferwhiteboard_1_svc(XferWBArg *xfarg, struct svc_req *srq) {
  */
 int * sendwbtonewserver_1_svc(BBoard *bdfromold, struct svc_req *srq) {
   static int retval = 0; 
-  
+  printf("copying lines to bboard new server...00000.\n"); 
   // after receiving the BBoard structure, copy it to new ABoard
   // truct and put it into the boards lists.
   struct ABoard * abd = (ABoard *) malloc (sizeof(ABoard)); 
   if(!abd) goto error; 
-  abd -> next = NULL;
-
+  //abd -> next = NULL;
+  abd -> clients = NULL; 
+  abd -> lines = NULL; 
+  printf("copying lines to bboard new server....999999\n"); 
+  // at last, insert the new board in to the board list. 
+  insert((ListNode **) & boards, (ListNode *) abd); 
+  printf("copying lines to bboard new server....777777\n"); 
   // copy the clients linked to this board.  
   BClient * bcp = bdfromold -> clients; 
   AClient * acp = NULL; 
+  printf("copying lines to bboard new server....\n"); 
   while(bcp) {
     acp = (AClient *) malloc (sizeof(AClient));
     if(!acp) goto error;
     acp -> next = NULL; 
-    acp -> callback = NULL;
+    //acp -> callback = NULL;
 
-    strcpy(acp->clientdata.boardnm, bcp->clientdata.boardnm); 
-    strcpy(acp->clientdata.xdisplaynm, bcp->clientdata.xdisplaynm); 
-    strcpy(acp->clientdata.machinenm, bcp->clientdata.machinenm); 
-    acp->clientdata.nprogram = bcp->clientdata.nprogram; 
-    acp->clientdata.nversion = bcp->clientdata.nversion; 
-    acp->clientdata.color = bcp->clientdata.color; 
+    acp->clientdata = bcp->clientdata; 
 
     // re-create the callback function for the client struct. 
     acp->callback = clnt_create(bcp->clientdata.machinenm,
 				bcp->clientdata.nprogram, 
 				bcp->clientdata.nversion, "tcp"); 
+#ifdef __DEBUG__ 
+  fprintf(stdout, "Client on new server: %s . %s . %x . %d\n",
+	  acp->clientdata.machinenm, acp->clientdata.boardnm, 
+	  acp->clientdata.nprogram, acp->clientdata.nversion);
+#endif 
+
     if(!acp->callback) {
       fprintf(stderr, "Error creating callback from the new server %s.\n",
 	      bcp->clientdata.machinenm); 
@@ -643,6 +646,7 @@ int * sendwbtonewserver_1_svc(BBoard *bdfromold, struct svc_req *srq) {
   // copy the lines linked to the board. 
   ALine * blp = bdfromold -> lines; 
   ALine * alp = NULL;
+  printf("copying lines to bboard.. new server..\n"); 
   while(blp) {
     alp = (ALine *) malloc (sizeof(ALine)); 
     if(!alp) goto error; 
@@ -652,9 +656,6 @@ int * sendwbtonewserver_1_svc(BBoard *bdfromold, struct svc_req *srq) {
     insert((ListNode **) &abd->lines, (ListNode *) alp); 
     blp = blp->next; 
   }
-
-  // at last, insert the new board in to the board list. 
-  insert((ListNode **) & boards, (ListNode *) abd); 
 
   return &retval;
 

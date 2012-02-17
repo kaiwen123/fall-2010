@@ -104,7 +104,7 @@ static void exposedwindow(CLIENT * clp)
  * @param clp pointer to the client struct. 
  * @return void. 
  */
-static void mousewatch(CLIENT * clp)
+static void mousewatch()
 {
   int btn = 5;
 
@@ -242,7 +242,7 @@ int * clienttransfer_1_svc(XferWBArg *targ, struct svc_req *srq) {
 
   // when this was called by the old server, current process should
   // tell the child client to reregister to the new server. 
-  kill(childid, SIGUSR2); 
+  kill(parentid, SIGUSR2); 
 
   return &retval; 
 }
@@ -262,13 +262,16 @@ int * clienttransfer_1_svc(XferWBArg *targ, struct svc_req *srq) {
 static int transfer(int unused) {
   XferWBArg targ; 
   (void) read(xwinio[0], &targ, sizeof(XferWBArg));
+  printf("copying lines to bboard client ..... 000000.\n"); 
+  clnt_destroy(clp);
 
   clp = clnt_create
     (targ.machinenm, targ.nprogram, targ.nversion, "tcp");
-
+  printf("copying lines to bboard client ..... 111111.\n"); 
 #ifdef __DEBUG__
-  fprintf(stdout, "Transfering client from %s to %s.\n",
-	  me.clientdata.machinenm, targ.machinenm); 
+  fprintf(stdout, "Local client info: %s . %x . %d.\n",
+	  me.clientdata.machinenm, me.clientdata.nprogram,
+	  me.clientdata.nversion); 
 #endif 
 
   if (!clp) {
@@ -276,6 +279,9 @@ static int transfer(int unused) {
 	    targ.machinenm, __FILE__, __LINE__);
     goto error;
   }
+
+  printf("Client on %s with was transfered to server %s.\n", 
+	 me.clientdata.machinenm, targ.machinenm); 
 
   return 0; 
 
