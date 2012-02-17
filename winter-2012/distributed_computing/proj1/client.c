@@ -262,12 +262,10 @@ int * clienttransfer_1_svc(XferWBArg *targ, struct svc_req *srq) {
 static int transfer(int unused) {
   XferWBArg targ; 
   (void) read(xwinio[0], &targ, sizeof(XferWBArg));
-  printf("copying lines to bboard client ..... 000000.\n"); 
   clnt_destroy(clp);
 
   clp = clnt_create
     (targ.machinenm, targ.nprogram, targ.nversion, "tcp");
-  printf("copying lines to bboard client ..... 111111.\n"); 
 #ifdef __DEBUG__
   fprintf(stdout, "Local client info: %s . %x . %d.\n",
 	  me.clientdata.machinenm, me.clientdata.nprogram,
