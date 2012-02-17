@@ -53,7 +53,7 @@ tar archive: clean
 
 clean:
 	rm -f *.o *.BAK *~ *.out *_svc.c *_clnt.c *_xdr.c \
-		server730 client730 xwindow730 deregall730 \
+		wbadmin730 server730 client730 xwindow730 deregall730 \
 		client_s.c server.h client.h
 
 # -eof-
