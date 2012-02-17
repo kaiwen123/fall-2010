@@ -35,9 +35,7 @@ int queryServer(char * snm, int prgn, CLIENT * clp)
 {
   int dummy = 0;
   int ccnt = 0, bcnt = 0 ;
-  // printf("Calling query\n");
   BBoardp b, * bp = query_1(&dummy, clp);
-  // printf("After query: %x\n", (void*)b);
   if (!bp) {
     printf("Server has no boards.\n");
     return 0; 
