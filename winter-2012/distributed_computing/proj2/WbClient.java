@@ -9,6 +9,7 @@ public interface WbClient
     void sendLine(LineCoords ln)  throws java.rmi.RemoteException;
     void pleaseDie()  throws java.rmi.RemoteException;
     void recvDisplayObj(LinesFrame f)  throws java.rmi.RemoteException;
+    void updateServer(String newservUrl) throws java.rmi.RemoteException; 
 }
 
 // -eof-

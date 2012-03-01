@@ -15,6 +15,8 @@ public class WbAdmin {
 
     public WbAdmin() {
 	vServers = new Vector();
+	String serverUrl; // TODO.
+	vServers.addElement((WbServer) Invoke.lookup(serverUrl));
     }
 
     private void serverCreate() {
@@ -27,12 +29,42 @@ public class WbAdmin {
 	Invoke.javaVM('C', args);
     }
 
+    // Transfer a white board to a new server. 
     private void transferReq() {
-	// Transfer a white board to a new server. For you TODO
+	String args = Invoke.promptAndGet("OldServer boardnm NewServer");
+	try { vServers[0].transfer(argv[1], argv[2]); }
+	catch (Exception e) { e.printStackTrace(); }
     }
 
-    private void queryReq() {     
-	// Query for inforamtion from each server. For you TODO
+    // Query for inforamtion from each server. 
+    private void queryReq(String serverUrl) {
+	WbServer wbserver = (WbServer) Naming.lookup(serverUrl); 
+	vServer.addElement(wbserver);
+	
+	WbServer wbs = wbserver.query(); 
+	int brdcnt = 0, clntcnt, lncnt; 
+	for(Enumeration es = wbs.elements(); es.hasMoreElements(); ) {
+	    System.out.println("Board: " + es.boardName); 
+	    clntcnt = 0, lncnt = 0; 
+	    // clients of board. 
+	    for(Enumeration e = es.vClients.elements(); e.hasMoreElements(); ) {
+		System.out.println("Machine:   " + e.thisMcnm + 
+				   "Board Name:" + e.myBoardNm +
+				   "Client URL:" + e.myURL +
+				   "Server URL:" + e.myServerURL);
+		clntcnt++; 
+	    }
+	    System.out.println("Total Clients: " + Integer.toString(clntcnt)); 
+	    // lines of board.
+	    for(Enumeration e = es.vLines.elements(); e.hasMoreElements(); ) {
+		System.out.println("x0: " + Integer.toString(e.x0) + 
+				   "y0: " + Integer.toString(e.y0) +
+				   "x1: " + Integer.toString(e.x1) +
+				   "y1: " + Integer.toString(e.y1)); 
+		lncnt++; 
+	    }
+	    System.out.println("Total Lines: " + Integer.toString(lncnt)); 
+	}
     }
 
     private void userInteract() {
