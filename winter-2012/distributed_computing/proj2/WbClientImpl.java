@@ -73,6 +73,20 @@ public class WbClientImpl
 	System.exit(0);
     }
 
+    /**
+     * Update to the new server.
+     * @pre the url of the new server.
+     * @post server of the client was updated and true returned or
+     * exception happened and false returned.
+     * @param url the new server url.
+     * @return true on success and false on failure. 
+     */
+    public bool updateServer(String url) {
+	try { wbServer = (WbServer) Naming.lookup(url); }
+	catch (Exception e) { e.printStackTrace(); return false; } 
+	return true;
+    }
+
     public static void main(String args[]) {
 	try {WbClientImpl me = new WbClientImpl(args);}
 	catch (Exception e) {e.printStackTrace();}

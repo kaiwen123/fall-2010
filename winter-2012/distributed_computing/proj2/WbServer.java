@@ -9,6 +9,9 @@ public interface WbServer extends java.rmi.Remote {
     void delClient(WbClient wc, String brnm) throws java.rmi.RemoteException;
     void addLine(LineCoords ln, String brnm) throws java.rmi.RemoteException;
     void sendAllLines(WbClient wc, String brnm) throws java.rmi.RemoteException;
+    WbServer query() throws java.rmi.RemoteException; 
+    bool newserver(WbClient wc, String url) throws java.rmi.RemoteException; 
+    void transfer(ABoard ab, String newservUrl) throws java.rmi.RemoteException;
 }
 
 // -eof-
