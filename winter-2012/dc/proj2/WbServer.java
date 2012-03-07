@@ -11,7 +11,7 @@ public interface WbServer extends java.rmi.Remote {
     void sendAllLines(WbClient wc, String brnm) throws java.rmi.RemoteException;
     WbServer query() throws java.rmi.RemoteException; 
     boolean newserver(String url) throws java.rmi.RemoteException; 
-    void transfer(ABoard ab, String newservUrl) throws java.rmi.RemoteException;
+    void transfer(String brdnm, String newservUrl) throws java.rmi.RemoteException;
 }
 
 // -eof-
