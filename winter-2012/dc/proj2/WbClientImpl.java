@@ -34,7 +34,7 @@ public class WbClientImpl
 	thisMcnm = java.net.InetAddress.getLocalHost().getHostName();
 	makeMyLinesFrame(args);
 	myServerURL = args[3];
-	wbServer = (WbServer) Invoke.lookup(myServerURL);
+	wbServer = (WbServer) Naming.lookup(myServerURL);
 	myColor = new Color(Integer.parseInt(args[4], 16));
 	Invoke.myPrint("WbClient waiting for", "recvDisplayObj");
 	// addClient() occurs in recvDisplayObj()

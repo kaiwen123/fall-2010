@@ -26,7 +26,7 @@ public class WbAdmin extends java.rmi.server.UnicastRemoteObject{
 
 	adminNm = java.net.InetAddress.getLocalHost().getHostName(); 
 	serverURL = args[1]; 
-	myserver = (WbServer) Invoke.lookup(serverURL); 
+	myserver = (WbServer) Naming.lookup(serverURL); 
 	vServers.addElement(myserver);
 	Invoke.myPrint("WbAdmin waiting for ", serverURL + " to reply.");
     }
@@ -46,7 +46,7 @@ public class WbAdmin extends java.rmi.server.UnicastRemoteObject{
     private void transferReq() {
 	String argstr = Invoke.promptAndGet("OldServerURL boardnm NewServerURL");
 	String[] args = argstr.split(String(" "));
-	WbServer wbs = (WbServer) Invoke.lookup(args[0]); 
+	WbServer wbs = (WbServer) Naming.lookup(args[0]); 
 
 	try { vServers.transfer(args[1], args[2]); }
 	catch (Exception e) { e.printStackTrace(); }
@@ -87,7 +87,7 @@ public class WbAdmin extends java.rmi.server.UnicastRemoteObject{
     private void serverCreate() {
 	String args = promptAndGet("OldServerURL NewServerURL: "); 
 	String [] arglist = args.split(" "); 
-	WbServer wbs = (WbServer) Invoke.lookup(arglist[0]);
+	WbServer wbs = (WbServer) Naming.lookup(arglist[0]);
 	if(wbs.newserver(arglist[1])) {
 	    System.out.println("New Server on " + arglist[1] + " created sucessfully!"); 
 	} else {

@@ -73,7 +73,7 @@ public class LinesFrameImpl
 	frame.addMouseListener(getCoords);  
 
 	myURL = Invoke.makeURL('D', args[4]);
-	myWbClient = (WbClient) Invoke.lookup(myCLientURL);
+	myWbClient = (WbClient) Naming.lookup(myCLientURL);
 	myWbClient.recvDisplayObj(this);
 	Invoke.myPrint("LinesFrameImpl", myURL);
 	Invoke.myPrint("LinesFrameImpl", ""+myWbClient);
