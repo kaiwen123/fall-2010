@@ -74,15 +74,15 @@ public class WbClientImpl
     }
 
     /**
-     * Update to the new server.
+     * Update to the new server, will be called by the old server. 
      * @pre the url of the new server.
      * @post server of the client was updated and true returned or
      * exception happened and false returned.
      * @param url the new server url.
      * @return true on success and false on failure. 
      */
-    public bool updateServer(String url) {
-	try { wbServer = (WbServer) Naming.lookup(url); }
+    public boolean updateServer(String newserverurl) {
+	try { wbServer = (WbServer) Naming.lookup(newserverurl); }
 	catch (Exception e) { e.printStackTrace(); return false; } 
 	return true;
     }

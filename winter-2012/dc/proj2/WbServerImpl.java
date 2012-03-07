@@ -81,7 +81,7 @@ public class WbServerImpl
      * @param url The url of new server. 
      * @return true on success and false on failure. 
      */
-    public bool newserver(WbClient wc, String location) {
+    public boolean newserver(String location) {
 	String sshcmd = "ssh -f java WhiteBoard.WbServerImpl 1 " + location ; 
 	try { Runtime.getRuntime().exec(sshcmd); }
 	catch (Exception e) { e.printStackTrace(); return false; }
