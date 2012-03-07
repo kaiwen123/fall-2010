@@ -7,7 +7,7 @@ import java.util.*;
 import java.rmi.*;
 import java.rmi.server.*;
 
-class ABoard {
+class ABoard implements Serializable {
     String boardName;		// Name of this board
     Vector <LineCoords> vLines;	// all lines on this board
     Vector <WbClient> vClients;	// all clients on this board
@@ -23,7 +23,7 @@ public class WbServerImpl
     extends UnicastRemoteObject
     implements WbServer {
 
-    private Vector <ABoard> vBoards; // all boards on this server
+    Vector <ABoard> vBoards; // all boards on this server
     private String myURL;
 
     public WbServerImpl(String [] args) throws Exception {
@@ -55,6 +55,7 @@ public class WbServerImpl
 	}
 	return null;
     }
+
     // send all lines to the client. 
     public void sendAllLines(WbClient wc, String brdnm)
 	throws java.rmi.RemoteException    {
@@ -69,21 +70,24 @@ public class WbServerImpl
      * , client and line information was returned to the caller. 
      * @return WbServer object.
      */
-    public WbServer query() {
-	return (WbServer) this; 	
+    public Vector <ABoard> query() {
+	return vBoards; 	
     }
 
     /**
      * Create new server on another machine. 
      * @pre wc is a valid WbClient object and url string contains a valid url address. 
      * @post new server was create successfully or exception happened. 
-     * @param wc WbClient to request the new server.
-     * @param url The url of new server. 
+     * @param ServName Name of new server.
+     * @param location The location of new server. 
      * @return true on success and false on failure. 
      */
-    public boolean newserver(String location) {
-	String sshcmd = "ssh -f java WhiteBoard.WbServerImpl 1 " + location ; 
-	try { Runtime.getRuntime().exec(sshcmd); }
+    public boolean newserver(String ServName, String location) {
+	String sshcmd = "ssh -f " + location + " java WhiteBoard.WbServerImpl " + ServName + " " + location + " &"; 
+	try { 
+	    System.out.println("SSH COMMAND: " + sshcmd); 
+	    Runtime.getRuntime().exec(sshcmd);
+	}
 	catch (Exception e) { e.printStackTrace(); return false; }
 	return true;
     }
@@ -94,22 +98,27 @@ public class WbServerImpl
      * string pointing to the new server.
      * @post given ABoard was transfered to the new white board
      * server if server exists or fail if new server does not exist.
-     * @param ab The ABoard object to transfer to the new server. 
+     * @param brdnm The ABoard name to transfer to the new server. 
      * @param newservUrl the URL pointing to the new server.
      */
     public void transfer(String brdnm, String newservUrl) {
 	ABoard ab = findAboard(brdnm); 
-	if(ab == NULL) return; 
+	if(ab == null) return; 
 
-	WbServer snew = (WbServer) Naming.lookup(newservUrl); 
-	snew.pushtonewserver(ab); 
+	try { 
+	    WbServer snew = (WbServer) Naming.lookup(newservUrl); 
+	    //snew.
+	    System.out.println("transfer board to new server: " + newservUrl); 
+	    snew.pushtonewserver(ab); 
+	    
+	    // tell all the client about the changes. 
+	    Iterator <WbClient> iter = ab.vClients.iterator(); 
+	    while(iter.hasNext()) {
+		iter.next().updateServer(newservUrl); 
+	    }
 
-	// tell all the client about the changes. 
-	for(Enumeration e = ab.vClients.elements(); e.hasMoreElements(); ) {
-	    try { e.updateServer(newservUrl); } 
-	    catch (Exception e) {e.printStackTrace();}
-	}
-	vBoards.removeElement(ab); 
+	    vBoards.removeElement(ab); 
+	} catch (Exception e) { e.printStackTrace(); }
     }
 
     /**
@@ -120,7 +129,7 @@ public class WbServerImpl
      * @param url the new server url. 
      * @return void. 
      */
-    private void pushtonewserver(ABoard ab) {
+    public void pushtonewserver(ABoard ab) {
 	try { vBoards.addElement(ab); }
 	catch (Exception e) { e.printStackTrace(); }
     }

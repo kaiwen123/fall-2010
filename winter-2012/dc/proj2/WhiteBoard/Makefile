@@ -3,7 +3,8 @@
 .java.class:
 	javac $<
 
-rmic: LinesFrameImpl.class WbClientImpl.class WbServerImpl.class Invoke.class
+rmic: LinesFrameImpl.class WbClientImpl.class WbServerImpl.class \
+	Invoke.class WbAdmin.class 
 	(cd ..; \
 	rmic WhiteBoard.WbServerImpl \
 		WhiteBoard.LinesFrameImpl WhiteBoard.WbClientImpl  )

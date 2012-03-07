@@ -16,6 +16,15 @@ public class WbClientImpl
     private Color myColor;
     private LinesFrame myLinesFrame;
 
+    // accessors. 
+    public String getMachineName() throws java.rmi.RemoteException {
+	return thisMcnm;
+    }
+
+    public String getmyURL() throws java.rmi.RemoteException {
+	return myURL;
+    }
+
     // create our lines frame process, which will do recvDisplayObj()
     private void makeMyLinesFrame(String [] args) throws Exception {
 	Invoke.javaVM
@@ -81,10 +90,9 @@ public class WbClientImpl
      * @param url the new server url.
      * @return true on success and false on failure. 
      */
-    public boolean updateServer(String newserverurl) {
+    public void updateServer(String newserverurl) {
 	try { wbServer = (WbServer) Naming.lookup(newserverurl); }
-	catch (Exception e) { e.printStackTrace(); return false; } 
-	return true;
+	catch (Exception e) { e.printStackTrace(); } 
     }
 
     public static void main(String args[]) {
