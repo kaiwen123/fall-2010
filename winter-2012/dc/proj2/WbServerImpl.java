@@ -70,7 +70,7 @@ public class WbServerImpl
      * @return WbServer object.
      */
     public WbServer query() {
-	return (wbServer) this; 	
+	return (WbServer) this; 	
     }
 
     /**
@@ -99,10 +99,10 @@ public class WbServerImpl
      */
     public void transfer(String brdnm, String newservUrl) {
 	ABoard ab = findAboard(brdnm); 
-	if(!ab) return; 
+	if(ab == NULL) return; 
 
 	WbServer snew = (WbServer) Naming.lookup(newservUrl); 
-	snew.pushtonewserver(ab, newservUrl); 
+	snew.pushtonewserver(ab); 
 
 	// tell all the client about the changes. 
 	for(Enumeration e = ab.vClients.elements(); e.hasMoreElements(); ) {
@@ -120,7 +120,7 @@ public class WbServerImpl
      * @param url the new server url. 
      * @return void. 
      */
-    private void pushtonewserver(ABoard ab, String url) {
+    private void pushtonewserver(ABoard ab) {
 	try { vBoards.addElement(ab); }
 	catch (Exception e) { e.printStackTrace(); }
     }
