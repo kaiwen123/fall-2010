@@ -5,47 +5,64 @@ package WhiteBoard;
 
 import java.io.*;
 import java.util.*;
+import java.rmi.*;
 
-public class WbAdmin {
-
-    private Vector vServers;
+public class WbAdmin extends java.rmi.server.UnicastRemoteObject{
+    private String serverURL, adminNm, myURL; 
+    private WbServer myserver;
+    private Vector vServers;	// store all the connected servers. 
 
     private static final String menu = "\nWbAdmin: create a " +
 	"[s]erver, [a]dd client, [q]uery, [t]ransfer, e[x]it";
 
-    public WbAdmin() {
+    // constructor. 
+    public WbAdmin(String[] args) throws Exception {
+	// args = [clientId, wbserverURL]
+	super(); 
 	vServers = new Vector();
-	String serverUrl; // TODO.
-	vServers.addElement((WbServer) Invoke.lookup(serverUrl));
+	myURL = Invoke.makeURL('C', args[0]); 
+	Naming.rebind(myURL, this); 
+	Invoke.myPrint("WbAdmin", "did Naming.rebind" + myURL); 
+
+	adminNm = java.net.InetAddress.getLocalHost().getHostName(); 
+	serverURL = args[1]; 
+	myserver = (WbServer) Invoke.lookup(serverURL); 
+	vServers.addElement(myserver);
+	Invoke.myPrint("WbAdmin waiting for ", serverURL + " to reply.");
     }
 
-    private void serverCreate() {
-	String args = Invoke.promptAndGet("ServerMachineName");
-	Invoke.javaVM('S',  args);
-    }
-
+    /**
+     * Request server to add a new client. 
+     */
     private void addClientReq() {
-	String args = Invoke.promptAndGet("BoardName DisplayOn ServerURL");
-	Invoke.javaVM('C', args);
+	// args should be = [clientId, brdNm,displayMcnm,wbserverURL,color].
+	String args = Invoke.promptAndGet("clientId brdNm DisplayOn ServerURL color");
+	args = "java WhiteBoard.WbClientImpl " + args;
+	Runtime.getRuntime.exec(args); 
+	return true;
     }
 
     // Transfer a white board to a new server. 
     private void transferReq() {
-	String args = Invoke.promptAndGet("OldServer boardnm NewServer");
-	try { vServers[0].transfer(argv[1], argv[2]); }
+	String argstr = Invoke.promptAndGet("OldServerURL boardnm NewServerURL");
+	String[] args = argstr.split(String(" "));
+	WbServer wbs = (WbServer) Invoke.lookup(args[0]); 
+
+	try { vServers.transfer(args[1], args[2]); }
 	catch (Exception e) { e.printStackTrace(); }
     }
 
     // Query for inforamtion from each server. 
-    private void queryReq(String serverUrl) {
-	WbServer wbserver = (WbServer) Naming.lookup(serverUrl); 
-	vServer.addElement(wbserver);
+    private void queryReq() {
+	String args = Invoke.promptAndGet("Query Server URL: ");
+	WbServer wbs = (WbServer) Naming.lookup(args); 
+	// vServers.addElement(wbserver);
 	
-	WbServer wbs = wbserver.query(); 
+	wbs = wbs.query(); 
 	int brdcnt = 0, clntcnt, lncnt; 
-	for(Enumeration es = wbs.elements(); es.hasMoreElements(); ) {
+	for(Enumeration es = wbs.vBoards.elements(); es.hasMoreElements(); ) {
 	    System.out.println("Board: " + es.boardName); 
-	    clntcnt = 0, lncnt = 0; 
+	    clntcnt = 0; lncnt = 0; 
 	    // clients of board. 
 	    for(Enumeration e = es.vClients.elements(); e.hasMoreElements(); ) {
 		System.out.println("Machine:   " + e.thisMcnm + 
@@ -67,22 +84,33 @@ public class WbAdmin {
 	}
     }
 
+    private void serverCreate() {
+	String args = promptAndGet("OldServerURL NewServerURL: "); 
+	String [] arglist = args.split(" "); 
+	WbServer wbs = (WbServer) Invoke.lookup(arglist[0]);
+	if(wbs.newserver(arglist[1])) {
+	    System.out.println("New Server on " + arglist[1] + " created sucessfully!"); 
+	} else {
+	    System.out.println("Failed to create server "+arglist[1]+" on server "+arglist[0]); 
+	}
+    }
+
     private void userInteract() {
 	while (true) {
 	    String choice = Invoke.promptAndGet(menu);
 	    switch (choice.charAt(0)) {
-	    case 's': serverCreate(); break;
-	    case 'a': addClientReq(); break;
-	    case 'q': queryReq(); break;
-	    case 't': transferReq(); break;
-	    case 'x': System.exit(0); break;
+	    case 's': serverCreate(); break; // create new server on another machine.
+	    case 'a': addClientReq(); break; // add client to the server. 
+	    case 'q': queryReq(); break;     // query board information on the server. 
+	    case 't': transferReq(); break;  // transfer named board to new server.
+	    case 'x': System.exit(0); break; // exit the program. 
 	    }
 	}
     }
 	
     public static void main(String[] args) {
-	WbAdmin wa = new WbAdmin();
-	wa.userInteract();
+	try { WbAdmin wa = new WbAdmin(args); }
+	catch(Exception e) {e.printStackTrace();}
     }
 }
 
