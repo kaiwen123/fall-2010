@@ -1,8 +1,8 @@
 % This is problem one of machine learning homework. 
 
 for model = 1:3
-    t = 2; 
-    n = 100;
+    t = 100; 
+    n = 2;
     p_pos = 0.5; 
     % A. generate training data. 
     [X, y] = dataGen(t, n, p_pos, model); 
@@ -13,8 +13,8 @@ for model = 1:3
 
     % B. plot the model with genertive data. 
     clf; axis([0 1 0 1]); hold; axis('square');
-    pos = find(y > 0); plot(X(pos,1),X(pos,2)','g+');
-    neg = find(y < 0); plot(X(neg,1)',X(neg,2)','rx');
+    pos = find(y > 0); plot(X(pos,1),X(pos,2),'g+');
+    neg = find(y < 0); plot(X(neg,1),X(neg,2),'rx');
     plot([0 1],[v v-u(1)]/u(2),'k:');
     plot([0 1],[bm bm-wm(1)]/wm(2),'b-');
     plot([0 1],[bs bs-ws(1)]/ws(2),'m-');
@@ -51,7 +51,7 @@ for model = 1:3
     mteerr = 0.0; 
     steerr = 0.0;
     count = 100; 
-    for !:count
+    for i = 1:count
         t = 100; 
         [X, y] = dataGen(t, n, p_pos); 
         [wm, bm] = maxL2marg(X,y); 
