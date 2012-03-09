@@ -54,7 +54,7 @@ public class Invoke {
     public static void javaVM(char c, String args) {
 	pid ++;
 	String classNm = classNames[c == 'S'? 0 : c == 'C' ? 1 : 2];
-	String cmd = javaCmd + " " +  classNm + " " + pid + " " +  args;
+	String cmd = javaCmd + " " +  classNm + " " + " " +  args;
 	System.out.println("In Invoke: " + cmd); 
 	try {
 	    Runtime r = Runtime.getRuntime();

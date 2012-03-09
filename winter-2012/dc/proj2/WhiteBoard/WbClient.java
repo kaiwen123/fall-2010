@@ -10,8 +10,8 @@ public interface WbClient
     void pleaseDie()  throws java.rmi.RemoteException;
     void recvDisplayObj(LinesFrame f)  throws java.rmi.RemoteException;
     void updateServer(String newservUrl) throws java.rmi.RemoteException; 
-    String getMachineName() throws java.rmi.RemoteException; 
-    String getmyURL()  throws java.rmi.RemoteException; 
+    String getMcName() throws java.rmi.RemoteException;
+    String getmyURL() throws java.rmi.RemoteException;
 }
 
 // -eof-

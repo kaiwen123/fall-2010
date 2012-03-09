@@ -12,15 +12,13 @@ public class WbClientImpl
     implements WbClient {
 
     private WbServer wbServer;
-    private String thisMcnm, myBoardNm, myURL, myServerURL;
+    public String thisMcnm, myBoardNm, myURL, myServerURL;
     private Color myColor;
     private LinesFrame myLinesFrame;
 
-    // accessors. 
-    public String getMachineName() throws java.rmi.RemoteException {
+    public String getMcName() throws java.rmi.RemoteException {
 	return thisMcnm;
     }
-
     public String getmyURL() throws java.rmi.RemoteException {
 	return myURL;
     }
@@ -87,8 +85,6 @@ public class WbClientImpl
      * @pre the url of the new server.
      * @post server of the client was updated and true returned or
      * exception happened and false returned.
-     * @param url the new server url.
-     * @return true on success and false on failure. 
      */
     public void updateServer(String newserverurl) {
 	try { wbServer = (WbServer) Naming.lookup(newserverurl); }

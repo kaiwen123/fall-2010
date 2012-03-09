@@ -2,7 +2,7 @@
 # source java-env.sh
 #
 
-export CLASSPATH=.:..:WhiteBoard:~/JavaClasses:~/winter-2012/dc/proj2/WhiteBoard # or whatever
+export CLASSPATH=.:..:WhiteBoard:~/JavaClasses:~/proj2/WhiteBoard # or whatever
 export PATH=/usr/java/jdk1.7.0_02/bin:/usr/java/jre1.7.0_02/bin:/home/java/bin:/usr/local/sbin:/usr/sbin:/usr/local/bin:/usr/bin:/sbin:/bin
 
 alias pj='ps aux | grep java'		# find java* processes
@@ -10,7 +10,7 @@ alias pj='ps aux | grep java'		# find java* processes
 wb730build() {
   # Current dir must be the parent of WhiteBoard/ Java files
   rm -f WhiteBoard/*.class
-  javac -Xlint:unchecked -d WhiteBoard *.java
+  javac WhiteBoard/*.java
   rmic -keep WhiteBoard.LinesFrameImpl \
      WhiteBoard.WbClientImpl \
      WhiteBoard.WbServerImpl

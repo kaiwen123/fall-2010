@@ -62,13 +62,95 @@ public class WbServerImpl
 	ABoard ab = findAboard(brdnm);
 	sendAllLines(wc, ab);
     }
+    
+    /**
+     * Send all line sof the given board to the given client. 
+     * @pre wc is a proper WbClient object with all the values
+     * properly set, and ab is an good ABoard object. 
+     * @post Lines on the given board was sent to the given
+     * WbClient object wc. 
+     */
+    private void sendAllLines(WbClient wc, ABoard ab) {
+	for (Enumeration e = ab.vLines.elements(); e.hasMoreElements(); ) {
+	    try {wc.updateBoard((LineCoords) e.nextElement());}
+	    catch (Exception x) {x.printStackTrace();}
+	}
+    }
 
     /**
+     * Add client to the server. 
+     * @pre wc was a proper WbClient object and brdnm is a string with
+     * value properly set. 
+     * @post If named board does not exist, then add one new board
+     * with given name, and add the client to the new board; if named
+     * board already exists, and in the end, send all lines to the
+     * client.
+     */
+    public void addClient(WbClient wc, String brdnm)
+	throws java.rmi.RemoteException    {
+	ABoard ab = findAboard(brdnm);
+	if (ab == null) {
+	    ab = new ABoard(brdnm);
+	    vBoards.addElement(ab);
+	} else {
+	    sendAllLines(wc, ab); // new client on an old board
+	}
+	ab.vClients.addElement(wc);
+    }
+
+    /**
+     * Delete client from board. 
+     * @pre wc was a proper WbClient Object with all values properly
+     * set; brdnm is a valid string. 
+     * @post wc is deleted from the server if the client is connected
+     * to the named existing board, else if board does not exist,
+     * nothing will be done; and the named board will be deleted if no
+     * client is connected to the board any more; and if there is no
+     * board in the server, the server will die on itself. 
+     */
+    public void delClient(WbClient wc, String brdnm) 
+	throws java.rmi.RemoteException    {
+	ABoard ab = findAboard(brdnm);
+	if (ab == null) return;
+	     
+	ab.vClients.removeElement(wc);
+
+	// If this is the last client in board, delete board  
+	if (ab.vClients.size() == 0) vBoards.removeElement(ab);
+
+	// If this was the last board, terminate this server
+	if (vBoards.size() == 0) pleaseDie();
+    }
+    
+    /**
+     * Add a line to the named board. 
+     * @pre ln is a proper LineCoords object with valid coordinates,
+     * and brdnm is a proper string. 
+     * @post ln is added to the named board if board exists and
+     * nothing will be done if board does not exist. And all the
+     * clients connected to the named board will be notified to add
+     * the line to its window.
+     */
+    public void addLine(LineCoords ln, String brdnm)
+	throws java.rmi.RemoteException    {
+	ABoard ab = findAboard(brdnm);
+	if (ab == null) return;
+
+	ab.vLines.addElement(ln);
+
+	// Broadcast to all the clients on this board
+	for (Enumeration e = ab.vClients.elements(); e.hasMoreElements();) {
+	    WbClient wc = (WbClient) e.nextElement();
+	    try {wc.updateBoard(ln);}
+	    catch (Exception x) {x.printStackTrace();}
+	}  
+    }
+
+    /****************************************************
      * query the server. will be called by the client wbadmin. 
      * @pre wc is and valid WbClient object. 
      * @post query was done and a new server object with all the board
      * , client and line information was returned to the caller. 
-     * @return WbServer object.
      */
     public Vector <ABoard> query() {
 	return vBoards; 	
@@ -78,12 +160,9 @@ public class WbServerImpl
      * Create new server on another machine. 
      * @pre wc is a valid WbClient object and url string contains a valid url address. 
      * @post new server was create successfully or exception happened. 
-     * @param ServName Name of new server.
-     * @param location The location of new server. 
-     * @return true on success and false on failure. 
      */
     public boolean newserver(String ServName, String location) {
-	String sshcmd = "ssh -f " + location + " java WhiteBoard.WbServerImpl " + ServName + " " + location + " &"; 
+	String sshcmd = "ssh -f " + location + " java -cp /home/ceg730/ceg73005/proj2/WhiteBoard WhiteBoard.WbServerImpl " + ServName + " " + location; 
 	try { 
 	    System.out.println("SSH COMMAND: " + sshcmd); 
 	    Runtime.getRuntime().exec(sshcmd);
@@ -98,8 +177,6 @@ public class WbServerImpl
      * string pointing to the new server.
      * @post given ABoard was transfered to the new white board
      * server if server exists or fail if new server does not exist.
-     * @param brdnm The ABoard name to transfer to the new server. 
-     * @param newservUrl the URL pointing to the new server.
      */
     public void transfer(String brdnm, String newservUrl) {
 	ABoard ab = findAboard(brdnm); 
@@ -133,105 +210,11 @@ public class WbServerImpl
 	try { vBoards.addElement(ab); }
 	catch (Exception e) { e.printStackTrace(); }
     }
-
-    /**
-     * Send all line sof the given board to the given client. 
-     * @pre wc is a proper WbClient object with all the values
-     * properly set, and ab is an good ABoard object. 
-     * @post Lines on the given board was sent to the given
-     * WbClient object wc. 
-     * @param wc the whiteboard client to send the lines to. 
-     * @param ab ABoard object with certain number of lines.
-     * @return void. 
-     */
-    private void sendAllLines(WbClient wc, ABoard ab) {
-	for (Enumeration e = ab.vLines.elements(); e.hasMoreElements(); ) {
-	    try {wc.updateBoard((LineCoords) e.nextElement());}
-	    catch (Exception x) {x.printStackTrace();}
-	}
-    }
-
-    /**
-     * Add client to the server. 
-     * @pre wc was a proper WbClient object and brdnm is a string with
-     * value properly set. 
-     * @post If named board does not exist, then add one new board
-     * with given name, and add the client to the new board; if named
-     * board already exists, and in the end, send all lines to the
-     * client.
-     * @param wc Whiteboard client. 
-     * @param brdnm Name of board to add client to. 
-     * @return void.
-     */
-    public void addClient(WbClient wc, String brdnm)
-	throws java.rmi.RemoteException    {
-	ABoard ab = findAboard(brdnm);
-	if (ab == null) {
-	    ab = new ABoard(brdnm);
-	    vBoards.addElement(ab);
-	} else {
-	    sendAllLines(wc, ab); // new client on an old board
-	}
-	ab.vClients.addElement(wc);
-    }
  
-    /**
-     * Delete client from board. 
-     * @pre wc was a proper WbClient Object with all values properly
-     * set; brdnm is a valid string. 
-     * @post wc is deleted from the server if the client is connected
-     * to the named existing board, else if board does not exist,
-     * nothing will be done; and the named board will be deleted if no
-     * client is connected to the board any more; and if there is no
-     * board in the server, the server will die on itself. 
-     * @param wc WhiteBoard client to delete. 
-     * @param brdnm brdnm connected to the to be deleted client. 
-     * @return void. 
-     */
-    public void delClient(WbClient wc, String brdnm) 
-	throws java.rmi.RemoteException    {
-	ABoard ab = findAboard(brdnm);
-	if (ab == null) return;
-	     
-	ab.vClients.removeElement(wc);
-
-	// If this is the last client in board, delete board  
-	if (ab.vClients.size() == 0) vBoards.removeElement(ab);
-
-	// If this was the last board, terminate this server
-	if (vBoards.size() == 0) pleaseDie();
-    }
-    
-    /**
-     * Add a line to the named board. 
-     * @pre ln is a proper LineCoords object with valid coordinates,
-     * and brdnm is a proper string. 
-     * @post ln is added to the named board if board exists and
-     * nothing will be done if board does not exist. And all the
-     * clients connected to the named board will be notified to add
-     * the line to its window.
-     * @param ln LineCoords object to be added to the board. 
-     * @param brdnm The name of white board. 
-     * @return void. 
-     */
-    public void addLine(LineCoords ln, String brdnm)
-	throws java.rmi.RemoteException    {
-	ABoard ab = findAboard(brdnm);
-	if (ab == null) return;
-
-	ab.vLines.addElement(ln);
-
-	// Broadcast to all the clients on this board
-	for (Enumeration e = ab.vClients.elements(); e.hasMoreElements();) {
-	    WbClient wc = (WbClient) e.nextElement();
-	    try {wc.updateBoard(ln);}
-	    catch (Exception x) {x.printStackTrace();}
-	}  
-    }
-
     public static void main(String args[]) {
-	try { WbServerImpl wsi = new WbServerImpl(args);}
-	catch (Exception e) {e.printStackTrace();}
+	try { 
+	    WbServerImpl wsi = new WbServerImpl(args);
+	} catch (Exception e) {e.printStackTrace();}
     }
 }
 
