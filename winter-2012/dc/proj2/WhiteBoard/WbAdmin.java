@@ -7,7 +7,7 @@ import java.io.*;
 import java.util.*;
 import java.rmi.*;
 
-public class WbAdmin extends java.rmi.server.UnicastRemoteObject{
+public class WbAdmin extends java.rmi.server.UnicastRemoteObject {
     private String serverURL, adminNm, myURL; 
     private WbServer myserver;
     private Vector vServers;	// store all the connected servers. 
@@ -71,7 +71,7 @@ public class WbAdmin extends java.rmi.server.UnicastRemoteObject{
 		int cnum = wbcs.size(); 
 		System.out.println("Total Clients: " + Integer.toString(cnum)); 
 		while(cnum > 0) {
-	    	    System.out.println("Machine: " + wbcs.get(cnum-1).getMachineName() + 
+	    	    System.out.println("Machine: " + wbcs.get(cnum-1).getMcName() + 
 				       " MYURL: " + wbcs.get(cnum-1).getmyURL());
 		    cnum--; 
 		}
@@ -102,9 +102,9 @@ public class WbAdmin extends java.rmi.server.UnicastRemoteObject{
      */
     private void serverCreate() {
 	String args1 = Invoke.promptAndGet("newserverid serverlocation");
-	//Invoke.javaVM('S', args1); 
-	try { Runtime.getRuntime().exec("java WhiteBoard.WbServerImpl " + args1); }
-	catch (Exception e) {e.printStackTrace();}
+	Invoke.javaVM('S', args1); 
+	//try { Runtime.getRuntime().exec("java WhiteBoard.WbServerImpl " + args1); }
+	//catch (Exception e) {e.printStackTrace();}
 
 	// String args = Invoke.promptAndGet("OldServerURL NewServerName NewServerLocation"); 
 	// String [] arglist = args.split(" ");
