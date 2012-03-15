@@ -3,8 +3,13 @@
  * @author Simon Guo. 
  * @date 04/03/2012.
  */
+#include <iostream>
+#include <fstream>
+#include <stdio.h>
+#include <string>
 #include "funcs.h"
 
+using namespace std; 
 // Prompt user to enter command 
 // The command char will be returned through a reference char. 
 void getCmd(char& choice) {
@@ -55,34 +60,45 @@ string itoa(const int &integer){
 // data files are dump of related databases, the fields 
 // are seperated by tabs. 
 bool dbLoad() {
-  cout << "Loading data into database. \n" << endl; 
-  FILE *dbfile; 
+  cout << "Loading data from file into database. \n" << endl; 
+  fstream dbfile; 
   string line;			// line string. 
   // The bank account data. 
-  dbfile = fopen("bankaccounts.dat", "r");
-  getline(dbfile, str); 
+  dbfile.open("bankaccounts.dat", fstream::in);
+  getline(dbfile, line, dbfile.widen('\n')); 
 
-  fclose(dbfile);
-
-  // income data. 
-  dbfile = fopen("income.dat", "r"); 
-
-  fclose(dbfile); 
+  dbfile.close();
 
   // income data. 
-  dbfile = fopen("spend.dat", "r"); 
+  dbfile.open("income.dat", fstream::in); 
 
-  fclose(dbfile); 
-
-  // income data. 
-  dbfile = fopen("budget.dat", "r"); 
-
-  fclose(dbfile); 
+  dbfile.close();
 
   // income data. 
-  dbfile = fopen("debt.dat", "r"); 
+  dbfile.open("spend.dat", fstream::in); 
 
-  fclose(dbfile); 
+  dbfile.close();
+
+  // income data. 
+  dbfile.open("budget.dat", fstream::in); 
+
+  dbfile.close();
+
+  // income data. 
+  dbfile.open("debt.dat", fstream::in);
+
+  dbfile.close();
+
+  return true;
+}
+
+// handling of mysql database exceptions. 
+void handleException(sql::SQLException e) {
+  cout << "# ERROR: SQLException in " << __FILE__;
+  cout << "# ERROR: " << e.what();
+  cout << " (MySQL error code: " << e.getErrorCode();
+  cout << ", SQLState: " << e.getSQLState() << " )" << endl;
+  return; 
 }
 
 /**
@@ -105,15 +121,14 @@ char selectTable(string &head) {
 
 // insert operation.
 bool insertRecord(sql::Connection *con) {
-  string cid, first_name, last_name, address, phone; 
-  string food_name, category, stmtstr; 
-  int age, calorie, quantity;
   string prompt = "Please select the table you want to insert into:"; 
   sql::Statement *stmt;
+  sql::PreparedStatement *pstmt; 
+  string stmtstr; 
   char tbl = selectTable(prompt); 
   switch(tbl) {
   case 'b': {
-    string accntid, accntnm, accntblnc; 
+    string accntid, accntnm; double accntblnc; 
     string accntdate, accntmemo;
     cout << "Insert into bank account >>>> " << endl; 
     cout << "Account ID     : "; cin >> accntid;  
@@ -124,11 +139,19 @@ bool insertRecord(sql::Connection *con) {
 
     try {
       stmt = con->createStatement(); 
-      stmtstr = "INSERT INTO BankAccount(AccntId, AccntName, balance, opendate, accntmemo) \
-      VALUES(\""+accntid+"\",\""+accntnm+"\",\""+accntblnc+"\",\"" \
-	+accntdate+"\",\""+accntmemo+"\")";
-      stmt->execute(stmtstr); 
+      pstmt = con->prepareStatement("INSERT INTO BankAccount(AccntId,AccntName,balance,opendate,memo)VALUES(?,?,?,?,?)"); 
+      pstmt->setString(1, accntid); 
+      pstmt->setString(2, accntnm); 
+      pstmt->setDouble(3, accntblnc); 
+      pstmt->setString(4, accntdate);
+      pstmt->setString(5, accntmemo); 
+      pstmt->execute(); 
+      // stmtstr = "INSERT INTO BankAccount(AccntId, AccntName, balance, opendate, memo) \
+      // VALUES(\""+accntid+"\",\""+accntnm+"\",\""+accntblnc+"\",\"" +accntdate+"\",\""+accntmemo+"\")";
+      // cout << stmtstr << endl; 
+      // stmt->execute(stmtstr); 
       con->commit();
+      cout << "Created account: " << accntid << endl; 
       stmt->close(); 
     } catch(sql::SQLException &e) {
       handleException(e); 
@@ -136,27 +159,28 @@ bool insertRecord(sql::Connection *con) {
     break; 
   }
   case 'i': {
-    string incid, incdate, incamunt, incdesc, saveto; 
+    string IncomeId, IncomeDate, description, saveToAccnt, amount;
     cout << "Insert into income table >>>>> " << endl; 
-    cout << "Income ID         : "; cin >> incid; 
-    cout << "Income Date       : "; cin >> incdate; 
-    cout << "Income Amount     : "; cin >> incamunt;  
-    cout << "Income Description: "; cin >> incdesc;
-    cout << "Save to Account   : "; cin >> saveto; 
+    cout << "Income ID         : "; cin >> IncomeId; 
+    cout << "Income Date       : "; cin >> IncomeDate; 
+    cout << "Income Amount     : "; cin >> amount;  
+    cout << "Income Description: "; cin >> description;
+    cout << "Save to Account   : "; cin >> saveToAccnt; 
     try {
       stmt = con->createStatement(); 
       stmtstr = "INSERT INTO Income(IncomeId, IncomeDate, amount, description, saveToAccnt) \
-      VALUES(\""+IncomeId+"\",\""+IncomeDate+"\",\""+amount+"\"","\"+description+"\",\""+saveToAccnt\")";
+      VALUES(\""+IncomeId+"\",\""+IncomeDate+"\",\""+amount+"\",\""+description+"\",\""+saveToAccnt+"\")";
+      cout << stmtstr << endl; 
       stmt->execute(stmtstr); 
       con->commit(); 
-      cout << incid << " is entered! " << endl; 
+      cout << IncomeId << " is entered! " << endl; 
       stmt->close(); 
     } catch(sql::SQLException &e) {
       handleException(e); 
     }
     break; 
   }
-  case 'o': {
+  case 's': {
     string spenddate, location, reason, fromaccnt, memo;
     cout << "Insert into Spend table >>>>  " << endl; 
     cout << "Date     : "; cin >> spenddate;
@@ -166,8 +190,9 @@ bool insertRecord(sql::Connection *con) {
     cout << "Memo     :"; cin >> memo; 
     try {
       stmt = con->createStatement(); 
-      stmtstr = "INSERT INTO Spend (SpendDate, location, forwhat, chargefromAccnt)\
-  VALUES(\""+spendate+"\",\""+location+"\",\""+reason+"\","\"+chargefromAccnt+"\",\""+memo"\")";
+      stmtstr = "INSERT INTO Spend (SpendDate, location, forwhat, chargefromAccnt, memo) \
+        VALUES(\""+spenddate+"\",\""+location+"\",\""+reason+"\",\""+fromaccnt+"\",\""+memo+"\")";
+      cout << stmtstr << endl; 
       stmt->execute(stmtstr); 
       con->commit();
       cout << "Inserted spend record!" << endl; 
@@ -177,9 +202,8 @@ bool insertRecord(sql::Connection *con) {
     }
     break;
   }
-  case 'u' {
-    double amount; 
-    string bgtid, bgtdate, reason, fromaccnt, memo;
+  case 'u': { 
+    string bgtid, bgtdate, reason, fromaccnt, memo, amount;
     cout << "Insert into Budget table >>>>  " << endl; 
     cout << "Budget Id :"; cin >> bgtid; 
     cout << "Reason    :"; cin >> reason; 
@@ -189,8 +213,9 @@ bool insertRecord(sql::Connection *con) {
     cout << "Memo     :"; cin >> memo; 
     try {
       stmt = con->createStatement(); 
-      stmtstr = "INSERT INTO Budget (BudgetId, BudgetFor, CreateDate, BudgetFromAccnt, Amount, Memo)\
-  VALUES(\""+bgtid+"\",\""+reason+"\",\""+bgtdate+"\","\"+fromaccnt+"\",\""+amount"\",\""+memo"\")";
+      stmtstr = "INSERT INTO Budget (BudgetId, BudgetFor, CreateDate, BudgetFromAccnt, Amount, Memo) \
+	VALUES(\""+bgtid+"\",\""+reason+"\",\""+bgtdate+"\",\""+fromaccnt+"\",\""+amount+"\",\""+memo+"\")";
+      cout << stmtstr << endl; 
       stmt->execute(stmtstr); 
       con->commit();
       cout << "Inserted Budget record!" << endl; 
@@ -200,9 +225,8 @@ bool insertRecord(sql::Connection *con) {
     }
     break; 
   }
-  case 'd' {
-    double amount;
-    string debtid, debttype, debtstart, debtend, memo;
+  case 'd': {
+    string debtid, debttype, debtstart, debtend, memo, amount;
     cout << "Insert into Debt table >>>>  " << endl; 
     cout << "Debt ID         :"; cin >> debtid;
     cout << "Debt Type       :"; cin >> debttype; 
@@ -212,8 +236,9 @@ bool insertRecord(sql::Connection *con) {
     cout << "Memo            :"; cin >> memo; 
     try {
       stmt = con->createStatement(); 
-      stmtstr = "INSERT INTO Debt (DebtId, DebtType, DebtStartDate, DebtEndDate, DebtAmount, Memo)\
-  VALUES(\""+debtid+"\",\""+debttype+"\",\""+debtstart+"\","\"+debtend+"\",\""+amount+"\",\""+memo"\")";
+      stmtstr = "INSERT INTO Debt (DebtId, DebtType, DebtStartDate, DebtEndDate, DebtAmount, Memo)" \
+	"VALUES(\""+debtid+"\",\""+debttype+"\",\""+debtstart+"\",\""+debtend+"\",\""+amount+"\",\""+memo+"\")";
+      cout << stmtstr << endl; 
       stmt->execute(stmtstr); 
       con->commit();
       cout << "Inserted debt record!" << endl; 
@@ -225,16 +250,12 @@ bool insertRecord(sql::Connection *con) {
   }
   default: { cout << "Sorry, wrong input." << endl; }
   }
+  delete stmt; 
+  delete pstmt; 
+
   return true; 
 }
 
-void handleException(sql::Exception e) {
-  cout << "# ERROR: SQLException in " << __FILE__;
-  cout << "# ERROR: " << e.what();
-  cout << " (MySQL error code: " << e.getErrorCode();
-  cout << ", SQLState: " << e.getSQLState() << " )" << endl;
-  return; 
-}
 /**
  * @brief delete order. 
  * @param con Database connection handle. 
@@ -243,7 +264,6 @@ void handleException(sql::Exception e) {
 bool deleteBudget(sql::Connection *con) {
   cout << "Deleting Budget >>>> " << endl; 
   string bid; 
-  int id; 
   sql::Statement *stmt;
   sql::ResultSet *res; 
   try {
@@ -261,7 +281,7 @@ bool deleteBudget(sql::Connection *con) {
 
     cout << res->getString(1) << " | " 
 	 << res->getString(2) << " | " 
-	 << res->getDate(3) << " | " 
+	 << res->getString(3) << " | " 
 	 << res->getString(4) << " | " 
 	 << res->getDouble(5) << " | "
 	 << res->getString(6) << " | " << endl; 
@@ -269,9 +289,9 @@ bool deleteBudget(sql::Connection *con) {
     char dlt;
     cout << "Do you want to delete this budget? (Y/N)"; 
     cin >> dlt; 
-    if(dlt == 'Y' | dlt == 'y')
+    if((dlt == 'Y') | (dlt == 'y')) {
       stmt = con->createStatement(); 
-      stmt->execute("DELETE FROM Budget WHERE BudgetId = \"" + bid + "\"");
+      stmt->execute("DELETE FROM Budget WHERE BudgetId = \""+bid+"\"");
       con->commit(); 
       cout << "Budget " << bid << " has been deleted successfully!" << endl;
     }
@@ -287,28 +307,27 @@ bool deleteBudget(sql::Connection *con) {
  * @return true on success and false otherwise. 
  */ 
 bool modifyIncome(sql::Connection *con) {
-  int id, quant; 
   string iid; 
   sql::ResultSet *res; 
   sql::Statement *stmt = con->createStatement(); 
   cout << "Income Id to modify: "; cin >> iid; 
   try {
-    res = stmt->executeQuery("SELECT * FROM FOrder WHERE OCID = \""+iid+"\""); 
+    res = stmt->executeQuery("SELECT * FROM Income WHERE OCID = \""+iid+"\""); 
     cout << "\nIncome details: " << endl; 
     if(!res->next()) {
       cout << "" << endl; 
       return false; 
     }
-    cout << res->getInt(1) << " | " 
+    cout << res->getUInt(1) << " | " 
 	 << res->getString(2) << " | " 
 	 << res->getString(3) << " | " 
 	 << res->getString(4) << " | "
-	 << res->getInt(5) << " | " << endl; 
+	 << res->getUInt(5) << " | " << endl; 
     
     char ans; 
     cout << "Do you want to update income amount? (Y/N) "; cin >> ans; 
-    if(ans == 'Y' || ans == 'y') {
-      double amunt; 
+    if((ans == 'Y') || (ans == 'y')) {
+      string amunt; 
       cout << "Enter new amount: "; cin >> amunt; 
       stmt = con->createStatement(); 
       stmt->execute("UPDATE Income SET amount = " + amunt); 
@@ -344,7 +363,7 @@ bool retrieveRecord(sql::Connection *con) {
 	     << res->getString(2) << " | "
 	     << res->getString(3) << " | "
 	     << res->getDouble(4) << " | "
-	     << res->getDate(5) << endl; 
+	     << res->getString(5) << endl; 
       }
       res->close();
       stmt->close(); 
@@ -361,7 +380,7 @@ bool retrieveRecord(sql::Connection *con) {
     cout << "+--------------------------------------------+" << endl; 
     while(res->next()) {
       cout << res->getString(1) << " | "
-    	   << res->getDate(2) << " | "
+    	   << res->getString(2) << " | "
     	   << res->getDouble(3) << " | "
 	   << res->getString(4) << " | "
 	   << res->getString(5) << " | " << endl; 
@@ -375,7 +394,7 @@ bool retrieveRecord(sql::Connection *con) {
     cout << "| Date | Location | Reason | From Accnt | Memo |"<< endl; 
     cout << "+----------------------------------------------+" << endl; 
     while(res->next()) {
-      cout << res->getDate(1) << " | " 
+      cout << res->getString(1) << " | " 
 	   << res->getString(2) << " | " 
 	   << res->getString(3) << " | " 
     	   << res->getString(4) << " | "
@@ -393,7 +412,7 @@ bool retrieveRecord(sql::Connection *con) {
     while(res->next()) {
       cout << res->getString(1) << " | " 
 	   << res->getString(2) << " | " 
-	   << res->getDate(3) << " | " 
+	   << res->getString(3) << " | " 
 	   << res->getString(4) << " | " 
     	   << res->getDouble(5) << " | "
     	   << res->getString(6) << " | " << endl; 
@@ -409,8 +428,8 @@ bool retrieveRecord(sql::Connection *con) {
     while(res->next()) {
       cout << res->getString(1) << " | " 
 	   << res->getString(2) << " | " 
-	   << res->getDate(3) << " | " 
-    	   << res->getDate(4) << " | "
+	   << res->getString(3) << " | " 
+    	   << res->getString(4) << " | "
 	   << res->getDouble(5) << " | "
     	   << res->getString(5) << " | " << endl; 
     }

@@ -7,6 +7,7 @@
 #include <cppconn/exception.h>
 #include <cppconn/resultset.h>
 #include <cppconn/statement.h>
+#include <cppconn/prepared_statement.h>
 
 using namespace std; 
 using namespace sql;
@@ -14,8 +15,8 @@ using namespace sql;
 string itoa(const int &integer); 
 void getCmd(char& choice);
 bool insertRecord(sql::Connection *con); 
-bool deleteOrder(sql::Connection *con); 
-bool modifyOrder(sql::Connection *con); 
+bool deleteBudget(sql::Connection *con); 
+bool modifyIncome(sql::Connection *con); 
 bool retrieveRecord(sql::Connection *con); 
 bool doInsert(sql::Connection *con, char choice);
 #endif 
