@@ -40,8 +40,8 @@ int main(void) {
       getCmd(choice);
       switch(tolower(choice)) {
       case 'i': { insertRecord(conn); break;}	// insert record. 
-      case 'd': { deleteOrder(conn); break;}	// delete order record. 
-      case 'm': { modifyOrder(conn); break;}	// modify order record. 
+      case 'd': { deleteBudget(conn); break;}	// delete order record. 
+      case 'm': { modifyIncome(conn); break;}	// modify order record. 
       case 'r': { retrieveRecord(conn); break;} // retrieve record.
       case 'q': exit(0); 
       default: break; 

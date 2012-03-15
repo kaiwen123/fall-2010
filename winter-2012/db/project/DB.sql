@@ -1,9 +1,9 @@
 -- Database tables for CEG 701 Database principles project. 
 -- Author: Shumin Guo. 
 
-CREATE DATABASE IF NOT EXISTS DB_PROJ; 
+CREATE DATABASE IF NOT EXISTS CS701DB; 
 
-USE DB_PROJ;
+USE CS701DB;
 
 CREATE TABLE IF NOT EXISTS BankAccount (
    AccntId VARCHAR(20) NOT NULL, 

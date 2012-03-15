@@ -4,7 +4,7 @@ CPP = `which g++`
 CPPFLAGS = -Wall 
 LDFLAGS = -lmysqlcppconn
 
-EXE = order
+EXE = FinancialManager
 
 SRCS = order.cpp funcs.cpp
 OBJS = $(SRCS:.cpp=.o)
