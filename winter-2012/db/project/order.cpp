@@ -21,10 +21,10 @@ int main(void) {
 
     // Create a connection. 
     driver = get_driver_instance(); 
-    conn = driver->connect("tcp://localhost:3306", "ada", "825123"); 
+    conn = driver->connect("tcp://localhost:3306", "root", ""); 
 
-    // Connect to the DB_PROJ database; 
-    conn->setSchema("DB_PROJ"); 
+    // Connect to the CS701DB database; 
+    conn->setSchema("CS701DB"); 
 
     // turn off the autocommit, and use commit statement explicitly. 
     conn->setAutoCommit(0); 
@@ -40,7 +40,7 @@ int main(void) {
       getCmd(choice);
       switch(tolower(choice)) {
       case 'i': { insertRecord(conn); break;}	// insert record. 
-      case 'd': { deleteBudget(conn); break;}	// delete order record. 
+      case 'd': { deleteSpend(conn); break;}	// delete order record. 
       case 'm': { modifyIncome(conn); break;}	// modify order record. 
       case 'r': { retrieveRecord(conn); break;} // retrieve record.
       case 'q': exit(0); 

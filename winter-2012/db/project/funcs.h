@@ -15,7 +15,7 @@ using namespace sql;
 string itoa(const int &integer); 
 void getCmd(char& choice);
 bool insertRecord(sql::Connection *con); 
-bool deleteBudget(sql::Connection *con); 
+bool deleteSpend(sql::Connection *con); 
 bool modifyIncome(sql::Connection *con); 
 bool retrieveRecord(sql::Connection *con); 
 bool doInsert(sql::Connection *con, char choice);
