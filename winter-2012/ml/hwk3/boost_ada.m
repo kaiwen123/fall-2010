@@ -17,13 +17,13 @@ for i=1:ncomp,
     h = eval_stump(stump,X);
     
     % insert alpha calculation here
-    alpha = 
+    alpha = log((1-stump.werr)/stump.werr)/2; 
     
     H = H + alpha*h; % update the combined predictions
     
     % weight update
     W=exp(-H.*y);
-    W=W/sum(W);;
+    W=W/sum(W);
     
     model{i} = stump;
     model{i}.alpha = alpha; 
