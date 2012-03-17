@@ -1,0 +1,154 @@
+## Name : Shumin Guo. 
+## UID  : U00617724. 
+## Final exam for CEG730 distributed computing principles. 
+Part 1.
+
+i. No, this is not a good definition of distributed system, a distributed system is the kind of 
+system that are geographically distributed, connect through network and can work coorperately, also
+a nice design of distributed system should be resilent to system failures, that means when one or
+more nodes fails in the whole system, it can recover and will not affect the functionality of the 
+whole system, one good example is mapreduce, which is designed taking system failure into consideration. 
+
+ii. No. in split binary semaphore, a number of binary semaphores (b1, b2 ... bn), exists, and there 
+is a global invariant SPLIT:b1+b2+b3+...+bn, such that 0 <= SPLIT <= 1. So this means the invariant 
+can be 0 sometimes, in this case, all the semaphores are 0. 
+
+iii. Yes, a safety property means that nothing "bad" will happen throght out the life of the process, 
+while in comparison, a liveness property means a property will become true eventually. 
+
+iv. In client server systems, there exists a server who knows all the information of the clients, so 
+to do termination detection it is relatively easy, because all the client process doesn't need to know 
+the status of each other, while in peer-to-peer systems, all the clients are symmetric, in order to 
+detect the termination of all the processes, there should be a mechanism to aggregate all the information
+or status of all the peers, so it is relatively hard as compared to client-server systems. For example, 
+we can use token passing to do the termination detection. 
+
+v. In SMP, before sending, the receiver needs to be ready, so sender will block on the receiver. 
+Similarly, before receiving, the receiver must know the status of the status of the receiver. In order to
+do this, we can use the ACK messages to achieve this. 
+
+vi. Token passing was discussed under the AMP is because AMP is more fundamental than SMP, as in the 
+previous question, we can use AMP primitives to simulate the SMP primitives. So, token passing using SMP 
+also makes sense. 
+ssend(B,msg) { arecv(B,ACK); asend(B,msg)}
+srecv(B,msg) { asend(B,ACK); arecv(B,msg)}
+
+vii. It is Ok to do so. The purpose of logical clock is for synchronization, so that we can know the logical
+order of process executions. This is the way for distributed environment, because in this kind of evironment,
+all the processes are geographically distributed, there is no shared variable, but in a single node, all 
+the processes can communicate with more efficient methods such as shared variable etc.. So we can keep only 
+one helper process to handle the logical clock for this node when we need to communicate with external processes.
+
+viii. The purpose of mutual exclusion is to synchronize processes such that critical sections be accessed 
+by only one process at all time. The distributed binary semaphores have the same purpose. So we can use mutual 
+exclusion to construt a distributed binary semaphore and also use a distributed binary semaphore to construct 
+a mutex. But in other way, if the semaphore is not binary, meaning more than one processes can access a critical
+section, this statement will not hold. 
+
+ix. The reconstructed tree nodes are: (3, 4, 7), (7, 4, 7), (8, 4, A), (1, 4, 2). 
+
+x. No. for example, let x = 11 and then execute <x := x - 9> and x becomes 2. And then apply x = 2 to <x:=x+2>, 
+we have x = 4, which is even, making the second triplet becomes true. But originally, 
+{x is odd} <x := x + 2> {x is even} will will always evaluate to false, so the interference exists. 
+
+xi. This is not true, because S will always be executed atomically, but in the case of S', because this is not
+atomic statement, other processes might interfere in the way, changing the waiting state. So, they are not the
+same. 
+
+xii. A new process will be create with given procedure to handle the message. 
+
+xiii. The idea of map/reduce is that given a large task, we first split it into smaller tasks and assign the tasks 
+different mapper, who will handle the task and then pass the result to reducer who will aggregate the intermediate
+result and generate a final result. For example, in wordcount, we are given a large text corpus which is so large
+that a simple computer will take very long time to finish, we can split the corpus into smaller chunks and then assign
+to mappers and the mappers will do the word count task on the given data chunk and output the result to the reducer; 
+and finally there will be a smaller number of reducer to aggregate the result and output to the user. 
+
+xiv. In case of weak fairness:
+always x = 0 can hold because it is possible that only <await true -> y:=y+1> be executed. 
+eventually x > 5 does not hold, reason is similar to the previous one. 
+always y = 3 can not hold, because it is possible that only <await true -> x := x + 1> be executed, y is always 0. 
+
+In case of strong fairness:
+always x = 0 does not hold because eventually <await true -> x:=x+1> will be executed, making x greater than 0. 
+eventually x > 5 will hold, reason is similar to the previous one. 
+always y = 3 can not hold, <await true -> y:=y+1> will be executed and eventually makes y > 3.
+
+xv. (a) maximize concurrency means we can make full use of the computation power of the distributed systems and 
+also removing the over loading problem of certain nodes. (b). symmetric means all the nodes have same rule in the 
+system, making it more resilent to system failures, such as in the map/reduce system, all the mappers and all the 
+reducers and symmetric, if one node fails, other nodes can continue the unfinished work; if the system is not 
+symmetric this can cause problem. Also symmetric can make the system easier to manage. (c)Due to the complexity
+of distributed systems, "noise" exists everywhere making the system unstable or generating wrong result, so it is
+more important to handle these complexcities such as synchronization etc. and on the other handle, the distributed
+system is resilient and scalable, meaning the computational power and be thought of infinity, in this sense, efficiency
+becomes not so important. (d) & (e) Either deadlock or livelock are not acceptable, because they will cause the system
+get "stuck" and not progress or terminate. 
+
+2. 
+// main process. 
+int main(int argc, char ** argv) {
+    int sz, p; 
+    in("SZ", ?sz);
+	in("p", ?p); 
+	
+	int psz = sz / p; 
+	int pszm = sz % p;
+	
+	// duplicate the tuples. 
+	for(int i = 1; i < p; i++) {
+		eval(worker(psz, (i-1)*psz, sz));
+	}
+	// assign the first process more task. 
+	eval(worker(psz + pszm), p * psz, sz); 
+	
+	return 0; 
+}
+
+// process to dupliate the tuples. 
+int duplicate(int psz, int start, int sz) {
+	int x, a, b; 
+	
+	// dupliate all the tuples. 
+	for(int i = 0; i < psz; i++) {
+		in("S", ?x); 
+		for(int j = 0; j < sz; j++) {
+			// duplicate. 
+			out("SS", x, start * i, 0);
+			out("SS", x, j, 1); 
+			
+			in("SS", ?a, start * i, 0); 
+			in("SS", ?b, j, 1); 
+			out("B", a * b);
+		}
+	}
+	
+	return 0;
+}
+
+HOW it works:
+Step1: In the main function allocate the tuples to process evenly. 
+Step2: In the worker process, 
+Step2.1: Duplicate each tuple to 2 * sz, along with one duplication index; so by the time all the tuples are 
+         duplicated, there will be totally 2 * sz * sz tuples in the tuple space. 
+	 The purpose of the index is to make sure the same value be multiplies only once. For example, (I will ignore 
+	 the tuple representation for simplicity, and will only use integers) after duplication tuple {1, 2, 3, 4} 
+	 will become: 
+
+tuples:	 1 1 2 1 3 1 4 1 
+tuples:	 1 2 2 2 3 2 4 2
+tuples:	 1 3 2 3 3 3 4 3
+tuples:	 1 4 2 4 3 4 4 4
+
+index0:  0 0 1 1 2 2 3 3
+index1:  0 1 0 1 0 1 0 1
+	 Then the tuples will be allocated to processes according to tuples index 0. 
+		 
+Step2.2: Read in value pairs and output the multiplication to the TS. The purpose of start is to make sure 
+         that tuples with certains index multiply with other indexes only once. And it is also used to allocate 
+	 the duplicated tuples to the processes and so in the previous example, suppose we have two processes, 
+	 process 1 will handle index0 = {0,1}. Let's take index0 = 0 as example, which relates to the operation
+	 of the first two columns in the exam. So for each iteration, the process read in one value for index1 = 0, 
+	 and a paired value with index1 = 1, and multiply them, output the new tuple. So in the previous example, 
+	 the output tuple will be ("B", 1*1), ("B", 1*2), ("B", 1*3), ("B", 1*4). And the other index0 columns 
+	 will be handled similarly.
