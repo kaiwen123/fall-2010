@@ -1,15 +1,17 @@
 % This is problem one of machine learning homework. 
-
+wss = warning('off','all');
 for model = 1:3
     t = 100; 
-    n = 2;
+    n = 2; 
+    u = ones(n, 1); 
+    v = 0.5 * n; 
     p_pos = 0.5; 
     % A. generate training data. 
     [X, y] = dataGen(t, n, p_pos, model); 
 
     % build the training model.
-    [wm, bm] = maxL2marg(X,y),
-    [ws, bs] = softL2marg(X,y,1),
+    [wm, bm] = maxL2marg(X,y);
+    [ws, bs] = softL2marg(X,y,1);
 
     % B. plot the model with genertive data. 
     clf; axis([0 1 0 1]); hold; axis('square');
@@ -31,18 +33,18 @@ for model = 1:3
     [yhats] = classify(X, ws, bs); 
     mtrerr = sum(yhatm ~= y) / t; 
     strerr = sum(yhats ~= y) / t; 
-    fprintf('Training error for L2 margin is: %.2lf. \n', mtrerr); 
-    fprintf('Training error for L2 soft margin is: %.2lf. \n', strerr); 
+    fprintf('Training error for L2 margin is: %.5f. \n', mtrerr); 
+    fprintf('Training error for L2 soft margin is: %.5f. \n', strerr); 
     
     % D. generate new test data and compute the test error. 
     t = 1000; 
     [Xtest, ytest] = dataGen(t, n, p_pos, model); 
     [yhattestm] = classify(Xtest, wm, bm); 
     [yhattests] = classify(Xtest, ws, bs); 
-    mteerr = sum(yhattestm ~= ytest); 
-    steerr = sum(yhattests ~= ytest); 
-    fprintf('Training error for L2 margin is: %.2lf. \n', mteerr); 
-    fprintf('Training error for L2 soft margin is: %.2lf. \n', steerr); 
+    mteerr = sum(yhattestm ~= ytest) / t; 
+    steerr = sum(yhattests ~= ytest) / t; 
+    fprintf('Training error for L2 margin is: %.5f. \n', mteerr); 
+    fprintf('Training error for L2 soft margin is: %.5f. \n', steerr); 
     
     % compute the average training and testing misclassification error over
     % 100 runs.
@@ -53,7 +55,7 @@ for model = 1:3
     count = 100; 
     for i = 1:count
         t = 100; 
-        [X, y] = dataGen(t, n, p_pos); 
+        [X, y] = dataGen(t, n, p_pos, model); 
         [wm, bm] = maxL2marg(X,y); 
         [ws, bs] = softL2marg(X,y,1);
         % training error.
@@ -68,8 +70,9 @@ for model = 1:3
         steerr = steerr + sum(yhattests ~= ytest) / t; 
     end 
     % print average training and testing error for 100 runs. 
-    fprintf('Training error for L2 margin is: %.2lf. \n', mtrerr / count);
-    fprintf('Training error for L2 soft margin is: %.2lf. \n', strerr / count); 
-    fprintf('Testing error for L2 margin is: %.2lf. \n', mteerr / count); 
-    fprintf('Testing error for L2 soft margin is: %.2lf. \n', steerr / count); 
+    fprintf('Training error for L2 margin is: %.5f. \n', mtrerr / count);
+    fprintf('Training error for L2 soft margin is: %.5f. \n', strerr / count); 
+    fprintf('Testing error for L2 margin is: %.5f. \n', mteerr / count); 
+    fprintf('Testing error for L2 soft margin is: %.5f. \n', steerr / count); 
 end 
+warning(wss);

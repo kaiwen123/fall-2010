@@ -190,10 +190,16 @@ bool insertRecord(sql::Connection *con) {
         VALUES(\""+spenddate+"\",\""+location+"\",\""+itoa(amount)+"\",\""+memo+"\")";
       cout << stmtstr << endl; 
       stmt->execute(stmtstr); 
+      // this will trigger the insertion of a withdrawal operation. 
+      goto WD; 
+      
       con->commit();
       cout << "Inserted spend record!" << endl; 
       stmt->close(); 
     } catch(sql::SQLException &e) {
+      cout << "Exception happened spending ... withdrawal error. " << endl; 
+      cout << "Rolling back ... " << endl;
+      con->rollback(); 
       handleException(e); 
     }
     break;
@@ -221,7 +227,7 @@ bool insertRecord(sql::Connection *con) {
     break; 
   }
   case 'w': {
-    string wdfrom, wdfor, wddate, memo, amount;
+    WD: string wdfrom, wdfor, wddate, memo, amount;
     cout << "Insert into Withdrawal table >>>>  " << endl; 
     cout << "Withdrawal from Account :"; cin >> wdfrom; 
     cout << "Withdrawal for Expense  :"; cin >> wdfor; 
@@ -234,10 +240,15 @@ bool insertRecord(sql::Connection *con) {
 	"VALUES(\""+wdfrom+"\",\""+wdfor+"\",\""+amount+"\",\""+wddate+"\",\""+memo+"\")";
       cout << stmtstr << endl; 
       stmt->execute(stmtstr); 
+      throw sql::SQLException(); 
+
       con->commit();
       cout << "Inserted Withdrawal record!" << endl; 
       stmt->close(); 
     } catch(sql::SQLException &e) {
+      cout << "Exception happened withdrawaling ... no enough fund..." << endl; 
+      cout << "Rolling back ... " << endl;
+      con->rollback();
       handleException(e); 
     }
     break; 
@@ -284,7 +295,7 @@ bool deleteSpend(sql::Connection *con) {
     cin >> dlt; 
     if((dlt == 'Y') | (dlt == 'y')) {
       stmt = con->createStatement(); 
-      stmt->execute("DELETE FROM Budget WHERE Spend = \""+spdid+"\"");
+      stmt->execute("DELETE FROM Spend WHERE SpdId = \""+spdid+"\"");
       con->commit(); 
       cout << "Spend record " << spdid << " has been deleted successfully!" << endl;
     }
@@ -311,11 +322,10 @@ bool modifyIncome(sql::Connection *con) {
       cout << "" << endl; 
       return false; 
     }
-    cout << res->getUInt(1) << " | " 
+    cout << res->getInt(1) << " | " 
 	 << res->getString(2) << " | " 
 	 << res->getDouble(3) << " | " 
-	 << res->getString(4) << " | " 
-	 << res->getString(5) << " | " << endl; 
+	 << res->getString(4) << " | " << endl; 
     
     char ans; 
     cout << "Do you want to update income amount? (Y/N) "; cin >> ans; 
@@ -323,11 +333,17 @@ bool modifyIncome(sql::Connection *con) {
       string amunt; 
       cout << "Enter new amount: "; cin >> amunt; 
       stmt = con->createStatement(); 
-      stmt->execute("UPDATE Income SET IcmAmunt = " + amunt); 
+      stmt->execute("UPDATE Income SET IcmAmunt = " + amunt + " WHERE IcmId = \"" + iid + "\""); 
+      cout << "Updating income for record " << iid << " ... " << endl; 
+      throw sql::SQLException(); 
+      
       con->commit(); 
       cout << "Income amount was updated to " << amunt << endl; 
     }
   } catch(sql::SQLException &e) {
+    cout << endl << "Exception happened ... !" << endl;
+    cout << "Rolling back ... " << endl;  
+    con->rollback(); 
     handleException(e);
   }
   return true; 
@@ -351,8 +367,10 @@ bool retrieveRecord(sql::Connection *con) {
     cout << "+----------------------------------------+" << endl; 
     try {
       res = stmt->executeQuery("SELECT * FROM BankAccount;"); 
+      // con->rollback();
+      con->commit(); 
       while(res->next()) {
-	cout << res->getUInt(1) << " | "
+	cout << "| "<< res->getUInt(1) << " | "
 	     << res->getString(2) << " | "
 	     << res->getDouble(3) << " | "
 	     << res->getString(4) << " | "

@@ -6,4 +6,4 @@
 % b the offset of the model. 
 % yhat --> predicated label for testing data. 
 function [yhat] = classify(Xtest, w, b)
-    yhat = Xtest * w - b * ones(size(w)); 
+    yhat = sign(Xtest * w - b * ones(size(Xtest, 1), 1)); 

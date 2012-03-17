@@ -5,6 +5,7 @@
 % y --> training label with dimension t x 1. 
 % w --> weight of linear discriminant. 
 % b --> scalar offset.
+% variable x = [w; b] (n + 1) x 1.
 % we need to use the quadratic programming function. 
 function [w, b] = maxL2marg (X, y)
     t = size(X, 1); % number of data. 
@@ -17,14 +18,18 @@ function [w, b] = maxL2marg (X, y)
     end 
 
     f = zeros(n+1, 1); 
-
+    
+    yy = zeros(size(X)); 
+    for i = 1:n 
+        yy(:,i) = y; 
+    end
     % constraints.
-    A = [-X * y, y]; 
+    A = [-X .* yy, y]; 
     c = -1 * ones(t, 1); 
 
     % Quadratic programming. 
-    opts = optimset('Algorithm', 'active-set', 'Display', 'off');
-    [x,fval,exitflag,output,lambda] = quadprog(H,f,A,c,[],[],lb,[],[],opts);
+    %opts = optimset('Algorithm', 'active-set', 'Display', 'off');
+    x = quadprog(H,f,A,c);
     
     % setup the result. 
     w = x(1:n, 1); 
