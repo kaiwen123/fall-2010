@@ -1,0 +1,51 @@
+USE CS701DB; 
+
+INSERT INTO BankAccount (AcntName, AcntBlnc, AcntDate, Memo)
+VALUES ("BoA", 1000, "2012-03-10", "Bank of america account.");
+INSERT INTO BankAccount (AcntName, AcntBlnc, AcntDate, Memo)
+VALUES ("BNC", 90, "2012-03-10", "BNC bank account.");
+INSERT INTO BankAccount (AcntName, AcntBlnc, AcntDate, Memo)
+VALUES ("WestCargo", 7800, "2005-12-10", "West Cargo account.");
+INSERT INTO BankAccount (AcntName, AcntBlnc, AcntDate, Memo)
+VALUES ("BOC", 350, "2010-10-09", "BOC account.");
+INSERT INTO BankAccount (AcntName, AcntBlnc, AcntDate, Memo)
+VALUES ("UNKNOWN", 100000, "2009-03-10", "UNKNOWN account.");
+
+INSERT INTO Income (IcmDate, IcmAmunt, Memo)
+VALUES ("2012-03-10", 1201.42, "March RA income.");
+INSERT INTO Income (IcmDate, IcmAmunt, Memo)
+VALUES ("2012-02-10", 1201.42, "Feb. RA income.");
+INSERT INTO Income (IcmDate, IcmAmunt, Memo)
+VALUES ("2012-01-10", 1201.42, "Jan. RA income.");
+INSERT INTO Income (IcmDate, IcmAmunt, Memo)
+VALUES ("2011-12-10", 1201.42, "Dec. RA income.");
+INSERT INTO Income (IcmDate, IcmAmunt, Memo)
+VALUES ("2011-11-10", 1201.42, "Nov. RA income.");
+
+INSERT INTO Spend (SpdDate, SpdAmunt, SpdLoc, Memo)
+VALUES ("2012-03-10", 15, "Texas grill", "Diner at Texas grill.");
+INSERT INTO Spend (SpdDate, SpdAmunt, SpdLoc, Memo)
+VALUES ("2012-03-06", 307, "XBOX", "For my wife.");
+INSERT INTO Spend (SpdDate, SpdAmunt, SpdLoc, Memo)
+VALUES ("2012-03-02", 15, "McDonolds", "Diner at McDonolds.");
+INSERT INTO Spend (SpdDate, SpdAmunt, SpdLoc, Memo)
+VALUES ("2012-02-10", 45, "Meijer", "Shopping at Meijer.");
+
+INSERT INTO Deposit ( DpToAcnt, DpFrom, DpAmunt, DpDate, Memo)
+VALUES (1, 1, 1000, "2012-03-10", "Save Income to BOA account.");
+INSERT INTO Deposit ( DpToAcnt, DpFrom, DpAmunt, DpDate, Memo)
+VALUES (1, 2, 1100, "2012-02-10", "Save Income to BOA account.");
+INSERT INTO Deposit ( DpToAcnt, DpFrom, DpAmunt, DpDate, Memo)
+VALUES (1, 3, 1100, "2012-01-10", "Save Income to BOA account.");
+INSERT INTO Deposit ( DpToAcnt, DpFrom, DpAmunt, DpDate, Memo)
+VALUES (1, 4, 1100, "2011-12-10", "Save Income to BOA account.");
+
+
+INSERT INTO Withdrawal (WdFrom, WdFor, WdAmunt, WdDate, Memo )
+VALUES (1, 1, 15, "2012-03-10", "exp.");
+INSERT INTO Withdrawal (WdFrom, WdFor, WdAmunt, WdDate, Memo )
+VALUES (1, 2, 307, "2012-03-06", "exp.");
+INSERT INTO Withdrawal (WdFrom, WdFor, WdAmunt, WdDate, Memo )
+VALUES (1, 3, 15, "2012-03-02", "exp.");
+INSERT INTO Withdrawal (WdFrom, WdFor, WdAmunt, WdDate, Memo )
+VALUES (1, 4, 45, "2012-02-10", "exp.");
