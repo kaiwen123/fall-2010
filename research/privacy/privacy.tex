@@ -49,39 +49,7 @@ profile items according to potential benefits and risks.
 
 \end{abstract}
 
-% With the fast development of Online Social Networks (OSN), privacy
-% issue has become a great concern. Among all the research attempts of
-% social network privacy, quantification of OSN user risks is an
-% important attempt to deal with this problem. But how to quantify the
-% privacy risks faced by OSN users is a challenging problem. Past work
-% on this topic has been done by Justin et
-% al.\cite{measure-privacy-risk}, Tran Hong et
-% al. \cite{SN-quantify-privacy} and Kun et
-% al. \cite{SN-privacy-score}. Kun et al. proposed a model to calculate
-% the privacy score of OSN users. The model uses two intuitive metrics,
-% sensitivity and visibility, as the factors for privacy score
-% calculation. Inspired by the work done by Kun et al., we propose a
-% model to quantify the privacy risks of OSN users, our model assume
-% that OSN users intent to enjoy the benefits of OSNs, but on the other
-% hand, the disclosure of personal information also brings risks to the
-% social network users which are potentially hidden.
-
-% The social benefits is determined by the number of users who can view
-% an item. The more viewer, the higher social benefit. On the other
-% hand, the implied privacy risks by disclosing an item is determined by
-% how sensitive the item is as well as the potential users. The
-% networked environment of OSN determines the potential audiences of a
-% profile item.
-
-% And we argue that the privacy risk is also based on the probability
-% that a certain profile item is visited by another OSN user. We model
-% this probability as a random walk process over all the potential
-% social network users.
-
-% In summary, by integrating social benefits and potential risks, our
-% model tells the relative privacy risks of social network users for
-% specific profile setting.
-
+% introduction to the privacy problem on social networks.
 \section{Introduction}
 % background of social networks.
 In recent years, online social networking is becoming a popular life
@@ -175,107 +143,33 @@ privacy risk. This paper has three unique contributions.
   audience.
 \end{itemize}
 
-%% what is our model of privacy score and our contributions.
-% In this paper, we are making attempt to answer this particular
-% question, to quantify the benefits and risks of engaging in social
-% networks. Without loss of generality, we use Facebook as our main
-% target for analysis. Similar models can be extend to other social
-% networks.
-
-% We argue that the main driving force for people to join in a social
-% network is the benefit provided by such networks, and the disclosure
-% of personal sensitive information to social networks poses privacy
-% risks which is negative from a user's point of view. We try to
-% integrate these two together and define privacy as combination of
-% positive social network benefits as well as negative social network
-% privacy risks.
-
-% We define privacy as a probablistic problem , which considers user as
-% in a network and privacy risks happens when the user is visited by
-% another user. We call this model realized privacy.
-
-% % Contribution of our work.
-% It has been shown that users of social network state that they are
-% worried about their privacy, but put at the same time detailed
-% personal information on their profiles\cite{barnes:privacy}. We are
-% trying to explain this privacy paradox in this paper. On one hand, we
-% consider we consider social network privacy as both positive and
-% negative parts, which are two intuitive concerns of using social
-% networks; and on the other hand, we consider the probablistically
-% realized privacy, which puts user in a social network and privacy can
-% be realized when another user visits him. We use real data extracted
-% from facebook to fit our model.
-
-% % orgnization of the whole paper.
-% Organization of the paper is as follows. Part II introduces related
-% with of social network privacy. Part III defines notations of our
-% social network privacy model. Part IV presents our model and part V
-% presents our data and experimental results. And part VI concludes the
-% paper by pointing out our future work and related issues.
-
-% \section{Related Work\label{sec:relatedwork}}
-% In recent years, research community has been trying hard to deal with
-% privacy issues of online social networks, related topics include
-% spamming and phishing \cite{twitter-spam, SN-explore-spam,
-%   SN-automated-cheap-spam, social-spam-detection, video-spam-youtube},
-% attack analysis \cite{neighborhood-attack, 1658958,
-%   group-deanonymization-attack, anony-link-attack,
-%   identity-theft-attack, sybil-attack, 1608132} etc., which are also
-% directly related to traditional
-% web privacy and security. Fang et al. \cite{privacy-wizard} proposes a
-% classification model to help social network users automate the privacy
-% related settings. Social network privacy control is also considered an
-% access control problem. Carminati et
-% al. \cite{crypto-collaborative-ac, rule-based-ac} propose client-based
-% semi-decentralized access
-% control model, access is granted based on the attestation of access
-% authorization by the access requestor. Mohd et
-% al. \cite{Anwar_visualizingprivacy} proposes a reflective policy
-% assessmenst method based on visualization to help user understand the
-% implications of access control policies. Another research branch
-% related to social network privacy is related to the social network
-% platform, which targets privacy risks by third party application and
-% social network providers. Adrienne et
-% al. \cite{Felt08privacyprotection} addresses the privacy risks
-% associated with social network APIs through proxy. Singh et
-% al. \cite{xbook-social-platform} propose an information flow model to
-% control what untrusted applications can do with the information they
-% receive.
-
-% Attempts to quantify social network risks have also been tried.
-% Justin et al. \cite{measure-privacy-risk} propose a model to quantify
-% privacy risks of a social network user by infering from his/her
-% friends. Kun et al. \cite{SN-privacy-score} proposed a framework to
-% estimate the privacy score for a social network user. They calculate
-% the potential privacy risks by considering two factors, one is
-% sensitivity, which is a measure of private level of an profile item
-% and another is visibility, which measures how many people will view
-% the profile item.
-
-% % how to differentiate our work with other people's work?
-% Our work is most related to the work done by Kun et al.. However, our
-% work provides novel contribution to the research of this field. First,
-% we consider the social network privacy as well as social network
-% benefits. So, our privacy model composes of two controdicting
-% concerns from the point view of social network users. And this
-% considerations are pratical in reality. Second, we propose realized
-% privacy, which considers the fact that privacy risk happens when
-% another user visits this private information. And we make attempt to
-% use real data from facebook to fit our model.
-
 % defining social network.
-\section{Definitions and Notations}
+\section{Social Network Definitions and Notations}
 % define social network structure,
 % define profile items, notations, and the choice of setting and its
 % meaning.
-
+% graph. 
 We define social network as a directed graph $\mathcal{G}=(U,F)$,
-where $U$ is the set of users in the social network, and we use $N$ to
-denote the number of users of the social network, and $F$ is a set of
-edges that represent friendship in social networks. We use $u_i, 1\leq
-i\leq N$ to represent a user in social network,
-$f_{ij}:u_i\rightarrow u_j, i,j\in \{1,2,\ldots,N\}$ to represent the
-friendship between user $u_i$ and user $u_j$.
+where $U$ is a set of $N$ users and $F$ is the set of friendships in the
+social network. For two users $u_i$ and $u_j\in U$, we use
+$f_{ij}:u_i\leftrightarrow u_j$ to denote their friendships and use
+$v_{ij}:u_i\rightarrow u_j$ to denote the event when user $u_i$ visits
+user $u_j$.
+% profile item and visibility setting. 
+Besides friendship relations and interactions, each user in the social
+network has a profile that consists of $n$ items. For each profile
+item, user can set it to a certain visibility level which is
+a direct reflection of user's willingness to share this item to
+other users in his network (such as friends and friends and
+friends etc.). The higher the visibility level, the more potential
+users who can access the profile item, and the higher this user is
+willing to share this item with other users. 
+
+The setting of $m$ users on their $n$ profile items form a $m\times n$
+visibility configuration matrix $VC(i,j)$. In the simplest case,
+visibility configuration of an item has two options, $VC(i,j)=0$ if
+user $i$'s profile item $j$ is visible and $VC(i,j)=1$ otherwise. 
+
 % Nodes in graph $\mathcal{G}$ are connected through
 %links, which correspondes to friendships in social networks. And for
 %simplicity purposes, we consider friendships as a directed link denoted
@@ -343,116 +237,6 @@ listed in Table \ref{tbl:setting}.
   \label{tbl:setting}
 \end{table}
 
-\section{The Item Response Theory Model}
-In this section, we will have a brief review of the item response
-theory(IRT). The original IRT model is only used to model dichotomous
-tests, which include only correct or incorrect outcomes. The
-polytomous model was proposed to handle cases with multiple outcomes. 
-
-Item Response Theory is a paradigm for the design, analysis, scoring
-of tests and questionnaires measuring abilities, attitudes and other
-variables. It is based on the idea that the probability of a correct
-response to an item is mathematically determined by some parameters of
-persons and items. The person parameter is usually called latent
-trait, ability or the strength of an attitude. 
-
-The common approach to test the ability of an examinee is to develop a
-test consisting a number of items, each item is used to test a certain
-ability of interest, the items are dichotomously scored such that
-correct answers with get score of ones and zeros for incorrect
-answers. The probability that an examinees can correctly answers an
-question is determined on the one hand by the ability of the examinee,
-and by the item difficulty on the other hand. The ability is denoted
-as $\theta$ and the probability of answering an question item correct
-with ability $\theta$ is $P(\theta)$. And for a specific test item
-$P(\theta)$ will be larger for high ability examinees and lower for
-low ability examinees. 
-
-%How to use IRT for test analysis.
-\subsection{Application of test analysis of IRT model}
-Two general processes are involved for IRT to be used in test analysis.
-\begin{enumerate}
-\item Test calibration.
-  The test calibration stage is used to determine the item
-  characteristic curve(ICC) for a specific test item. Alan
-  Birnbaum proposed a two stage iterative method with maximum
-  likelihood estimation. In one stage the parameters of N items
-  in a test are estimated and in the second stage, the ability
-  parameters of the M examinees are estimated. These two stages
-  are performed iteratively until a stable set of parameter sets
-  are obtained. At that point, a test has been calibrated and a
-  ability scale metric defined. 
-
-    \item Examinee ability prediction with the IRT model.
-        The task of this step is to estimate the ability of an examinee with a test. Let's suppose a test with N item is given a an examinee, and the examinee responses to each of these questions resulting in a dichotomous score vector for this test. By using the test score as a prior ability of the examinee and along with the parameters of each item, we can iteratively estimate the ability of an examinee with maximum likelihood estimation with the following formula.
-        \[ \hat{\theta}_{s+1} = \hat{\theta}_{s} + \frac{\sum_{i=1}^N-a_i[u_i - P_i(\hat{\theta}_s)]}{\sum_{i=1}^Na_i^2P_i(\hat{\theta}_s)Q_i(\hat{\theta}_s) } \]
-        where $\hat{\theta}_s$ is the estimated ability of the examinee within iteration $s$; $a_i$ is the discrimination parameter of item $i\in \{1,2,\ldots,N\}$; $u_i$ is the response made by the examinee to item $i$; $P_i(\hat{\theta}_s)$ is the probability of item $i$ under the given item characteristic curve model, at ability level $\hat{\theta}$ within iteration $s$; and $Q_i(\hat{\theta}_s)=1-P_i(\hat{\theta}_s)$ is the probability of incorrect response to item $i$, under the given item characteristic model, at ability level $\hat{\theta}$ within iteration $s$.
-        An example is shown shown in figure \ref{fig:predict-ability}.
-        \begin{figure}
-            \centering 
-            \includegraphics[scale=.5]{ability.jpg}
-            \caption{Ability estimation using a test with five items.}
-            \label{fig:predict-ability}
-        \end{figure}
-\end{enumerate}
-
-\textbf{The One parameter IRT model} \\
-This IRT model has only one parameter $b$, and can be shown as in Eq
-\ref{eqn:1pl}. 
-\begin{equation}
-    P(\theta|b) = \frac{1}{1+e^{-(\theta - b)}}
-    \label{eqn:1pl}
-\end{equation}
-
-\textbf{The Two parameter IRT model}\\
-This model has an ability parameter and a discrimination parameter.
-\begin{equation}
-    P(\theta|a,b) = \frac{1}{1+e^{-a(\theta - b)}}
-    \label{eqn:2pl}
-\end{equation}
-
-\textbf{The Three Parametric Model} \\
-\begin{equation}
-    P(\theta|a,b,c) = c + (1-c)\frac{1}{1+e^{-a(\theta - b)}}
-    \label{eqn:3pl}
-\end{equation}
-
-\subsection{Concrete example}
-Consider the following binary test result, each row is the response score vector of an examinee, and each column is one item. 
-\[\begin{array}{lccccc}
-Examinee & Item1 & Item2 & Item3 & Item4 & Item5 \\ 
-1 & 1 & 1 & 1 & 1 & 1 \\
-2 & 0 & 1 & 1 & 1 & 1 \\
-3 & 0 & 0 & 1 & 1 & 1 \\
-4 & 0 & 0 & 0 & 1 & 1 \\
-5 & 0 & 0 & 0 & 0 & 1
-\end{array}
-\]
-The result of three models are shown in figures below:
-\begin{figure}[ht]
-\centering
-\subfigure[One Parametric]{
-\includegraphics[scale=.3]{rasch.pdf}
-\label{fig:subfig1}
-}
-\subfigure[Two Parametric]{
-\includegraphics[scale=.3]{2pl.pdf}
-\label{fig:subfig2}
-}
-\subfigure[Three Parametric]{
-\includegraphics[scale=.3]{3pl.pdf}
-\label{fig:subfig3}
-}
-\label{fig:subfigureExample}
-\caption[Three types of IRT Models]{Modeling Comparison of Three IRT Models.}
-\end{figure}
-
-\subsection{Polytomous IRT Model}
-The graded response model by Samejima is a type of polytomous IRT model, it is designed for test cases with multiple ordinal levels of response options. The model is defined as 
-\[ log(\frac{\gamma_{ik}}{1-\gamma_{ik}}) = \beta_iz - \beta_ik \]
-where $\gamma_{ik}$ denotes the cumulative probability of a response in category $k$th or lower to the $i$th item, given the latent ability $z$. 
-
-
 \section{Exploring Perceived Privacy Risk}
 % describe real privacy risk and perceived privacy risk.
 % why do we want to study perceived privacy risk.
@@ -465,7 +249,8 @@ Risks and attacks of online social network reflect the potential
 damage to social network users. And users are learning, they start to
 make careful decisions about what information to put online under
 which circumstances, at the same time, more and more people are
-changing to a more restrictive privacy setting \cite{socialnet:setting}.
+changing to a more restrictive privacy setting
+\cite{socialnet:setting}. 
 Usually, social network users will have risk considerations in
 mind when disclosing their private information
 on the social network. And it has been shown
@@ -488,7 +273,8 @@ on social network.
 % measure * Prob(user attacks)
 % Prob(user attacks) =
 % case 1. Expose to F only. sum Prob(friend i attacks)
-% case 2. Expose to FoF. Sum Prob(friend i attacks) + sum Prob(FoF i attacks)
+% case 2. Expose to FoF. Sum Prob(friend i attacks) + sum Prob(FoF i
+% attacks) 
 % case 3. Expose to everybody. Sum Prob(friend i attacks) + sum
 % Prob(FoF i attacks) + sum Prob(everybody else i attacks)
 
@@ -505,6 +291,7 @@ on social network.
 % analyze each probs and you may make assumption on some probs such as
 % prob(search your name).
 % The realized social network privacy.
+
 \subsection{Realized Social Network Privacy}
 % definition of privacy realized upon ....
 \begin{simondef}
@@ -533,7 +320,6 @@ of items that user $u_i$ has, and $\mathcal{C}\in \{\mathcal{C}_{USER},
 is the community of friendship.
 
 % defining realized risk.
-
 The realized risk of user $u_i$ is defined as:
 
 \[ \mathcal{R}_i = \beta_i \sum_{m\in \{1,2,\ldots,N_i\}}\sum_{j\in
@@ -551,16 +337,23 @@ friends $u_j$ has. And by assuming the simplest equal probability
 model we have $p_{ji}=\frac{1}{N_j}$, where $N_j$ is the number of
 friends that $u_j$ has.
 
-For every friend of friend $u_j,j\in \{1,\ldots,N_i\}$ of
-user $u_i$, the probability that $u_j$ visits $u_i$ is determined by
-the number of friends of friends $u_j$ has. And by assuming the simplest equal
+For every friend of friend $u_j,j\in \{1,\ldots,N_i\}$ of user $u_i$,
+the probability that $u_j$ visits $u_i$ is determined by the number of
+friends of friends $u_j$ has. And by assuming the simplest equal
 probability model we have $p_{ji}=\frac{1}{\sum_{k=1}^{N_j}N_k}$,
 where $N_k$ is the number of friends of $u_j$'s friend $u_k$ has.
 
 \subsection{Deriving Benefit $b_{jim}$ From Perceived Benefit}
-Social network benefit should be a perception of $u_i$ about the
-benefit he can get by setting a certain privacy level. So, it is user
-specific. So, $b_{jim} = o_{jim}$, where $o_{jim}$ is the observed
+Social network benefit is about the perception of $u_i$ about the
+benefit he can get by setting a certain privacy level, which is user
+specific. The social network benefit for a user can be is the
+aggregated benefit over all the privacy items, if we use $P(b_i)$ denote
+the probability that user $u_i$ can be realized with given perceived
+benefit $b_i$. So the aggregated benefit for this user would be: \\
+
+\[ B_i = \sum_j^{N}P(b_i)b_i \]
+
+So, $b_{jim} = o_{jim}$, where $o_{jim}$ is the observed
 benefit when $u_j$ visits profile item $f_{im}$ of $u_i$, which is
 actually the specific setting of privacy level for profile item
 $f_{im}$ of user $u_i$.
@@ -613,10 +406,10 @@ they can also be characterized by different ICCs.
 
 % TODO. 
 % property of the ICC, what is the meaning of $\alpha$ and $\beta$. 
-Figure \ref{} shows ICCs of two items item1 and item2 with fixed
+Figure \ref{fig:icc_a} shows ICCs of two items item1 and item2 with fixed
 $\alpha$ and $\beta_1 > \beta_2$. From the figure, we can see that
 with given probability level, item2 has higher probability to be
-answered correctly. On the other hand, figure \ref{} shows two ICCs
+answered correctly. On the other hand, figure \ref{fig:icc_b} shows two ICCs
 with same $\beta$ for two items and $\alpha_1 > \alpha_2$. We can see
 that if ability is higher than mid-point, item1 has higher probability
 to be answered correctly, and if the ability level is lower than
@@ -625,9 +418,25 @@ higher discrimination power.
 
 \begin{figure}[h]
   \centering
-  \includegraphics{} 
-  \includegraphics{} 
+  \includegraphics{IRT-a.jpg} 
+  \label{fig:icc_a}
 \end{figure}
+\begin{figure}
+  \centering
+  \includegraphics{IRT-b.jpg}
+  \label{fig:icc_b}
+\end{figure}
+
+\subsection{Polytomous IRT Model}
+The graded response model by Samejima is a type of polytomous IRT
+model, it is designed for test cases with multiple ordinal levels of
+response options. The model is defined as  
+
+\[ log(\frac{\gamma_{ik}}{1-\gamma_{ik}}) = \beta_iz - \beta_ik \]
+
+where $\gamma_{ik}$ denotes the cumulative probability of a response
+in category $k$th or lower to the $i$th item, given the latent ability
+$z$.
 
 % mapping from IRT model to our privacy model. 
 Social network provides users with choices to configure their privacy
@@ -642,11 +451,6 @@ about setting a profile item to a certain privacy level, he usually
 leverages the benefits and the risks by doing this. If he thinks that
 the benefit is higher than risk, he will set it to a higher level, and
 to a lower level if the perspected risk is higher than benefit. 
-
-% privacy setting change statistics. 
-
-% perception of risk vs. benefits.
-% quantitative leverage between benefits and risks. 
 
 % how to obtain the data from facebook.
 In this section, we are going to discuss our method to obtain profile
@@ -688,7 +492,7 @@ levels \footnote{There is another level, which allows user to select
 For friends data, we have: \\
 \begin{table}[h]
   \centering
-  \begin{tabular}{l|l}
+  \begin{tabular}{c|c|l}
     \toprule 
     \textbf{My Account} & \textbf{Nobody Account} & Visibility \\ 
     \toprule
@@ -704,7 +508,7 @@ For friends data, we have: \\
 And for friends of friends data, we have: \\ 
 \begin{table}[h]
   \centering
-  \begin{tabular}{l|l}
+  \begin{tabular}{|c|c|l|}
     \toprule 
     \textbf{My Account} & \textbf{Nobody Account} & Visibility \\ 
     \toprule
@@ -727,47 +531,54 @@ decision whether the privacy setting is user only or friends only.
 % how to handle this situation? 
 In order to handle this problem 
 
-%%%%%%%%%%%%%%%%%%%%%
-% basic description of item settings data. 
-% setting change statistics. 
+% privacy setting change statistics. In this part, we need to basic
+% statistic data for the experiment data. For example, the change of
+% item settings and how many people have changed the setting and which
+% item has the highest change over all the users, etc. 
 We say that the privacy setting for an item was changed if it is
 different from the default setting. 
 
-We expect that, when fixed risk levels $\beta_j$, the higher
-$\alpha_i$, the harder to get satisfied; and when fixed $\alpha_i$,
-less risky profile items can be easily satisfied. Figure \ref{fig:irta}
-and Figure \ref{fig:irtb} have better illustration of these
-expectations.
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=.7\textwidth]{IRT-a.jpg}
-  \caption{Satisfaction With different perception level.}
-  \label{fig:irta}
-\end{figure}
+% calculating perceived benefit level. 
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=.7\textwidth]{IRT-b.jpg}
-  \caption{Satisfaction With different profile risk level.}
-  \label{fig:irtb}
-\end{figure}
+% calculating perceived risk level. 
 
-And we can use optimization techniques to estimate parameters of
-benefit expectation factor $\alpha_i$ and risk $\beta_j$.
+% benefit vs. risk. 
 
-\section{Experiments}
-% describe how you derive the perceived privacy risk with the data
-% from facebook.
-% use some materials in your previous reports.
-Facebook is one of the largest social networking sites, with more than
-800 million users\cite{facebookwiki} and it provides a very
-comprehensive privacy configuration page that let users make their
-privacy choices. We derive the privacy settings by crawling user's
-facebook pages using two accounts, one is my account which has about 100
-friends and the other is nobody's account with no friends to represent
-a random user on facebook.
+% We expect that, when fixed risk levels $\beta_j$, the higher
+% $\alpha_i$, the harder to get satisfied; and when fixed $\alpha_i$,
+% less risky profile items can be easily satisfied. Figure \ref{fig:irta}
+% and Figure \ref{fig:irtb} have better illustration of these
+% expectations.
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=.7\textwidth]{IRT-a.jpg}
+%   \caption{Satisfaction With different perception level.}
+%   \label{fig:irta}
+% \end{figure}
 
-\subsection{Deriving User's Privacy Settings}
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=.7\textwidth]{IRT-b.jpg}
+%   \caption{Satisfaction With different profile risk level.}
+%   \label{fig:irtb}
+% \end{figure}
+
+% And we can use optimization techniques to estimate parameters of
+% benefit expectation factor $\alpha_i$ and risk $\beta_j$.
+
+% \section{Experiments}
+% % describe how you derive the perceived privacy risk with the data
+% % from facebook.
+% % use some materials in your previous reports.
+% Facebook is one of the largest social networking sites, with more than
+% 800 million users\cite{facebookwiki} and it provides a very
+% comprehensive privacy configuration page that let users make their
+% privacy choices. We derive the privacy settings by crawling user's
+% facebook pages using two accounts, one is my account which has about 100
+% friends and the other is nobody's account with no friends to represent
+% a random user on facebook.
+
+% \subsection{Deriving User's Privacy Settings}
 
 \section{Related Work}
 % summarize the importance of privacy setting in one paragraph
@@ -801,6 +612,10 @@ associated with social network APIs through proxy. Singh et
 al. \cite{xbook-social-platform} propose an information flow model to
 control what untrusted applications can do with the information they
 receive.
+\begin{equation}
+  L(\theta|\Alpha,\Beta) = \prod_{i=1}^N\prod_{j=1}^n[P_j(\theta_i)]^{u_{ij}}[1-P_j(\theta_i)]^{1-u_{ij}}
+  = \prod_{i=1}^N\prod_{j=1}^n\frac{e^{u_{ij}\alpha_j(\theta_i - \beta_j)}}{1 + e^{\alpha_j(\theta_i - \beta_j)}}
+\end{equation}
 
 % Privacy attacks.
 Spamming, phishing and attack of social network sites is another topic
@@ -810,7 +625,8 @@ Stringhini et al. \cite{SN-detect-spam}, Gao, Hongyu et
 al. \cite{SN-spam-campaigns} and Huber, Markus et
 al. \cite{SN-explore-spam}. It is found that the
 identified spam data contains contents that are strongly correlated
-with observable profile features. Tom Jagatic et al. \cite{social-phishing}
+with observable profile features. Tom Jagatic et
+al. \cite{social-phishing} 
 studied phishing attacks by using the publicly available personal
 information from social networks. They find that the phishing attack
 was easy and effective with a success rate of $72\%$. Bilge, Leyla et
@@ -836,6 +652,8 @@ and more and more users change their privacy settings. It is hard for
 them to fully understand and configure these settings. Fang Lujun et
 al. \cite{privacy-wizard} propose a machine learning based method to
 help users automatically make the settings.
+
+% how our work helps relief the privacy problem with social networks?
 
 \bibliographystyle{unsrt}
 \bibliography{privacy}
