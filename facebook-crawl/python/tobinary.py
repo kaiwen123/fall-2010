@@ -1,5 +1,5 @@
 import sys
-def tobinary(filename):
+def tobinary(filename, idd):
     ''' This program transforms the profile output to binary format. '''
     pfile = open(filename, 'r')
     DEBUG_FORMAT1 = False
@@ -7,10 +7,11 @@ def tobinary(filename):
     for line in pfile: 
         items = line.split('\t')
 
-        # test the format is corrent. 
-        # result = items[0] + ' '
-        result = ''
-        # print len(items)
+        if len(items) <> 15: continue
+        if idd <> 'id': result = ''
+        else: result = items[0] + ','
+
+        #print len(items), items[0]
 
         # basic information. 
         item = items[12]
@@ -106,4 +107,7 @@ def tobinary(filename):
         print result
 
 if __name__ == "__main__":
-    tobinary(sys.argv[1])
+    if len(sys.argv) >= 3: 
+        tobinary(sys.argv[1], sys.argv[2])
+    else: 
+        tobinary(sys.argv[1], 'test')

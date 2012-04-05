@@ -41,7 +41,7 @@ for key in userdata.keys():
         binuser = userdata[key]
         binnobody = nobodydata[key]
         result = ''
-        if len(binuser) == len(binnobody) and len(binuser) == 28:
+        if len(binuser) == len(binnobody) and len(binuser) == 27:
             #print key,
             length = len(binuser)
             # print length
@@ -55,7 +55,8 @@ for key in userdata.keys():
                 if bu == 'N' and bn == 'N': result += '0,'
             # filter out the errous items. 
             if result.find('x') < 0: 
-                print result#, key
+                print result.strip(',')#, key
+            #print result
         else:
             print 'binary data is of wrong format.'
             continue
