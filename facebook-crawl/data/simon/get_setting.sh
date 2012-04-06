@@ -24,7 +24,10 @@ python ../../python/tobinary.py $acnt.nobody.f.tab.txt id > $acnt.nobody.f.vis-i
 files=`ls *csv`
 
 # combine setting according to rule and generate. 
-python ../../python/tomulti.py $acnt.$acnt.f.vis-id.csv $acnt.nobody.f.vis-id.csv > $acnt.combine.f.priv-setting.csv
-python ../../python/tomulti.py $acnt.$acnt.fof.vis-id.csv $acnt.nobody.fof.vis-id.csv > $acnt.combine.fof.priv-setting.csv
+cp ../column.names.txt $acnt.combine.f.priv-setting.csv
+cp ../column.names.txt $acnt.combine.fof.priv-setting.csv
+
+python ../../python/tomulti.py $acnt.$acnt.f.vis-id.csv $acnt.nobody.f.vis-id.csv >> $acnt.combine.f.priv-setting.csv
+python ../../python/tomulti.py $acnt.$acnt.fof.vis-id.csv $acnt.nobody.fof.vis-id.csv >> $acnt.combine.fof.priv-setting.csv
 
 rm -rf $files
