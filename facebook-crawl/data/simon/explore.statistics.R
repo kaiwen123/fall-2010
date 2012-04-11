@@ -4,6 +4,7 @@
 basic.stat <- function (datafile) {
   #
   # read in  the default settings from file. 
+  print('loading default settings of profile items from file settings.default.txts');
   default.file <- '/home/ada/research/tradeoff/data/settings.default.txt';
   if (file.exists(default.file)) {
     default.settings <- as.data.frame(read.csv(default.file));
@@ -13,6 +14,7 @@ basic.stat <- function (datafile) {
   }
 
   # read in data from given file. 
+  print(paste('loading multiple level data from file', datafile));
   if(file.exists(datafile)) {
     data <- read.csv(datafile, header=TRUE, sep=','); 
   } else {
@@ -20,6 +22,7 @@ basic.stat <- function (datafile) {
     return (NULL);
   }
   
+  print('generating basic statistics....');
   basic <- NULL;
   rowcnt <- nrow(data);
   colcnt <- ncol(data);
@@ -44,7 +47,7 @@ basic.stat <- function (datafile) {
   # change of items for each user. 
   basic$user.change.cnt <- rowSums(basic$is.default);
   hist(basic$user.change.cnt, freq=FALSE, main="Histgram of Users' profile item change",
-       xlab=NULL, ylab=NULL);
+       xlab=NULL, ylab=NULL, col="skyblue");
   lines(density(basic$user.change.cnt), col="red");
   rug(jitter(basic$user.change.cnt), col="brown");
   
