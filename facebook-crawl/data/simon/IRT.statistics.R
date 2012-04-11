@@ -3,12 +3,11 @@
 # we are using the binary IRT model ltm for the analysis, so 
 # the input data of this script should have binary response. 
 #
-library(ltm)
-
 ###########################
 # IRT modeling functions. #
 ###########################
 ltm.model <- function (data, tdata=NULL) {
+  print('Building 2-parametric IRT models.')
   if (is.null(tdata)) {
     tdata <- data
   }
@@ -25,32 +24,34 @@ ltm.model <- function (data, tdata=NULL) {
   model$residu <- residuals(model, tdata, order=FALSE) # residuals.
   model$residu <- model$residu[,"Resid"]
   model$info   <- information(model, c(-3, 3))         # information in range.
+  print('---> done')
+  
   return(model)
 }
 
 # histgram of the hidden variables.
-ltm.hist <- function (model, model0) {
-  hist(model$theta, 30, freq=FALSE, main="Histgram of theta for privacy data(0).", 
-       xlab=NULL, ylab=NULL); 
-  lines(density(model$theta), col="red")
-  rug(jitter(model$theta), col="brown")
-  
-  hist(model0$theta, 30, freq=FALSE, main="Histgram of theta for privacy data(1).", 
+ltm.hist.plot <- function (model0, model1) {
+  print('Plotting histgram of the irt models...')
+  hist(model0$theta, 30, freq=FALSE, main="Histgram of theta for privacy data(0).", 
        xlab=NULL, ylab=NULL); 
   lines(density(model0$theta), col="red")
   rug(jitter(model0$theta), col="brown")
+  
+  hist(model1$theta, 30, freq=FALSE, main="Histgram of theta for privacy data(1).", 
+       xlab=NULL, ylab=NULL); 
+  lines(density(model1$theta), col="red")
+  rug(jitter(model1$theta), col="brown")
+  print('---> done.')
 }
 
 # estimated theta vs. estimated score and expected scores.
 # function to draw the figure for utility and privacy.
-ltm.scores <- function (model, model0) {
-  plot(model$theta, model$sump, col="blue", main="Theta vs. Scores(0).", xlab=NULL, ylab=NULL); 
-  points(model$theta, model$sumu, col="red");
+ltm.scores.plot <- function (model0, model1) {
+  print('plotting scores for the IRT models...')
+  plot(model0$theta, model0$sump, col="blue", main="Theta vs. Scores(0).", xlab="", ylab="", pch=1); 
+  points(model0$theta, model0$sumu, col="red", xlab="", ylab="", pch=4);
   
-  plot(model0$theta, model0$sump, col="blue", main="Theta vs. Scores(1).", xlab=NULL, ylab=NULL); 
-  points(model0$theta, model0$sumu, col="red");
-  
-  # trade off plot of users.
-  plot(model$sump, model0$sump, col="blue", main="Tradeoff Between Utility and Privacy",
-       xlab="Weighted Utility Rating", ylab="Original Privacy Rating");
+  plot(model1$theta, model1$sump, col="blue", main="Theta vs. Scores(1).", xlab="", ylab="", pch=1); 
+  points(model1$theta, model1$sumu, col="red", xlab="", ylab="", pch=4);
+  print('---> done.')
 }
