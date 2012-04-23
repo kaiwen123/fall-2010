@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.*;
 // import java.util.Vector;
 import java.awt.Color; 
 //import java.applet.*;
@@ -302,9 +303,9 @@ public class VistaExplorer extends PApplet {
 		  String sampleRate = Text_SampleRate.viewText();
 		  
 		  try {
-			  String fname = "cmd.sh.1"
+			  String fname = "cmd.sh.1";
 			  FileWriter fwriter = new FileWriter(fname);
-			  BufferedWriter out = new BufferedWriter(fstream);
+			  BufferedWriter out = new BufferedWriter(fwriter);
 	
 			  String hadoopRunStrEnv = ". .bash_profile";
 			  String hadoopRunStr = "hadoop jar ./RR.jar -m 100 -r 20 -d %s -o census_agg1 -i 68 -n 20 -x 500 -y 500 -c 4 -l 0.1 -u 0 -v 0 -s 1";
