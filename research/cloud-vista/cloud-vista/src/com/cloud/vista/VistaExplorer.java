@@ -300,6 +300,23 @@ public class VistaExplorer extends PApplet {
 		  String stepLength = Text_StepLength.viewText();
 		  String maxSample = Text_MaxSample.viewText();
 		  String sampleRate = Text_SampleRate.viewText();
+		  
+		  try {
+			  String fname = "cmd.sh.1"
+			  FileWriter fwriter = new FileWriter(fname);
+			  BufferedWriter out = new BufferedWriter(fstream);
+	
+			  String hadoopRunStrEnv = ". .bash_profile";
+			  String hadoopRunStr = "hadoop jar ./RR.jar -m 100 -r 20 -d %s -o census_agg1 -i 68 -n 20 -x 500 -y 500 -c 4 -l 0.1 -u 0 -v 0 -s 1";
+			  
+			  out.write(hadoopRunStrEnv);
+			  out.write(hadoopRunStr);
+			  out.close();
+			  
+			  manager.submitHadoopJob();
+		  } catch (Exception e) {
+			  System.out.println("Error happened while submitting hadoop job.");
+		  }
 	  }
 	}
 
