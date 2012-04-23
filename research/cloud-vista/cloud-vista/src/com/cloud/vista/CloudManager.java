@@ -100,7 +100,7 @@ class CloudManager {
 		// for windows and linux OSes, we need to do different operations.
 		String jobFileName = "cmd.sh.1"; // for windows machine only.
 		String cloudServer = " nimbus.cs.wright.edu"; 
-		String cmdStr = "plink.exe -ssh -l zhen -pw zhenli -m " + jobFileName + cloudServer;
+		String cmdStr = "../resources/plink.exe -ssh -l zhen -pw zhenli -m " + jobFileName + cloudServer;
 		
 		String resolution = VistaExplorer.Text_Resolution.getText();
 		String numFrames = VistaExplorer.Text_NumberFrame.getText();
@@ -115,7 +115,7 @@ class CloudManager {
 		
 		try {
 			String osName = System.getProperty("os.name").toLowerCase();
-			System.out.println(osName);
+			System.out.println("You are running system on " + osName);
 			
 			if (osName.indexOf("linux") >= 0) {
 				// this is linux operating system, then do.
@@ -154,7 +154,7 @@ class CloudManager {
 	public void getVisualFiles() {
 		// get files from cloud server. 
 		// if (stat == "DONE") {
-	    System.out.println("Downloading visual frame jobs......."); 
+		System.out.println("Downloading visual frame jobs......."); 
 		if (true) {
 			try {
 				getFiles(10);
@@ -173,24 +173,24 @@ class CloudManager {
      */ 
     private int getFiles(int totalFrames) throws IOException {
 		for(int idx = 1; idx <= totalFrames; idx++) {
-		    String reqstr = serverBase + "?requesttype=3&fidx=" + Integer.toString(idx);
-		    String savedFileName = "part-0000" + Integer.toString(idx);
-	        
-		    // for reading data from the cloud server.
-		    java.io.BufferedInputStream in = new java.io.BufferedInputStream(new java.net.URL(reqstr).openStream());
-		    java.io.FileOutputStream fos = new java.io.FileOutputStream(savedFileName);
-		    java.io.BufferedOutputStream bout = new BufferedOutputStream(fos,1024);
-		    
-		    byte data[] = new byte[1024];
-		    System.out.print("Transfering file " + savedFileName + "."); 
-		    
-		    while(in.read(data,0,1024)>=0) {
+			String reqstr = serverBase + "?requesttype=3&fidx=" + Integer.toString(idx);
+			String savedFileName = "part-0000" + Integer.toString(idx);
+			
+			// for reading data from the cloud server.
+			java.io.BufferedInputStream in = new java.io.BufferedInputStream(new java.net.URL(reqstr).openStream());
+			java.io.FileOutputStream fos = new java.io.FileOutputStream(savedFileName);
+			java.io.BufferedOutputStream bout = new BufferedOutputStream(fos,1024);
+			
+			byte data[] = new byte[1024];
+			System.out.print("Transfering file " + savedFileName + "."); 
+			
+			while(in.read(data,0,1024)>=0) {
 				bout.write(data);
 				System.out.print(".");
-		    }
-		    System.out.println("Done"); 
-		    bout.close();
-		    in.close();
+			}
+			System.out.println("Done"); 
+			bout.close();
+			in.close();
 		}
 		return 0; 
     }
