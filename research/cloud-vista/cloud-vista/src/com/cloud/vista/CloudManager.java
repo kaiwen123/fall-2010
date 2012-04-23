@@ -94,11 +94,13 @@ class CloudManager {
 	 * @param none. 
 	 * @return none.
 	 */
-	public void submitHadoopJob() {
+	public void submitHadoopJob(String jobFileName) {
 		try {
-			String cmdStr = "plink.exe -ssh -l zhen -pw zhenli -m cmd.sh nimbus.cs.wright.edu";
-	        //Runtime.getRuntime().exec("ssh id_rsa.pub zhen@nimbus.cs.wright.edu -C \"hadoop jar /usr/local/hadoop/hadoop*example*.jar pi 10 1000000\""); 
-	        Process p = Runtime.getRuntime().exec(cmdStr); 
+			String cloudServer = " nimbus.cs.wright.edu"; 
+			String cmdStr = "plink.exe -ssh -l zhen -pw zhenli -m " + jobFileName + cloudServer;
+
+			// run the job and get local process for displaying output.
+			Process p = Runtime.getRuntime().exec(cmdStr); 
 	        
 	        InputStream cmdOut = p.getInputStream(); 
 	        InputStreamReader reader = new InputStreamReader(cmdOut); 
