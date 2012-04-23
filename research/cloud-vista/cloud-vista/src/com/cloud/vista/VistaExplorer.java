@@ -144,15 +144,6 @@ public class VistaExplorer extends PApplet {
 	    stop = true;
 	    
 	    updateProgress(); // update progress now.
-	   
-	    // downloading visual frame files from the web server. 
-	    try {
-			// hadoop status and progress request. 
-			new backgroundjob().start();
-	       
-	    } catch (Exception e) {
-	    	System.out.println("Error happened while downloading visual frame files from cloud web server."); 
-	    }
 	}
 	
 	/**
@@ -161,8 +152,38 @@ public class VistaExplorer extends PApplet {
 	 */
 	class backgroundjob extends Thread {
 		public void run() {
-			manager.submitHadoopJob();
-			manager.getVisualFiles();
+			
+			String resolution = Text_Resolution.getText();
+			String numFrames = Text_NumberFrame.getText();
+			String stepLength = Text_StepLength.getText();
+			String maxSample = Text_MaxSample.getText();
+			String sampleRate = Text_SampleRate.getText();
+			String dataset = option.getText();
+			String exploreSet = Text_Exploration.getText();
+			  
+			System.out.println(resolution);
+			try {
+				String fname = "cmd.sh.1";
+				FileWriter fwriter = new FileWriter(fname);
+				BufferedWriter out = new BufferedWriter(fwriter);
+				
+				String hadoopRunStrEnv = ". .bash_profile\n";
+				//String hadoopRunStr = "hadoop jar /usr/local/hadoop/hadoop*example*.jar pi 10 100000000 2>&1";
+				
+				String hadoopRunStr = "hadoop fs -rmr census_agg1 \n";
+				hadoopRunStr = "hadoop jar ./RR.jar -m 100 -r 20 -d /user/kekechen/census_norm5 -o census_agg1 -i 68 -n 20 -x 500 -y 500 -c 4 -l 0.1 -u 0 -v 0 -s 1 2>&1";
+			
+				out.write(hadoopRunStrEnv);
+				out.write(hadoopRunStr);
+				out.close();
+					  
+				manager.submitHadoopJob(fname);
+				
+			} catch (Exception e) {
+				System.out.println("Error happened while submitting hadoop job.");
+			}
+			//manager.submitHadoopJob();
+			//manager.getVisualFiles();
 		}
 	}
 	
@@ -296,28 +317,7 @@ public class VistaExplorer extends PApplet {
 		    Parameter.add(MaxSample);
 		    Parameter.add(SampleRate);
 	  } else if(button == Load) {
-		  String resolution = Text_Resolution.viewText();
-		  String numFrames = Text_NumberFrame.viewText();
-		  String stepLength = Text_StepLength.viewText();
-		  String maxSample = Text_MaxSample.viewText();
-		  String sampleRate = Text_SampleRate.viewText();
-		  
-		  try {
-			  String fname = "cmd.sh.1";
-			  FileWriter fwriter = new FileWriter(fname);
-			  BufferedWriter out = new BufferedWriter(fwriter);
-	
-			  String hadoopRunStrEnv = ". .bash_profile";
-			  String hadoopRunStr = "hadoop jar ./RR.jar -m 100 -r 20 -d %s -o census_agg1 -i 68 -n 20 -x 500 -y 500 -c 4 -l 0.1 -u 0 -v 0 -s 1";
-			  
-			  out.write(hadoopRunStrEnv);
-			  out.write(hadoopRunStr);
-			  out.close();
-			  
-			  manager.submitHadoopJob();
-		  } catch (Exception e) {
-			  System.out.println("Error happened while submitting hadoop job.");
-		  }
+		  new backgroundjob().start();
 	  }
 	}
 
