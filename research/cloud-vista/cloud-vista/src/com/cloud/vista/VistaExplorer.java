@@ -295,9 +295,11 @@ public class VistaExplorer extends PApplet {
 		    Parameter.add(MaxSample);
 		    Parameter.add(SampleRate);
 	  } else if(button == Load) {
-	     ///////////////////////////////
-	     ///////////////////////////////
-	     //////////////////////////////
+		  String resolution = Text_Resolution.viewText();
+		  String numFrames = Text_NumberFrame.viewText();
+		  String stepLength = Text_StepLength.viewText();
+		  String maxSample = Text_MaxSample.viewText();
+		  String sampleRate = Text_SampleRate.viewText();
 	  }
 	}
 
