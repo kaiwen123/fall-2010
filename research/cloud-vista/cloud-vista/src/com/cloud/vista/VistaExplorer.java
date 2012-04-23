@@ -11,8 +11,6 @@ import guicomponents.GWindow;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.*;
 // import java.util.Vector;
 import java.awt.Color; 
@@ -53,7 +51,11 @@ public class VistaExplorer extends PApplet {
 
 	String[] lines, paramx, paramy;
 
-	static String dir = "C:/data/census_s1_10_1"; 
+	// directory for holding resources such as figures. 
+	// data directory for holding visual frame data.
+	static String resourceDir = "C:/data/";
+	static String dataDir = resourceDir + "census_s1_10_1"; 
+
 	Point [] points; 
 	private BufferedReader reader;
 	static int cvid;
@@ -75,14 +77,14 @@ public class VistaExplorer extends PApplet {
 	static GWSlider MapProgressbar, ReduceProgressbar;
 
 	// Below are plut-in for the window of loading data
-	GButton Load;
-	GTextField Text_Resolution;
-	GTextField Text_NumberFrame;
-	GTextField Text_StepLength;
-	GTextField Text_MaxSample;
-	GTextField Text_SampleRate;
-	GTextField Text_Exploration;
-	GCombo option;
+	static GButton Load;
+	static GTextField Text_Resolution;
+	static GTextField Text_NumberFrame;
+	static GTextField Text_StepLength;
+	static GTextField Text_MaxSample;
+	static GTextField Text_SampleRate;
+	static GTextField Text_Exploration;
+	static GCombo option;
 	
 	//// by xu.
 
@@ -97,6 +99,15 @@ public class VistaExplorer extends PApplet {
 		size(600, 680);
 	    translateX = 0;
 	    translateY = -100;
+	    
+	    // for compatibility considerations.
+		File fresDir = new File(resourceDir);
+		
+		if (!fresDir.exists()) {
+			resourceDir = "../resources/";
+			dataDir = resourceDir + "visual_frame_data/census_s1_10_1";
+		}
+	    
 	    scrollbar = new GWSlider(this, 50, 580, 500); 
 	    scrollbar.setTickLabels(label);   
 	    //scrollbar.setRenderMaxMinLabel(false);
@@ -109,12 +120,12 @@ public class VistaExplorer extends PApplet {
 	    ZoomButton.setValue(ZoomButton.getMinValue());       
 	    //System.out.println(ZoomButton.getValue());
 	   
-	    ZoomIn = new GButton(this, "c:/data/zoomIn.jpg", 1, 40, 80, 10, 10);
-	    ZoomOut = new GButton(this, "c:/data/zoomOut.jpg", 1, 38, 303, 15, 15);
-	    TranslateButton = new GButton(this, "c:/data/RLUD.jpg", 1, 20, 20, 50, 50);
-	    PlayButton = new GButton(this, "c:/data/play.jpg", 1, 290, 630, 15, 15);
-	    ForwardButton = new GButton(this, "c:/data/forward.jpg", 1, 340, 630, 15, 15);
-	    BackButton = new GButton(this, "c:/data/backward.jpg", 1, 240, 630, 15, 15); 
+	    ZoomIn = new GButton(this, resourceDir + "zoomIn.jpg", 1, 40, 80, 10, 10);
+	    ZoomOut = new GButton(this, resourceDir + "zoomOut.jpg", 1, 38, 303, 15, 15);
+	    TranslateButton = new GButton(this, resourceDir + "RLUD.jpg", 1, 20, 20, 50, 50);
+	    PlayButton = new GButton(this, resourceDir + "play.jpg", 1, 290, 630, 15, 15);
+	    ForwardButton = new GButton(this, resourceDir + "forward.jpg", 1, 340, 630, 15, 15);
+	    BackButton = new GButton(this, resourceDir + "backward.jpg", 1, 240, 630, 15, 15); 
 	    
 	    LoadData = new GButton(this, "Load Data", 500, 110, 70, 15);
 	    
@@ -136,7 +147,7 @@ public class VistaExplorer extends PApplet {
 	    viewx = viewy = 0;
 	    
 	    resol=1;
-	    getParameter(dir + "_params");
+	    getParameter(dataDir + "_params");
 	  
 	    views = new View[maxframe];
 	    convert(); 
@@ -151,37 +162,10 @@ public class VistaExplorer extends PApplet {
 	 * @author simon
 	 */
 	class backgroundjob extends Thread {
-		public void run() {
+		public void run() {	  
+			manager.submitHadoopJob();
 			
-			String resolution = Text_Resolution.getText();
-			String numFrames = Text_NumberFrame.getText();
-			String stepLength = Text_StepLength.getText();
-			String maxSample = Text_MaxSample.getText();
-			String sampleRate = Text_SampleRate.getText();
-			String dataset = option.getText();
-			String exploreSet = Text_Exploration.getText();
-			  
-			System.out.println(resolution);
-			try {
-				String fname = "cmd.sh.1";
-				FileWriter fwriter = new FileWriter(fname);
-				BufferedWriter out = new BufferedWriter(fwriter);
-				
-				String hadoopRunStrEnv = ". .bash_profile\n";
-				//String hadoopRunStr = "hadoop jar /usr/local/hadoop/hadoop*example*.jar pi 10 100000000 2>&1";
-				
-				String hadoopRunStr = "hadoop fs -rmr census_agg1 \n";
-				hadoopRunStr = "hadoop jar ./RR.jar -m 100 -r 20 -d /user/kekechen/census_norm5 -o census_agg1 -i 68 -n 20 -x 500 -y 500 -c 4 -l 0.1 -u 0 -v 0 -s 1 2>&1";
-			
-				out.write(hadoopRunStrEnv);
-				out.write(hadoopRunStr);
-				out.close();
-					  
-				manager.submitHadoopJob(fname);
-				
-			} catch (Exception e) {
-				System.out.println("Error happened while submitting hadoop job.");
-			}
+			//System.out.println(resolution);
 			//manager.submitHadoopJob();
 			//manager.getVisualFiles();
 		}
@@ -256,11 +240,11 @@ public class VistaExplorer extends PApplet {
 		    translateY = -150 - (scale_factor-1)*translateDelta;
 		} else if(button == PlayButton) {
 		    if(stop == true) {
-			    PlayButton.setImages("c:/data/pause.jpg", 1);
+			    PlayButton.setImages(resourceDir + "pause.jpg", 1);
 			    stop = false;      
 			    frameRate(1);
 			} else {
-			    PlayButton.setImages("c:/data/play.jpg", 1);
+			    PlayButton.setImages(resourceDir + "play.jpg", 1);
 			    stop = true;
 			    frameRate(5);
 			}
@@ -369,8 +353,8 @@ public class VistaExplorer extends PApplet {
 		    if (cvid < 10) seq = "0" + seq;
 			else return; 
 	    
-		    reader = createReader(dir +"/part-000" + seq);  
-		    //System.out.println("Loading file: " + dir +"/part-000" + seq);
+		    reader = createReader(dataDir +"/part-000" + seq);  
+		    //System.out.println("Loading file: " + dataDir +"/part-000" + seq);
 	  
 		    float dense=0;
 		    String[] parts;

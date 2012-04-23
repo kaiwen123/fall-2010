@@ -1,6 +1,8 @@
 package com.cloud.vista;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -94,14 +96,45 @@ class CloudManager {
 	 * @param none. 
 	 * @return none.
 	 */
-	public void submitHadoopJob(String jobFileName) {
+	public void submitHadoopJob() {
+		// for windows and linux OSes, we need to do different operations.
+		String jobFileName = "cmd.sh.1"; // for windows machine only.
+		String cloudServer = " nimbus.cs.wright.edu"; 
+		String cmdStr = "plink.exe -ssh -l zhen -pw zhenli -m " + jobFileName + cloudServer;
+		
+		String resolution = VistaExplorer.Text_Resolution.getText();
+		String numFrames = VistaExplorer.Text_NumberFrame.getText();
+		String stepLength = VistaExplorer.Text_StepLength.getText();
+		String maxSample = VistaExplorer.Text_MaxSample.getText();
+		String sampleRate = VistaExplorer.Text_SampleRate.getText();
+		String dataset = VistaExplorer.option.getText();
+		String exploreSet = VistaExplorer.Text_Exploration.getText();
+		
+		String hadoopRunStr1 = "hadoop fs -rmr census_agg1 \n";
+		String hadoopRunStr2 = "hadoop jar ./RR.jar -m 100 -r 20 -d /user/kekechen/census_norm5 -o census_agg1 -i 68 -n 20 -x 500 -y 500 -c 4 -l 0.1 -u 0 -v 0 -s 1 2>&1";
+		
 		try {
-			String cloudServer = " nimbus.cs.wright.edu"; 
-			String cmdStr = "plink.exe -ssh -l zhen -pw zhenli -m " + jobFileName + cloudServer;
-
+			String osName = System.getProperty("os.name").toLowerCase();
+			System.out.println(osName);
+			
+			if (osName.indexOf("linux") >= 0) {
+				// this is linux operating system, then do.
+				Runtime.getRuntime().exec(hadoopRunStr1); // delete the output dir first.
+				cmdStr = "ssh -l ada " + cloudServer + " -C \"" + hadoopRunStr2 + "\""; 
+				
+			} else {
+				// this is windows os, then do..
+				FileWriter fwriter = new FileWriter(jobFileName);
+				BufferedWriter out = new BufferedWriter(fwriter);
+				out.write(". .bash_profile\n");
+				out.write(hadoopRunStr1);
+				out.write(hadoopRunStr2);
+				out.close();
+			}	
 			// run the job and get local process for displaying output.
 			Process p = Runtime.getRuntime().exec(cmdStr); 
 	        
+			// get output from process.
 	        InputStream cmdOut = p.getInputStream(); 
 	        InputStreamReader reader = new InputStreamReader(cmdOut); 
 	        BufferedReader input = new BufferedReader(reader); 
