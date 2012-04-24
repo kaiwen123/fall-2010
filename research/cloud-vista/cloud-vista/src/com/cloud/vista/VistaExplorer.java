@@ -23,7 +23,7 @@ import processing.core.*;
 // import processing.app.*;
 
 /**
- * The cloud vista explore, client for exploring the vista system. 
+ * The cloud vista explore, client program for exploring the vista system. 
  * @author Simon Guo. 
  *
  */
@@ -35,7 +35,6 @@ public class VistaExplorer extends PApplet {
 	private static final long serialVersionUID = 1L;
 
 	// for calling of the processing public functions, e.g. fill, draw etc. 
-	public static PApplet parent;
 	public static CloudManager manager = new CloudManager(); 
 
 	static final float SCALE_TOT = 3;
@@ -56,7 +55,7 @@ public class VistaExplorer extends PApplet {
 	static String resourceDir = "C:/data/";
 	static String dataDir = resourceDir + "census_s1_10_1"; 
 
-	Point [] points; 
+	
 	private BufferedReader reader;
 	static int cvid;
 
@@ -73,23 +72,16 @@ public class VistaExplorer extends PApplet {
 	GButton LoadData;
 	GWindow Parameter;
 	
+	// the parameter setting and exploration management windows.
+	static LoadManager loadMgr = new LoadManager(); 
+	
 	// map and reduce progress bar.
 	static GWSlider MapProgressbar, ReduceProgressbar;
 
 	// Below are plut-in for the window of loading data
 	static GButton Load;
-	static GTextField Text_Resolution;
-	static GTextField Text_NumberFrame;
-	static GTextField Text_StepLength;
-	static GTextField Text_MaxSample;
-	static GTextField Text_SampleRate;
-	static GTextField Text_Exploration;
-	static GCombo option;
 	
-	//// by xu.
-
 	static View[] views;
-
 	/**
 	 * Setup the explore environment.
 	 * @param none.
@@ -99,6 +91,10 @@ public class VistaExplorer extends PApplet {
 		size(600, 680);
 	    translateX = 0;
 	    translateY = -100;
+	    
+	    this.setName("Cloud Vista Visual Explorer");
+	    // the exploration management window should be invisible now.
+	    loadMgr.setVisible(false);
 	    
 	    // for compatibility considerations.
 		File fresDir = new File(resourceDir);
@@ -139,6 +135,11 @@ public class VistaExplorer extends PApplet {
 	    ReduceProgressbar = new GWSlider(this, 370, 50, 200);
 	    MapProgressbar.setEnabled(false);
 	    ReduceProgressbar.setEnabled(false);
+	    
+	    // prevent thread from starving other threads.
+	    noLoop();
+	    loop();
+	    frameRate(2);
 	   
 	    scale_factor = 1;
 	    smooth();
@@ -164,10 +165,6 @@ public class VistaExplorer extends PApplet {
 	class backgroundjob extends Thread {
 		public void run() {	  
 			manager.submitHadoopJob();
-			
-			//System.out.println(resolution);
-			//manager.submitHadoopJob();
-			//manager.getVisualFiles();
 		}
 	}
 	
@@ -193,13 +190,12 @@ public class VistaExplorer extends PApplet {
 		} else if(slider == scrollbar) {
 		    step_length = (scrollbar.getMaxValue() - scrollbar.getMinValue()) / 10;
 		    cvid = scrollbar.getValue() / step_length;
-		    //System.out.println("cvid: "+cvid);
 		}
 	}
 
 	/**
 	 * events handler for buttons. 
-	 * @param button
+	 * @param button the button object from the client.
 	 */
 	public void handleButtonEvents(GButton button) {
 	    float step_length = (ZoomButton.getMinValue() - ZoomButton.getMaxValue()) / 10;
@@ -265,41 +261,7 @@ public class VistaExplorer extends PApplet {
 			    translateX -= translateLength;
 			}
 		} else if(button == LoadData) {
-		    System.out.println("Entering Loading Window");
-		    Parameter = new GWindow(this, "Load Data", 200,200,400,330,false, null);
-		    Parameter.setActionOnClose(GWindow.CLOSE_WINDOW);    
-		    Parameter.papplet.setBackground(176);
-		    String[] choice = {"Census", "KDDCup"};
-		    option = new GCombo(this,choice, 20, 170, 30, 80);
-		    Load = new GButton(this, "Load", 300, 30, 50, 20);
-		    Text_Exploration = new GTextField(this, "", 30, 50, 100, 250);
-		    GLabel exploration = new GLabel(this, "Existing Exploration", 30, 20, 150);
-		    GLabel label_option = new GLabel(this, "Datasets", 170, 10, 80);
-		    GLabel Resolution = new GLabel(this, "Resolution",       170,  70,  100);
-		    GLabel NumberFrame = new GLabel(this, "Number of Frames",170,  120,  100);
-		    GLabel StepLength = new GLabel(this, "Step Length",      170,  170,  100);
-		    GLabel MaxSample = new GLabel(this, "Max Sample Size",   170,  220,  100);
-		    GLabel SampleRate=new GLabel(this, "Sample Rate",      170,  270,  100);
-		    Text_Resolution = new GTextField(this,"",     270,  70, 80,15);
-		    Text_NumberFrame = new GTextField(this, "",   270,  120, 80,15);
-		    Text_StepLength = new GTextField(this,"",     270,  170, 80,15);
-		    Text_MaxSample = new GTextField(this,"",      270,  220, 80,15);
-		    Text_SampleRate = new GTextField(this, "",    270,  270, 80,15);
-		    Parameter.add(Text_Exploration);
-		    Parameter.add(exploration);
-		    Parameter.add(label_option);
-		    Parameter.add(option);
-		    Parameter.add(Text_Resolution);
-		    Parameter.add(Text_NumberFrame);
-		    Parameter.add(Text_StepLength);
-		    Parameter.add(Text_MaxSample);
-		    Parameter.add(Text_SampleRate);
-		    Parameter.add(Load);
-		    Parameter.add(Resolution);
-		    Parameter.add(NumberFrame);
-		    Parameter.add(StepLength);
-		    Parameter.add(MaxSample);
-		    Parameter.add(SampleRate);
+			loadMgr.setVisible(true);
 	  } else if(button == Load) {
 		  new backgroundjob().start();
 	  }

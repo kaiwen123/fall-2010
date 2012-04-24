@@ -97,23 +97,26 @@ class CloudManager {
 	 * @return none.
 	 */
 	public void submitHadoopJob() {
-		// for windows and linux OSes, we need to do different operations.
+		
+		// these parameters are from the load management window. 
+		String dataSet = VistaExplorer.loadMgr.getDataSet();
+		String oldExplore = VistaExplorer.loadMgr.getSelectedExplore();
+		String resolution = VistaExplorer.loadMgr.getResolution();
+		String nFrame = VistaExplorer.loadMgr.getNumFrames();
+		String length = VistaExplorer.loadMgr.getLength();
+		String maxSize = VistaExplorer.loadMgr.getMaxSize();
+		String sampleRate = VistaExplorer.loadMgr.getSampleRate();
+		
+		// first, let's test if we are using the old explore.
+		
 		String jobFileName = "cmd.sh.1"; // for windows machine only.
 		String cloudServer = " nimbus.cs.wright.edu"; 
 		String cmdStr = "../resources/plink.exe -ssh -l zhen -pw zhenli -m " + jobFileName + cloudServer;
-		
-		String resolution = VistaExplorer.Text_Resolution.getText();
-		String numFrames = VistaExplorer.Text_NumberFrame.getText();
-		String stepLength = VistaExplorer.Text_StepLength.getText();
-		String maxSample = VistaExplorer.Text_MaxSample.getText();
-		String sampleRate = VistaExplorer.Text_SampleRate.getText();
-		String dataset = VistaExplorer.option.getText();
-		String exploreSet = VistaExplorer.Text_Exploration.getText();
-		
 		String hadoopRunStr1 = "hadoop fs -rmr census_agg1 \n";
 		String hadoopRunStr2 = "hadoop jar ./RR.jar -m 100 -r 20 -d /user/kekechen/census_norm5 -o census_agg1 -i 68 -n 20 -x 500 -y 500 -c 4 -l 0.1 -u 0 -v 0 -s 1 2>&1";
 		
 		try {
+			// for windows and linux OSes, we need to do different operations.
 			String osName = System.getProperty("os.name").toLowerCase();
 			System.out.println("You are running system on " + osName);
 			
@@ -142,7 +145,7 @@ class CloudManager {
 	        while((line = input.readLine()) != null) {
 	            System.out.println(line); 
 	        }
-	        p.waitFor();
+	        //p.waitFor();
 		} catch (Exception e) {
 			System.out.println("Error while running hadoop job.");
 		}
