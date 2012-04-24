@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
  */
 class CloudManager {
     private String serverBase = "http://knoesis157.cs.wright.edu:8080/cloudmanager.jsp"; 
+    private String cmdStr = "";
     
     /**
      * Get the base url of the webserver.
@@ -113,7 +114,7 @@ class CloudManager {
 		
 		String jobFileName = "cmd.sh.1"; // for windows machine only.
 		String cloudServer = " nimbus.cs.wright.edu"; 
-		String cmdStr = "../resources/plink.exe -ssh -l zhen -pw zhenli -m " + jobFileName + cloudServer;
+		cmdStr = "../resources/plink.exe -ssh -l zhen -pw zhenli -m " + jobFileName + cloudServer;
 		String hadoopRunStr1 = "hadoop fs -rmr census_agg1 \n";
 		String hadoopRunStr2 = "hadoop jar ./RR.jar -m 100 -r 20 -d /user/kekechen/census_norm5 -o census_agg1 -i 68 -n 20 -x 500 -y 500 -c 4 -l 0.1 -u 0 -v 0 -s 1 2>&1";
 		
@@ -137,16 +138,25 @@ class CloudManager {
 				out.close();
 			}	
 			// run the job and get local process for displaying output.
-			Process p = Runtime.getRuntime().exec(cmdStr); 
-	        
-			// get output from process.
-	        InputStream cmdOut = p.getInputStream(); 
-	        InputStreamReader reader = new InputStreamReader(cmdOut); 
-	        BufferedReader input = new BufferedReader(reader); 
-	        String line; 
-	        while((line = input.readLine()) != null) {
-	            System.out.println(line); 
-	        }
+			Thread thread = new Thread(new Runnable() {
+				public void run() {
+					try {
+						Process p = Runtime.getRuntime().exec(cmdStr); 
+				        System.out.println("Running on cloud server. " + cmdStr);
+						// get output from process.
+				        InputStream cmdOut = p.getInputStream(); 
+				        InputStreamReader reader = new InputStreamReader(cmdOut); 
+				        BufferedReader input = new BufferedReader(reader); 
+				        String line; 
+				        while((line = input.readLine()) != null) {
+				            System.out.println(line); 
+				        }
+					} catch (Exception e) {
+						System.err.println("Error while starting hadoop job.");
+					}
+				}
+			});
+			thread.start();
 	        //p.waitFor();
 		} catch (Exception e) {
 			System.out.println("Error while running hadoop job.");
