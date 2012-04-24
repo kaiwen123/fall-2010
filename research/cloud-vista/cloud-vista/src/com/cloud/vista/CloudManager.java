@@ -99,13 +99,15 @@ class CloudManager {
 	public void submitHadoopJob() {
 		
 		// these parameters are from the load management window. 
-		String dataSet = VistaExplorer.loadMgr.getDataSet();
-		String oldExplore = VistaExplorer.loadMgr.getSelectedExplore();
-		String resolution = VistaExplorer.loadMgr.getResolution();
-		String nFrame = VistaExplorer.loadMgr.getNumFrames();
-		String length = VistaExplorer.loadMgr.getLength();
-		String maxSize = VistaExplorer.loadMgr.getMaxSize();
-		String sampleRate = VistaExplorer.loadMgr.getSampleRate();
+//		String dataSet = VistaExplorer.loadMgr.getDataSet();
+//		String oldExplore = VistaExplorer.loadMgr.getSelectedExplore();
+//		String resolution = VistaExplorer.loadMgr.getResolution();
+//		String nFrame = VistaExplorer.loadMgr.getNumFrames();
+//		String length = VistaExplorer.loadMgr.getLength();
+//		String maxSize = VistaExplorer.loadMgr.getMaxSize();
+//		String sampleRate = VistaExplorer.loadMgr.getSampleRate();
+		
+		VistaExplorer.loadMgr.setVisible(false);
 		
 		// first, let's test if we are using the old explore.
 		
