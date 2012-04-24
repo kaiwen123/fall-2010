@@ -159,16 +159,6 @@ public class VistaExplorer extends PApplet {
 	}
 	
 	/**
-	 * run background job.
-	 * @author simon
-	 */
-	class backgroundjob extends Thread {
-		public void run() {	  
-			manager.submitHadoopJob();
-		}
-	}
-	
-	/**
 	 * Start the progress checking.
 	 */
 	private void updateProgress() {
@@ -262,8 +252,6 @@ public class VistaExplorer extends PApplet {
 			}
 		} else if(button == LoadData) {
 			loadMgr.setVisible(true);
-	  } else if(button == Load) {
-		  new backgroundjob().start();
 	  }
 	}
 
