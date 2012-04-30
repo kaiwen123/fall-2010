@@ -9,11 +9,10 @@ import guicomponents.GTextField;
 import guicomponents.GVertSlider;
 import guicomponents.GWindow;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.*;
 // import java.util.Vector;
 import java.awt.Color; 
+import java.awt.event.MouseEvent;
 //import java.applet.*;
 
 // import com.cloud.vista.cloudManager.Button;
@@ -60,7 +59,7 @@ public class VistaExplorer extends PApplet {
 	static int cvid;
 
 	int startx, starty, endx, endy;
-	static boolean stop = false;
+	static boolean stop = true;
 
 	// button for visual control and job control. 
 	static GButton ZoomIn, ZoomOut, TranslateButton, PlayButton, ForwardButton, BackButton;
@@ -89,6 +88,7 @@ public class VistaExplorer extends PApplet {
 	 */
 	public void setup() {
 		size(600, 680);
+		//size(1000, 1000);
 	    translateX = 0;
 	    translateY = -100;
 	    
@@ -135,12 +135,7 @@ public class VistaExplorer extends PApplet {
 	    ReduceProgressbar = new GWSlider(this, 370, 50, 200);
 	    MapProgressbar.setEnabled(false);
 	    ReduceProgressbar.setEnabled(false);
-	    
-	    // prevent thread from starving other threads.
-	    noLoop();
-	    loop();
-	    frameRate(2);
-	   
+	     
 	    scale_factor = 1;
 	    smooth();
 	    noStroke();
@@ -152,10 +147,10 @@ public class VistaExplorer extends PApplet {
 	  
 	    views = new View[maxframe];
 	    convert(); 
-	    frameRate(5);
+	    frameRate(2);
 	    stop = true;
 	    
-	    updateProgress(); // update progress now.
+	    //updateProgress(); // update progress now.
 	}
 	
 	/**
@@ -192,15 +187,15 @@ public class VistaExplorer extends PApplet {
 	    // System.out.println("step_length: " + step_length);
 	    
 	    if (button == ZoomIn) {    
-		    System.out.println("Value(): " + ZoomButton.getValue());    
+		    //System.out.println("Value(): " + ZoomButton.getValue());    
 		    float now = ZoomButton.getValue() - step_length + ZoomButton.getMinValue();  
-		    System.out.println("now: " + now);
+		    //System.out.println("now: " + now);
 		    if(now > ZoomButton.getMinValue()) {
 			    now = ZoomButton.getMinValue();
 			}
 		    //System.out.println("now: "+now);  
 		    ZoomButton.setValue(now);
-		    System.out.println("Value: " + ZoomButton.getValue());
+		    //System.out.println("Value: " + ZoomButton.getValue());
 		    scale_factor = scale_factor + SCALE_TOT / 10;
 		    
 		    if(scale_factor > 1.0 + SCALE_TOT) {
@@ -226,13 +221,15 @@ public class VistaExplorer extends PApplet {
 		    translateY = -150 - (scale_factor-1)*translateDelta;
 		} else if(button == PlayButton) {
 		    if(stop == true) {
+		    	stop = false;
 			    PlayButton.setImages(resourceDir + "pause.jpg", 1);
-			    stop = false;      
+			          
 			    frameRate(1);
 			} else {
+				stop = true;
 			    PlayButton.setImages(resourceDir + "play.jpg", 1);
-			    stop = true;
-			    frameRate(5);
+			    
+			    frameRate(1);
 			}
 		} else if(button == ForwardButton) {    
 		    forward();
@@ -355,8 +352,8 @@ public class VistaExplorer extends PApplet {
 	 */
 	public void backward() {
 	    cvid -= 1;
-	    if (cvid<0) {
-		    cvid = maxframe-1;
+	    if (cvid < 0) {
+		    cvid = maxframe - 1;
 		}
 	    //System.out.println("cvid: "+cvid);
 	    scrollbar.setValueToTickNumber(cvid);
@@ -366,6 +363,8 @@ public class VistaExplorer extends PApplet {
 	/**
 	 * draw the interface GUI.
 	 */
+	float a = 0;
+	
 	public void draw() { 
 		background(176, 196, 222);
 		//background(102, 102, 102);
@@ -388,6 +387,16 @@ public class VistaExplorer extends PApplet {
 		} // end for.
 		
 		popMatrix(); 
+		
+		// rectangle selection. 
+		if(mousePressed) {
+			stroke(255,0,0);
+			strokeWeight(5);
+			//fill(255);
+			noFill();
+			rect(selectionStartX,selectionStartY,mouseX-selectionStartX,mouseY-selectionStartY);
+			noStroke();
+		}
 	} // end draw.
 
 	void drawbar(float x, float y, int h, int r, int dx, int dy) {
@@ -406,6 +415,35 @@ public class VistaExplorer extends PApplet {
 	    line(xx, yy, (float)(xx + sinx * h ), (float)(yy+siny*h));
 	}
 	
+	// used for selection of areas.
+	private float selectionStartX; 
+	private float selectionStartY;
+	
+	/**
+	 * When mouse pressed, then selection a the left top coordinate of the rectangle.
+	 */
+	public void mousePressed() {
+		selectionStartX = mouseX;
+		selectionStartY = mouseY;
+	}
+	public void mouseReleased() {
+		// change scale_factor according to the size of rectangle.
+		// scale(600 / (mouseX-selectionStartX), 680 / (mouseY-selectionStartY));
+		// scale_factor = max(600 / (mouseX-selectionStartX), 680 / (mouseY-selectionStartY));
+
+		int newx = (int) ((mouseX + selectionStartX) / 2);
+		int newy = (int) ((mouseY + selectionStartY) / 2);
+		
+		int origx = 600 / 2; 
+		int origy = 680 / 2; 
+				
+		//translateX += 10; // origx - newx; 
+		//translateY -= 10; // origy - newy; 
+		//scale_factor = max(origx / (mouseX + selectionStartX), origy / (mouseY + selectionStartY));
+		scale_factor += 0.5;
+		translateX =  newx - origx  - 100;// * scale_factor; 
+		translateY =  newy - origy - 200;// * scale_factor;
+	}
 	/**
 	 * 
 	 * @param val
