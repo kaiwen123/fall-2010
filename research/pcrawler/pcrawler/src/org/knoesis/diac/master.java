@@ -14,13 +14,15 @@ import java.util.concurrent.*;
  * Also, this master will be responsible for distributing works/jobs
  * to the slave nodes upon request. 
  * <H1>How it works</H1>
- * The crawler will main three tables in the mySQL database.
+ * The crawler will main two tables in the mySQL database.
  * One table called crawled table, which is used to store all the user ids
  * that has been crawled. 
- * The second table named crawling table, which stores all the user ids 
+ * 
+ * The second table named tocrawle table, which stores all the user ids 
  * that has been distributed to the slave threads, due to its small size, 
  * this table can be maintained in the memory as a list or so. 
- * The third table is the one that contains all the raw user ids, raw here 
+ * 
+ * Also, there should be a in memory table that contains the raw user ids, raw here 
  * means we are not sure if these user ids has been crawled or not. So, there
  * need to be another process to check this. If the user id is verified to 
  * have not been crawled, then put it into the tobecrawled table in the DB. 
