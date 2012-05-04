@@ -1,8 +1,6 @@
 package org.knoesis.diac;
 
 import java.io.*;
-import java.lang.*;
-import java.util.ArrayList;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -30,17 +28,7 @@ import java.util.concurrent.*;
  * @author Simon Guo.
  *
  */
-public class master {
-	private String baseURL; 
-	private String job; 
-
-	// database info. 
-	private String dbHostName = "";
-	private static boolean connected = false; 
-	
-	// database tables;
-	private String dbCrawledTable = "";
-	private String dbToBeCrawledTable = "";
+public class the_crawler {
 	
 	// the list will maintain the currently being crawled ids. 
 	private ArrayList<String> CrawlingIDs = new ArrayList<String>();
@@ -53,109 +41,40 @@ public class master {
 	ThreadPoolExecutor threadPool = null;
 	final ArrayBlockingQueue<Runnable> queue = new ArrayBlockingQueue<Runnable>(5);
 	
-	//TODO setup database tables. 
-	//TODO Finish the next level of code. 
-	//TODO make it distributed. 
-	/**
-	 *  Ids that has been successfully crawled by have not been
-	 *  updated in the Database tables (remove from tobecrawled table and insert
-	 *  into the c 
-	 */
-	private ArrayList<String> CrawledIDs = new ArrayList<String>();
+	// the social link manager. 
+	private static link_manager lmanager = new link_manager(); 
 	
 	/**
 	 * The main function.
 	 * @param args
 	 */
 	public static void main (String args[]) {
+		the_crawler m = new the_crawler();
+		lmanager.importGraphFromFile("social_graph.txt", "tocrawl");
 		
+		// do the multi-thread crawling. 
+		m.multiThreadCrawling(10); 
 	}
 	
 	/**
 	 * Constructror.
 	 */
-	public master(){
+	public the_crawler(){
+		// create thread pool. 
 		threadPool = new ThreadPoolExecutor(poolSize, maxPoolSize, 
 						keepAliveTime, TimeUnit.SECONDS, queue);
 	}
-	/**
-	 * Connect to the database. 
-	 * @param dbURI
-	 * @return
-	 */
-	private boolean dbConnect(String dbURI) {
-		return true;
-	}
-	
-	/**
-	 * Get the base url of the crawl.
-	 * @return
-	 */
-	public String getBaseURL() {
-		return baseURL;
-	}
-	
-	/**
-	 * Request the user ids to crawl. 
-	 * @return Arraylist of user ids. 
-	 */
-	public ArrayList<String> getJobUIDs() {
-		ArrayList<String> uids = new ArrayList<String>(); 
-		
-		return uids;
-	}
-	
-	/**
-	 * This function is used to store the crawled ids into the database table. 
-	 * @param ids
-	 */
-	public void setCrawledBatch(ArrayList<String> ids) {
-	}
-	
-	/**
-	 * Set a group of ids to be crawled. 
-	 * @param ids
-	 */
-	public void setToBeCrawledBatch (ArrayList<String> ids) {
-		
-	}
-	
-	/**
-	 * Determine if a given user id has been crawled or not.
-	 * This will check with the database to see if the uid is already 
-	 * in the table.
-	 * @param uid
-	 * @return true / false.
-	 */
-	private boolean isCrawled(String uid) {
-		return true;
-	}
-	
-	/**
-	 * Set the uid to be crawled.
-	 * Actually to move the uid from tobe crawled table into the crawled table. 
-	 * @param uid
-	 */
-	private void setCrawled(String uid) {
-		
-	}
-	
-	/**
-	 * Set a given user id to have been crawled. 
-	 * @param uid
-	 */
-	private void setToBeCrawled(String uid) {
-		
-	}
 
-	/**
-	 * get a number of ids to crawl from the tobe crawled table.
-	 * @param cnt How many ids do you want?
-	 * @return A list of uids to crawl.
-	 */
-	private ArrayList<String> getIDsToCrawl(int cnt){
-		ArrayList<String> uids = new ArrayList<String>();
-		return uids;
+	
+	// Runnable implementation can not access the id variable, this is a trick to 
+	// work around this problem.
+	private volatile social_link tmp_link = null;
+	
+	public void updateID(social_link link){
+		this.tmp_link = link;
+	}
+	public social_link getSocialLink(){		
+		return this.tmp_link;
 	}
 	
 	/**
@@ -170,29 +89,19 @@ public class master {
 		// then for each thread, let's give it the crawling job.
 		while(true) {
 			// get uids to be crawled. 
-			ArrayList<String> ids = getIDsToCrawl(numThreads);
-			Iterator<String> iter = ids.iterator();
+			ArrayList<social_link> links = lmanager.getIDsToCrawl(numThreads);
+			Iterator<social_link> iter = links.iterator();
 			while(iter.hasNext()) {
 				updateID(iter.next());
 				threadPool.execute(new Runnable() {
 					public void run() {
-						doCrawling(getID());// do crawling.
+						doCrawling(getSocialLink()); // do crawling.
 					}
 				});
 			}
 		}
 	}
-	
-	// Runnable implementation can not access the id variable, this is a trick to 
-	// work around this problem.
-	private volatile String uid = "";
-	
-	public void updateID(String id){
-		uid = id;
-	}
-	public String getID(){		
-		return uid;
-	}
+
 	/**
 	 * Do the crawling, by sending http request to the given url. 
 	 * And then the crawled web page will be analyzed to get all the links/friends
@@ -200,12 +109,13 @@ public class master {
 	 * have been crawled, if yes, then drop them, else store them into the tobe crawled
 	 * database table. 
 	 * 
-	 * @param uid
+	 * @param link
 	 * @return
 	 */
-	public boolean doCrawling(String uid) {
-		String page = null;
+	public boolean doCrawling(social_link link) {
+		String url, page = null;
 		// get the url.
+		url = lmanager.getFriendsPageURL(link.getUid()); 
 		
 		// do the crawling by http request. 
 		
@@ -224,23 +134,7 @@ public class master {
 			out.close();
 		} catch (Exception e) {
 			System.out.println("Error while writing to file.");
-		}
-		
-		
-		// set the current uid as crawled. 
-		setCrawled(uid);
-		
+		}	
 		return true;
-	}
-	
-	/**
-	 * Get all the friends from the friend list.
-	 * @param page the friend list page.
-	 * @return a list of uids representing friends. 
-	 */
-	private ArrayList<String> getFriends(String page) {
-		ArrayList<String> friends = new ArrayList<String>(); 
-		
-		return friends; 
 	}
 }
