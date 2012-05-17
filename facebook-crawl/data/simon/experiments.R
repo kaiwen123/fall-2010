@@ -26,32 +26,32 @@ print(args)
 # data.multi <- read.csv(args[7], header=TRUE, sep=',')
 
 # basic analysis for multi-level data set.
-print(paste('doing basic statistical analysis with data from file', args[7]));
-basic <- basic.stat(args[7]);
-
-# build model. 
+# print(paste('doing basic statistical analysis with data from file', args[7]));
+# basic <- basic.stat(args[7]);
+# 
+# # build model. 
 print(paste('loading binary data from file', args[6]));
 data <- read.csv(args[6], header=TRUE, sep=",")
-
-print('builing model 0.')
-model0 <- ltm.model(data)
-plot(model0, main="ICC of model(0)", xlab="", ylab="")
-
-print('building model 1.')
-model1 <- ltm.model(1-data)
-plot(model1, main="ICC of model(1)", xlab="", ylab="")
-
 # 
-# plot the IRT model. 
-ltm.hist.plot(model0, model1)
-ltm.scores.plot(model0, model1)
- 
-# tradeoff between utility and privacy. 
-ltm.tradeoff.plot(model0, model1)
-
-# validation of the model, including cross validation for one data set. 
-# and anova validation on the consistency of the model.
-ltm.cv.res <- ltm.cv(data, 10)
+# print('builing model 0.')
+# model0 <- ltm.model(data)
+# plot(model0, main="ICC of model(0)", xlab="", ylab="")
+# 
+# print('building model 1.')
+# model1 <- ltm.model(1-data)
+# plot(model1, main="ICC of model(1)", xlab="", ylab="")
+# 
+# # 
+# # plot the IRT model. 
+# ltm.hist.plot(model0, model1)
+# ltm.scores.plot(model0, model1)
+#  
+# # tradeoff between utility and privacy. 
+# ltm.tradeoff.plot(model0, model1)
+# 
+# # validation of the model, including cross validation for one data set. 
+# # and anova validation on the consistency of the model.
+# ltm.cv.res <- ltm.cv(data, 10)
 
 # if(!is.null(args[8])) {
 #   data0 <- data
@@ -65,9 +65,9 @@ ltm.cv.res <- ltm.cv(data, 10)
 # building weighted model.
 # generate random sample, and then combine the random sample with orginal data for the modeling. 
 if(!is.null(args[8])) {
-  wgt.samples <- ltm.wgt.sample(data, 0.5, idx=c(1,5,15));
-  wgt.model0 <- ltm.model(wgt.samples$samples); 
-  wgt.model1 <- ltm.model(1-wgt.samples$samples);
+  wgt.samples <- ltm.wgt.sample(data, as.double(args[8]), idx=c(13,15,17), probs=c(0.2, 0.8, 0.9));
+  wgt.model0 <- ltm.model(wgt.samples$priv.samples, data); 
+  wgt.model1 <- ltm.model(wgt.samples$util.samples, 1-data);
   
   ltm.hist.plot(wgt.model0, wgt.model1)
   ltm.scores.plot(wgt.model0, wgt.model1)

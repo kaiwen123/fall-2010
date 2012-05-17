@@ -6,16 +6,23 @@
 ###########################
 # IRT modeling functions. #
 ###########################
-ltm.model <- function (data, tdata=NULL) {
+ltm.model <- function (data, tdata=NULL, weight = NULL) {
+  require('ltm')
+  
   print('Building 2-parametric IRT models.')
   if (is.null(tdata)) {
     tdata <- data
   }
+  
+  if (is.null(weight)) {
+    weight <- rep(1, 27)
+  }
+  
   # model.rasch <- rasch(data, constraint = cbind(ncol(data) + 1, 1))
-  model <- ltm(data ~ z1)
+  model <- ltm(data ~ z1, weight = weight)
+  
   model$dffclt <- coef(model)[,1]
   model$dscrmn <- coef(model)[,2]
-
   model$fitted <- fitted(model, tdata, type="conditional-probabilities")
   model$scores <- factor.scores(model, tdata)          # factor scores. 
   model$theta  <- model$scores$score.dat$z1           # ability level / theta.
