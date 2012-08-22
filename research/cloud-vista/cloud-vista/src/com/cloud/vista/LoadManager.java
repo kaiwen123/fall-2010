@@ -37,7 +37,7 @@ import java.awt.Toolkit;
  *
  */
 public class LoadManager extends JDialog {
-	// variable elements.
+	// widgets elements.
 	Label Datasets;
 	Label ExistingExplo;
 	List DatasetsList;
@@ -52,8 +52,9 @@ public class LoadManager extends JDialog {
 	TextField MaxSizeText;
 	Label SampleRate;
 	TextField SampleRateText;	
-	Button Load;
-	
+
+	// values. 
+
 	/**
 	 * Launch the application.
 	 */
@@ -120,13 +121,13 @@ public class LoadManager extends JDialog {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		Datasets = new Label("Datasets");
+		final Label Datasets = new Label("Datasets");
 		getContentPane().add(Datasets, "2, 2");
 		
-		Label ExistingExplo = new Label("Existing Exploration");
+		final Label ExistingExplo = new Label("Existing Exploration");
 		getContentPane().add(ExistingExplo, "6, 2");
 		
-		List DatasetsList = new List();
+		final List DatasetsList = new List();
 		DatasetsList.setMultipleMode(false);
 		DatasetsList.add("Census");
 		DatasetsList.add("Kddcup");
@@ -134,7 +135,7 @@ public class LoadManager extends JDialog {
 		DatasetsList.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		getContentPane().add(DatasetsList, "2, 4, 1, 12, default, fill");
 		
-		List ExistingExploList = new List();
+		final List ExistingExploList = new List();
 		ExistingExploList.setMultipleMode(false);
 		ExistingExploList.add("Census.exp.1.1.1");
 		ExistingExploList.add("Census.exp.1.1.2");
@@ -142,61 +143,88 @@ public class LoadManager extends JDialog {
 		
 		getContentPane().add(ExistingExploList, "6, 4, 13, 1, fill, fill");
 		
-		Label Resolution = new Label("Resolution");
+		final Label Resolution = new Label("Resolution");
 		getContentPane().add(Resolution, "6, 8");
 		
-		TextField ResolutionText = new TextField();
+		final TextField ResolutionText = new TextField();
 		ResolutionText.setText("1000");
 		getContentPane().add(ResolutionText, "8, 8, 11, 1");
 		
-		Label NumberFrame = new Label("Number of Frames");
+		final Label NumberFrame = new Label("Number of Frames");
 		getContentPane().add(NumberFrame, "6, 10");
 		
-		TextField NumberFrameText = new TextField();
-		NumberFrameText.setText("10\r\n");
+		final TextField NumberFrameText = new TextField();
+		NumberFrameText.setText("10");
 		getContentPane().add(NumberFrameText, "8, 10, 11, 1");
 		
-		Label Length = new Label("Step Length");
+		final Label Length = new Label("Step Length");
 		getContentPane().add(Length, "6, 12");
 		
-		TextField LengthText = new TextField();
+		final TextField LengthText = new TextField();
 		LengthText.setText("0.05");
 		getContentPane().add(LengthText, "8, 12, 11, 1");
 		
-		Label MaxSize = new Label("Max Sample Size");
+		final Label MaxSize = new Label("Max Sample Size");
 		getContentPane().add(MaxSize, "6, 14");
 		
-		TextField MaxSizeText = new TextField();
+		final TextField MaxSizeText = new TextField();
 		MaxSizeText.setText("10000");
 		getContentPane().add(MaxSizeText, "8, 14, 11, 1");
 		
-		Label SampleRate = new Label("Sample Rate");
+		final Label SampleRate = new Label("Sample Rate");
 		getContentPane().add(SampleRate, "6, 16");
 		
-		TextField SampleRateText = new TextField();
+		final TextField SampleRateText = new TextField();
 		SampleRateText.setText("0.05");
 		getContentPane().add(SampleRateText, "8, 16, 11, 1");
 		
+//		loading existing exploration from data. 
 		Button Load = new Button("Load");
 		Load.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
-				System.out.println("Executing hadoop command. ");
-				VistaExplorer.manager.submitHadoopJob();
+				System.out.println("Loading existing exploration: ");
+				String expo = ExistingExploList.getItem(ExistingExploList.getSelectedIndex());
+				System.out.println(expo);
+//				VistaExplorer.manager.submitHadoopJob();
+				VistaExplorer.loadExploration(expo);
+			}
+		});
+		
+//		creating new exploration from given parameters.
+		Button newExplore = new Button("New");
+		newExplore.addMouseListener(new MouseAdapter(){
+			@Override
+			public void mouseClicked(MouseEvent event){
+//				addToExistingExploration("test");
+				ExistingExploList.add("test", 0);
+				System.out.println("Creating new exploration.");
+				System.out.println("Parameters:");
+				System.out.println("Data set:   " + DatasetsList.getItem(DatasetsList.getSelectedIndex()));
+				System.out.println("Resolution: " + ResolutionText.getText());
+				System.out.println("Num Frames: " + NumberFrameText.getText());
+				System.out.println("Length:     " + LengthText.getText());
+				System.out.println("Max size   :" + MaxSizeText.getText());
+				System.out.println("Sample Rate:" + SampleRateText.getText());
 			}
 		});
 		getContentPane().add(Load, "2, 18");
+		getContentPane().add(newExplore, "2, 16");
+	}
+	
+	public void addToExistingExploration(String expo) {
+		ExistingExploList.add(expo);
 	}
 	
 	/**
 	 * return selected dataset.
 	 */
 	public String getDataSet() {
-		return DatasetsList.getSelectedItem();
+		return DatasetsList.getItem(DatasetsList.getSelectedIndex());
 	}
 	
 	public String getSelectedExplore() {
-		return ExistingExploList.getSelectedItem();
+		return ExistingExploList.getItem(ExistingExploList.getSelectedIndex());
 	}
 	
 	public String getResolution() {
@@ -210,7 +238,7 @@ public class LoadManager extends JDialog {
 	public String getLength() {
 		return LengthText.getText();
 	}
-	
+
 	public String getMaxSize() {
 		return MaxSizeText.getText();
 	}

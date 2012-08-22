@@ -10,6 +10,7 @@ import guicomponents.GVertSlider;
 import guicomponents.GWindow;
 
 import java.io.*;
+import java.nio.file.FileSystem;
 // import java.util.Vector;
 import java.awt.Color; 
 import java.awt.event.MouseEvent;
@@ -87,7 +88,7 @@ public class VistaExplorer extends PApplet {
 	 * @return void.
 	 */
 	public void setup() {
-		size(600, 680);
+		size(600, 680, P2D); // change the render if 
 		//size(1000, 1000);
 	    translateX = 0;
 	    translateY = -100;
@@ -133,8 +134,8 @@ public class VistaExplorer extends PApplet {
 	    // progress bar of mapper and reducer.
 	    MapProgressbar = new GWSlider(this, 370, 20, 200);
 	    ReduceProgressbar = new GWSlider(this, 370, 50, 200);
-	    MapProgressbar.setEnabled(false);
-	    ReduceProgressbar.setEnabled(false);
+	    MapProgressbar.setEnabled(false); MapProgressbar.setValue(0);
+	    ReduceProgressbar.setEnabled(false); ReduceProgressbar.setValue(0);
 	     
 	    scale_factor = 1;
 	    smooth();
@@ -256,31 +257,31 @@ public class VistaExplorer extends PApplet {
 	 * Configuration of explorer parameters. 
 	 * @param d
 	 */
-	public void getparams(String d) {
-	    reader = createReader(d);
-	    String s="";
-	    try {
-	    	s = reader.readLine();
-	    } catch(Exception e) {
-	    	System.err.println("Error while reading line.");
-	    	e.printStackTrace();
-	    }
-	    String [] ss = s.split(" ");
-	    int n = Integer.parseInt(ss[0]);
-	    paramx = new String[n];
-	    paramy = new String[n];
-
-	    // read in parameters from file.
-	    try {  
-		    for (int i = 0; i < n; i++)
-		    	paramx[i] = reader.readLine().replace(" ", ",");
-		    for (int i = 0; i < n; i++)
-		    	paramy[i] = reader.readLine().replace(" ", ",");
-		} catch (Exception e) {
-			System.out.println("Error getting parameters. ");
-			e.printStackTrace();
-		}    
-	}
+//	public void getparams(String d) {
+//	    reader = createReader(d);
+//	    String s="";
+//	    try {
+//	    	s = reader.readLine();
+//	    } catch(Exception e) {
+//	    	System.err.println("Error while reading line.");
+//	    	e.printStackTrace();
+//	    }
+//	    String [] ss = s.split(" ");
+//	    int n = Integer.parseInt(ss[0]);
+//	    paramx = new String[n];
+//	    paramy = new String[n];
+//
+//	    // read in parameters from file.
+//	    try {  
+//		    for (int i = 0; i < n; i++)
+//		    	paramx[i] = reader.readLine().replace(" ", ",");
+//		    for (int i = 0; i < n; i++)
+//		    	paramy[i] = reader.readLine().replace(" ", ",");
+//		} catch (Exception e) {
+//			System.out.println("Error getting parameters. ");
+//			e.printStackTrace();
+//		}    
+//	}
 
 	/**
 	 * TOBE added .
@@ -393,8 +394,10 @@ public class VistaExplorer extends PApplet {
 			stroke(255,0,0);
 			strokeWeight(5);
 			//fill(255);
+			System.out.println("moused pressed.....");
 			noFill();
-			rect(selectionStartX,selectionStartY,mouseX-selectionStartX,mouseY-selectionStartY);
+			rect(selectionStartX, selectionStartY, mouseX-selectionStartX, mouseY-selectionStartY);
+			System.out.println("draw rectangle.....");
 			noStroke();
 		}
 	} // end draw.
@@ -412,7 +415,7 @@ public class VistaExplorer extends PApplet {
 	    noStroke();
 	    rect(xx, yy, (float)4.0, (float)4.0);
 	    stroke(0);
-	    line(xx, yy, (float)(xx + sinx * h ), (float)(yy+siny*h));
+	    line(xx, yy, (float)(xx + sinx * h ), (float)(yy + siny * h));
 	}
 	
 	// used for selection of areas.
@@ -434,8 +437,9 @@ public class VistaExplorer extends PApplet {
 		int newx = (int) ((mouseX + selectionStartX) / 2);
 		int newy = (int) ((mouseY + selectionStartY) / 2);
 		
-		int origx = 600 / 2; 
-		int origy = 680 / 2; 
+		
+		int origx = frame.getWidth() / 2; 
+		int origy = frame.getHeight() / 2; 
 				
 		//translateX += 10; // origx - newx; 
 		//translateY -= 10; // origy - newy; 
@@ -444,62 +448,36 @@ public class VistaExplorer extends PApplet {
 		translateX =  newx - origx  - 100;// * scale_factor; 
 		translateY =  newy - origy - 200;// * scale_factor;
 	}
+	
 	/**
+	 * TODO
+	 * Load existing explorations, the exploration data will be stored in the 
+	 * local file system. If the current exploration does not exist in the local
+	 * file system, it will request to the hadoop cluster to obtain the clusters.
 	 * 
-	 * @param val
-	 * @return
+	 * @param expo name of exploration. 
 	 */
-	public static Color myMap(float val) {
-	    val = -val;
-	    float mid = (float) 0.4;
-	    float vv;
-	    vv = PApplet.abs((float)val);
-	    
-	    if(val < 0) {
-		    val = mid - (mid * vv);
-		} else {
-		    val = mid + ((1-mid) * vv);
-		}
-	    float r=0;
-	    float b=0;
-	    float g=0;
-	    if(val < 0){val = 0;}
-	    if(val > 1){val = 1;}
-	    //System.out.println(val);
-
-	    switch ((int)(val/.2)) {
-		case 0:
-		    r = 255;
-		    b = (float) (0 + (255*(val%.2)/.2));
-		    g = 0;
-		    break;
-		case 1:
-		    r = (float) (255 - (255*(val%.2)/.2));
-		    b = 255;
-		    g = 0;
-		    break;
-		case 2:
-		    r = 0;
-		    b = 255;
-		    g = (float) (0 + (200*(val%.2)/.2));
-		    break;
-		case 3:
-		    r = 100;
-		    b = (float) (255 - (255*(val%.2)/.2));
-		    g = (float) (150 + (105*(val%.2)/.2));
-		    break;
-		case 4:
-		    r = (float) (105 - (105*(val%.2)/.2));
-		    b = 0;
-		    g = (float) (105 - (105*(val%.2)/.2));
-		    break;
-		case 5:
-		    r = 0;
-		    b = 0;
-		    g = 25;
-		    break;
-		}
-	    //System.out.println("Test." + Integer.toString(r) + " " + Integer.toString(g) + " " + Integer.toString(b));
-	    return new Color((int)r, (int)g, (int)b);
+	public static void loadExploration(String expo) {
+		System.out.println("load existing exploration.");
+		FileSystem fs; 
+	}
+	
+	/**
+	 * TODO
+	 * Create new exploration with given parameters. It will request computation
+	 * of new visual frames from the hadoop cluster.  
+	 * @param expoParam The parameters for exploration. 
+	 */
+	public static void newExploration(String expoParam) {
+		
+	}
+	
+	/**
+	 * TODO
+	 * compute subset when selecting a region, this will request computation 
+	 * on the cluster. 
+	 */
+	public static void computeSubset() {
+		// compute subset with existing data.
 	}
 }

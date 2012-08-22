@@ -50,4 +50,3 @@ class ImageButtons extends Button {
     	image(currentimage, x, y);
     }
 }
-
