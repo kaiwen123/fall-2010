@@ -1,0 +1,3 @@
+. .bash_profile
+hadoop fs -rmr census_agg1 
+hadoop jar ./RR.jar -m 100 -r 20 -d /user/kekechen/census_norm5 -o census_agg1 -i 68 -n 20 -x 500 -y 500 -c 4 -l 0.1 -u 0 -v 0 -s 1 2>&1

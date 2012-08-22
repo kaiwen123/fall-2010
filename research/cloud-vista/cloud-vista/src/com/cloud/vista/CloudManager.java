@@ -166,7 +166,7 @@ class CloudManager {
 	/**
 	 * Download Visual files from the hadoop cloud. 
 	 */
-	public void getVisualFiles() {
+	public void getVisualFrames() {
 		// get files from cloud server. 
 		// if (stat == "DONE") {
 		System.out.println("Downloading visual frame jobs......."); 
@@ -208,6 +208,25 @@ class CloudManager {
 			in.close();
 		}
 		return 0; 
+    }
+    
+    /**
+     * Get existing explorations from the cloud. 
+     * @return
+     */
+    public static String[] getExistingExploration() {
+    	String[] exps = null;
+    	
+    	return exps; 
+    }
+    
+    /**
+     * get number of frames of a certain exploration. 
+     * @param exp exploration name. 
+     * @return how many frames in this exploration. 
+     */
+    public static int getNumFrames(String exp) {
+    	return 2; 
     }
   
     /** brief request to the cloud and get response message. 
