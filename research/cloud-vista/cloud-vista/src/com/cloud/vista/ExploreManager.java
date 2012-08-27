@@ -62,8 +62,10 @@ public class ExploreManager extends JDialog {
 	/**
 	 * parameters. 
 	 */
-	public static String m_explorationDataDir = "C:/Users/simon/workspace/cloud-vista/exploration_data/";	// local dir for storage of visual frame data. 
-	public static String m_resourceDir = "C:/Users/simon/workspace/cloud-vista/resources/";
+	private static String m_projectDir = "C:/Users/simon/workspace/cloud-vista/";
+	public static String m_explorationDataDir = m_projectDir + "exploration_data/";	// local dir for storage of visual frame data. 
+	public static String m_resourceDir = m_projectDir + "resources/";
+//	public static dddDataSet[] m_existingDataSets = null;  
 	// values. 
 
 	/**
@@ -140,8 +142,8 @@ public class ExploreManager extends JDialog {
 		
 		final List DatasetsList = new List();
 		DatasetsList.setMultipleMode(false);
-		DatasetsList.add("Census");
-		DatasetsList.add("Kddcup");
+		DatasetsList.add("census");
+		DatasetsList.add("kddcup");
 		DatasetsList.select(0);
 		DatasetsList.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		getContentPane().add(DatasetsList, "2, 4, 1, 12, default, fill");
@@ -154,40 +156,40 @@ public class ExploreManager extends JDialog {
 		
 		getContentPane().add(ExistingExploList, "6, 4, 13, 1, fill, fill");
 		
-		final Label Resolution = new Label("Resolution");
-		getContentPane().add(Resolution, "6, 8");
+		Label exploreName = new Label("Exploration Name");
+		getContentPane().add(exploreName, "6, 8");
 		
-		final TextField ResolutionText = new TextField();
-		ResolutionText.setText("1000");
-		getContentPane().add(ResolutionText, "8, 8, 11, 1");
+		TextField exploreNameText = new TextField();
+		exploreNameText.setText("census.exp.rr.1.1");
+		getContentPane().add(exploreNameText, "8, 8, 11, 1");
 		
-		final Label NumberFrame = new Label("Number of Frames");
-		getContentPane().add(NumberFrame, "6, 10");
+		final Label resolution = new Label("Resolution");
+		getContentPane().add(resolution, "6, 10");
 		
-		final TextField NumberFrameText = new TextField();
-		NumberFrameText.setText("10");
-		getContentPane().add(NumberFrameText, "8, 10, 11, 1");
+		final TextField resolutionText = new TextField();
+		resolutionText.setText("1000");
+		getContentPane().add(resolutionText, "8, 10, 11, 1");
 		
-		final Label Length = new Label("Step Length");
+		final Label Length = new Label("Scale");
 		getContentPane().add(Length, "6, 12");
 		
 		final TextField LengthText = new TextField();
-		LengthText.setText("0.05");
+		LengthText.setText("1");
 		getContentPane().add(LengthText, "8, 12, 11, 1");
 		
-		final Label MaxSize = new Label("Max Sample Size");
-		getContentPane().add(MaxSize, "6, 14");
+		final Label sampleRate = new Label("Sample Rate");
+		getContentPane().add(sampleRate, "6, 14");
 		
-		final TextField MaxSizeText = new TextField();
-		MaxSizeText.setText("10000");
-		getContentPane().add(MaxSizeText, "8, 14, 11, 1");
+		final TextField sampleRateText = new TextField();
+		sampleRateText.setText("0.05");
+		getContentPane().add(sampleRateText, "8, 14, 11, 1");
 		
-		final Label SampleRate = new Label("Sample Rate");
-		getContentPane().add(SampleRate, "6, 16");
+		final Label numberFrame = new Label("Number of Frames");
+		getContentPane().add(numberFrame, "6, 16");
 		
-		final TextField SampleRateText = new TextField();
-		SampleRateText.setText("0.05");
-		getContentPane().add(SampleRateText, "8, 16, 11, 1");
+		final TextField numberFrameText = new TextField();
+		numberFrameText.setText("10");
+		getContentPane().add(numberFrameText, "8, 16, 11, 1");
 		
 //		loading existing exploration from data. 
 		Button Load = new Button("Load");
@@ -212,13 +214,13 @@ public class ExploreManager extends JDialog {
 				System.out.println("Creating new exploration.");
 				System.out.println("Parameters:");
 				System.out.println("Data set:   " + DatasetsList.getItem(DatasetsList.getSelectedIndex()));
-				System.out.println("Resolution: " + ResolutionText.getText());
-				System.out.println("Num Frames: " + NumberFrameText.getText());
+				System.out.println("Resolution: " + resolutionText.getText());
+				System.out.println("Num Frames: " + numberFrameText.getText());
 				System.out.println("Length:     " + LengthText.getText());
-				System.out.println("Max size   :" + MaxSizeText.getText());
-				System.out.println("Sample Rate:" + SampleRateText.getText());
+				System.out.println("Sample Rate:" + sampleRateText.getText());
 			}
 		});
+		
 		getContentPane().add(Load, "2, 18");
 		getContentPane().add(newExplore, "2, 16");
 	}
