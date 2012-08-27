@@ -59,9 +59,11 @@ public class ExploreManager extends JDialog {
 	Label SampleRate;
 	TextField SampleRateText;
 	
-	// parameters. 
-	String m_expoDataDir = "./expo_data";	
-
+	/**
+	 * parameters. 
+	 */
+	public static String m_explorationDataDir = "C:/Users/simon/workspace/cloud-vista/exploration_data/";	// local dir for storage of visual frame data. 
+	public static String m_resourceDir = "C:/Users/simon/workspace/cloud-vista/resources/";
 	// values. 
 
 	/**
@@ -81,11 +83,11 @@ public class ExploreManager extends JDialog {
 	 * Create the dialog.
 	 */
 	public ExploreManager() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\zhen\\workspace\\zip\\imagesCAFKUEQI.jpg"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(m_resourceDir + "exploration_manager.jpg"));
 		setResizable(false);
 		setModal(true);
 		setAlwaysOnTop(true);
-		setTitle("Cloud Manager");
+		setTitle("Exploration Manager");
 		setBounds(100, 100, 395, 340);
 		getContentPane().setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -192,11 +194,11 @@ public class ExploreManager extends JDialog {
 		Load.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
-				System.out.println("Loading existing exploration: ");
+				System.out.print("Loading existing exploration: ");
 				String expo = ExistingExploList.getItem(ExistingExploList.getSelectedIndex());
 				System.out.println(expo);
-//				VistaExplorer.manager.submitHadoopJob();
-				VistaExplorer.loadExploration(expo);
+//				VistaExplorer.m_cloudManager.submitHadoopJob();
+				loadExploration(expo);
 			}
 		});
 		
@@ -221,35 +223,82 @@ public class ExploreManager extends JDialog {
 		getContentPane().add(newExplore, "2, 16");
 	}
 	
-	public void addToExistingExploration(String expoName) {
-		ExistingExploList.add(expoName);
-	}
-	
-	public void loadExistingExploration(String expoName) {
-		
-	}
-	
 	/**
-	 * Creating new exploration from scratch.
-	 * @param expoName The name of the exploration to create.
-	 * @return void 
+	 * Add the expoName to the database of existing explorations, and this name will 
+	 * be displayed in the list. 
+	 * @param exploreName the name of exploration to add to the list. 
+	 * @return void.
 	 */
-	public void newExploration(String expoName){
-		
+	public void addToExistingExploration(String exploreName) {
+		ExistingExploList.add(exploreName);
 	}
 	
 	/**
-	 * Create new subset exploration on the hadoop cluster. 
-	 * @param expoName Name of the subset exploration to create. 
+	 * remove exploration from the exploration database. 
+	 * @param exploreName the exploration to delete. 
 	 * @return void
 	 */
-	public void newSubsetExploration(String expoName) {
-		
+	public void removeExploration(String exploreName) {
+		m_existingExpos.remove(exploreName);
+		ExistingExploList.remove(exploreName);
+		CloudManager.removeExploFromServer(exploreName);
+		return;
+	}
+	
+	/**
+	 * Load existing explorations, the exploration data will be stored in the 
+	 * local file system. If the current exploration does not exist in the local
+	 * file system, it will request to the hadoop cluster to obtain the clusters.
+	 * 
+	 * @param exploreName name of exploration. 
+	 */
+	public Exploration loadExploration(String exploreName) {
+		System.out.println("Starting to load existing exploration.");
+		if(exists(exploreName)) {
+			Exploration explore = new Exploration();
+			String fullName = m_explorationDataDir + exploreName; 
+			explore.setExplorationLocalFolder(fullName);
+			explore.buildVisualFrames();
+			return explore; 
+		} else {
+			return null; 
+		}
+	}
+	
+	/**
+	 * Create new exploration with given parameters. It will request computation
+	 * of new visual frames from the hadoop cluster and fetch the hadoop created visual
+	 * frame to the local directory and in the end will call the loadExploration function
+	 * to build the visual frames in the memory and will be displayed. 
+	 * @param expoParam The parameters for exploration. 
+	 */
+	public Exploration buildExploration(String exploreName) {
+		System.out.println("Start to load exploration: " + exploreName);
+		String scale = "1", op_type="RR", step_length="0.05", resolution = "1", ndim = "10", nsteps="10", others="";
+		CloudManager.buildExploreAndFetchFile(exploreName, scale, op_type, step_length, resolution, ndim, nsteps, others);
+		Exploration explore = loadExploration(exploreName);
+		return explore; 
+	}
+	
+	/**
+	 * compute subset when selecting a region, this is similar to the buildExploration function, 
+	 * except that subset parameters will be provided to the parameter called others. 
+	 * @param exploreName name of exploration to build. 
+	 * @return the built exploration. 
+	 */
+	public Exploration buildSubsetExploration(String exploreName) {
+		// compute subset with existing data.
+		String scale = "1", op_type="SS", step_length="0.05", resolution = "1", ndim = "10", nsteps="10";
+		String xstart = "-100", xend="100", ystart="-100", yend="100";
+		String others=xstart + ":" + xend + ":" + ystart + ":" + yend; 
+		CloudManager.buildExploreAndFetchFile(exploreName, scale, op_type, step_length, resolution, ndim, nsteps, others);
+		Exploration explore = loadExploration(exploreName);
+		return explore;
 	}
 	
 	/**************************************************************/
 	// Management of explorations. 
-	static Vector<String> m_existingExpos; 
+	static Vector<String> m_existingExpos = new Vector<String>(); 
 	/**
 	 * This will list existing explorations. 
 	 * @return
@@ -274,7 +323,7 @@ public class ExploreManager extends JDialog {
 			m_existingExpos.removeElement(expoName);
 			
 			// delete the data from the local directories. 
-			FileUtils.delete(new File(m_expoDataDir + expoName));
+			FileUtils.delete(new File(m_explorationDataDir + expoName));
 		}
 	}
 	
@@ -288,11 +337,23 @@ public class ExploreManager extends JDialog {
 	}
 	
 	/**
-	 * TODO
 	 * Synchronize the explorations with the server. 
+	 * The cloud server will return a list of existing explorations, and 
+	 * the client will compare this list with the local existing explorations. 
 	 * @return
 	 */
 	public boolean syncWithServer() {
+		String[] explores = CloudManager.listExplorationsFromServer().split(":");
+		for(int i = 0; i < explores.length; i++) {
+			// check the existence of the explore on the local. 
+			if(!exists(explores[i])) {
+				addToExistingExploration(explores[i]);
+				File f = new File(explores[i]); 
+				if(!f.exists()) {
+					CloudManager.downloadFileFromServer(explores[i]);
+				}
+			}
+		}
 		return true; 
 	}
 }

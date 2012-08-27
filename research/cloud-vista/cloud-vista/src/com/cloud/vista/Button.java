@@ -9,10 +9,8 @@ class Button extends PApplet {
 	 * serial ID.
 	 */
 	private static final long serialVersionUID = 1L;
-	int x, y;
-    int w, h;
-    Color basecolor, highlightcolor;
-    Color currentcolor;
+	int m_upperLeftX, m_upperLeftY;
+    int m_btnWidth, m_btnHeight;
     boolean over = false;
     boolean pressed = false;   
   
@@ -29,8 +27,8 @@ class Button extends PApplet {
   
     /**
      * Handling drawing rectangle event.
-     * @param x x axis of the upper left corner.
-     * @param y y axis of the upper left corner.
+     * @param m_upperLeftX m_upperLeftX axis of the upper left corner.
+     * @param m_upperLeftY m_upperLeftY axis of the upper left corner.
      * @param width width of the rectangle. 
      * @param height height of the rectangle.
      * @return true on valid rectangle and false otherwise.
