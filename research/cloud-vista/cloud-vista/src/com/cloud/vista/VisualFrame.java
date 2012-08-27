@@ -1,25 +1,40 @@
 package com.cloud.vista;
 
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.Vector;
 import processing.core.PApplet;
 
-class View extends PApplet { 
+class VisualFrame extends PApplet { 
     /**
 	 * serial ID.
 	 */
 	private static final long serialVersionUID = 1L;
-	public int _vid;
-    public Vector<Point> _ps;
+	public int m_visualFrameID;
+    public Vector<Point> m_visualFramePoints;
     
-    //public ImageButtons button;
-    public View(int vid) {
-		_vid = vid;
-		_ps = new Vector<Point>();
+    /**
+     * The heat map visualization of the visual frames. 
+     * @param vid the id of this view, usually determined by the 
+     * id of the visual frame. 
+     * @return none. 
+     */
+    public VisualFrame(int vid) {
+		m_visualFrameID = vid;
+		m_visualFramePoints = new Vector<Point>();
     }
    
     public void addPoint(Point pt) {
-    	_ps.addElement(pt);
+    	m_visualFramePoints.addElement(pt);
+    }
+    
+    public int getVisualFrameID() {
+    	return m_visualFrameID; 
+    }
+    
+    public void setVisualFrameID(int vid) {
+    	m_visualFrameID = vid; 
     }
     
     /**
@@ -28,27 +43,27 @@ class View extends PApplet {
      * @param td
      */
     void normalize(float md, float td) {
-		float mean = td / _ps.size();
+		float mean = td / m_visualFramePoints.size();
 		float var = 0;
 		
 		//mean =100;
-		for (int i = 0; i < _ps.size(); i++){
-		    Point p = (Point) _ps.elementAt(i);
-		    var += (p._dense - mean) * (p._dense - mean);
+		for (int i = 0; i < m_visualFramePoints.size(); i++){
+		    Point p = (Point) m_visualFramePoints.elementAt(i);
+		    var += (p.m_pointDensity - mean) * (p.m_pointDensity - mean);
 		}
 	    
-		var = (float) Math.sqrt(var / _ps.size());
+		var = (float) Math.sqrt(var / m_visualFramePoints.size());
 		var = var / 25;
 		
 		//var = var *2;
 		float dense=0;
-		for (int i = 0; i < _ps.size(); i++) {
-			Point p = (Point) _ps.elementAt(i);
+		for (int i = 0; i < m_visualFramePoints.size(); i++) {
+			Point p = (Point) m_visualFramePoints.elementAt(i);
 			//dense = p._dense/md *2 -1;
-			dense = (p._dense - mean) / var;
+			dense = (p.m_pointDensity - mean) / var;
 			
 			// set the color of the point. 
-			p._clr = renderPointColor(dense);
+			p.m_pointColor = renderPointColor(dense);
 		} 
 		
 		//System.out.println( String.valueOf(mean) + " " + String.valueOf(var));
@@ -122,14 +137,15 @@ class View extends PApplet {
      */
     int count(int xstart, int ystart, int xend, int yend) {
 		int cnt = 0;
-		for (int i = 0; i < _ps.size(); i++) {
-		    Point p = (Point) _ps.elementAt(i);
-		    int x = (int) (p._x * VistaExplorer.resol + VistaExplorer.viewx + 500);
-		    int y = (int) (p._y * VistaExplorer.resol + VistaExplorer.viewy + 500);
+		for (int i = 0; i < m_visualFramePoints.size(); i++) {
+		    Point p = (Point) m_visualFramePoints.elementAt(i);
+		    int x = (int) (p.m_pointX * VistaExplorer.m_resolution + VistaExplorer.m_viewX + 500);
+		    int y = (int) (p.m_pointY * VistaExplorer.m_resolution + VistaExplorer.m_viewY + 500);
 		    
 		    if (x >= xstart && x <= xend && y >= ystart && y <= yend)
-		    	cnt += p._dense;
+		    	cnt += p.m_pointDensity;
 		}
 		return cnt;    
-    }  
+    }
+   
 }

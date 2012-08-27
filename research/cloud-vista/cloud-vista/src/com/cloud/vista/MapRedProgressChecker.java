@@ -32,8 +32,8 @@ public class MapRedProgressChecker {
 		public void run () {
 			//System.out.println("Checking Status... ");
 			MapRedProgressChecker.checkStatus();
-	    	VistaExplorer.MapProgressbar.setValue(MapRedProgressChecker.mapProgress);
-	    	VistaExplorer.ReduceProgressbar.setValue(MapRedProgressChecker.reduceProgress);
+	    	VistaExplorer.m_mapProgressbar.setValue(MapRedProgressChecker.mapProgress);
+	    	VistaExplorer.m_reduceProgressbar.setValue(MapRedProgressChecker.reduceProgress);
 		}
 	}
 	

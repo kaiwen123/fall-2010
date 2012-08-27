@@ -20,6 +20,7 @@ import java.awt.event.MouseEvent;
 // import com.cloud.vista.cloudManager.ImageButtons;
 
 import processing.core.*;
+import java.awt.event.*;
 // import processing.app.*;
 
 /**
@@ -34,132 +35,152 @@ public class VistaExplorer extends PApplet {
 	
 	private static final long serialVersionUID = 1L;
 
-	// for calling of the processing public functions, e.g. fill, draw etc. 
-	public static CloudManager manager = new CloudManager(); 
+	/** 
+	 * Widgets for Exploration control including buttons and slider bars. 
+	 */
+	private GButton m_btnZoomIn, m_btnZoomOut, m_btnPan, m_btnPlayFrame, m_btnPlayForward, m_btnPlayBackward;
+	private GWSlider m_sbVisualFrame;
+	private GVertSlider m_sliderZoom;
+	GButton m_btnExploreManager;// The button to activate the exploration management window.
+	static ExploreManager m_exploreManager = new ExploreManager(); // the exploration management window.
+	
+	// map and reduce progress bar.
+	static GWSlider m_mapProgressbar, m_reduceProgressbar;
+	
+	/**
+	 * Variables related to the visual parameters. 
+	 */	
+	private final float TOTAL_SCALES = 3.0f;
+//	static final int m_totalFrameCount = 10; // number of visual frames in one exploration. 
+	private String[] m_frameIds = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+	private float translateDelta = 300;
+	private float m_translateLength = 30;
+	Exploration m_currentExplore; 
+	private VisualFrame m_currentVisualFrame; 
+	
+	public static int m_resolution;
+	public static int m_viewX, m_viewY;
+	private float m_scaleFactor;
 
-	static final float SCALE_TOT = 3;
-	static final int maxframe = 10;
-	static final String[] label = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
-	static float translateDelta = 300;
-	static float translateLength = 30;
-	static View currentv; 
-	public static int resol, viewx, viewy, radius;
-	static float scale_factor;
+	/**
+	 * Visualization parameters. 
+	 */
+	static float m_translateX, m_translateY;
 
-	static float translateX, translateY;
-
-	String[] lines, paramx, paramy;
+//	String[] lines, paramx, paramy;
 
 	// directory for holding resources such as figures. 
 	// data directory for holding visual frame data.
-	static String resourceDir = "C:/data/";
-	static String dataDir = resourceDir + "census_s1_10_1"; 
+	static String m_resourceDir = "../resources/";
+//	static String dataDir = m_resourceDir + "census_s1_10_1"; 
 
-	
-	private BufferedReader reader;
-	static int cvid;
+	static int m_currentViewID;
 
-	int startx, starty, endx, endy;
+//	int startx, starty, endx, endy;
 	static boolean stop = true;
-
-	// button for visual control and job control. 
-	static GButton ZoomIn, ZoomOut, TranslateButton, PlayButton, ForwardButton, BackButton;
-	static GWSlider scrollbar;
-	static GVertSlider ZoomButton;
-	// ImageButtons button;
-
-	// load data button and the parameter window.
-	GButton LoadData;
-	GWindow Parameter;
 	
-	// the parameter setting and exploration management windows.
-	static LoadManager loadMgr = new LoadManager(); 
+	public static CloudManager m_cloudManager = new CloudManager(); 
 	
-	// map and reduce progress bar.
-	static GWSlider MapProgressbar, ReduceProgressbar;
-
-	// Below are plut-in for the window of loading data
-	static GButton Load;
-	
-	static View[] views;
 	/**
-	 * Setup the explore environment.
+	 * To configure the user interface, including setting up the locations of each widget, ticks
+	 * on the slider bar and put labels on the widgets etc.  
+	 */
+	private void configUserInterface() {
+		// the zooming buttons and sliders. 
+	    m_sliderZoom = new GVertSlider(this, 40, 90, 10, 210);
+	    m_sliderZoom.setValue(m_sliderZoom.getMinValue());       
+	   
+	    m_btnZoomIn = new GButton(this, m_resourceDir + "zoomIn.jpg", 1, 40, 80, 10, 10);
+	    m_btnZoomOut = new GButton(this, m_resourceDir + "zoomOut.jpg", 1, 38, 303, 15, 15);
+	    m_btnPan = new GButton(this, m_resourceDir + "RLUD.jpg", 1, 20, 20, 50, 50);
+	    m_btnPlayFrame = new GButton(this, m_resourceDir + "play.jpg", 1, 290, 630, 15, 15);
+	    m_btnPlayForward = new GButton(this, m_resourceDir + "forward.jpg", 1, 340, 630, 15, 15);
+	    m_btnPlayBackward = new GButton(this, m_resourceDir + "backward.jpg", 1, 240, 630, 15, 15); 
+	    
+	    m_btnExploreManager = new GButton(this, "Manage Exploration", 80, 20, 100, 30);
+	    
+	    // show and set the progress bar of the mapper and reducer. 
+	    @SuppressWarnings("unused")
+		GLabel MapProgress=new GLabel(this, "Map", 200, 15, 100);
+	    @SuppressWarnings("unused")
+	    GLabel Reduce=new GLabel(this, "Reduce", 200, 55, 100);  
+
+	    // progress bar of mapper and reducer.
+	    m_mapProgressbar = new GWSlider(this, 270, 20, 300);
+	    m_reduceProgressbar = new GWSlider(this, 270, 55, 300);
+	    m_mapProgressbar.setPrecision(5);
+	    m_reduceProgressbar.setPrecision(5);
+	    m_mapProgressbar.setEnabled(false); m_mapProgressbar.setValue(0);
+	    m_reduceProgressbar.setEnabled(false); m_reduceProgressbar.setValue(0);
+	    
+	    
+		// slider bar to show play the visual frames. 
+	    m_sbVisualFrame = new GWSlider(this, 50, 580, 500); 
+	    m_sbVisualFrame.setTickLabels(m_frameIds);   
+	    //m_sbVisualFrame.setRenderMaxMinLabel(false);
+	    m_sbVisualFrame.setRenderValueLabel(false);
+	    m_sbVisualFrame.setValue(0);
+	    m_sbVisualFrame.setStickToTicks(true);
+	}
+	
+	/**
+	 * The initial display of the visual frames, which are displayed as heat maps. 
+	 */
+	private void initiateExploration(String exploreName) {
+		// the exploration management window should be invisible now.
+	    m_exploreManager.setVisible(true);
+	    m_currentExplore = m_exploreManager.buildExploration(exploreName);
+	    m_exploreManager.setVisible(false);
+	}
+	
+	/**
+	 * Setup the explore environment. This is 
 	 * @param none.
 	 * @return void.
 	 */
 	public void setup() {
-		size(600, 680, P2D); // change the render if 
-		//size(1000, 1000);
-	    translateX = 0;
-	    translateY = -100;
-	    
-	    this.setName("Cloud Vista Visual Explorer");
-	    // the exploration management window should be invisible now.
-	    loadMgr.setVisible(false);
-	    
-	    // for compatibility considerations.
-		File fresDir = new File(resourceDir);
+		// set up the display convas. 
+		this.setName("Cloud Vista Visual Explorer");
 		
-		if (!fresDir.exists()) {
-			resourceDir = "../resources/";
-			dataDir = resourceDir + "visual_frame_data/census_s1_10_1";
-		}
+		size(600, 680, P2D);
+	    m_translateX = 0;
+	    m_translateY = -100;
 	    
-	    scrollbar = new GWSlider(this, 50, 580, 500); 
-	    scrollbar.setTickLabels(label);   
-	    //scrollbar.setRenderMaxMinLabel(false);
-	    scrollbar.setRenderValueLabel(false);
-	    scrollbar.setValue(0);
-	    scrollbar.setStickToTicks(true);
-	   
-	    ZoomButton = new GVertSlider(this, 40, 90, 10, 210);
-	    //System.out.println(ZoomButton.getMinValue());
-	    ZoomButton.setValue(ZoomButton.getMinValue());       
-	    //System.out.println(ZoomButton.getValue());
-	   
-	    ZoomIn = new GButton(this, resourceDir + "zoomIn.jpg", 1, 40, 80, 10, 10);
-	    ZoomOut = new GButton(this, resourceDir + "zoomOut.jpg", 1, 38, 303, 15, 15);
-	    TranslateButton = new GButton(this, resourceDir + "RLUD.jpg", 1, 20, 20, 50, 50);
-	    PlayButton = new GButton(this, resourceDir + "play.jpg", 1, 290, 630, 15, 15);
-	    ForwardButton = new GButton(this, resourceDir + "forward.jpg", 1, 340, 630, 15, 15);
-	    BackButton = new GButton(this, resourceDir + "backward.jpg", 1, 240, 630, 15, 15); 
+	    // configure the user interface. 
+	    configUserInterface();
 	    
-	    LoadData = new GButton(this, "Load Data", 500, 110, 70, 15);
-	    
-	    @SuppressWarnings("unused")
-		GLabel MapProgress=new GLabel(this, "Map", 300, 20, 100);
-	    @SuppressWarnings("unused")
-	    GLabel Reduce=new GLabel(this, "Reduce", 300, 50, 100);  
-
-	    // progress bar of mapper and reducer.
-	    MapProgressbar = new GWSlider(this, 370, 20, 200);
-	    ReduceProgressbar = new GWSlider(this, 370, 50, 200);
-	    MapProgressbar.setEnabled(false); MapProgressbar.setValue(0);
-	    ReduceProgressbar.setEnabled(false); ReduceProgressbar.setValue(0);
-	     
-	    scale_factor = 1;
+	    // configure the visual frame display. 
+	    initiateExploration("census_s1_10_1");
+	    m_scaleFactor = 1;
 	    smooth();
 	    noStroke();
-	    radius = 10000;
-	    viewx = viewy = 0;
+	    m_viewX = m_viewY = 0;
 	    
-	    resol=1;
-	    getParameter(dataDir + "_params");
-	  
-	    views = new View[maxframe];
-	    convert(); 
+	    m_resolution = 1;
 	    frameRate(2);
-	    stop = true;
+	    stop = true; 
 	    
-	    //updateProgress(); // update progress now.
+	    frame.addMouseWheelListener(new MouseWheelInput());
+	}
+	
+	// class for handling mouse wheel event. 
+	class MouseWheelInput implements MouseWheelListener{  
+		private int m_pointerX, m_pointerY;
+		public void mouseWheelMoved(MouseWheelEvent e) {
+			m_pointerX = e.getX();
+			m_pointerY = e.getY();
+			int step = e.getWheelRotation();  
+			m_pointerX = m_pointerX + step * 5;  
+			m_pointerY = m_pointerY + step * 5; 
+		}  
 	}
 	
 	/**
 	 * Start the progress checking.
 	 */
-	private void updateProgress() {
-		manager.updateProgress();
-	}
+//	private void updateProgress() {
+//		m_cloudManager.updateProgress();
+//	}
 	
 	/**
 	 * Handle Slider event for visual exploration.
@@ -167,15 +188,16 @@ public class VistaExplorer extends PApplet {
 	 */
 	public void handleSliderEvents(GSlider slider) {
 	    int step_length;
-	    if(slider == ZoomButton) {
-		    //System.out.println("Max: " + ZoomButton.getMaxValue()+", Min: "+ZoomButton.getMinValue()+", Value: "+ZoomButton.getValue());
-		    scale_factor = (float) (1.0 + 1.0 * SCALE_TOT * ZoomButton.getValue() / (ZoomButton.getMinValue()-ZoomButton.getMaxValue()));
-		    translateX = - (scale_factor - 1) * translateDelta;
-		    translateY = -150 - (scale_factor - 1) * translateDelta;
-		    //System.out.println(scale_factor);
-		} else if(slider == scrollbar) {
-		    step_length = (scrollbar.getMaxValue() - scrollbar.getMinValue()) / 10;
-		    cvid = scrollbar.getValue() / step_length;
+	    if(slider == m_sliderZoom) {
+		    //System.out.println("Max: " + m_sliderZoom.getMaxValue()+", Min: "+m_sliderZoom.getMinValue()+", Value: "+m_sliderZoom.getValue());
+		    m_scaleFactor = (float) (1.0 + 1.0 * TOTAL_SCALES * m_sliderZoom.getValue() / (m_sliderZoom.getMinValue() - m_sliderZoom.getMaxValue()));
+		    m_translateX = -(m_scaleFactor - 1) * translateDelta;
+		    m_translateY = -150 - (m_scaleFactor - 1) * translateDelta;
+		    //System.out.println(m_scaleFactor);
+		} else if(slider == m_sbVisualFrame) {
+		    step_length = (m_sbVisualFrame.getMaxValue() - m_sbVisualFrame.getMinValue()) / 10;
+		    System.out.println("visual step length: " + step_length);
+		    m_currentViewID = m_sbVisualFrame.getValue() / step_length;
 		}
 	}
 
@@ -184,207 +206,117 @@ public class VistaExplorer extends PApplet {
 	 * @param button the button object from the client.
 	 */
 	public void handleButtonEvents(GButton button) {
-	    float step_length = (ZoomButton.getMinValue() - ZoomButton.getMaxValue()) / 10;
+	    float step_length = (m_sliderZoom.getMinValue() - m_sliderZoom.getMaxValue()) / 10;
 	    // System.out.println("step_length: " + step_length);
 	    
-	    if (button == ZoomIn) {    
-		    //System.out.println("Value(): " + ZoomButton.getValue());    
-		    float now = ZoomButton.getValue() - step_length + ZoomButton.getMinValue();  
+	    if (button == m_btnZoomIn) {    
+		    //System.out.println("Value(): " + m_sliderZoom.getValue());    
+		    float now = m_sliderZoom.getValue() - step_length + m_sliderZoom.getMinValue();  
 		    //System.out.println("now: " + now);
-		    if(now > ZoomButton.getMinValue()) {
-			    now = ZoomButton.getMinValue();
+		    if(now > m_sliderZoom.getMinValue()) {
+			    now = m_sliderZoom.getMinValue();
 			}
 		    //System.out.println("now: "+now);  
-		    ZoomButton.setValue(now);
-		    //System.out.println("Value: " + ZoomButton.getValue());
-		    scale_factor = scale_factor + SCALE_TOT / 10;
+		    m_sliderZoom.setValue(now);
+		    //System.out.println("Value: " + m_sliderZoom.getValue());
+		    m_scaleFactor = m_scaleFactor + TOTAL_SCALES / 10;
 		    
-		    if(scale_factor > 1.0 + SCALE_TOT) {
-			    scale_factor = (float) (1.0 + SCALE_TOT);
+		    if(m_scaleFactor > 1.0 + TOTAL_SCALES) {
+			    m_scaleFactor = (float) (1.0 + TOTAL_SCALES);
 			}
 		    
-		    System.out.println("scale_factor: " + scale_factor);
-		    translateX = -(scale_factor - 1) * translateDelta;
-		    translateY = -150 - (scale_factor - 1) * translateDelta;
-		} else if (button == ZoomOut) {
-		    float now = ZoomButton.getValue() - step_length;
-		    if(now < ZoomButton.getMaxValue()) {
-			    now = ZoomButton.getMaxValue();
+		    System.out.println("m_scaleFactor: " + m_scaleFactor);
+		    m_translateX = -(m_scaleFactor - 1) * translateDelta;
+		    m_translateY = -150 - (m_scaleFactor - 1) * translateDelta;
+		} else if (button == m_btnZoomOut) {
+		    float now = m_sliderZoom.getValue() - step_length;
+		    if(now < m_sliderZoom.getMaxValue()) {
+			    now = m_sliderZoom.getMaxValue();
 			}
-		    ZoomButton.setValue(now);
-		    System.out.println("now: "+now);
-		    scale_factor = scale_factor - SCALE_TOT/10;
-		    if(scale_factor < 1.0) {
-			    scale_factor = 1.0f;
+		    m_sliderZoom.setValue(now);
+//		    System.out.println("now: "+now);
+		    m_scaleFactor = m_scaleFactor - TOTAL_SCALES/10;
+		    if(m_scaleFactor < 1.0) {
+			    m_scaleFactor = 1.0f;
 			}
-		    System.out.println("scale_factor: "+scale_factor);
-		    translateX = -(scale_factor-1)*translateDelta;
-		    translateY = -150 - (scale_factor-1)*translateDelta;
-		} else if(button == PlayButton) {
-		    if(stop == true) {
+//		    System.out.println("m_scaleFactor: "+m_scaleFactor);
+		    m_translateX = -(m_scaleFactor - 1) * translateDelta;
+		    m_translateY = -150 - (m_scaleFactor - 1) * translateDelta;
+		} else if(button == m_btnPlayFrame) {
+		    if(stop) {
 		    	stop = false;
-			    PlayButton.setImages(resourceDir + "pause.jpg", 1);
-			          
+			    m_btnPlayFrame.setImages(m_resourceDir + "pause.jpg", 1);
+			    
 			    frameRate(1);
 			} else {
 				stop = true;
-			    PlayButton.setImages(resourceDir + "play.jpg", 1);
+			    m_btnPlayFrame.setImages(m_resourceDir + "play.jpg", 1);
 			    
 			    frameRate(1);
 			}
-		} else if(button == ForwardButton) {    
+		} else if(button == m_btnPlayForward) {    
 		    forward();
-		} else if(button == BackButton) {
+		} else if(button == m_btnPlayBackward) {
 		    backward();
-		} else if(button == TranslateButton) {
-		    System.out.println("X: " + mouseX + ", Y: " + mouseY);
+		} else if(button == m_btnPan) {
+			// pan left, right, up and down according to the button.
+//		    System.out.println("X: " + mouseX + ", Y: " + mouseY);
 		    if(mouseX >= 30 && mouseX <= 60 && mouseY >= 20 && mouseY <= 40) {
-		    	translateY += translateLength; // UP.
+		    	m_translateY += m_translateLength; // UP.
 		    } else if(mouseX >= 30 && mouseX <= 60 && mouseY >= 50 && mouseY <= 70) {
-			    translateY -= translateLength; // DOWN
+			    m_translateY -= m_translateLength; // DOWN
 			} else if(mouseX >= 20 && mouseX <= 38 && mouseY >= 30 && mouseY <= 60) {
-			    translateX += translateLength; // LEFT
+			    m_translateX += m_translateLength; // LEFT
 			} else if(mouseX >= 50 && mouseX <= 70 && mouseY >= 30 && mouseY <= 60) {
 			    // RIGHT
-			    translateX -= translateLength;
+			    m_translateX -= m_translateLength;
 			}
-		} else if(button == LoadData) {
-			loadMgr.setVisible(true);
+		} else if(button == m_btnExploreManager) {
+			m_exploreManager.setVisible(true);
 	  }
-	}
-
-	/**
-	 * Configuration of explorer parameters. 
-	 * @param d
-	 */
-//	public void getparams(String d) {
-//	    reader = createReader(d);
-//	    String s="";
-//	    try {
-//	    	s = reader.readLine();
-//	    } catch(Exception e) {
-//	    	System.err.println("Error while reading line.");
-//	    	e.printStackTrace();
-//	    }
-//	    String [] ss = s.split(" ");
-//	    int n = Integer.parseInt(ss[0]);
-//	    paramx = new String[n];
-//	    paramy = new String[n];
-//
-//	    // read in parameters from file.
-//	    try {  
-//		    for (int i = 0; i < n; i++)
-//		    	paramx[i] = reader.readLine().replace(" ", ",");
-//		    for (int i = 0; i < n; i++)
-//		    	paramy[i] = reader.readLine().replace(" ", ",");
-//		} catch (Exception e) {
-//			System.out.println("Error getting parameters. ");
-//			e.printStackTrace();
-//		}    
-//	}
-
-	/**
-	 * TOBE added .
-	 */
-	public void convert() {
-	    View v = views[cvid];
-	    //Checks if there is a view in that slot, and if there isnt, it loads a new view from disk
-	    if (views[cvid] == null) {
-		    v = new View(cvid);
-		    views[cvid] = v;
-		    String line;
-	  
-		    float maxdense=0;
-		    String seq;
-		    seq = String.valueOf(cvid);
-		    
-		    if (cvid < 10) seq = "0" + seq;
-			else return; 
-	    
-		    reader = createReader(dataDir +"/part-000" + seq);  
-		    //System.out.println("Loading file: " + dataDir +"/part-000" + seq);
-	  
-		    float dense=0;
-		    String[] parts;
-		    int cnt = 0;
-		    while(true) {
-			    try {
-				    line = reader.readLine();
-				    if (line == null || line == "") break;
-				    line = line.trim();
-				    parts = line.split("\t");
-				} catch (IOException e) {
-				    System.out.println("Error parsing reading and parsing line. ");
-					break;
-				}
-			    
-			    //System.out.println( parts[0]);
-			    String[] p2 = PApplet.split(parts[0], '|');
-			    Point p = new Point(p2[1], p2[2], parts[1]);
-	    
-				if (p._dense > maxdense)
-				maxdense = p._dense;
-				
-				dense += p._dense;  
-				v.addPoint(p);
-				cnt++;
-			}
-		    v.normalize(maxdense, dense);
-		    //System.out.println("Total points: " + Integer.toString(cnt));
-		}  
-	    currentv = views[cvid];
 	}
 
 	/**
 	 * next frame.
 	 */
 	public void forward() {
-	    cvid += 1;
-	    if (cvid >= maxframe) {
-		    cvid = 0;
+	    m_currentViewID += 1;
+	    if (m_currentViewID >= m_currentExplore.getNumFrames()) {
+		    m_currentViewID = 0;
 		}
-	    // System.out.println("cvid: "+cvid);
-	    scrollbar.setValueToTickNumber(cvid);
-	    convert();
+	    // System.out.println("m_currentViewID: "+m_currentViewID);
+	    m_sbVisualFrame.setValueToTickNumber(m_currentViewID);
+	    m_currentVisualFrame = m_currentExplore.getVisualFrame(m_currentViewID);
 	}
 
 	/**
 	 * go to the previous frame.
 	 */
 	public void backward() {
-	    cvid -= 1;
-	    if (cvid < 0) {
-		    cvid = maxframe - 1;
+	    m_currentViewID -= 1;
+	    if (m_currentViewID < 0) {
+		    m_currentViewID = m_currentExplore.getNumFrames() - 1;
 		}
-	    //System.out.println("cvid: "+cvid);
-	    scrollbar.setValueToTickNumber(cvid);
-	    convert();  
+	    //System.out.println("m_currentViewID: "+m_currentViewID);
+	    m_sbVisualFrame.setValueToTickNumber(m_currentViewID);
+	    m_currentVisualFrame = m_currentExplore.getVisualFrame(m_currentViewID);
 	}
-
-	/**
-	 * draw the interface GUI.
-	 */
-	float a = 0;
 	
 	public void draw() { 
 		background(176, 196, 222);
-		//background(102, 102, 102);
-		View v = currentv;
-		//background(200);
-		//int d =10;
 		if (stop == false) 
 		    forward();   
 		pushMatrix();
-		translate(translateX, translateY);    
-		scale(scale_factor);
-		convert();
+		translate(m_translateX, m_translateY);    
+		scale(m_scaleFactor);
+		m_currentVisualFrame = m_currentExplore.getVisualFrame(m_currentViewID);
 		
-		// draw for the view. 
-		for (int i = 0; i < v._ps.size(); i++) {
-			//System.out.println(_ps.size());
-			Point p =(Point) v._ps.elementAt(i); 
-			fill(p._clr.getRed(), p._clr.getGreen(), p._clr.getBlue());
-			rect(p._x* resol + viewx, p._y * resol + viewy, resol, resol);
+		// draw for the current visual frame. 
+		for (int i = 0; i < m_currentVisualFrame.m_visualFramePoints.size(); i++) {
+			//System.out.println(m_visualFramePoints.size());
+			Point p =(Point) m_currentVisualFrame.m_visualFramePoints.elementAt(i); 
+			fill(p.m_pointColor.getRed(), p.m_pointColor.getGreen(), p.m_pointColor.getBlue());
+			rect(p.getPointX() * m_resolution + m_viewX, p.getPointY() * m_resolution + m_viewY, m_resolution, m_resolution);
 		} // end for.
 		
 		popMatrix(); 
@@ -393,91 +325,48 @@ public class VistaExplorer extends PApplet {
 		if(mousePressed) {
 			stroke(255,0,0);
 			strokeWeight(5);
-			//fill(255);
-			System.out.println("moused pressed.....");
+//			System.out.println("moused pressed.....");
 			noFill();
-			rect(selectionStartX, selectionStartY, mouseX-selectionStartX, mouseY-selectionStartY);
+			rect(m_selectionStartX, m_selectionStartY, mouseX-m_selectionStartX, mouseY-m_selectionStartY);
 			System.out.println("draw rectangle.....");
 			noStroke();
 		}
 	} // end draw.
-
-	void drawbar(float x, float y, int h, int r, int dx, int dy) {
-	    float siny =  (y + viewy) / r;
-	    float sinx =  (x + viewx) / r;
-	    Color red = new Color(255, 0, 0);
-	    //Color blue = new Color(51, 102, 153);
-	   
-	    float xx = x + viewx + dx;
-	    float yy = y + viewy + dy;
-	   
-	    fill(red.getRed(), red.getGreen(), red.getBlue());
-	    noStroke();
-	    rect(xx, yy, (float)4.0, (float)4.0);
-	    stroke(0);
-	    line(xx, yy, (float)(xx + sinx * h ), (float)(yy + siny * h));
-	}
 	
-	// used for selection of areas.
-	private float selectionStartX; 
-	private float selectionStartY;
-	
+	private float m_selectionStartX; 
+	private float m_selectionStartY;
+	private float m_selectionEndX; 
+	private float m_selectionEndY; 
 	/**
 	 * When mouse pressed, then selection a the left top coordinate of the rectangle.
 	 */
+	// used for selection of areas.
 	public void mousePressed() {
-		selectionStartX = mouseX;
-		selectionStartY = mouseY;
+		m_selectionStartX = mouseX;
+		m_selectionStartY = mouseY;
 	}
+	
+	//TODO
 	public void mouseReleased() {
-		// change scale_factor according to the size of rectangle.
-		// scale(600 / (mouseX-selectionStartX), 680 / (mouseY-selectionStartY));
-		// scale_factor = max(600 / (mouseX-selectionStartX), 680 / (mouseY-selectionStartY));
-
-		int newx = (int) ((mouseX + selectionStartX) / 2);
-		int newy = (int) ((mouseY + selectionStartY) / 2);
-		
-		
-		int origx = frame.getWidth() / 2; 
-		int origy = frame.getHeight() / 2; 
-				
-		//translateX += 10; // origx - newx; 
-		//translateY -= 10; // origy - newy; 
-		//scale_factor = max(origx / (mouseX + selectionStartX), origy / (mouseY + selectionStartY));
-		scale_factor += 0.5;
-		translateX =  newx - origx  - 100;// * scale_factor; 
-		translateY =  newy - origy - 200;// * scale_factor;
+		m_selectionEndX = mouseX;
+		m_selectionEndY = mouseY; 
+			
+		// compute the subset. 
+		System.out.println("computing the subset with rectangle: " + "<" + m_selectionStartX + "," + m_selectionStartY + ">  "
+				+ "<" + m_selectionEndX + "," + m_selectionEndY + ">"); 
+		m_exploreManager.buildSubsetExploration("name-to-be-added");
 	}
 	
-	/**
-	 * TODO
-	 * Load existing explorations, the exploration data will be stored in the 
-	 * local file system. If the current exploration does not exist in the local
-	 * file system, it will request to the hadoop cluster to obtain the clusters.
-	 * 
-	 * @param expo name of exploration. 
-	 */
-	public static void loadExploration(String expo) {
-		System.out.println("load existing exploration.");
-		FileSystem fs; 
-	}
-	
-	/**
-	 * TODO
-	 * Create new exploration with given parameters. It will request computation
-	 * of new visual frames from the hadoop cluster.  
-	 * @param expoParam The parameters for exploration. 
-	 */
-	public static void newExploration(String expoParam) {
-		
-	}
-	
-	/**
-	 * TODO
-	 * compute subset when selecting a region, this will request computation 
-	 * on the cluster. 
-	 */
-	public static void computeSubset() {
-		// compute subset with existing data.
-	}
+	// mouse dragging event handling. 
+//	public void mouseDragged()
+//	{
+//	  println("pmouseX:" + pmouseX + ",pmouseY:" + pmouseY);
+//	  if(pmouseY >= 50 && pmouseY <= 570)
+//	  {
+//	    float step_x = mouseX - pmouseX;
+//	    float step_y = mouseY - pmouseY;
+//	    m_translateX += step_x;
+//	    m_translateY += step_y;
+//	  }  
+//	}
 }

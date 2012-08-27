@@ -16,10 +16,10 @@ class ImageButtons extends Button {
     PImage currentimage;
 
     ImageButtons(int ix, int iy, int iw, int ih, PImage ibase, PImage iroll, PImage idown) {
-		x = ix;
-		y = iy;
-		w = iw;
-		h = ih;
+		m_upperLeftX = ix;
+		m_upperLeftY = iy;
+		m_btnWidth = iw;
+		m_btnHeight = ih;
 		base = ibase;
 		roll = iroll;
 		down = idown;
@@ -39,7 +39,7 @@ class ImageButtons extends Button {
     }
   
     void over() {
-		if (overRect(x, y, w, h)) {
+		if (overRect(m_upperLeftX, m_upperLeftY, m_btnWidth, m_btnHeight)) {
 		    over = true;
 		} else {
 		    over = false;
@@ -47,6 +47,6 @@ class ImageButtons extends Button {
     }
   
     void display() {
-    	image(currentimage, x, y);
+    	image(currentimage, m_upperLeftX, m_upperLeftY);
     }
 }
