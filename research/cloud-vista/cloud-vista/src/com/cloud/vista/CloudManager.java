@@ -247,6 +247,13 @@ class CloudManager {
     /**
      * This is to request to build a new exploration and fetch the file and store locally. 
      * @param exploreName The name of the exploration to build. 
+     * @param scale The zooming scale of the visual frames default to 1. 
+     * @param op_type Operation type, either RR or SS. 
+     * @param step_length Distance between steps.
+     * @param resolution The visual frame resolution. 
+     * @param ndim Number of dimensions. 
+     * @param nsteps Number of frames to generate. 
+     * @param others Other parameters.
      * @return true if successful and false otherwise.
      */
     public static boolean buildExploreAndFetchFile(String exploreName, String scale, String op_type,

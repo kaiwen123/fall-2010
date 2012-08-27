@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.Vector;
 
 import processing.core.PApplet;
 /**
@@ -21,6 +22,56 @@ public class Exploration {
 	private String m_exploreLocalFolder = "";
 	private int m_numFrames = 0; 
 	private HashMap<Integer, VisualFrame> m_visualFramesOfExploration = new HashMap<Integer, VisualFrame>(); 
+	// exploration information. 
+	private String exploreType; 
+	private float scale; 
+	private float step_length; 
+	private int resolution; 
+	private DataSet m_dataset;
+	private int nsteps; // number of frames in this exploration. 
+	
+	// getters. 
+	String getExploreType() { return exploreType; }
+	float getScale() { return scale; }
+	float getStepLength() { return step_length; }
+	int getResolution() { return resolution; }
+	String getDataSetName() { return m_dataset.getName(); }
+	int getDataSetDim() { return m_dataset.getDim(); }
+	int getNumSteps() { return nsteps; }
+	
+	// setters. 
+	void setExploreType(String type) { exploreType = type; }
+	void setScale(int s) { scale = s; }
+	void setStepLength(float sl) { step_length = sl; }
+	void setResolution(int r) { resolution = r; }
+	void setDataset(String dname, int ddim) { m_dataset = new DataSet(dname, ddim); }
+	void setNumSteps(int s) { nsteps = s; }
+	
+	/**
+	 * The dataset class. 
+	 * @author simon
+	 *
+	 */
+	class DataSet {
+		private String m_datasetName; 
+		private int m_datasetDim; 
+		private Vector<String> m_explorations = new Vector<String>(); 
+		
+		DataSet(String name, int dim) {
+			m_datasetName = name; 
+			m_datasetDim = dim; 
+		}
+		
+		//getters and setters. 
+		String getName() {return m_datasetName; }
+		int getDim() { return m_datasetDim; }
+		void setName(String dName) { m_datasetName = dName; }
+		void setDim(int dim) { m_datasetDim = dim; }
+		
+		void addExploration(String expName) { m_explorations.add(expName); }
+		void deleteExploration(String expName) { m_explorations.remove(expName); }
+		Vector<String> getExplorations() { return m_explorations; }
+	}		
 	
 	public Exploration() {}
 	
