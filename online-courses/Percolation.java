@@ -32,11 +32,17 @@ public class Percolation {
 
         if (i > 1 && isOpen(i - 1, j)) { // top 
             m1quFind.union(m1N * (i - 1) + (j - 1), m1N * (i - 2) + (j - 1));
-        } else if (i < m1N && isOpen(i + 1, j)) {    // bottom
+        }
+
+        if (i < m1N && isOpen(i + 1, j)) {    // bottom
             m1quFind.union(m1N * (i - 1) + (j - 1), m1N * (i) + (j - 1));
-        } else if (j > 1 && isOpen(i, j - 1)) { // left 
+        }
+
+        if (j > 1 && isOpen(i, j - 1)) { // left 
             m1quFind.union(m1N * (i - 1) + (j - 1), m1N * (i - 1) + j - 2);
-        } else if (j < m1N && isOpen(i, j + 1)) { // right. 
+        }
+
+        if (j < m1N && isOpen(i, j + 1)) { // right. 
             m1quFind.union(m1N * (i - 1) + (j - 1), m1N * (i - 1) + j);
         }
     }
